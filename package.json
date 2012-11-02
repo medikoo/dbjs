@@ -1,0 +1,22 @@
+{
+  "name": "dbjs",
+  "version": "0.1.0",
+  "description": "JavaScript database engine",
+  "main": "lib/dbjs",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "../tad/bin/tad lib"
+  },
+  "repository": "",
+  "keywords": [
+    "database",
+    "db"
+  ],
+  "dependencies": {
+    "time-uuid": "0.1.x"
+  },
+  "author": "Mariusz Nowak",
+  "license": "MIT"
+}
