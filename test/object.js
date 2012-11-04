@@ -17,6 +17,8 @@ module.exports = function (t) {
 			});
 			ns = t.create('otest1', { foo: t.string, bar: t.boolean, raz: strNs });
 			obj = ns({ foo: 12, bar: {}, other: null, other2: 'razdwa' });
+			a.deep(keys(obj).sort(), ['bar', 'foo', 'other', 'other2'],
+				"Object keys");
 
 			a(ns[obj.__id], obj, "Assigned to namespace");
 			a.deep(keys(ns), [obj.__id], "Enumerable on namespace");
