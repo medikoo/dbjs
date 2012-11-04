@@ -4,7 +4,8 @@ var db = require('../lib/dbjs');
 
 module.exports = function (t, a) {
 	var prop, prop2;
-	prop = new t(db.string, true);
+	prop = new t(db.string);
+	prop.required = true;
 	a(prop.isProperty, true, "isProperty");
 	a(t.isProperty(prop), true, "Static isProperty");
 	a(prop.value, db.string, "Value");

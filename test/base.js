@@ -1,7 +1,8 @@
 'use strict';
 
 var isFunction = require('es5-ext/lib/Function/is-function')
-  , object     = require('../lib/object');
+  , object     = require('../lib/object')
+  , Property   = require('../lib/property');
 
 module.exports = function (t) {
 	var ns = t.create('simpletest', {
@@ -93,6 +94,20 @@ module.exports = function (t) {
 			a(t.serialize(/foo/), '/foo/', "RegExp");
 			a(t.serialize(13), 13, "Number");
 			a(t.serialize(true), true, "Boolean");
+		},
+		"Rel": function (a) {
+			var rel = ns.rel({ required: true });
+			a(Property.isProperty(rel), true, "Returns property");
+			a(rel.ns, ns, "Namespace");
+			a(rel.value, ns, "Value");
+			a(rel.required, true, "Required");
+		},
+		"Required": function (a) {
+			var rel = ns.required;
+			a(Property.isProperty(rel), true, "Returns property");
+			a(rel.ns, ns, "Namespace");
+			a(rel.value, ns, "Value");
+			a(rel.required, true, "Required");
 		},
 		"FunctionType": function () {
 			var ft = t.function;
