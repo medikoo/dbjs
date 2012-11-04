@@ -12,6 +12,9 @@ module.exports = function (t, a) {
 	a(t.regExp, base.regExp, "RegExp");
 	a(t.string, base.string, "String");
 
-	ns = base.create('othertest');
+	ns = base.create('othertest', {
+		normalize: function (value) { return value; },
+		validate: function (value) { return value; }
+	});
 	a(t.othertest, ns, "Newly created namespace");
 };

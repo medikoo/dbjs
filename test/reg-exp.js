@@ -6,26 +6,17 @@ module.exports = function (t) {
 	return {
 		"": function (a) {
 			var re = /raz/;
-			a(t(undefined), null, "Undefined");
-			a(t(null), null, "Null");
+			a.throws(function () { t(); }, "Undefined");
 			a(t(re), re, "RegExp");
-			a.throws(function () {
-				t(false);
-			}, "Boolean");
-			a.throws(function () {
-				t({});
-			}, "Other object");
-			a.throws(function () {
-				t('/sdfsdf/');
-			}, "String");
-			a.throws(function () {
-				t(function () {});
-			}, "Function");
+			a.throws(function () { t(false); }, "Boolean");
+			a.throws(function () { t({}); }, "Other object");
+			a.throws(function () { t('/sdfsdf/'); }, "String");
+			a.throws(function () { t(function () {}); }, "Function");
 		},
 		"Normalize": function (a) {
 			var re = /raz/;
-			a(t.normalize(undefined), undefined, "Undefined");
-			a(t.normalize(null), null, "Null");
+			a(isRegExp(t.normalize(undefined)), true, "Undefined");
+			a(isRegExp(t.normalize(null)), true, "Null");
 			a(t.normalize(re), re, "Date");
 			a(isRegExp(t.normalize(false)), true, "Boolean");
 			a(isRegExp(t.normalize('raz')), true, "String");
@@ -33,21 +24,12 @@ module.exports = function (t) {
 		},
 		"Validate": function (a) {
 			var re = /raz/;
-			a(t.validate(undefined), null, "Undefined");
-			a(t.validate(null), null, "Null");
+			a.throws(function () { t.validate(); }, "Undefined");
 			a(t.validate(re), re, "RegExp");
-			a.throws(function () {
-				t.validate(false);
-			}, "Boolean");
-			a.throws(function () {
-				t.validate({});
-			}, "Other object");
-			a.throws(function () {
-				t.validate('/sdfsdf/');
-			}, "String");
-			a.throws(function () {
-				t.validate(function () {});
-			}, "Function");
+			a.throws(function () { t.validate(false); }, "Boolean");
+			a.throws(function () { t.validate({}); }, "Other object");
+			a.throws(function () { t.validate('/sdfsdf/'); }, "String");
+			a.throws(function () { t.validate(function () {}); }, "Function");
 		}
 	};
 };

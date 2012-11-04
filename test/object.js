@@ -17,15 +17,13 @@ module.exports = function (t) {
 			});
 			ns = t.create('otest1', { foo: t.string, bar: t.boolean, raz: strNs });
 			obj = ns({ foo: 12, bar: {}, other: null, other2: 'razdwa' });
-			a.deep(keys(obj).sort(), ['bar', 'foo', 'other', 'other2', 'raz'],
-				"Object keys");
 
 			a(ns[obj.__id], obj, "Assigned to namespace");
 			a.deep(keys(ns), [obj.__id], "Enumerable on namespace");
 
 			a(obj.foo, '12', "Schema #1");
 			a(obj.bar, true, "Schema #2");
-			a(obj.raz, null, "Schema #3");
+			a(obj.raz, undefined, "Schema #3");
 			a(obj.other, null, "No schema #1");
 			a(obj.other2, 'razdwa', "No schema #2");
 
@@ -40,8 +38,7 @@ module.exports = function (t) {
 				ns({ raz: '23423' });
 			}, "Invalid create");
 
-			a(ns(null), null, "Null");
-			a(ns(), null, "Undefined");
+			a.throws(function () { ns(); }, "Undefined");
 			a(ns(obj), obj, "Created object");
 			a(ns(obj.__id), obj, "Object id");
 
@@ -69,8 +66,7 @@ module.exports = function (t) {
 			ns = t.create('otest3');
 			obj = ns({});
 
-			a(ns.validate(null), null, "Null");
-			a(ns.validate(), null, "Undefined");
+			a.throws(function () { ns.validated(); }, "Undefined");
 			a(ns.validate(obj), obj, "Created object");
 			a.throws(function () {
 				ns.validate(obj.__id);
@@ -99,7 +95,7 @@ module.exports = function (t) {
 			obj = ns({});
 
 			a(ns.normalize(null), null, "Null");
-			a(ns.normalize(), undefined, "Undefined");
+			a(ns.normalize(), null, "Undefined");
 			a(ns.normalize(obj), obj, "Created object");
 			a(ns.normalize(obj.__id), obj, "Object id");
 

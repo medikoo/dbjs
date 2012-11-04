@@ -3,8 +3,8 @@
 module.exports = function (t) {
 	return {
 		"": function (a) {
-			a(t(undefined), null, "Undefined");
-			a(t(null), null, "Null");
+			a(t(undefined), false, "Undefined");
+			a(t(null), false, "Null");
 			a(t(false), false, "Boolean (primitive)");
 			a(t(new Boolean(false)), false, "Boolean (object)");
 			a(t({}), true, "Object");
@@ -14,8 +14,8 @@ module.exports = function (t) {
 			a(t(0), false, "Zero");
 		},
 		"Normalize": function (a) {
-			a(t.normalize(undefined), undefined, "Undefined");
-			a(t.normalize(null), null, "Null");
+			a(t.normalize(undefined), false, "Undefined");
+			a(t.normalize(null), false, "Null");
 			a(t.normalize(false), false, "Boolean (primitive)");
 			a(t.normalize(new Boolean(false)), false, "Boolean (object)");
 			a(t.normalize({}), true, "Object");
@@ -25,8 +25,8 @@ module.exports = function (t) {
 			a(t.normalize(0), false, "Zero");
 		},
 		"Validate": function (a) {
-			a(t.validate(undefined), null, "Undefined");
-			a(t.validate(null), null, "Null");
+			a(t.validate(undefined), false, "Undefined");
+			a(t.validate(null), false, "Null");
 			a(t.validate(false), false, "Boolean (primitive)");
 			a(t.validate(new Boolean(false)), false, "Boolean (object)");
 			a(t.validate({}), true, "Object");
