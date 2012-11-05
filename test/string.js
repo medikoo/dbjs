@@ -21,6 +21,7 @@ module.exports = function (t) {
 			a(t.normalize(123), '123', "Number");
 		},
 		"Validate": function (a) {
+			var ns;
 			a(t.validate(undefined), 'undefined', "Undefined");
 			a(t.validate(null), 'null', "Null");
 			a(t.validate(false), 'false', "Boolean");
@@ -28,6 +29,12 @@ module.exports = function (t) {
 			a(t.validate('foobar'), 'foobar', "String");
 			a(t.validate(new String('foobar')), 'foobar', "String object");
 			a(t.validate(123), '123', "Number");
+
+			ns = t.create('strtest', { pattern: /^\d+$/, min: 3, max: 7 });
+			a(ns('23432'), '23432', "Custom Validation");
+			a.throws(function () { ns('sdfs'); }, "Pattern validation");
+			a.throws(function () { ns('12'); }, "Length min validation");
+			a.throws(function () { ns('1231231231232131'); }, "Length max validation");
 		}
 	};
 };
