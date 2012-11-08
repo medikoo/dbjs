@@ -33,9 +33,8 @@ module.exports = function (t) {
 			"Properties": function (a) {
 				var ns1, x = {}, y = {};
 
-				a.throws(function () {
-					t.create('test21', {});
-				}, "Need to provide normalize and validate");
+				a.throws(function () { t.create('test21', {}); },
+					"Need to provide normalize and validate");
 
 				ns1 = t.create('test22', {
 					normalize: function (value) { return value; },
@@ -96,18 +95,18 @@ module.exports = function (t) {
 			a(t.serialize(true), true, "Boolean");
 		},
 		"Rel": function (a) {
-			var rel = ns.rel({ required: true });
-			a(Property.isProperty(rel), true, "Returns property");
-			a(rel.ns, ns, "Namespace");
-			a(rel.value, ns, "Value");
-			a(rel.required, true, "Required");
+			var ext = object.create('reltest1', {
+				foo: ns.rel({ required: true })
+			});
+			a(ext.prototype.foo, ns, "Namespace");
+			a(ext.prototype._$foo.required, true, "Required");
 		},
 		"Required": function (a) {
-			var rel = ns.required;
-			a(Property.isProperty(rel), true, "Returns property");
-			a(rel.ns, ns, "Namespace");
-			a(rel.value, ns, "Value");
-			a(rel.required, true, "Required");
+			var ext = object.create('reltest2', {
+				foo: ns.required
+			});
+			a(ext.prototype.foo, ns, "Value");
+			a(ext.prototype._$foo.required, true, "Required");
 		},
 		"FunctionType": function () {
 			var ft = t.function;
