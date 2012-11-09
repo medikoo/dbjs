@@ -34,7 +34,8 @@ module.exports = function (t) {
 			a(ns('23432'), '23432', "Custom Validation");
 			a.throws(function () { ns('sdfs'); }, "Pattern validation");
 			a.throws(function () { ns('12'); }, "Length min validation");
-			a.throws(function () { ns('1231231231232131'); }, "Length max validation");
+			a.throws(function () { ns('1231231231232131'); },
+				"Length max validation");
 		}
 	};
 };
