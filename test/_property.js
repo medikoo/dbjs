@@ -50,7 +50,7 @@ module.exports = function (t, a, d) {
 	prop2.set(434);
 	a(prop2.value, '434', "Reset: Extended: Normalized");
 
-	nsAsync = db.string.create('asynctest1', {
+	nsAsync = db.string.create('asynctestprop1', {
 		async: true,
 		validate: function (value) {
 			var def = deferred();
