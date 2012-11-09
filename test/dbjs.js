@@ -5,6 +5,7 @@ var base = require('../lib/base');
 module.exports = function (t, a) {
 	var ns;
 	a(t, base.object, "Object");
+	a(t.base, base, "Base");
 	a(t.boolean, base.boolean, "Boolean");
 	a(t.dateTime, base.dateTime, "dateTime");
 	a(t.function, base.function, "Function");
