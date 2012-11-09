@@ -1,9 +1,12 @@
 'use strict';
 
-var db = require('../lib/dbjs');
+var deferred = require('deferred/lib/deferred')
+  , isPromise = require('deferred/lib/is-promise')
+  , nextTick = require('next-tick')
+  , db = require('../lib/dbjs');
 
-module.exports = function (t, a) {
-	var prop, prop2, x = {}, y = {};
+module.exports = function (t, a, d) {
+	var prop, prop2, x = {}, y = {}, nsAsync, value;
 	prop = new t(x, null, db.string, 'foo');
 	prop.required = true;
 	a(prop.isProperty, true, "isProperty");
@@ -46,4 +49,26 @@ module.exports = function (t, a) {
 	a.throws(function () { prop2.set('raz'); }, "Prop: validate");
 	prop2.set(434);
 	a(prop2.value, '434', "Reset: Extended: Normalized");
+
+	nsAsync = db.string.create('asynctest1', {
+		async: true,
+		validate: function (value) {
+			var def = deferred();
+			nextTick(function () {
+				def.resolve(value);
+			});
+			return def.promise;
+		}
+	});
+
+	prop = new t(x, null, nsAsync, 'fooAsync');
+	a(prop.resolved, true, "Resolved by default");
+	prop2 = prop.create(y, 'whatever');
+	a(prop2.resolved, false, "Async: Unresolved: Status");
+	a(isPromise(prop2.value), true, "Async: Unresolved: Value");
+	nextTick(function () {
+		a(prop2.resolved, true, "Async: Resolved: Status");
+		a(prop2.value, 'whatever', "Async: Resolved: Value");
+		d();
+	});
 };

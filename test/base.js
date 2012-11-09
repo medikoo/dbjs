@@ -1,6 +1,9 @@
 'use strict';
 
 var isFunction = require('es5-ext/lib/Function/is-function')
+  , deferred   = require('deferred/lib/deferred')
+  , isPromise  = require('deferred/lib/is-promise')
+  , nextTick   = require('next-tick')
   , object     = require('../lib/object');
 
 module.exports = function (t) {
@@ -113,6 +116,36 @@ module.exports = function (t) {
 			a(ext.prototype.foo, undefined, "Value");
 			a(ext.prototype._$foo.ns, ns, "Namespace");
 			a(ext.prototype._$foo.required, true, "Required");
+		},
+		"Async": function (a, d) {
+			var ns1, ns2, ns3, invoked;
+			ns1 = t.string.create('asynctest1', {
+				async: true,
+				validate: function (value) {
+					var def = deferred();
+					nextTick(function () {
+						def.resolve(value);
+					});
+					return def.promise;
+				}
+			});
+
+			ns2 = ns.create('asynctest2', {
+				foo: ns1
+			});
+
+			ns3 = ns2.create('asynctest3');
+			ns3.foo = 'bar';
+			a(isPromise(ns3.foo), true, "Unresolved");
+			ns3.foo.end(function (val) {
+				a(val, 'bar', "Promise: value");
+				invoked = true;
+			});
+			nextTick(function () {
+				a(invoked, true, "Promise: resolved");
+				a(ns3.foo, 'bar', "Resolved");
+				d();
+			});
 		},
 		"FunctionType": function () {
 			var ft = t.function;
