@@ -6,7 +6,7 @@ var deferred = require('deferred/lib/deferred')
   , db = require('../lib/dbjs');
 
 module.exports = function (t, a, d) {
-	var prop, prop2, x = {}, y = {}, nsAsync, value;
+	var prop, prop2, x = {}, y = {}, nsAsync;
 	prop = new t(x, null, db.string, 'foo');
 	prop.required = true;
 	a(prop.isProperty, true, "isProperty");
