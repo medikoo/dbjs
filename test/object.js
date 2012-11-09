@@ -40,7 +40,8 @@ module.exports = function (t) {
 				ns({ raz: '23423' });
 			}, "Invalid create");
 
-			a.throws(function () { ns(); }, "Undefined");
+			a(typeof ns().__id, 'string', "Undefined data");
+
 			a(ns(obj), obj, "Created object");
 			a(ns(obj.__id), obj, "Object id");
 
@@ -68,11 +69,9 @@ module.exports = function (t) {
 			ns = t.create('otest3');
 			obj = ns({});
 
-			a.throws(function () { ns.validated(); }, "Undefined");
+			a.throws(function () { ns.validate(); }, "Undefined");
 			a(ns.validate(obj), obj, "Created object");
-			a.throws(function () {
-				ns.validate(obj.__id);
-			}, "Object id");
+			a(ns.validate(obj.__id), obj, "Object id");
 
 			pObj = t({});
 			a.throws(function () {
