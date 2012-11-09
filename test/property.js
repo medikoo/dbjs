@@ -4,13 +4,13 @@ var db = require('../lib/dbjs');
 
 module.exports = function (t, a) {
 	var prop, prop2, x = {}, y = {};
-	prop = new t(x, db.string, 'foo');
+	prop = new t(x, null, db.string, 'foo');
 	prop.required = true;
 	a(prop.isProperty, true, "isProperty");
 	a(prop.obj, x, "Object");
 	a(prop.name, 'foo', "Name");
 	a(t.isProperty(prop), true, "Static isProperty");
-	a(prop.value, db.string, "Value");
+	a(prop.value, undefined, "Value");
 	a(prop.ns, db.string, "Namespace");
 
 	a.throws(function () {
@@ -26,7 +26,7 @@ module.exports = function (t, a) {
 
 	a(prop2.validateUndefinedExt(), undefined, "Extended: Validate required");
 
-	prop.set(false);
+	prop.set(false, null);
 	a(prop.value, false, "Overriden: value");
 	a(prop.ns, null, "Overriden: namespace");
 
@@ -38,8 +38,12 @@ module.exports = function (t, a) {
 		a(this, prop2, "Validate: Context");
 		a(ns, db.string, "Validate: Namespace");
 		if (!/^\d{3}$/.test(value)) throw new TypeError("Wrong value");
+		return value;
 	};
-	prop.set(db.string);
-	a.throws(function () { prop2.set('raz') }, "Prop: validate");
+	prop.set('bar', db.string);
+	a(prop.value, 'bar', "Reset: Value");
+	a(prop.ns, db.string, "Reset: Namespace");
+	a.throws(function () { prop2.set('raz'); }, "Prop: validate");
 	prop2.set(434);
+	a(prop2.value, '434', "Reset: Extended: Normalized");
 };

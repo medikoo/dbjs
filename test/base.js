@@ -1,8 +1,7 @@
 'use strict';
 
 var isFunction = require('es5-ext/lib/Function/is-function')
-  , object     = require('../lib/object')
-  , Property   = require('../lib/property');
+  , object     = require('../lib/object');
 
 module.exports = function (t) {
 	var ns = t.create('simpletest', {
@@ -96,16 +95,23 @@ module.exports = function (t) {
 		},
 		"Rel": function (a) {
 			var ext = object.create('reltest1', {
-				foo: ns.rel({ required: true })
+				foo: ns.rel({ required: true }),
+				bar: ns.rel({ required: true, default: 45 })
 			});
-			a(ext.prototype.foo, ns, "Namespace");
+			a(ext.prototype.foo, undefined, "Value");
+			a(ext.prototype._$foo.ns, ns, "Namespace");
 			a(ext.prototype._$foo.required, true, "Required");
+
+			a(ext.prototype.bar, 45, "Value #2");
+			a(ext.prototype._$bar.ns, ns, "Namespace #2");
+			a(ext.prototype._$bar.required, true, "Required #2");
 		},
 		"Required": function (a) {
-			var ext = object.create('reltest2', {
+			var ext = object.create('reltest3', {
 				foo: ns.required
 			});
-			a(ext.prototype.foo, ns, "Value");
+			a(ext.prototype.foo, undefined, "Value");
+			a(ext.prototype._$foo.ns, ns, "Namespace");
 			a(ext.prototype._$foo.required, true, "Required");
 		},
 		"FunctionType": function () {
