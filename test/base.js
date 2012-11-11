@@ -194,6 +194,42 @@ module.exports = function (t) {
 					}, "Number");
 				}
 			};
+		},
+		"Boolean": function (a) {
+			var bt = t.boolean;
+			a(bt(undefined), false, "Undefined");
+			a(bt(null), false, "Null");
+			a(bt(false), false, "Boolean (primitive)");
+			a(bt(new Boolean(false)), false, "Boolean (object)");
+			a(bt({}), true, "Object");
+			a(bt('false'), true, "False string");
+			a(bt(''), false, "Empty string");
+			a(bt('0'), true, "Other false string");
+			a(bt(0), false, "Zero");
+			return {
+				"Normalize": function (a) {
+					a(bt.normalize(undefined), false, "Undefined");
+					a(bt.normalize(null), false, "Null");
+					a(bt.normalize(false), false, "Boolean (primitive)");
+					a(bt.normalize(new Boolean(false)), false, "Boolean (object)");
+					a(bt.normalize({}), true, "Object");
+					a(bt.normalize('false'), true, "False string");
+					a(bt.normalize(''), false, "Empty string");
+					a(bt.normalize('0'), true, "Other false string");
+					a(bt.normalize(0), false, "Zero");
+				},
+				"Validate": function (a) {
+					a(bt.validate(undefined), false, "Undefined");
+					a(bt.validate(null), false, "Null");
+					a(bt.validate(false), false, "Boolean (primitive)");
+					a(bt.validate(new Boolean(false)), false, "Boolean (object)");
+					a(bt.validate({}), true, "Object");
+					a(bt.validate('false'), true, "False string");
+					a(bt.validate(''), false, "Empty string");
+					a(bt.validate('0'), true, "Other false string");
+					a(bt.validate(0), false, "Zero");
+				}
+			};
 		}
 	};
 };
