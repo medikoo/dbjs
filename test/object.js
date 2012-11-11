@@ -43,7 +43,9 @@ module.exports = function (t) {
 			a(typeof ns().__id, 'string', "Undefined data");
 
 			a(ns(obj), obj, "Created object");
-			a(ns(obj.__id), obj, "Object id");
+			a.throws(function () {
+				ns(obj.__id);
+			}, "Object id");
 
 			pObj = t({});
 			a.throws(function () {
@@ -58,20 +60,32 @@ module.exports = function (t) {
 			a.throws(function () {
 				ns(33453);
 			}, "Not an object");
+
+			ns = t.create('otest2', { foo: t.string  }, {
+				construct: function (obj,  value) { obj.set('foo', value); }
+			});
+
+			obj = ns('whatever');
+			a(obj.foo, 'whatever', "Custom construct");
 		},
 		"Create": function (a) {
-			var ns;
-			ns = t.create('otest2', { foo: t.string, bar: t.boolean });
+			var ns, fn = function () {};
+			ns = t.create('otest3', { foo: t.string, bar: t.boolean },
+				 { raz: 15, dwa: fn });
 			a.deep(keys(ns.prototype).sort(), ['bar', 'foo'], "Set on prototype");
+			a(ns.raz, 15, "Self property #1");
+			a(ns.dwa, fn, "Self property #2");
 		},
 		"Validate": function (a) {
 			var ns, obj, pObj;
-			ns = t.create('otest3');
+			ns = t.create('otest4');
 			obj = ns({});
 
 			a.throws(function () { ns.validate(); }, "Undefined");
 			a(ns.validate(obj), obj, "Created object");
-			a(ns.validate(obj.__id), obj, "Object id");
+			a.throws(function () {
+				ns.validate(obj.__id);
+			}, "Object id");
 
 			pObj = t({});
 			a.throws(function () {
@@ -92,7 +106,7 @@ module.exports = function (t) {
 		},
 		"Normalize": function (a) {
 			var ns, obj, pObj;
-			ns = t.create('otest4');
+			ns = t.create('otest5');
 			obj = ns({});
 
 			a(ns.normalize(null), null, "Null");
