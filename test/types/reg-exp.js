@@ -2,17 +2,15 @@
 
 var isRegExp = require('es5-ext/lib/RegExp/is-reg-exp');
 
-module.exports = function (t) {
+module.exports = function (t, a) {
+	var re = /raz/;
+	a.throws(function () { t(); }, "Undefined");
+	a(t(re), re, "RegExp");
+	a.throws(function () { t(false); }, "Boolean");
+	a.throws(function () { t({}); }, "Other object");
+	a.throws(function () { t('/sdfsdf/'); }, "String");
+	a.throws(function () { t(function () {}); }, "Function");
 	return {
-		"": function (a) {
-			var re = /raz/;
-			a.throws(function () { t(); }, "Undefined");
-			a(t(re), re, "RegExp");
-			a.throws(function () { t(false); }, "Boolean");
-			a.throws(function () { t({}); }, "Other object");
-			a.throws(function () { t('/sdfsdf/'); }, "String");
-			a.throws(function () { t(function () {}); }, "Function");
-		},
 		"Normalize": function (a) {
 			var re = /raz/;
 			a(isRegExp(t.normalize(undefined)), true, "Undefined");

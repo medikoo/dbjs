@@ -2,6 +2,9 @@
 
 var keys = Object.keys;
 
+require('../../lib/types/base');
+require('../../lib/types/string');
+
 module.exports = function (t) {
 	return {
 		"Constructor": function (a) {
@@ -54,12 +57,6 @@ module.exports = function (t) {
 			a.throws(function () {
 				ns(pObj.__id);
 			}, "Object Id from other namespace");
-			a.throws(function () {
-				ns('asdfafa');
-			}, "Unrecognized string");
-			a.throws(function () {
-				ns(33453);
-			}, "Not an object");
 
 			ns = t.create('otest2', { foo: t.string  }, {
 				construct: function (obj,  value) { obj.set('foo', value); }

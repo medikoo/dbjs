@@ -2,16 +2,14 @@
 
 var isDate = require('es5-ext/lib/Date/is-date');
 
-module.exports = function (t) {
+module.exports = function (t, a) {
+	var date = new Date();
+	a.throws(function () { t(); }, "Undefined");
+	a(t(date), date, "Date");
+	a.throws(function () { t(false); }, "Boolean");
+	a.throws(function () { t({}); }, "Other object");
+	a.throws(function () { t(date.getTime()); }, "Number");
 	return {
-		"": function (a) {
-			var date = new Date();
-			a.throws(function () { t(); }, "Undefined");
-			a(t(date), date, "Date");
-			a.throws(function () { t(false); }, "Boolean");
-			a.throws(function () { t({}); }, "Other object");
-			a.throws(function () { t(date.getTime()); }, "Number");
-		},
 		"Normalize": function (a) {
 			var date = new Date();
 			a(isDate(t.normalize()), true, "Undefined");

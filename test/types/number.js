@@ -2,18 +2,16 @@
 
 var isNumberNaN = require('es5-ext/lib/Number/is-nan');
 
-module.exports = function (t) {
+module.exports = function (t, a) {
+	a(isNumberNaN(t(undefined)), true, "Undefined");
+	a(t(null), 0, "Null");
+	a(t(false), 0, "Boolean");
+	a(isNumberNaN(t({})), true, "Object");
+	a(isNumberNaN(t('false')), true, "Unconrvertable string");
+	a(t('0'), 0, "Convertable string");
+	a(t(123), 123, "Number");
+	a(t(new Number(123)), 123, "Number object");
 	return {
-		"": function (a) {
-			a(isNumberNaN(t(undefined)), true, "Undefined");
-			a(t(null), 0, "Null");
-			a(t(false), 0, "Boolean");
-			a(isNumberNaN(t({})), true, "Object");
-			a(isNumberNaN(t('false')), true, "Unconrvertable string");
-			a(t('0'), 0, "Convertable string");
-			a(t(123), 123, "Number");
-			a(t(new Number(123)), 123, "Number object");
-		},
 		"Normalize": function (a) {
 			a(isNumberNaN(t.normalize(undefined)), true, "Undefined");
 			a(t.normalize(null), 0, "Null");
