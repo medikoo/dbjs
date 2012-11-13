@@ -1,14 +1,18 @@
 'use strict';
 
-var base = require('../../../lib/types/base')
+var base       = require('../../../lib/types/base')
+  , string     = require('../../../lib/types/string')
+  , ObjectType = require('../../../lib/types/object')
 
   , ns = base.abstract('definetest');
 
 module.exports = function (t, a) {
-	var ns2, fn = function () {};
+	var ns2, fn = function () {}, obj;
 
 	ns.set('foo', 'bar');
-	a(ns._foo.value, 'bar', "Relation");
+	a(ns._foo.value, 'bar', "Relation: value");
+	a(ns._foo.required, true, "Relation: required");
+	a(ns._foo.ns, string, "Relation: namespace");
 	a(ns.foo, 'bar', "Value");
 	a(ns.hasOwnProperty('foo'), true, "Own");
 
@@ -32,4 +36,11 @@ module.exports = function (t, a) {
 	ns.set('trzy', ns.string);
 	a(ns._trzy.ns, ns.string, "Namespace: ns");
 	a(ns.trzy, undefined, "Namespace: value");
+
+	obj = new ObjectType({ foo: 'bar2' });
+	a(obj._foo.value, 'bar2', "Object: Relation: value");
+	a(obj._foo.required, false, "Object: Relation: required");
+	a(obj._foo.ns, undefined, "Object: Relation: namespace");
+	a(obj.foo, 'bar2', "Object: Value");
+	a(obj.hasOwnProperty('foo'), true, "Object: Own");
 };
