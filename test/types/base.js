@@ -43,7 +43,7 @@ module.exports = function (t) {
 				validate: function (value) { return value; }
 			});
 			a(t.test3, ns1, "Set on base");
-			a(t.object.test3, ns1, "Set on Object type");
+			a(t.Object.test3, ns1, "Set on Object type");
 			a(ns1.__id, 'test3', "Id");
 		},
 		"Abstract": function (a) {

@@ -26,7 +26,7 @@ module.exports = function (t, a) {
 
 	a(ns.other, true, "Define rel transport");
 
-	ns.other = base.function.rel({ value: fn });
+	ns.other = base.Function.rel({ value: fn });
 	a(ns.other, fn, "Set rel transport");
 
 	ns.set('trzy', ns.string);
