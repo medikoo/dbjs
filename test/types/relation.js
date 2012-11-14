@@ -7,7 +7,7 @@ var deferred  = require('deferred/lib/deferred')
 
 require('../../lib/types/string');
 
-module.exports = function (a, d) {
+module.exports = function (a) {
 	var ns, ns2, prop, prop2, nsAsync;
 
 	ns = base.abstract('reltest',
@@ -50,22 +50,4 @@ module.exports = function (a, d) {
 	a.throws(function () { prop2.value = 'raz'; }, "Validate: invalid");
 	prop2.value = 434;
 	a(prop2.value, '434', "Validate: valid");
-
-	nsAsync = base.string.create('asynctestprop1', {
-		async: true,
-		validate: function (value) {
-			var def = deferred();
-			nextTick(function () {
-				def.resolve(value);
-			});
-			return def.promise;
-		}
-	});
-
-	ns.set('asyncprop', nsAsync.rel({ value: 'whatever' }));
-	a(isPromise(ns.asyncprop), true, "Async: Unresolved: Value");
-	nextTick(function () {
-		a(ns.asyncprop, 'whatever', "Async: Resolved: Value");
-		d();
-	});
 };
