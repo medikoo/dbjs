@@ -1,14 +1,11 @@
 'use strict';
 
-var deferred  = require('deferred/lib/deferred')
-  , isPromise = require('deferred/lib/is-promise')
-  , nextTick  = require('next-tick')
-  , base      = require('../../lib/types/base');
+var base      = require('../../lib/types/base');
 
 require('../../lib/types/string');
 
 module.exports = function (a) {
-	var ns, ns2, prop, prop2, nsAsync;
+	var ns, ns2, prop, prop2;
 
 	ns = base.abstract('reltest',
 		 { foo: base.string.rel({ required: true, value: 'mario' }) });
