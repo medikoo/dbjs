@@ -14,6 +14,6 @@ module.exports = function (t, a) {
 	a(t(new Date(12345)), 'd12345', "Date");
 	a(t(new RegExp('raz\ndwa')), 'r/raz\\ndwa/', "RegExp");
 	a(t(ObjectType.Function), 'oFunction', "Namespace");
-	a(t(x = ObjectType({ foo: 'bar' })), 'o' + x.__id, "Object");
+	a(t(x = new ObjectType({ foo: 'bar' })), 'o' + x.__id, "Object");
 	a.throws(function () { t({}); }, "Unrecognized");
 };
