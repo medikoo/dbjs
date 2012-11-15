@@ -269,6 +269,12 @@ module.exports = function (t, a) {
 			ns.foo.remove('trzy');
 			a(ns.foo.getItemProperties('asdfada'), null);
 			a(ns.foo.getItemProperties('trzy'), null);
+		},
+		"Reset: Array order": function () {
+			var ns = ns1.abstract('reltestprop2', { foo: ['raz', 123, 'trzy'] });
+			a(ns.foo.getItemProperties('raz').order, 0, "#1");
+			a(ns.foo.getItemProperties(123).order, 1, "#2");
+			a(ns.foo.getItemProperties('trzy').order, 2, "#3");
 		}
 	};
 };
