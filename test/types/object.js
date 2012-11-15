@@ -2,7 +2,6 @@
 
 var keys = Object.keys;
 
-require('../../lib/types/base');
 require('../../lib/types/string');
 
 module.exports = function (t) {

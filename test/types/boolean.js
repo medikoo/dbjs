@@ -1,7 +1,5 @@
 'use strict';
 
-require('../../lib/types/base');
-
 module.exports = function (t, a) {
 	a(t(undefined), false, "Undefined");
 	a(t(null), false, "Null");

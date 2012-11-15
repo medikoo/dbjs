@@ -2,8 +2,6 @@
 
 var isFunction = require('es5-ext/lib/Function/is-function');
 
-require('../../lib/types/base');
-
 module.exports = function (t, a) {
 	var fn = function () {};
 	a(t(fn), fn, "Function");

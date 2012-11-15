@@ -1,6 +1,7 @@
 'use strict';
 
-var ObjectType = require('../../../lib/types/object');
+var ObjectType = require('../../lib/types/object')
+  , FunctionType = require('../../lib/types/function');
 
 module.exports = function (t, a) {
 	var fn, x;
@@ -13,7 +14,7 @@ module.exports = function (t, a) {
 	a(t(fn = function () { return 'foo'; }), 'f' + String(fn), "Function");
 	a(t(new Date(12345)), 'd12345', "Date");
 	a(t(new RegExp('raz\ndwa')), 'r/raz\\ndwa/', "RegExp");
-	a(t(ObjectType.Function), 'oFunction', "Namespace");
+	a(t(FunctionType), 'oFunction', "Namespace");
 	a(t(x = new ObjectType({ foo: 'bar' })), 'o' + x.__id, "Object");
 	a.throws(function () { t({}); }, "Unrecognized");
 };

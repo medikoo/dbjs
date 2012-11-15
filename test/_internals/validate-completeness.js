@@ -1,9 +1,9 @@
 'use strict';
 
-var base = require('../../../lib/types/base');
+var root = require('../../lib/_internals/namespace');
 
 module.exports = function (t, a) {
-	var ns = base.abstract('vctest', {
+	var ns = root.abstract('vctest', {
 		normalize: function () {}
 	});
 
