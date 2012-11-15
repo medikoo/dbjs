@@ -251,4 +251,24 @@ module.exports = function (t, a) {
 	ns5 = ns3.abstract('reltest4').abstract('reltest5');
 	a(ns5.foo.has('radzio'), true, "Deep extension: Has: true");
 	a(ns5.foo.has('lorem'), false, "Deep extension: Has: false");
+
+	return {
+		"forEach": function () {
+			var x = {}, arr = ns1.foo.toArray(), i = 0;
+			ns1.foo.forEach(function (value, props, self, index) {
+				a(this, x, "thisArg");
+				a(value, arr[i], "Value");
+				a(props.value, value, "Props");
+				a(self, ns1.foo, "Self");
+				a(index, i++, "Index");
+			}, x);
+		},
+		"getItemProperties": function () {
+			var ns = ns1.abstract('reltestprop1', { foo: ['raz', 123, 'trzy'] });
+			a(ns.foo.getItemProperties(123).value, '123');
+			ns.foo.remove('trzy');
+			a(ns.foo.getItemProperties('asdfada'), null);
+			a(ns.foo.getItemProperties('trzy'), null);
+		}
+	};
 };
