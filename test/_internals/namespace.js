@@ -51,6 +51,12 @@ module.exports = function (t, a) {
 
 			ns.set('relprop2', ns.boolean.rel({ value: true, required: true }));
 			a(ns.relprop2, true, "Data: value");
+		},
+		"Required": function (a) {
+			ns.set('relprop4', t.boolean.required);
+			a(ns.relprop4, undefined, "Value");
+			a(ns._relprop4.ns, ns.boolean, "Namespace");
+			a(ns._relprop4.required, true, "Required");
 		}
 	};
 };
