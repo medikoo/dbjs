@@ -1,6 +1,6 @@
 'use strict';
 
-var root   = require('../../lib/_internals/namespace')
+var root   = require('../../lib/types/root')
   , string = require('../../lib/types/string');
 
 module.exports = function (t, a) {

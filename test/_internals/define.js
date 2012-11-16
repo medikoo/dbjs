@@ -1,6 +1,6 @@
 'use strict';
 
-var root         = require('../../lib/_internals/namespace')
+var root         = require('../../lib/types/root')
   , boolean      = require('../../lib/types/boolean')
   , string       = require('../../lib/types/string')
   , FunctionType = require('../../lib/types/function')
