@@ -1,17 +1,28 @@
 'use strict';
 
-var isNumberNaN = require('es5-ext/lib/Number/is-nan');
+var isError     = require('es5-ext/lib/Error/is-error')
+  , isNumberNaN = require('es5-ext/lib/Number/is-nan');
 
 module.exports = function (t, a) {
-	a(isNumberNaN(t(undefined)), true, "Undefined");
+	a.throws(function () { t(undefined); }, "Undefined");
 	a(t(null), 0, "Null");
 	a(t(false), 0, "Boolean");
-	a(isNumberNaN(t({})), true, "Object");
-	a(isNumberNaN(t('false')), true, "Unconrvertable string");
+	a.throws(function () { t({}); }, "Object");
+	a.throws(function () { t('false'); }, "Unconvertable string");
 	a(t('0'), 0, "Convertable string");
 	a(t(123), 123, "Number");
 	a(t(new Number(123)), 123, "Number object");
 	return {
+		"Is": function (a) {
+			a(t.is(undefined), false, "Undefined");
+			a(t.is(null), false, "Null");
+			a(t.is(false), false, "Boolean");
+			a(t.is({}), false, "Object");
+			a(t.is('false'), false, "Unconrvertable string");
+			a(t.is('0'), false, "Convertable string");
+			a(t.is(123), true, "Number");
+			a(t.is(new Number(123)), false, "Number object");
+		},
 		"Normalize": function (a) {
 			a(isNumberNaN(t.normalize(undefined)), true, "Undefined");
 			a(t.normalize(null), 0, "Null");
@@ -23,14 +34,14 @@ module.exports = function (t, a) {
 			a(t.normalize(new Number(123)), 123, "Number object");
 		},
 		"Validate": function (a) {
-			a(isNumberNaN(t.validate(undefined)), true, "Undefined");
-			a(t.validate(null), 0, "Null");
-			a(t.validate(false), 0, "Boolean");
-			a(isNumberNaN(t.validate({})), true, "Object");
-			a(isNumberNaN(t.validate('false')), true, "Unconrvertable string");
-			a(t.validate('0'), 0, "Convertable string");
-			a(t.validate(123), 123, "Number");
-			a(t.validate(new Number(123)), 123, "Number object");
+			a(isError(t.validate(undefined)), true, "Undefined");
+			a(t.validate(null), undefined, "Null");
+			a(t.validate(false), undefined, "Boolean");
+			a(isError(t.validate({})), true, "Object");
+			a(isError(t.validate('false')), true, "Unconrvertable string");
+			a(t.validate('0'), undefined, "Convertable string");
+			a(t.validate(123), undefined, "Number");
+			a(t.validate(new Number(123)), undefined, "Number object");
 		}
 	};
 };

@@ -1,7 +1,9 @@
 'use strict';
 
 var root         = require('../../lib/_internals/namespace')
+  , boolean      = require('../../lib/types/boolean')
   , string       = require('../../lib/types/string')
+  , FunctionType = require('../../lib/types/function')
   , ObjectType   = require('../../lib/types/object')
 
   , ns = root.abstract('definetest');
@@ -26,11 +28,11 @@ module.exports = function (t, a) {
 	a(ns2._foo.value, 'other', "Relation: written");
 	a(ns2.hasOwnProperty('foo'), true, "Inherited but own");
 
-	ns.set('other', root.boolean.rel({ value: true, required: true }));
+	ns.set('other', boolean.rel({ value: true, required: true }));
 
 	a(ns.other, true, "Define rel transport");
 
-	ns.other = root.Function.rel({ value: fn });
+	ns.other = FunctionType.rel({ value: fn });
 	a(ns.other, fn, "Set rel transport");
 
 	ns.set('trzy', ns.string);

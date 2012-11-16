@@ -3,10 +3,7 @@
 require('../../lib/types/boolean');
 
 module.exports = function (t, a) {
-	var ns = t.create('simpletest', {
-		validate: function (value) { return value; },
-		normalize: function (value) { return value; }
-	});
+	var ns = t.create('simpletest');
 
 	a(t.__id, 'root', "Id");
 	return {
@@ -22,9 +19,6 @@ module.exports = function (t, a) {
 			a.throws(function () {
 				t.abstract('_foo');
 			}, "Name: Underscore");
-
-			a.throws(function () { t.create('test21', {}); },
-				"Completeness");
 
 			ns1 = t.create('test22', {
 				normalize: function (value) { return value; },

@@ -1,6 +1,6 @@
 'use strict';
 
-require('../../lib/types/boolean');
+var FunctionType = require('../../lib/types/function');
 
 module.exports = function (t) {
 	return {
@@ -18,12 +18,25 @@ module.exports = function (t) {
 			ns2 = t.create(function (value) { return 'lorem' + value; });
 			a(ns2('ipsum'), 'loremipsum', "Constructor");
 
-			ns2.set('trzy', null);
-			ns2._trzy.required = true;
+			ns2.set('trzy', FunctionType.required);
+			a.throws(function () { ns2.create({ trzy: 'foo' }); },
+				"Validate");
 			a.throws(function () { ns2.create({}); },
 				"Completeness");
+			ns2.prototype.set('foo', FunctionType.required);
+			a.throws(function () {
+				ns2.create({ trzy: function () {} }, { foo: 'foo' });
+			}, "Validate Prototype");
 
-			ns1 = t.create({ other: 15 }, { foo: 'raz' });
+			try {
+				ns2.create({ trzy: function () {} }, {});
+				ns2.create({ trzy: function () {} }, { foo: function () {} });
+			} catch (e) {
+				console.log(e.subErrors);
+				throw e;
+			}
+
+			ns1 = ns.create({ other: 15 }, { foo: 'raz' });
 
 			a(ns1.other, 15, "Namespace property");
 			a(ns1._other._value, 15, "Namespace relation");

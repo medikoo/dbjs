@@ -38,13 +38,4 @@ module.exports = function (a) {
 	a(prop.ns, root.string, "Readded namespace: Namespace");
 	a(prop2.value, '345', "Readded namespace: Value normalized");
 	a(prop2._value, 345, "Readded namespace: Original value intact");
-
-	prop.validate = function (value) {
-		a(this, prop2, "Validate: Context");
-		if (!/^\d{3}$/.test(value)) throw new TypeError("Wrong value");
-		return value;
-	};
-	a.throws(function () { prop2.value = 'raz'; }, "Validate: invalid");
-	prop2.value = 434;
-	a(prop2.value, '434', "Validate: valid");
 };

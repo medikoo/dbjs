@@ -16,5 +16,5 @@ module.exports = function (t, a) {
 	a(t(new RegExp('raz\ndwa')), 'r/raz\\ndwa/', "RegExp");
 	a(t(FunctionType), 'oFunction', "Namespace");
 	a(t(x = new ObjectType({ foo: 'bar' })), 'o' + x.__id, "Object");
-	a.throws(function () { t({}); }, "Unrecognized");
+	a(t({}), null, "Unrecognized");
 };

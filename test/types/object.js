@@ -1,7 +1,9 @@
 'use strict';
 
-var keys = Object.keys;
+var isError = require('es5-ext/lib/Error/is-error')
+  , keys    = Object.keys;
 
+require('../../lib/types/boolean');
 require('../../lib/types/string');
 
 module.exports = function (t) {
@@ -9,13 +11,7 @@ module.exports = function (t) {
 		"Constructor": function (a) {
 			var ns, obj, strNs, pObj;
 			strNs = t.string.create('zipCode', {
-				validate: function (value) {
-					if (value == null) return null;
-					if (!/^\d{2}-\d{3}$/.test(value)) {
-						throw new TypeError(value + " is not a valid strNs");
-					}
-					return String(value);
-				}
+				pattern: /^\d{2}-\d{3}$/
 			});
 			ns = t.create('otest1', { foo: t.string, bar: t.boolean, raz: strNs });
 			obj = ns({ foo: 12, bar: {}, other: null, other2: 'razdwa' });
@@ -49,17 +45,16 @@ module.exports = function (t) {
 				ns(obj.__id);
 			}, "Object id");
 
-			pObj = t({});
-			a.throws(function () {
-				ns(pObj);
-			}, "Object from other namespace");
+			pObj = t({ foo: 'elo' });
+			obj = ns(pObj);
+			a.not(obj, pObj, "Object from other namespace #1");
+			a.deep(obj, { foo: 'elo' }, "Object from other namespace #2");
 			a.throws(function () {
 				ns(pObj.__id);
 			}, "Object Id from other namespace");
 
-			ns = t.create('otest2', { foo: t.string  }, {
-				construct: function (obj,  value) { obj.set('foo', value); }
-			});
+			ns = t.create('otest2', function (value) { this.set('foo', value); },
+				 { foo: t.string  }, { verify: function () {} });
 
 			obj = ns('whatever');
 			a(obj.foo, 'whatever', "Custom construct");
@@ -73,32 +68,14 @@ module.exports = function (t) {
 			a(ns.dwa, fn, "Self property #2");
 		},
 		"Validate": function (a) {
-			var ns, obj, pObj;
+			var ns, obj;
 			ns = t.create('otest4');
 			obj = ns({});
 
-			a.throws(function () { ns.validate(); }, "Undefined");
-			a(ns.validate(obj), obj, "Created object");
-			a.throws(function () {
-				ns.validate(obj.__id);
-			}, "Object id");
-
-			pObj = t({});
-			a.throws(function () {
-				ns.validate(pObj);
-			}, "Object from other namespace");
-			a.throws(function () {
-				ns.validate(pObj.__id);
-			}, "Object Id from other namespace");
-			a.throws(function () {
-				ns.validate('asdfafa');
-			}, "Unrecognized string");
-			a.throws(function () {
-				ns.validate(33453);
-			}, "Not an object");
-			a.throws(function () {
-				ns.validate({});
-			}, "Other object");
+			a(ns.validate(), undefined, "Undefined");
+			a(ns.validate(obj), undefined, "Created object");
+			a(ns.validate({}), undefined, "Data for object");
+			a(isError(ns.validate(obj.__id)), true, "Object id");
 		},
 		"Normalize": function (a) {
 			var ns, obj, pObj;
@@ -108,7 +85,7 @@ module.exports = function (t) {
 			a(ns.normalize(null), null, "Null");
 			a(ns.normalize(), null, "Undefined");
 			a(ns.normalize(obj), obj, "Created object");
-			a(ns.normalize(obj.__id), obj, "Object id");
+			a(ns.normalize(obj.__id), null, "Object id");
 
 			pObj = t({});
 			a(ns.normalize(pObj), null, "Object from other namespace");
