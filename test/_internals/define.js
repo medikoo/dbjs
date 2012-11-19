@@ -20,7 +20,7 @@ module.exports = function (t, a) {
 
 	ns2 = ns.abstract('definetest2');
 	a(ns2.foo, 'bar', "Value: inherited");
-	a(ns2._foo, undefined, "Relation: not inherited");
+	a.not(ns2._foo, ns.foo, "Relation: not inherited");
 
 	ns2.foo = 'other';
 	a(ns2.foo, 'other', "Value: written");
