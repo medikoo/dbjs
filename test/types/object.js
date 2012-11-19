@@ -20,6 +20,9 @@ module.exports = function (t) {
 
 			a(ns[obj.__id], obj, "Assigned to namespace");
 			a.deep(keys(ns), [obj.__id], "Enumerable on namespace");
+			a(t.propertyIsEnumerable(obj.__id), true,
+				"Enumerable on ancestor namespace");
+			a(t[obj.__id], obj, "Assigned to ancestor namespace");
 
 			a(obj.foo, '12', "Schema #1");
 			a(obj.bar, true, "Schema #2");
@@ -69,6 +72,22 @@ module.exports = function (t) {
 			a.throws(function () {
 				t.newNamed('raz dwa#');
 			}, "Name validation");
+		},
+		"Is": function (a) {
+			var ns, obj, props, obj2;
+			ns = t.create('otestIs', { foo: t.string, bar: t.boolean });
+			obj = ns(props = { foo: 'raz', bar: true });
+			obj2 = t({ foo: 'else' });
+			a(ns.is(), false, "Undefined");
+			a(ns.is(null), false, "Null");
+			a(ns.is(props), false, "Plain Object");
+			a(ns.is(new Date()), false, "Date");
+			a(ns.is(true), false, "Boolean");
+			a(ns.is(obj.__id), false, "Object ID");
+			a(ns.is(obj), true, "Object from namespace");
+			a(t.is(obj), true, "Object from descending namespace");
+			a(ns.is(obj2), false, "Object from ascending namespace");
+			a(t.is(obj2), true, "Object on ascending namespace");
 		},
 		"Create": function (a) {
 			var ns, fn = function () {};
