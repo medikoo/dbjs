@@ -11,4 +11,11 @@ module.exports = function (a) {
 	a(ns.foo, true, "Value");
 	a(ns._foo.ns, boolean, "Namespace");
 	a(ns._foo.required, true, "Property");
+
+	ns = root.abstract('reltransporttest2', {
+		foo: boolean.rel(true)
+	});
+
+	a(ns.foo, true, "Direct Value: Value");
+	a(ns._foo.ns, boolean, "Direct Value: Namespace");
 };
