@@ -30,6 +30,7 @@ module.exports = function (t, a) {
 
 			a(ns1.other, 14, "Namespace property");
 			a(ns1.prototype.foo, 'raz', "Prototype property");
+			a(ns1.prototype.ns, ns1, "NS property");
 
 			ns1 = t.create('test3', {
 				normalize: function (value) { return value; },
