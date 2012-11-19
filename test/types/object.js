@@ -59,6 +59,17 @@ module.exports = function (t) {
 			obj = ns('whatever');
 			a(obj.foo, 'whatever', "Custom construct");
 		},
+		"NewNamed": function (a) {
+			var obj = t.newNamed('namedobjtest', { foo: 'raz', bar: 12 });
+			a.deep(obj, { foo: 'raz', bar: 12 }, "Content");
+			a(typeof obj, 'object', "Type");
+			a(obj.ns, t, "Namespace");
+			a(obj.__id, 'namedobjtest', "Id");
+			a(t[obj.__id], obj, "Exposed on namespace");
+			a.throws(function () {
+				t.newNamed('raz dwa#');
+			}, "Name validation");
+		},
 		"Create": function (a) {
 			var ns, fn = function () {};
 			ns = t.create('otest3', { foo: t.string, bar: t.boolean },
