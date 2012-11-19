@@ -93,6 +93,9 @@ module.exports = function (t) {
 			a(ns.normalize('asdfafa'), null, "Unrecognized string");
 			a(ns.normalize(33453), null, "Not an object");
 			a(ns.normalize({}), null, "Other object");
+		},
+		"DB exposed": function (a) {
+			a(t().db, t);
 		}
 	};
 };
