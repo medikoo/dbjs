@@ -1,7 +1,7 @@
 'use strict';
 
 var ObjectType = require('../../lib/types/object')
-  , FunctionType = require('../../lib/types/function');
+  , DateTime   = require('../../lib/types/date-time');
 
 module.exports = function (t, a) {
 	var fn, x;
@@ -14,7 +14,7 @@ module.exports = function (t, a) {
 	a(t(fn = function () { return 'foo'; }), 'f' + String(fn), "Function");
 	a(t(new Date(12345)), 'd12345', "Date");
 	a(t(new RegExp('raz\ndwa')), 'r/raz\\ndwa/', "RegExp");
-	a(t(FunctionType), 'oFunction', "Namespace");
+	a(t(DateTime), 'oDateTime', "Namespace");
 	a(t(x = new ObjectType({ foo: 'bar' })), 'o' + x.__id, "Object");
 	a(t({}), null, "Unrecognized");
 };

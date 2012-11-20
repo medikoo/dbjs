@@ -3,13 +3,12 @@
 var root         = require('../../lib/types/root')
   , boolean      = require('../../lib/types/boolean')
   , string       = require('../../lib/types/string')
-  , FunctionType = require('../../lib/types/function')
   , ObjectType   = require('../../lib/types/object')
 
   , ns = root.abstract('definetest');
 
 module.exports = function (t, a) {
-	var ns2, fn = function () {}, obj;
+	var ns2, obj;
 
 	ns.set('foo', 'bar');
 	a(ns._foo.value, 'bar', "Relation: value");
@@ -32,8 +31,8 @@ module.exports = function (t, a) {
 
 	a(ns.other, true, "Define rel transport");
 
-	ns.other = FunctionType.rel({ value: fn });
-	a(ns.other, fn, "Set rel transport");
+	ns.other = string.rel('test');
+	a(ns.other, 'test', "Set rel transport");
 
 	ns.set('trzy', ns.string);
 	a(ns._trzy.ns, ns.string, "Namespace: ns");
@@ -42,7 +41,7 @@ module.exports = function (t, a) {
 	obj = new ObjectType({ foo: 'bar2' });
 	a(obj._foo.value, 'bar2', "Object: Relation: value");
 	a(obj._foo.required, false, "Object: Relation: required");
-	a(obj._foo.ns, undefined, "Object: Relation: namespace");
+	a(obj._foo.ns, root, "Object: Relation: namespace");
 	a(obj.foo, 'bar2', "Object: Value");
 	a(obj.hasOwnProperty('foo'), true, "Object: Own");
 };

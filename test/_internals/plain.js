@@ -1,6 +1,6 @@
 'use strict';
 
-var FunctionType = require('../../lib/types/function');
+var DateTime = require('../../lib/types/date-time');
 
 module.exports = function (t) {
 	return {
@@ -18,12 +18,12 @@ module.exports = function (t) {
 			ns2 = t.create(function (value) { return 'lorem' + value; });
 			a(ns2('ipsum'), 'loremipsum', "Constructor");
 
-			ns2.set('trzy', FunctionType.required);
+			ns2.set('trzy', DateTime.required);
 			a.throws(function () { ns2.create({ trzy: 'foo' }); },
 				"Validate");
 			a.throws(function () { ns2.create({}); },
 				"Completeness");
-			ns2.prototype.set('foo', FunctionType.required);
+			ns2.prototype.set('foo', DateTime.required);
 			a.throws(function () {
 				ns2.create({ trzy: function () {} }, { foo: 'foo' });
 			}, "Validate Prototype");

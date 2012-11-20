@@ -28,7 +28,11 @@ module.exports = function (a) {
 	a(prop2._value, '123', "Extended: Saved normalized");
 
 	prop.ns = null;
-	a(prop.ns, null, "Removed namespace: namespace");
+	a(prop.ns, root, "Set namespace to null");
+	prop.ns = root.string;
+	a(prop.ns, root.string, "Bring back specific namespace");
+	prop.ns = undefined;
+	a(prop.ns, root, "Undefine namespace");
 
 	a(prop2.value, '123', "Removed namespace: Not changed extended value");
 	prop2.value = 345;
@@ -38,4 +42,7 @@ module.exports = function (a) {
 	a(prop.ns, root.string, "Readded namespace: Namespace");
 	a(prop2.value, '345', "Readded namespace: Value normalized");
 	a(prop2._value, 345, "Readded namespace: Original value intact");
+
+	prop2.value = function () { return 15; };
+	a(prop2.value, '15', "Function value");
 };

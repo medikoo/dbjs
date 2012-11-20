@@ -90,12 +90,12 @@ module.exports = function (t) {
 			a(t.is(obj2), true, "Object on ascending namespace");
 		},
 		"Create": function (a) {
-			var ns, fn = function () {};
+			var ns, date = new Date();
 			ns = t.create('otest3', { foo: t.string, bar: t.boolean },
-				 { raz: 15, dwa: fn });
+				 { raz: 15, dwa: date });
 			a.deep(keys(ns.prototype).sort(), ['bar', 'foo'], "Set on prototype");
 			a(ns.raz, 15, "Self property #1");
-			a(ns.dwa, fn, "Self property #2");
+			a(ns.dwa, date, "Self property #2");
 		},
 		"Validate": function (a) {
 			var ns, obj;
