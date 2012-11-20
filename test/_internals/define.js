@@ -2,6 +2,7 @@
 
 var root         = require('../../lib/types/root')
   , boolean      = require('../../lib/types/boolean')
+  , number       = require('../../lib/types/number')
   , string       = require('../../lib/types/string')
   , ObjectType   = require('../../lib/types/object')
 
@@ -44,4 +45,13 @@ module.exports = function (t, a) {
 	a(obj._foo.ns, root.string, "Object: Relation: namespace");
 	a(obj.foo, 'bar2', "Object: Value");
 	a(obj.hasOwnProperty('foo'), true, "Object: Own");
+
+	obj.set('bar', [2, 3, 43, 23]);
+	a.deep(obj.bar.values, [2, 3, 43, 23], "Auto namespace for multiple: Value");
+	a(obj._bar.ns, number, "Auto namespace for multiple: Namespace");
+
+	obj.set('bar2', [2, 3, 'fefe', 23]);
+	a.deep(obj.bar2.values, [2, 3, 'fefe', 23],
+		"Auto namespace for multiple: Multi type: Value");
+	a(obj._bar2.ns, root, "Auto namespace for multiple: Multi type: Namespace");
 };
