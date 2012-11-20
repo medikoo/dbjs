@@ -1,7 +1,6 @@
 'use strict';
 
-var isError     = require('es5-ext/lib/Error/is-error')
-  , isNumberNaN = require('es5-ext/lib/Number/is-nan');
+var isError     = require('es5-ext/lib/Error/is-error');
 
 module.exports = function (t, a) {
 	a.throws(function () { t(undefined); }, "Undefined");
@@ -24,11 +23,11 @@ module.exports = function (t, a) {
 			a(t.is(new Number(123)), false, "Number object");
 		},
 		"Normalize": function (a) {
-			a(isNumberNaN(t.normalize(undefined)), true, "Undefined");
+			a(t.normalize(undefined), null, "Undefined");
 			a(t.normalize(null), 0, "Null");
 			a(t.normalize(false), 0, "Boolean");
-			a(isNumberNaN(t.normalize({})), true, "Object");
-			a(isNumberNaN(t.normalize('false')), true, "Unconrvertable string");
+			a(t.normalize({}), null, "Object");
+			a(t.normalize('false'), null, "Unconrvertable string");
 			a(t.normalize('0'), 0, "Convertable string");
 			a(t.normalize(123), 123, "Number");
 			a(t.normalize(new Number(123)), 123, "Number object");
