@@ -40,8 +40,8 @@ module.exports = function (t, a) {
 
 	obj = new ObjectType({ foo: 'bar2' });
 	a(obj._foo.value, 'bar2', "Object: Relation: value");
-	a(obj._foo.required, false, "Object: Relation: required");
-	a(obj._foo.ns, root, "Object: Relation: namespace");
+	a(obj._foo.required, true, "Object: Relation: required");
+	a(obj._foo.ns, root.string, "Object: Relation: namespace");
 	a(obj.foo, 'bar2', "Object: Value");
 	a(obj.hasOwnProperty('foo'), true, "Object: Own");
 };
