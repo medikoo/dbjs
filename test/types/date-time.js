@@ -17,14 +17,16 @@ module.exports = function (t, a) {
 			a(t.is(date), true, "Date");
 			a(t.is({}), false, "Other object");
 			a(t.is(date.getTime()), false, "Number");
+			a(t.is(new Date('Invalid')), false, "Invalid date");
 		},
 		"Normalize": function (a) {
 			var date = new Date();
-			a(isDate(t.normalize()), true, "Undefined");
+			a(t.normalize(), null, "Undefined");
 			a(isDate(t.normalize(null)), true, "Null");
 			a(t.normalize(date), date, "Date");
-			a(isDate(t.normalize({})), true, "Other object");
+			a(t.normalize({}), null, "Other object");
 			a(t.normalize(date.getTime()).getTime(), date.getTime(), "Number");
+			a(t.normalize(new Date('Invalid')), null, "Invalid date");
 		},
 		"Validate": function (a) {
 			var date = new Date();
