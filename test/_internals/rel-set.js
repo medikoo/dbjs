@@ -76,7 +76,7 @@ module.exports = function (t, a) {
 	a(ns2.foo.has('trzy'), false,
 		"Extension: Fallback: Add: Has: false");
 
-	ns2.foo.remove('misko');
+	ns2.foo.delete('misko');
 	a.deep(ns1.foo.values.sort(), ['marko', 'misko', 'next'].sort(),
 		"Extension: Fallback: Remove: Namespace: Not affected");
 	a(ns1.foo.__count, 3,
@@ -127,7 +127,7 @@ module.exports = function (t, a) {
 	a(ns3.foo.has('misko'), false,
 		"2nd Extension: Fallback: Add: Has: false");
 
-	ns3.foo.remove('marko');
+	ns3.foo.delete('marko');
 	a.deep(ns1.foo.values.sort(), ['marko', 'misko', 'next'].sort(),
 		"2nd Extension: Fallback: Remove: Namespace: Not affected");
 	a(ns1.foo.__count, 3,
@@ -151,7 +151,7 @@ module.exports = function (t, a) {
 	a(ns3.foo.has('marko'), false,
 		"2nd Extension: Fallback: Remove: Has: false");
 
-	ns2.foo.remove('lorem');
+	ns2.foo.delete('lorem');
 	a.deep(ns1.foo.values.sort(), ['marko', 'misko', 'next'].sort(),
 		"2nd Extension: Fallback: Mid remove: Namespace: Not affected");
 	a(ns1.foo.__count, 3,
@@ -271,7 +271,7 @@ module.exports = function (t, a) {
 		"getItemProperties": function () {
 			var ns = ns1.abstract('reltestprop1', { foo: ['raz', 123, 'trzy'] });
 			a(ns.foo.getItemProperties(123).value, '123');
-			ns.foo.remove('trzy');
+			ns.foo.delete('trzy');
 			a(ns.foo.getItemProperties('asdfada'), null);
 			a(ns.foo.getItemProperties('trzy'), null);
 		},

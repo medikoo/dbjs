@@ -16,7 +16,7 @@ module.exports = function (t, a) {
 		set.add('foo');
 	}, "Add");
 	a.throws(function () {
-		set.remove('foo');
+		set.delete('foo');
 	}, "Remove");
 
 	a(set.has('foo'), false, "Has");
