@@ -45,4 +45,6 @@ module.exports = function (a) {
 
 	prop2.value = function () { return 15; };
 	a(prop2.value, '15', "Function value");
+	prop2.value = function () {};
+	a(prop2.value, null, "Function value: null");
 };
