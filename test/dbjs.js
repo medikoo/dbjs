@@ -12,4 +12,6 @@ module.exports = function (t, a) {
 	a(t.string.__id, 'string', "String");
 
 	a(t().db, t, "Access to main database from instance");
+	a.deep(t.Set('raz', 'dwa').values.sort(), ['raz', 'dwa'].sort(),
+		"Set library");
 };
