@@ -31,9 +31,10 @@ module.exports = function (t, a) {
 		},
 		"Validate": function (a) {
 			var date = new Date();
-			a(isError(t.validate()), true, "Undefined");
+			a(t.validate(), undefined, "Undefined");
+			a(t.validate(null), undefined, "Null");
 			a(t.validate(date), undefined, "Date");
-			a(isError(t.validate()), true, "Other object");
+			a(isError(t.validate({})), true, "Other object");
 			a(t.validate(234234), undefined, "Number");
 		}
 	};
