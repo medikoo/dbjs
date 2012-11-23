@@ -1,21 +1,20 @@
 'use strict';
 
-var root = require('../../lib/types/root');
-
-require('../../lib/types/string');
+var root   = require('../../lib/types/root')
+  , string = require('../../lib/types/string');
 
 module.exports = function (a) {
 	var ns, ns2, prop, prop2;
 
 	ns = root.abstract('reltest',
-		 { foo: root.string.rel({ required: true, value: 'mario' }) });
+		 { foo: string.rel({ required: true, value: 'mario' }) });
 
 	prop = ns._foo;
 	a(prop.obj, ns, "Object");
 	a(prop.name, 'foo', "Name");
 
 	a(prop.value, 'mario', "Value");
-	a(prop.ns, root.string, "Namespace");
+	a(prop.ns, string, "Namespace");
 	a(prop.required, true, "Property");
 
 	ns2 = ns.abstract('reltest2');
@@ -29,8 +28,8 @@ module.exports = function (a) {
 
 	prop.ns = null;
 	a(prop.ns, root, "Set namespace to null");
-	prop.ns = root.string;
-	a(prop.ns, root.string, "Bring back specific namespace");
+	prop.ns = string;
+	a(prop.ns, string, "Bring back specific namespace");
 	prop.ns = undefined;
 	a(prop.ns, root, "Undefine namespace");
 
@@ -38,8 +37,8 @@ module.exports = function (a) {
 	prop2.value = 345;
 	a(prop2.value, 345, "Removed namespace: Set value");
 
-	prop.ns = root.string;
-	a(prop.ns, root.string, "Readded namespace: Namespace");
+	prop.ns = string;
+	a(prop.ns, string, "Readded namespace: Namespace");
 	a(prop2.value, '345', "Readded namespace: Value normalized");
 	a(prop2._value, 345, "Readded namespace: Original value intact");
 
@@ -47,4 +46,10 @@ module.exports = function (a) {
 	a(prop2.value, '15', "Function value");
 	prop2.value = function () {};
 	a(prop2.value, null, "Function value: null");
+
+	ns.set('lorem', string.rel({ writeOnce: true }));
+	ns.lorem = 'ipsum';
+	a.throws(function () {
+		ns.lorem = 'else';
+	}, "Write once");
 };
