@@ -8,6 +8,7 @@ module.exports = function (t, a) {
 	a(isDate(t()), true, "Undefined");
 	a(isDate(t()), true, "Null");
 	a(t(date), date, "Date");
+	a.throws(function () { t(new Date('Invalid')); }, "Invalid date");
 	a.throws(function () { t({}); }, "Other object");
 	a(isDate(t(23423423)), true, "Number");
 	return {
@@ -34,6 +35,7 @@ module.exports = function (t, a) {
 			a(t.validate(), undefined, "Undefined");
 			a(t.validate(null), undefined, "Null");
 			a(t.validate(date), undefined, "Date");
+			a(isError(t.validate(new Date('Invalid'))), true, "Invalid date");
 			a(isError(t.validate({})), true, "Other object");
 			a(t.validate(234234), undefined, "Number");
 		}
