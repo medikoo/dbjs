@@ -24,11 +24,11 @@ module.exports = function (t, a) {
 	a.deep(obj11.bar.values, [obj22], "Remove #1");
 	a.deep(obj12.bar.values, [obj21], "Remove #2");
 
-	ns2.prototype._foo.reverse = 'miszka';
+	ns2.prototype._foo.reverse = true;
 	a(obj11.bar, undefined, "Rename: old #1");
 	a(obj12.bar, undefined, "Rename: old #2");
-	a.deep(obj11.miszka.values, [obj22], "Rename: new #1");
-	a.deep(obj12.miszka.values, [obj21], "Rename: new #2");
+	a.deep(obj11.revreltest2.values, [obj22], "Rename: new #1");
+	a.deep(obj12.revreltest2.values, [obj21], "Rename: new #2");
 
 	ns3 = ns2.create('revreltest3');
 	ns3.prototype._foo.reverse = 'ola';
@@ -42,13 +42,13 @@ module.exports = function (t, a) {
 
 	a(obj13.ola, obj31, "Reverse unique #1");
 	a(obj14.ola, obj32, "Reverse unique #2");
-	a.deep(obj13.miszka.values, [obj31], "Reverse deep #1");
-	a.deep(obj14.miszka.values, [obj32], "Reverse deep #2");
+	a.deep(obj13.revreltest2.values, [obj31], "Reverse deep #1");
+	a.deep(obj14.revreltest2.values, [obj32], "Reverse deep #2");
 
 	obj31.foo = obj11;
 	a(obj13.ola, null, "Reverse unique: update: #1");
 	a(obj11.ola, obj31, "Reverse unique: update: #2");
-	a.deep(obj13.miszka.values, [], "Reverse deep: update #1");
-	a.deep(obj11.miszka.values.sort(), [obj22, obj31].sort(),
+	a.deep(obj13.revreltest2.values, [], "Reverse deep: update #1");
+	a.deep(obj11.revreltest2.values.sort(), [obj22, obj31].sort(),
 		"Reverse deep: update #2");
 };
