@@ -1,12 +1,12 @@
 'use strict';
 
-var root         = require('../../lib/types/root')
+var base         = require('../../lib/types/base')
   , boolean      = require('../../lib/types/boolean')
   , number       = require('../../lib/types/number')
   , string       = require('../../lib/types/string')
   , ObjectType   = require('../../lib/types/object')
 
-  , ns = root.abstract('definetest');
+  , ns = base.abstract('definetest');
 
 module.exports = function (t, a) {
 	var ns2, obj;
@@ -42,7 +42,7 @@ module.exports = function (t, a) {
 	obj = new ObjectType({ foo: 'bar2' });
 	a(obj._foo.value, 'bar2', "Object: Relation: value");
 	a(obj._foo.required, true, "Object: Relation: required");
-	a(obj._foo.ns, root.string, "Object: Relation: namespace");
+	a(obj._foo.ns, base.string, "Object: Relation: namespace");
 	a(obj.foo, 'bar2', "Object: Value");
 	a(obj.hasOwnProperty('foo'), true, "Object: Own");
 
@@ -53,5 +53,5 @@ module.exports = function (t, a) {
 	obj.set('bar2', [2, 3, 'fefe', 23]);
 	a.deep(obj.bar2.values, [2, 3, 'fefe', 23],
 		"Auto namespace for multiple: Multi type: Value");
-	a(obj._bar2.ns, root, "Auto namespace for multiple: Multi type: Namespace");
+	a(obj._bar2.ns, base, "Auto namespace for multiple: Multi type: Namespace");
 };

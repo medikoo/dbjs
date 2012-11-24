@@ -5,7 +5,8 @@ require('../../lib/types/boolean');
 module.exports = function (t, a) {
 	var ns = t.create('simpletest');
 
-	a(t.__id, 'root', "Id");
+	a(t.__id, 'base', "Id");
+	a(t.base, t, "Exposed on self");
 	return {
 		"Create": function (a) {
 			var ns1;

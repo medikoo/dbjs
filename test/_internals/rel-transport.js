@@ -1,11 +1,11 @@
 'use strict';
 
-var root    = require('../../lib/types/root')
+var base    = require('../../lib/types/base')
   , boolean = require('../../lib/types/boolean')
   , number  = require('../../lib/types/number');
 
 module.exports = function (a) {
-	var ns = root.abstract('reltransporttest', {
+	var ns = base.abstract('reltransporttest', {
 		foo: boolean.rel({ value: true, required: true })
 	});
 
@@ -13,21 +13,21 @@ module.exports = function (a) {
 	a(ns._foo.ns, boolean, "Namespace");
 	a(ns._foo.required, true, "Property");
 
-	ns = root.abstract('reltransporttest2', {
+	ns = base.abstract('reltransporttest2', {
 		foo: boolean.rel(true)
 	});
 
 	a(ns.foo, true, "Direct Value: Value");
 	a(ns._foo.ns, boolean, "Direct Value: Namespace");
 
-	ns = root.abstract('reltransporttest3', {
+	ns = base.abstract('reltransporttest3', {
 		foo: number.rel([1, 0, '23', 134])
 	});
 
 	a.deep(ns.foo.values, [1, 0, 23, 134], "Multiple Value: Value");
 
 	a.throws(function () {
-		ns = root.abstract('reltransporttest4', {
+		ns = base.abstract('reltransporttest4', {
 			foo: number.rel([1, 0, '23', {}])
 		});
 	}, "Invalid value in set");

@@ -1,11 +1,11 @@
 'use strict';
 
-var root   = require('../../lib/types/root')
+var base   = require('../../lib/types/base')
   , string = require('../../lib/types/string');
 
 module.exports = function (t, a) {
 	var ns1, ns2, ns3, ns5;
-	ns1 = root.abstract('relsettest1', {
+	ns1 = base.abstract('relsettest1', {
 		foo: string.rel({ multiple: true, required: true })
 	});
 	a(typeof ns1.foo.has, 'function', "Namspace: set");
