@@ -42,10 +42,13 @@ module.exports = function (a) {
 	a(prop2.value, '345', "Readded namespace: Value normalized");
 	a(prop2._value, 345, "Readded namespace: Original value intact");
 
-	prop2.value = function () { return 15; };
-	a(prop2.value, '15', "Function value");
-	prop2.value = function () {};
-	a(prop2.value, null, "Function value: null");
+	ns2.foo = function () { return 15; };
+	a(ns2.foo, '15', "Getter");
+	ns2.foo = function () {};
+	a(ns2.foo, null, "Getter: null");
+
+	ns2.foo = function (x) { return [this, x]; };
+	a.deep(ns2.foo(23), [ns2, 23], "Function");
 
 	ns.set('lorem', string.rel({ writeOnce: true }));
 	ns.lorem = 'ipsum';
