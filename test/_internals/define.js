@@ -35,9 +35,13 @@ module.exports = function (t, a) {
 	ns.other = string.rel('test');
 	a(ns.other, 'test', "Set rel transport");
 
-	ns.set('trzy', ns.string);
-	a(ns._trzy.ns, ns.string, "Namespace: ns");
+	ns.set('trzy', ObjectType);
+	a(ns._trzy.ns, ObjectType, "Namespace: ns");
 	a(ns.trzy, undefined, "Namespace: value");
+
+	ns.set('Trzy', ObjectType);
+	a(ns._Trzy.ns, base, "Namespace value: ns");
+	a(ns.Trzy, ObjectType, "Namespace value: value");
 
 	obj = new ObjectType({ foo: 'bar2' });
 	a(obj._foo.value, 'bar2', "Object: Relation: value");
