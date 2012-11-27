@@ -19,12 +19,9 @@ module.exports = function (t) {
 			a(ns2('ipsum'), 'loremipsum', "Constructor");
 
 			ns2.set('trzy', DateTime.required);
-			a.throws(function () { ns2.create({ trzy: 'foo' }); },
-				"Validate");
-			a.throws(function () { ns2.create({}); },
-				"Completeness");
-			a.throws(function () { ns2.create(); },
-				"Completeness #2");
+			a.throws(function () { ns2.create({ trzy: 'foo' }); }, "Validate");
+			a.throws(function () { ns2.create({}); }, "Completeness");
+			a.throws(function () { ns2.create(); }, "Completeness #2");
 			ns2.prototype.set('foo', DateTime.required);
 			a.throws(function () {
 				ns2.create({ trzy: function () {} }, { foo: 'foo' });
