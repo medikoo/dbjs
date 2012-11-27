@@ -23,6 +23,8 @@ module.exports = function (t) {
 				"Validate");
 			a.throws(function () { ns2.create({}); },
 				"Completeness");
+			a.throws(function () { ns2.create(); },
+				"Completeness #2");
 			ns2.prototype.set('foo', DateTime.required);
 			a.throws(function () {
 				ns2.create({ trzy: function () {} }, { foo: 'foo' });
