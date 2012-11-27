@@ -11,7 +11,7 @@ module.exports = function (t, a) {
 	a(t.base, t, "Exposed on self");
 	return {
 		"Create": function (a) {
-			var ns0, ns1, ns2;
+			var ns0, ns1;
 
 			a.throws(function () {
 				t.abstract('0sdfs');

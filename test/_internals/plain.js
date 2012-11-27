@@ -1,7 +1,5 @@
 'use strict';
 
-var DateTime = require('../../lib/types/date-time');
-
 module.exports = function (t) {
 	return {
 		"Create": function (a) {
