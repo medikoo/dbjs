@@ -29,9 +29,9 @@ module.exports = function (t) {
 			a(ns.one, false, "Updated");
 			a(ns._one._value, false, "Value updated");
 		},
-		"SetMany": function (a) {
+		"SetProperties": function (a) {
 			var ns = t.create();
-			ns.setMany({
+			ns.setProperties({
 				dwa: true,
 				trzy: 23
 			});

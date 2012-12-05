@@ -54,12 +54,12 @@ module.exports = function (t, a) {
 		},
 		"Validate": function (a) {
 			var date = new Date();
-			a(t.validate(), undefined, "Undefined");
-			a(t.validate(null), undefined, "Null");
-			a(t.validate(date), undefined, "Date");
+			a(t.validate(), null, "Undefined");
+			a(t.validate(null), null, "Null");
+			a(t.validate(date), null, "Date");
 			a(isError(t.validate(new Date('Invalid'))), true, "Invalid date");
 			a(isError(t.validate({})), true, "Other object");
-			a(t.validate(234234), undefined, "Number");
+			a(t.validate(234234), null, "Number");
 		}
 	};
 };

@@ -15,6 +15,6 @@ module.exports = function (t, a) {
 	a(t(new Date(12345)), '412345', "Date");
 	a(t(new RegExp('raz\ndwa')), '5/raz\\ndwa/', "RegExp");
 	a(t(DateTime), '7DateTime', "Namespace");
-	a(t(x = new ObjectType({ foo: 'bar' })), '7' + x.__id, "Object");
+	a(t(x = new ObjectType({ foo: 'bar' })), '7' + x._id_, "Object");
 	a(t({}), undefined, "Unrecognized");
 };

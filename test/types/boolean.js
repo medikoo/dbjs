@@ -26,7 +26,7 @@ module.exports = function (t, a) {
 			a(t.normalize(undefined), false, "Undefined");
 			a(t.normalize(null), false, "Null");
 			a(t.normalize(false), false, "Boolean (primitive)");
-			a(t.normalize(new Boolean(false)), false, "Boolean (object)");
+			a(t.normalize(new Boolean(false)), true, "Boolean (object)");
 			a(t.normalize({}), true, "Object");
 			a(t.normalize('false'), true, "False string");
 			a(t.normalize(''), false, "Empty string");
@@ -34,15 +34,15 @@ module.exports = function (t, a) {
 			a(t.normalize(0), false, "Zero");
 		},
 		"Validate": function (a) {
-			a(t.validate(undefined), undefined, "Undefined");
-			a(t.validate(null), undefined, "Null");
-			a(t.validate(false), undefined, "Boolean (primitive)");
-			a(t.validate(new Boolean(false)), undefined, "Boolean (object)");
-			a(t.validate({}), undefined, "Object");
-			a(t.validate('false'), undefined, "False string");
-			a(t.validate(''), undefined, "Empty string");
-			a(t.validate('0'), undefined, "Other false string");
-			a(t.validate(0), undefined, "Zero");
+			a(t.validate(undefined), null, "Undefined");
+			a(t.validate(null), null, "Null");
+			a(t.validate(false), null, "Boolean (primitive)");
+			a(t.validate(new Boolean(false)), null, "Boolean (object)");
+			a(t.validate({}), null, "Object");
+			a(t.validate('false'), null, "False string");
+			a(t.validate(''), null, "Empty string");
+			a(t.validate('0'), null, "Other false string");
+			a(t.validate(0), null, "Zero");
 		}
 	};
 };

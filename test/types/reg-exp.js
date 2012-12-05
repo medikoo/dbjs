@@ -27,11 +27,11 @@ module.exports = function (t, a) {
 			a(t.normalize('\\'), null, "Invalid regExp string");
 		},
 		"Validate": function (a) {
-			a(t.validate(undefined), undefined, "Undefined");
-			a(t.validate(null), undefined, "Null");
-			a(t.validate(re), undefined, "RegExp");
-			a(t.validate(false), undefined, "Boolean");
-			a(t.validate('raz'), undefined, "String");
+			a(t.validate(), null, "Undefined");
+			a(t.validate(null), null, "Null");
+			a(t.validate(re), null, "RegExp");
+			a(t.validate(false), null, "Boolean");
+			a(t.validate('raz'), null, "String");
 			a(isError(t.validate('\\')), true, "Invalid regExp string");
 		}
 	};

@@ -18,11 +18,11 @@ module.exports = function (t) {
 			a.deep(keys(obj).sort(), ['bar', 'foo', 'other', 'other2'],
 				"Object keys");
 
-			a(ns[obj.__id], obj, "Assigned to namespace");
-			a.deep(keys(ns), [obj.__id], "Enumerable on namespace");
-			a(t.propertyIsEnumerable(obj.__id), true,
+			a(ns[obj._id_], obj, "Assigned to namespace");
+			a.deep(keys(ns), [obj._id_], "Enumerable on namespace");
+			a(t.propertyIsEnumerable(obj._id_), true,
 				"Enumerable on ancestor namespace");
-			a(t[obj.__id], obj, "Assigned to ancestor namespace");
+			a(t[obj._id_], obj, "Assigned to ancestor namespace");
 
 			a(obj.foo, '12', "Schema #1");
 			a(obj.bar, true, "Schema #2");
@@ -41,11 +41,11 @@ module.exports = function (t) {
 				ns({ raz: '23423' });
 			}, "Invalid create");
 
-			a(typeof ns().__id, 'string', "Undefined data");
+			a(typeof ns()._id_, 'string', "Undefined data");
 
 			a(ns(obj), obj, "Created object");
 			a.throws(function () {
-				ns(obj.__id);
+				ns(obj._id_);
 			}, "Object id");
 
 			pObj = t({ foo: 'elo' });
@@ -53,7 +53,7 @@ module.exports = function (t) {
 			a.not(obj, pObj, "Object from other namespace #1");
 			a.deep(obj, { foo: 'elo' }, "Object from other namespace #2");
 			a.throws(function () {
-				ns(pObj.__id);
+				ns(pObj._id_);
 			}, "Object Id from other namespace");
 
 			ns = t.create('otest2', function (value) { this.set('foo', value); },
@@ -67,8 +67,8 @@ module.exports = function (t) {
 			a.deep(obj, { foo: 'raz', bar: 12 }, "Content");
 			a(typeof obj, 'object', "Type");
 			a(obj.ns, t, "Namespace");
-			a(obj.__id, 'namedobjtest', "Id");
-			a(t[obj.__id], obj, "Exposed on namespace");
+			a(obj._id_, 'namedobjtest', "Id");
+			a(t[obj._id_], obj, "Exposed on namespace");
 			a.throws(function () {
 				t.newNamed('raz dwa#');
 			}, "Name validation");
@@ -83,7 +83,7 @@ module.exports = function (t) {
 			a(ns.is(props), false, "Plain Object");
 			a(ns.is(new Date()), false, "Date");
 			a(ns.is(true), false, "Boolean");
-			a(ns.is(obj.__id), false, "Object ID");
+			a(ns.is(obj._id_), false, "Object ID");
 			a(ns.is(obj), true, "Object from namespace");
 			a(t.is(obj), true, "Object from descending namespace");
 			a(ns.is(obj2), false, "Object from ascending namespace");
@@ -102,10 +102,10 @@ module.exports = function (t) {
 			ns = t.create('otest4');
 			obj = ns({});
 
-			a(ns.validate(), undefined, "Undefined");
-			a(ns.validate(obj), undefined, "Created object");
-			a(ns.validate({}), undefined, "Data for object");
-			a(isError(ns.validate(obj.__id)), true, "Object id");
+			a(ns.validate(), null, "Undefined");
+			a(ns.validate(obj), null, "Created object");
+			a(ns.validate({}), null, "Data for object");
+			a(isError(ns.validate(obj._id_)), true, "Object id");
 		},
 		"Normalize": function (a) {
 			var ns, obj, pObj;
@@ -115,11 +115,11 @@ module.exports = function (t) {
 			a(ns.normalize(null), null, "Null");
 			a(ns.normalize(), null, "Undefined");
 			a(ns.normalize(obj), obj, "Created object");
-			a(ns.normalize(obj.__id), null, "Object id");
+			a(ns.normalize(obj._id_), null, "Object id");
 
 			pObj = t({});
 			a(ns.normalize(pObj), null, "Object from other namespace");
-			a(ns.normalize(pObj.__id), null, "Object Id from other namespace");
+			a(ns.normalize(pObj._id_), null, "Object Id from other namespace");
 			a(ns.normalize('asdfafa'), null, "Unrecognized string");
 			a(ns.normalize(33453), null, "Not an object");
 			a(ns.normalize({}), null, "Other object");

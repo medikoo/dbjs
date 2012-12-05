@@ -43,16 +43,16 @@ module.exports = function (t, a) {
 			a(t.normalize(-123.64), -123, "Float: Negative #2");
 		},
 		"Validate": function (a) {
-			a(isError(t.validate(undefined)), true, "Undefined");
-			a(t.validate(null), undefined, "Null");
-			a(t.validate(false), undefined, "Boolean");
+			a(isError(t.validate()), true, "Undefined");
+			a(t.validate(null), null, "Null");
+			a(t.validate(false), null, "Boolean");
 			a(isError(t.validate({})), true, "Object");
 			a(isError(t.validate('false')), true, "Unconrvertable string");
-			a(t.validate('0'), undefined, "Convertable string");
-			a(t.validate(123), undefined, "Number");
-			a(t.validate(new Number(123)), undefined, "Number object");
-			a(t.validate(123.23), undefined, "Float");
-			a(t.validate(-123.23), undefined, "Float: Negative");
+			a(t.validate('0'), null, "Convertable string");
+			a(t.validate(123), null, "Number");
+			a(t.validate(new Number(123)), null, "Number object");
+			a(t.validate(123.23), null, "Float");
+			a(t.validate(-123.23), null, "Float: Negative");
 		}
 	};
 };

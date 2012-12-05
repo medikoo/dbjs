@@ -50,15 +50,15 @@ module.exports = function (t, a) {
 				"Custom: Normalize: Length max");
 		},
 		"Validate": function (a) {
-			a(t.validate(undefined), undefined, "Undefined");
-			a(t.validate(null), undefined, "Null");
-			a(t.validate(false), undefined, "Boolean");
-			a(t.validate({}), undefined, "Object");
-			a(t.validate('foobar'), undefined, "String");
-			a(t.validate(new String('foobar')), undefined, "String object");
-			a(t.validate(123), undefined, "Number");
+			a(t.validate(), null, "Undefined");
+			a(t.validate(null), null, "Null");
+			a(t.validate(false), null, "Boolean");
+			a(t.validate({}), null, "Object");
+			a(t.validate('foobar'), null, "String");
+			a(t.validate(new String('foobar')), null, "String object");
+			a(t.validate(123), null, "Number");
 
-			a(ns.validate('23432'), undefined, "Custom: Validate");
+			a(ns.validate('23432'), null, "Custom: Validate");
 			a(isError(ns.validate('sdfs')), true, "Custom: Validate: Pattern");
 			a(isError(ns.validate('12')), true, "Custom: Validate: Length min");
 			a(isError(ns.validate('1231231231232131')), true,
