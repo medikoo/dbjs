@@ -9,7 +9,7 @@ module.exports = function (t, a) {
 		foo: string.rel({ multiple: true, required: true })
 	});
 	a(typeof ns1.foo.has, 'function', "Namspace: set");
-	a.deep(ns1.foo.values, [], "Namespqace: empty");
+	a.deep(ns1.foo.values, [], "Namespace: empty");
 	a(ns1.foo._count_, 0, "Namespace: Own count");
 	a(ns1.foo.count, 0, "Namespace: Count");
 	a(ns1.foo.has('foo'), false, "Namespace: Has");

@@ -17,7 +17,7 @@ module.exports = function (t, a) {
 	a(item.rel, ns._foo, "Rel");
 	a(item.value, 'two', "Value");
 	item._value = 34;
-	a.deep(Object.keys(item), [], "Keep meta non enumerable");
+	a.deep(Object.keys(item), ['order'], "Keep meta non enumerable");
 	a(item.value, '34', "Normalization");
 
 	item.order = '43';
