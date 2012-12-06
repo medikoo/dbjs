@@ -4,7 +4,7 @@ var ObjectType = require('../../lib/types/object')
   , string     = require('../../lib/types/string');
 
 module.exports = function (t, a) {
-	var ns1 = ObjectType.create('uniqtest1',
+	var ns1 = ObjectType.create('Uniqtest1',
 		{ foo: string.rel({ unique: true, value: 'zero' }) })
 
 	  , obj11, obj12, obj13;

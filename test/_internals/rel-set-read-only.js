@@ -4,7 +4,7 @@ var number  = require('../../lib/types/number')
   , string  = require('../../lib/types/string');
 
 module.exports = function (t, a) {
-	var testValue, set, ns = string.create('relsetreadonlytest', {
+	var testValue, set, ns = string.create('Relsetreadonlytest', {
 		foo: string.rel({ multiple: true, value: function () {
 			return testValue;
 		} })

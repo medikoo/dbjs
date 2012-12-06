@@ -1,11 +1,11 @@
 'use strict';
 
-var base   = require('../../lib/types/base')
+var Base   = require('../../lib/types/base')
   , string = require('../../lib/types/string');
 
 module.exports = function (t, a) {
 	var ns1, ns2, ns3, ns5;
-	ns1 = base.abstract('relsettest1', {
+	ns1 = Base.abstract('Relsettest1', {
 		foo: string.rel({ multiple: true, required: true })
 	});
 	a(typeof ns1.foo.has, 'function', "Namspace: set");
@@ -15,7 +15,7 @@ module.exports = function (t, a) {
 	a(ns1.foo.has('foo'), false, "Namespace: Has");
 	a(ns1.foo.has({}), false, "Namespace: Has: Invalid");
 
-	ns2 = ns1.abstract('relsettest2', {
+	ns2 = ns1.abstract('Relsettest2', {
 		foo: ['raz', 'dwa', 13, 'trzy']
 	});
 	a.deep(ns2.foo.values.sort(), ['raz', 'dwa', '13', 'trzy'].sort(),
@@ -94,7 +94,7 @@ module.exports = function (t, a) {
 	a(ns2.foo.has('misko'), false,
 		"Extension: Fallback: Remove: Has: false");
 
-	ns3 = ns2.abstract('reltest3');
+	ns3 = ns2.abstract('Reltest3');
 	a.deep(ns3.foo.values.sort(), ['marko', 'next', 'lorem'].sort(),
 		"2nd Extension: Fallback: Content");
 	a(ns3.foo._count_, 0, "2nd Extension: Own count");
@@ -253,7 +253,7 @@ module.exports = function (t, a) {
 	a(ns3.foo.has('lorem'), false,
 		"2nd Extension: Fallback: Mid multiple: Has: false");
 
-	ns5 = ns3.abstract('reltest4').abstract('reltest5');
+	ns5 = ns3.abstract('Reltest4').abstract('Reltest5');
 	a(ns5.foo.has('radzio'), true, "Deep extension: Has: true");
 	a(ns5.foo.has('lorem'), false, "Deep extension: Has: false");
 
@@ -269,14 +269,14 @@ module.exports = function (t, a) {
 			}, x);
 		},
 		"getItemProperties": function () {
-			var ns = ns1.abstract('reltestprop1', { foo: ['raz', 123, 'trzy'] });
+			var ns = ns1.abstract('Reltestprop1', { foo: ['raz', 123, 'trzy'] });
 			a(ns.foo.getItemProperties(123).value, '123');
 			ns.foo.delete('trzy');
 			a(ns.foo.getItemProperties('asdfada'), null);
 			a(ns.foo.getItemProperties('trzy'), null);
 		},
 		"Reset: Array order": function () {
-			var ns = ns1.abstract('reltestprop2', { foo: ['raz', 123, 'trzy'] });
+			var ns = ns1.abstract('Reltestprop2', { foo: ['raz', 123, 'trzy'] });
 			a(ns.foo.getItemProperties('raz').order, 0, "#1");
 			a(ns.foo.getItemProperties(123).order, 1, "#2");
 			a(ns.foo.getItemProperties('trzy').order, 2, "#3");

@@ -1,15 +1,15 @@
 'use strict';
 
-var base = require('../lib/types/base');
+var Base = require('../lib/types/base');
 
 module.exports = function (t, a) {
 
-	a(t, base.Object, "Object");
-	a(t.boolean._id_, 'boolean', "Boolean");
+	a(t, Base.Object, "Object");
+	a(t.Boolean._id_, 'Boolean', "Boolean");
 	a(t.DateTime._id_, 'DateTime', "DateTime");
-	a(t.number._id_, 'number', "Number");
+	a(t.Number._id_, 'Number', "Number");
 	a(t.RegExp._id_, 'RegExp', "RegExp");
-	a(t.string._id_, 'string', "String");
+	a(t.String._id_, 'String', "String");
 
 	a(t().db, t, "Access to main database from instance");
 	a.deep(t.Set('raz', 'dwa').values.sort(), ['raz', 'dwa'].sort(),

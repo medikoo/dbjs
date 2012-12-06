@@ -3,7 +3,7 @@
 var isError     = require('es5-ext/lib/Error/is-error');
 
 module.exports = function (t, a) {
-	var ns = t.create('numtest2', { min: -100, max: 100 });
+	var ns = t.create('Numtest2', { min: -100, max: 100 });
 	a.throws(function () { t(undefined); }, "Undefined");
 	a(t(null), 0, "Null");
 	a(t(false), 0, "Boolean");

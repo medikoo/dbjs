@@ -1,12 +1,12 @@
 'use strict';
 
-var base   = require('../../lib/types/base')
+var Base   = require('../../lib/types/base')
   , string = require('../../lib/types/string');
 
 module.exports = function (a) {
 	var ns, ns2, prop, prop2;
 
-	ns = base.abstract('reltest',
+	ns = Base.abstract('Reltest',
 		 { foo: string.rel({ required: true, value: 'mario' }) });
 
 	prop = ns._foo;
@@ -17,7 +17,7 @@ module.exports = function (a) {
 	a(prop.ns, string, "Namespace");
 	a(prop.required, true, "Property");
 
-	ns2 = ns.abstract('reltest2');
+	ns2 = ns.abstract('Reltest2');
 	ns2.foo = 123;
 
 	prop2 = ns2._foo;
@@ -27,11 +27,11 @@ module.exports = function (a) {
 	a(prop2._value, '123', "Extended: Saved normalized");
 
 	prop.ns = null;
-	a(prop.ns, base, "Set namespace to null");
+	a(prop.ns, Base, "Set namespace to null");
 	prop.ns = string;
 	a(prop.ns, string, "Bring back specific namespace");
 	prop.ns = undefined;
-	a(prop.ns, base, "Undefine namespace");
+	a(prop.ns, Base, "Undefine namespace");
 
 	a(prop2.value, '123', "Removed namespace: Not changed extended value");
 	prop2.value = 345;

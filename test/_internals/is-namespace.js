@@ -7,6 +7,6 @@ module.exports = function (t, a) {
 	a(t(true), false, "Primitive");
 	a(t(ObjectType), true, "Namespace");
 	a(t({}), false, "Plain object");
-	a(t(ObjectType.create('namespacetest')), true, "Extension");
+	a(t(ObjectType.create('Namespacetest')), true, "Extension");
 	a(t(new ObjectType({ foo: true })), false, "DB Object");
 };

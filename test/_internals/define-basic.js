@@ -1,8 +1,8 @@
 'use strict';
 
-var base = require('../../lib/types/base')
+var Base = require('../../lib/types/base')
 
-  , ns = base.abstract('definebasictest');
+  , ns = Base.abstract('Definebasictest');
 
 module.exports = function (t, a) {
 	var ns2;
@@ -18,7 +18,7 @@ module.exports = function (t, a) {
 	a(ns.foo, 'bar', "Value");
 	a(ns.hasOwnProperty('foo'), true, "Own");
 
-	ns2 = ns.abstract('definebasictest2');
+	ns2 = ns.abstract('Definebasictest2');
 	a(ns2.foo, 'bar', "Value: inherited");
 	a.not(ns2._foo, ns.foo, "Relation: not inherited");
 	a(ns2.hasOwnProperty('foo'), false, "Inherited not own");

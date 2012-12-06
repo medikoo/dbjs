@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (t, a) {
-	var ns = t.create('currencyTest', { symbol: "TEST" })
+	var ns = t.create('CurrencyTest', { symbol: "TEST" })
 	  , obj = Object(23);
 
 	obj.__proto__ = ns.prototype;

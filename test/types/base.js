@@ -5,10 +5,10 @@ var DateTime = require('../../lib/types/date-time');
 require('../../lib/types/boolean');
 
 module.exports = function (t, a) {
-	var ns = t.create('simpletest');
+	var ns = t.create('Simpletest');
 
-	a(t._id_, 'base', "Id");
-	a(t.base, t, "Exposed on self");
+	a(t._id_, 'Base', "Id");
+	a(t.Base, t, "Exposed on self");
 	return {
 		"Create": function (a) {
 			var ns0, ns1;
@@ -17,40 +17,43 @@ module.exports = function (t, a) {
 				t.abstract('0sdfs');
 			}, "Name: Digit first");
 			a.throws(function () {
-				t.abstract('raz dwa');
+				t.abstract('sdsdfs');
+			}, "Name: No capital");
+			a.throws(function () {
+				t.abstract('Raz dwa');
 			}, "Name: Inner space");
 			a.throws(function () {
 				t.abstract('_foo');
 			}, "Name: Underscore");
 
-			ns0 = t.create('createtest0', { trzy: DateTime.required });
-			a.throws(function () { ns0.create('createtest1', { trzy: 'foo' }); },
+			ns0 = t.create('Createtest0', { trzy: DateTime.required });
+			a.throws(function () { ns0.create('Createtest1', { trzy: 'foo' }); },
 				"Validate");
-			a.throws(function () { ns0.create('createtest2', {}); }, "Completeness");
-			a.throws(function () { ns0.create('createtest3'); }, "Completeness #2");
+			a.throws(function () { ns0.create('Createtest2', {}); }, "Completeness");
+			a.throws(function () { ns0.create('Createtest3'); }, "Completeness #2");
 
 			ns0.prototype.set('foo', DateTime.required);
 			a.throws(function () {
-				ns0.create('createtest4', { trzy: function () {} }, { foo: 'foo' });
+				ns0.create('Createtest4', { trzy: function () {} }, { foo: 'foo' });
 			}, "Validate Prototype");
 
 			try {
-				ns0.create('createtest5', { trzy: function () {} }, {});
-				ns0.create('createtest6', { trzy: function () {} },
+				ns0.create('Createtest5', { trzy: function () {} }, {});
+				ns0.create('Createtest6', { trzy: function () {} },
 					{ foo: function () {} });
 			} catch (e) {
 				console.log(e.subErrors);
 				throw e;
 			}
 
-			ns1 = ns.create('createtest7', { other: 15 }, { foo: 'raz' });
+			ns1 = ns.create('Createtest7', { other: 15 }, { foo: 'raz' });
 
 			a(ns1.other, 15, "Namespace property");
 			a(ns1._other._value, 15, "Namespace relation");
 			a(ns1.prototype.foo, 'raz', "Prototype property");
 			a(ns1.prototype._foo._value, 'raz', "Prototype relation");
 
-			ns1 = t.create('test22', {
+			ns1 = t.create('Test22', {
 				normalize: function (value) { return value; },
 				validate: function (value) { return value; },
 				other: 14
@@ -62,32 +65,32 @@ module.exports = function (t, a) {
 			a(ns1.prototype.foo, 'raz', "Prototype property");
 			a(ns1.prototype.ns, ns1, "NS property");
 
-			ns1 = t.create('test3', {
+			ns1 = t.create('Test3', {
 				normalize: function (value) { return value; },
 				validate: function (value) { return value; }
 			});
-			a(t.test3, ns1, "Set on base");
-			a(ns1._id_, 'test3', "Id");
+			a(t.Test3, ns1, "Set on Base");
+			a(ns1._id_, 'Test3', "Id");
 		},
 		"Abstract": function (a) {
-			var ns = t.create('abstracttest1'), ns2;
+			var ns = t.create('Abstracttest1'), ns2;
 			ns.set('trzy', null);
 			ns._trzy.required = true;
-			ns2 = ns.abstract('abstracttest2');
+			ns2 = ns.abstract('Abstracttest2');
 			a(ns2.trzy, null, "Abstracted");
 		},
 		"Rel": function (a) {
-			ns.set('relprop', t.boolean.rel());
+			ns.set('relprop', t.Boolean.rel());
 			a(ns.relprop, undefined, "No data: value");
-			a(ns._relprop.ns, ns.boolean, "No data: namespace");
+			a(ns._relprop.ns, ns.Boolean, "No data: namespace");
 
-			ns.set('relprop2', ns.boolean.rel({ value: true, required: true }));
+			ns.set('relprop2', ns.Boolean.rel({ value: true, required: true }));
 			a(ns.relprop2, true, "Data: value");
 		},
 		"Required": function (a) {
-			ns.set('relprop4', t.boolean.required);
+			ns.set('relprop4', t.Boolean.required);
 			a(ns.relprop4, undefined, "Value");
-			a(ns._relprop4.ns, ns.boolean, "Namespace");
+			a(ns._relprop4.ns, ns.Boolean, "Namespace");
 			a(ns._relprop4.required, true, "Required");
 		}
 	};

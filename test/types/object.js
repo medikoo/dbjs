@@ -10,10 +10,10 @@ module.exports = function (t) {
 	return {
 		"Constructor": function (a) {
 			var ns, obj, strNs, pObj;
-			strNs = t.string.create('zipCode', {
+			strNs = t.String.create('ZipCode', {
 				pattern: /^\d{2}-\d{3}$/
 			});
-			ns = t.create('otest1', { foo: t.string, bar: t.boolean, raz: strNs });
+			ns = t.create('Otest1', { foo: t.String, bar: t.Boolean, raz: strNs });
 			obj = ns({ foo: 12, bar: {}, other: null, other2: 'razdwa' });
 			a.deep(keys(obj).sort(), ['bar', 'foo', 'other', 'other2'],
 				"Object keys");
@@ -56,8 +56,8 @@ module.exports = function (t) {
 				ns(pObj._id_);
 			}, "Object Id from other namespace");
 
-			ns = t.create('otest2', function (value) { this.set('foo', value); },
-				 { foo: t.string  }, { verify: function () {} });
+			ns = t.create('Otest2', function (value) { this.set('foo', value); },
+				 { foo: t.String  }, { verify: function () {} });
 
 			obj = ns('whatever');
 			a(obj.foo, 'whatever', "Custom construct");
@@ -75,7 +75,7 @@ module.exports = function (t) {
 		},
 		"Is": function (a) {
 			var ns, obj, props, obj2;
-			ns = t.create('otestIs', { foo: t.string, bar: t.boolean });
+			ns = t.create('OtestIs', { foo: t.String, bar: t.Boolean });
 			obj = ns(props = { foo: 'raz', bar: true });
 			obj2 = t({ foo: 'else' });
 			a(ns.is(), false, "Undefined");
@@ -91,7 +91,7 @@ module.exports = function (t) {
 		},
 		"Create": function (a) {
 			var ns, date = new Date();
-			ns = t.create('otest3', { foo: t.string, bar: t.boolean },
+			ns = t.create('Otest3', { foo: t.String, bar: t.Boolean },
 				 { raz: 15, dwa: date });
 			a.deep(keys(ns.prototype).sort(), ['bar', 'foo'], "Set on prototype");
 			a(ns.raz, 15, "Self property #1");
@@ -99,7 +99,7 @@ module.exports = function (t) {
 		},
 		"Validate": function (a) {
 			var ns, obj;
-			ns = t.create('otest4');
+			ns = t.create('Otest4');
 			obj = ns({});
 
 			a(ns.validate(), null, "Undefined");
@@ -109,7 +109,7 @@ module.exports = function (t) {
 		},
 		"Normalize": function (a) {
 			var ns, obj, pObj;
-			ns = t.create('otest5');
+			ns = t.create('Otest5');
 			obj = ns({});
 
 			a(ns.normalize(null), null, "Null");

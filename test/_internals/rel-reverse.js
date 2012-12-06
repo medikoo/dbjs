@@ -3,8 +3,8 @@
 var ObjectType = require('../../lib/types/object');
 
 module.exports = function (t, a) {
-	var ns1 = ObjectType.create('revreltest1')
-	  , ns2 = ObjectType.create('revreltest2', { foo: ns1.required })
+	var ns1 = ObjectType.create('Revreltest1')
+	  , ns2 = ObjectType.create('Revreltest2', { foo: ns1.required })
 
 	  , obj11, obj12, obj13, obj14, obj21, obj22, ns3, obj31, obj32;
 
@@ -30,7 +30,7 @@ module.exports = function (t, a) {
 	a.deep(obj11.revreltest2.values, [obj22], "Rename: new #1");
 	a.deep(obj12.revreltest2.values, [obj21], "Rename: new #2");
 
-	ns3 = ns2.create('revreltest3');
+	ns3 = ns2.create('Revreltest3');
 	ns3.prototype._foo.reverse = 'ola';
 	ns3.prototype._foo.unique = true;
 

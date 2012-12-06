@@ -1,13 +1,13 @@
 'use strict';
 
-var base   = require('../../lib/types/base')
+var Base   = require('../../lib/types/base')
   , string = require('../../lib/types/string');
 
 require('../../lib/types/number');
 
 module.exports = function (t, a) {
 	var ns, item;
-	ns = base.abstract('relsetitemtest1',
+	ns = Base.abstract('Relsetitemtest1',
 		 { foo: string.rel({ multiple: true }) });
 
 	ns.foo = ['one', 'two', 'three'];

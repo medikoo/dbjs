@@ -3,7 +3,7 @@
 var isError = require('es5-ext/lib/Error/is-error');
 
 module.exports = function (t, a) {
-	var ns = t.create('strtest', { pattern: /^\d+$/, min: 3, max: 7 });
+	var ns = t.create('Strtest', { pattern: /^\d+$/, min: 3, max: 7 });
 
 	a(t(undefined), 'undefined', "Undefined");
 	a(t(null), 'null', "Null");
