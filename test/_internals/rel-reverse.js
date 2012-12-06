@@ -30,6 +30,11 @@ module.exports = function (t, a) {
 	a.deep(obj11.revreltest2.values, [obj22], "Rename: new #1");
 	a.deep(obj12.revreltest2.values, [obj21], "Rename: new #2");
 
+	ns1.prototype.set('revreltest2', 14);
+	a(obj11.revreltest2, 14, "Reset relation");
+	ns2.prototype._foo.reverse = true;
+	a.deep(obj11.revreltest2.values, [obj22], "Override reverse");
+
 	ns3 = ns2.create('Revreltest3');
 	ns3.prototype._foo.reverse = 'ola';
 	ns3.prototype._foo.unique = true;

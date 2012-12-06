@@ -93,7 +93,12 @@ module.exports = function (t) {
 			var ns, date = new Date();
 			ns = t.create('Otest3', { foo: t.String, bar: t.Boolean },
 				 { raz: 15, dwa: date });
+			a.deep(keys(ns.prototype).sort(), [], "Defined on prototype");
+			ns.prototype.foo = 23;
+			ns.prototype.bar = {};
 			a.deep(keys(ns.prototype).sort(), ['bar', 'foo'], "Set on prototype");
+			a.deep([ns.prototype.foo, ns.prototype.bar], ['23', true],
+				"Set on prototype: Values");
 			a(ns.raz, 15, "Self property #1");
 			a(ns.dwa, date, "Self property #2");
 		},

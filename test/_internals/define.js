@@ -50,12 +50,19 @@ module.exports = function (t, a) {
 	a(obj.foo, 'bar2', "Object: Value");
 	a(obj.hasOwnProperty('foo'), true, "Object: Own");
 
-	obj.set('bar', [2, 3, 43, 23]);
-	a.deep(obj.bar.values, [2, 3, 43, 23], "Auto namespace for multiple: Value");
-	a(obj._bar.ns, NumberType, "Auto namespace for multiple: Namespace");
+	obj.set('barUniq', [2, 3, 43, 23]);
+	a.deep(obj.barUniq.values, [2, 3, 43, 23],
+		"Auto namespace for multiple: Value");
+	a(obj._barUniq.ns, NumberType, "Auto namespace for multiple: Namespace");
 
-	obj.set('bar2', [2, 3, 'fefe', 23]);
-	a.deep(obj.bar2.values, [2, 3, 'fefe', 23],
+	obj.set('barUniq2', [2, 3, 'fefe', 23]);
+	a.deep(obj.barUniq2.values, [2, 3, 'fefe', 23],
 		"Auto namespace for multiple: Multi type: Value");
-	a(obj._bar2.ns, Base, "Auto namespace for multiple: Multi type: Namespace");
+	a(obj._barUniq2.ns, Base,
+		"Auto namespace for multiple: Multi type: Namespace");
+
+	ns2.set('whatever', 'raz');
+	ns.whatever = 'dwa';
+	ns2.whatever = undefined;
+	a(ns2.whatever, 'dwa', "Start at base");
 };
