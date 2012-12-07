@@ -5,8 +5,8 @@ var ObjectType = require('../../lib/types/object')
 
 module.exports = function (t, a) {
 	var fn, x;
-	a(t(undefined), null, "Undefined");
-	a(t(null), null, "Null");
+	a(t(undefined), '', "Undefined");
+	a(t(null), '0', "Null");
 	a(t(false), '10', "Boolean");
 	a(t(-342.234), '2-342.234', "Number");
 	a(t('misiek\nsdf\\raz\ndwa\\trzy'), '3misiek\\nsdf\\\\raz\\ndwa\\\\trzy',

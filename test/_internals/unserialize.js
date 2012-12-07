@@ -5,6 +5,7 @@ var isDate     = require('es5-ext/lib/Date/is-date')
 
 module.exports = function (t, a) {
 	var fn = function () { return 'foo'; }, x;
+	a(t(''), undefined, "Undefined");
 	a(t('0'), null, "Null");
 	a(t('11'), true, "Boolean");
 	a(t('2-342.234'), -342.234, "Number");
