@@ -1,19 +1,21 @@
 'use strict';
 
-var isError = require('es5-ext/lib/Error/is-error')
-  , keys    = Object.keys;
+var isError     = require('es5-ext/lib/Error/is-error')
+  , BooleanType = require('../../lib/types/boolean')
+  , StringType  = require('../../lib/types/string')
+  , Plain       = require('../../lib/_internals/plain')
 
-require('../../lib/types/boolean');
-require('../../lib/types/string');
+  , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (t) {
 	return {
 		"Constructor": function (a) {
 			var ns, obj, strNs, pObj;
-			strNs = t.String.create('ZipCode', {
+			strNs = StringType.create('ZipCode', {
 				pattern: /^\d{2}-\d{3}$/
 			});
-			ns = t.create('Otest1', { foo: t.String, bar: t.Boolean, raz: strNs });
+			ns = t.create('Otest1',
+				 { foo: StringType, bar: BooleanType, raz: strNs });
 			obj = ns({ foo: 12, bar: {}, other: null, other2: 'razdwa' });
 			a.deep(keys(obj).sort(), ['bar', 'foo', 'other', 'other2'],
 				"Object keys");
@@ -57,7 +59,7 @@ module.exports = function (t) {
 			}, "Object Id from other namespace");
 
 			ns = t.create('Otest2', function (value) { this.set('foo', value); },
-				 { foo: t.String  }, { verify: function () {} });
+				 { foo: StringType  }, { verify: function () {} });
 
 			obj = ns('whatever');
 			a(obj.foo, 'whatever', "Custom construct");
@@ -75,7 +77,7 @@ module.exports = function (t) {
 		},
 		"Is": function (a) {
 			var ns, obj, props, obj2;
-			ns = t.create('OtestIs', { foo: t.String, bar: t.Boolean });
+			ns = t.create('OtestIs', { foo: StringType, bar: BooleanType });
 			obj = ns(props = { foo: 'raz', bar: true });
 			obj2 = t({ foo: 'else' });
 			a(ns.is(), false, "Undefined");
@@ -91,7 +93,7 @@ module.exports = function (t) {
 		},
 		"Create": function (a) {
 			var ns, date = new Date();
-			ns = t.create('Otest3', { foo: t.String, bar: t.Boolean },
+			ns = t.create('Otest3', { foo: StringType, bar: BooleanType },
 				 { raz: 15, dwa: date });
 			a.deep(keys(ns.prototype).sort(), [], "Defined on prototype");
 			ns.prototype.foo = 23;
@@ -128,6 +130,22 @@ module.exports = function (t) {
 			a(ns.normalize('asdfafa'), null, "Unrecognized string");
 			a(ns.normalize(33453), null, "Not an object");
 			a(ns.normalize({}), null, "Other object");
+		},
+		"Proto change": function (a) {
+			var ns1 = t.create('ProtoObjectTest1')
+			  , ns2 = t.create('ProtoObjectTest2')
+			  , obj = ns1({ foo: 'bar' });
+
+			obj.$proto(ns2.prototype);
+			a(getPrototypeOf(obj), ns2.prototype, "Prototype");
+			a(ns1.hasOwnProperty(obj._id_), false, "Visible: Old");
+			a(ns2.hasOwnProperty(obj._id_), true, "Visible: New");
+			a(t.hasOwnProperty(obj._id_), true, "Visible: Base");
+
+			obj.$proto();
+			a(getPrototypeOf(obj), Plain.prototype, "Removed: Prototype");
+			a(ns2.hasOwnProperty(obj._id_), false, "Removed: Visible: Ns");
+			a(t.hasOwnProperty(obj._id_), false, "Removed: Visible: Base");
 		}
 	};
 };

@@ -1,6 +1,10 @@
 'use strict';
 
-var DateTime = require('../../lib/types/date-time');
+var Base     = require('../../lib/types/base')
+  , DateTime = require('../../lib/types/date-time')
+  , Plain    = require('../../lib/_internals/plain')
+
+  , getPrototypeOf = Object.getPrototypeOf;
 
 require('../../lib/types/boolean');
 
@@ -92,6 +96,20 @@ module.exports = function (t, a) {
 			a(ns.relprop4, undefined, "Value");
 			a(ns._relprop4.ns, ns.Boolean, "Namespace");
 			a(ns._relprop4.required, true, "Required");
+		},
+		"Proto change": function (a) {
+			var ns1 = t.create('Prototest1')
+			  , ns2 = t.create('Prototest2')
+			  , ns3 = ns1.create('Prototest3');
+
+			ns3.$proto(ns2);
+			a(getPrototypeOf(ns3), ns2, "Constructor");
+			a(getPrototypeOf(ns3.prototype), ns2.prototype, "Prototype");
+
+			ns3.$proto();
+			a(getPrototypeOf(ns3), Plain, "Constructor");
+			a(getPrototypeOf(ns3.prototype), Plain.prototype, "Prototype");
+			a(Base.hasOwnProperty('Prototest3'), false);
 		}
 	};
 };
