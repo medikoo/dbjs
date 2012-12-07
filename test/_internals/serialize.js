@@ -16,6 +16,6 @@ module.exports = function (t, a) {
 	a(t(new RegExp('raz\ndwa')), '5/raz\\ndwa/', "RegExp");
 	a(t(DateTime), '7DateTime', "Namespace");
 	a(t(x = new ObjectType({ foo: 'bar' })), '7' + x._id_, "Object");
-	a(t([1,2,3]), '8"21","22","23"', "Array");
+	a(t([1, 2, 3]), '8"21","22","23"', "Array");
 	a(t({}), null, "Unrecognized");
 };
