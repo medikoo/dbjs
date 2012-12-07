@@ -8,9 +8,9 @@ module.exports = function (t) {
 			ns = t.create(function () { return 'raz'; });
 			ns.set('foo', 'bar');
 			ns.prototype.set('raz', 234);
-			ns1 = ns.create();
+			ns1 = ns.create(function () { return 'else'; });
 			a.not(ns, ns1, "Extension not same as origin");
-			a(ns1('bar'), 'raz', "Constructor: Clone by default");
+			a(ns1('bar'), 'else', "Constructor");
 			a(ns1.foo, 'bar', "Constructor properties inherited");
 			a(ns1.prototype.raz, 234, "Prototype properties inherited");
 
@@ -18,7 +18,7 @@ module.exports = function (t) {
 			a(ns2('ipsum'), 'loremipsum', "Constructor");
 		},
 		"Set": function (a) {
-			var ns = t.create();
+			var ns = t.create(function () {});
 			a.throws(function () {
 				ns.set('_foo', 'whatever');
 			}, "Bad property name");
@@ -30,7 +30,7 @@ module.exports = function (t) {
 			a(ns._one._value, false, "Value updated");
 		},
 		"SetProperties": function (a) {
-			var ns = t.create();
+			var ns = t.create(function () {});
 			ns.setProperties({
 				dwa: true,
 				trzy: 23
