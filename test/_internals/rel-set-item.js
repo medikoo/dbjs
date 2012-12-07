@@ -14,7 +14,7 @@ module.exports = function (t, a) {
 
 	item = ns.foo.getItemProperties('two');
 
-	a(item.rel, ns._foo, "Rel");
+	a(item.obj, ns._foo, "Rel");
 	a(item.value, 'two', "Value");
 	item._value = 34;
 	a.deep(Object.keys(item), ['order'], "Keep meta non enumerable");
