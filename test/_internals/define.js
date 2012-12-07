@@ -11,22 +11,22 @@ var Base         = require('../../lib/types/base')
 module.exports = function (t, a) {
 	var ns2, obj;
 
-	ns.set('foo', 'bar');
-	a(ns._foo.value, 'bar', "Relation: value");
-	a(ns._foo.required, true, "Relation: required");
-	a(ns._foo.ns, StringType, "Relation: namespace");
-	a(ns.foo, 'bar', "Value");
-	a(ns.hasOwnProperty('foo'), true, "Own");
+	ns.set('fooX', 'bar');
+	a(ns._fooX.value, 'bar', "Relation: value");
+	a(ns._fooX.required, true, "Relation: required");
+	a(ns._fooX.ns, StringType, "Relation: namespace");
+	a(ns.fooX, 'bar', "Value");
+	a(ns.hasOwnProperty('fooX'), true, "Own");
 
 	ns2 = ns.abstract('Definetest2');
-	a(ns2.foo, 'bar', "Value: inherited");
-	a.not(ns2._foo, ns.foo, "Relation: not inherited");
+	a(ns2.fooX, 'bar', "Value: inherited");
+	a.not(ns2._fooX, ns.fooX, "Relation: not inherited");
 
-	ns2.foo = 'other';
-	a(ns2.foo, 'other', "Value: written");
-	a(ns.foo, 'bar', "Value: not overriden");
-	a(ns2._foo.value, 'other', "Relation: written");
-	a(ns2.hasOwnProperty('foo'), true, "Inherited but own");
+	ns2.fooX = 'other';
+	a(ns2.fooX, 'other', "Value: written");
+	a(ns.fooX, 'bar', "Value: not overriden");
+	a(ns2._fooX.value, 'other', "Relation: written");
+	a(ns2.hasOwnProperty('fooX'), true, "Inherited but own");
 
 	ns.set('other', BooleanType.rel({ value: true, required: true }));
 
@@ -43,12 +43,12 @@ module.exports = function (t, a) {
 	a(ns._Trzy.ns, Base, "Namespace value: ns");
 	a(ns.Trzy, ObjectType, "Namespace value: value");
 
-	obj = new ObjectType({ foo: 'bar2' });
-	a(obj._foo.value, 'bar2', "Object: Relation: value");
-	a(obj._foo.required, true, "Object: Relation: required");
-	a(obj._foo.ns, StringType, "Object: Relation: namespace");
-	a(obj.foo, 'bar2', "Object: Value");
-	a(obj.hasOwnProperty('foo'), true, "Object: Own");
+	obj = new ObjectType({ fooX: 'bar2' });
+	a(obj._fooX.value, 'bar2', "Object: Relation: value");
+	a(obj._fooX.required, true, "Object: Relation: required");
+	a(obj._fooX.ns, StringType, "Object: Relation: namespace");
+	a(obj.fooX, 'bar2', "Object: Value");
+	a(obj.hasOwnProperty('fooX'), true, "Object: Own");
 
 	obj.set('barUniq', [2, 3, 43, 23]);
 	a.deep(obj.barUniq.values, [2, 3, 43, 23],
