@@ -4,7 +4,7 @@ module.exports = function (t, a) {
 	a(t(undefined), false, "Undefined");
 	a(t(null), false, "Null");
 	a(t(false), false, "Boolean (primitive)");
-	a(t(new Boolean(false)), false, "Boolean (object)");
+	a(t(new Boolean(false)), true, "Boolean (object)");
 	a(t({}), true, "Object");
 	a(t('false'), true, "False string");
 	a(t(''), false, "Empty string");
