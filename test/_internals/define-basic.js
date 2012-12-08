@@ -1,6 +1,7 @@
 'use strict';
 
-var Base = require('../../lib/types/base')
+var Base    = require('../../lib/types/base')
+  , dummyNs = require('../../lib/_internals/dummy-ns')
 
   , ns = Base.abstract('Definebasictest');
 
@@ -14,7 +15,7 @@ module.exports = function (t, a) {
 	a(ns._foo.value, 'bar', "Relation: value");
 	a(ns._foo.name, 'foo', "Relation: name");
 	a(ns._foo.obj, ns, "Relation: object");
-	a(ns._foo.ns, undefined, "Relation: namespace");
+	a(ns._foo.ns, dummyNs, "Relation: namespace");
 	a(ns.foo, 'bar', "Value");
 	a(ns.hasOwnProperty('foo'), true, "Own");
 
