@@ -1,7 +1,8 @@
 'use strict';
 
 var nextTick = require('next-tick')
-  , Base     = require('../../lib/types/base');
+  , Base     = require('../../lib/types/base')
+  , define   = require('../../lib/_internals/define').define
 
 module.exports = function (t, a, d) {
 	var ns = Base.create('SignalTest1');
@@ -9,9 +10,11 @@ module.exports = function (t, a, d) {
 		var emitted = [];
 		t.on('data', function (data) { emitted.push(data); });
 
-		ns.$set('fooSigTest', 'trzy');
+		define(ns, 'fooSigTest');
+		ns._fooSigTest.$setValue('trzy');
 		t(ns._fooSigTest, 'trzy');
-		ns.$set('fooSigTest2', 34);
+		define(ns, 'fooSigTest2');
+		ns._fooSigTest2.$setValue(34);
 		t(ns._fooSigTest2, 34);
 
 		nextTick(function () {
