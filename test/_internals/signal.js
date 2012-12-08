@@ -20,8 +20,8 @@ module.exports = function (t, a, d) {
 			emitted.length = 0;
 			a.deep(signal, { 'SignalTest1:fooSigTest': 'trzy',
 				'SignalTest1:fooSigTest2': 34 }, "Signal data");
-			a.deep(t.history, { 'SignalTest1:fooSigTest': [signal],
-				'SignalTest1:fooSigTest2': [signal] }, "History");
+			a.deep(t.history['SignalTest1:fooSigTest'], [signal], "History #1");
+			a.deep(t.history['SignalTest1:fooSigTest2'], [signal], "History #2");
 
 			ns.fooSigTest = 'pięć';
 			t(ns._fooSigTest, 'pięć');
@@ -33,8 +33,8 @@ module.exports = function (t, a, d) {
 				a(emitted.length, 0, "Rollback: Signal");
 				a.deep([ns.fooSigTest, ns.fooSigTest2], ['trzy', 34],
 					"Rollback: Values");
-				a.deep(t.history, { 'SignalTest1:fooSigTest': [signal],
-					'SignalTest1:fooSigTest2': [signal] }, "History");
+				a.deep(t.history['SignalTest1:fooSigTest'], [signal], "History #1");
+				a.deep(t.history['SignalTest1:fooSigTest2'], [signal], "History #2");
 				d();
 			});
 		});
