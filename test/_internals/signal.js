@@ -2,7 +2,7 @@
 
 var nextTick = require('next-tick')
   , Base     = require('../../lib/types/base')
-  , define   = require('../../lib/_internals/define').define
+  , define   = require('../../lib/_internals/define').define;
 
 module.exports = function (t, a, d) {
 	var ns = Base.create('SignalTest1');
