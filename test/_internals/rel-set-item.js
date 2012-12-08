@@ -22,4 +22,7 @@ module.exports = function (t, a) {
 
 	item.order = '43';
 	a(item.order, 43, "Order property");
+
+	item.delete();
+	a.deep(ns.foo.values.sort(), ['one', 'three']);
 };
