@@ -1,8 +1,8 @@
 'use strict';
 
-var Base       = require('../../lib/types/base')
-  , ObjectType = require('../../lib/types/object')
-  , StringType = require('../../lib/types/string')
+var Base       = require('../../lib/types-base/base')
+  , ObjectType = require('../../lib/types-base/object')
+  , StringType = require('../../lib/types-base/string')
 
   , getPrototypeOf = Object.getPrototypeOf;
 

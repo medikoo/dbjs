@@ -1,7 +1,7 @@
 'use strict';
 
 var isDate     = require('es5-ext/lib/Date/is-date')
-  , DateTime   = require('../../lib/types/date-time');
+  , DateTime   = require('../../lib/types-base/date-time');
 
 module.exports = function (t, a) {
 	var fn = function () { return 'foo'; }, x;

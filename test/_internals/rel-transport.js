@@ -1,8 +1,8 @@
 'use strict';
 
-var Base        = require('../../lib/types/base')
-  , BooleanType = require('../../lib/types/boolean')
-  , number      = require('../../lib/types/number');
+var Base        = require('../../lib/types-base/base')
+  , BooleanType = require('../../lib/types-base/boolean')
+  , number      = require('../../lib/types-base/number');
 
 module.exports = function (a) {
 	var ns = Base.abstract('Reltransporttest', {

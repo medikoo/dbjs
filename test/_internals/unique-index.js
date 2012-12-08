@@ -1,7 +1,7 @@
 'use strict';
 
-var ObjectType = require('../../lib/types/object')
-  , string     = require('../../lib/types/string');
+var ObjectType = require('../../lib/types-base/object')
+  , string     = require('../../lib/types-base/string');
 
 module.exports = function (t, a) {
 	var ns1 = ObjectType.create('Uniqtest1',

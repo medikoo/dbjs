@@ -1,8 +1,8 @@
 'use strict';
 
 var isError     = require('es5-ext/lib/Error/is-error')
-  , BooleanType = require('../../lib/types/boolean')
-  , StringType  = require('../../lib/types/string')
+  , BooleanType = require('../../lib/types-base/boolean')
+  , StringType  = require('../../lib/types-base/string')
   , Plain       = require('../../lib/_internals/plain')
 
   , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf;

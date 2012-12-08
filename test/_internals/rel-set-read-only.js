@@ -1,7 +1,7 @@
 'use strict';
 
-var number  = require('../../lib/types/number')
-  , string  = require('../../lib/types/string');
+var number  = require('../../lib/types-base/number')
+  , string  = require('../../lib/types-base/string');
 
 module.exports = function (t, a) {
 	var testValue, set, ns = string.create('Relsetreadonlytest', {

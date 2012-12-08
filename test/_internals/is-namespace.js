@@ -1,6 +1,6 @@
 'use strict';
 
-var ObjectType = require('../../lib/types/object');
+var ObjectType = require('../../lib/types-base/object');
 
 module.exports = function (t, a) {
 	a(t(null), false, "Null");

@@ -1,7 +1,7 @@
 'use strict';
 
-var Base   = require('../../lib/types/base')
-  , string = require('../../lib/types/string');
+var Base   = require('../../lib/types-base/base')
+  , string = require('../../lib/types-base/string');
 
 module.exports = function (a) {
 	var ns, ns2, prop, prop2;

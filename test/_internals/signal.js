@@ -1,7 +1,7 @@
 'use strict';
 
 var nextTick = require('next-tick')
-  , Base     = require('../../lib/types/base')
+  , Base     = require('../../lib/types-base/base')
   , define   = require('../../lib/_internals/define').define;
 
 module.exports = function (t, a, d) {

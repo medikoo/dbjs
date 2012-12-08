@@ -1,6 +1,6 @@
 'use strict';
 
-var Base    = require('../../lib/types/base')
+var Base    = require('../../lib/types-base/base')
   , dummyNs = require('../../lib/_internals/dummy-ns')
 
   , ns = Base.abstract('Definebasictest');

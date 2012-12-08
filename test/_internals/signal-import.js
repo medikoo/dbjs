@@ -2,9 +2,9 @@
 
 var nextTick = require('next-tick')
   , now      = require('time-uuid/lib/time')
-  , Base     = require('../../lib/types/base');
+  , Base     = require('../../lib/types-base/base');
 
-require('../../lib/types/string');
+require('../../lib/types-base/string');
 
 module.exports = function (t, a, d) {
 	var ns = Base.create('SigImpTest')

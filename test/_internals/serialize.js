@@ -1,7 +1,7 @@
 'use strict';
 
-var ObjectType = require('../../lib/types/object')
-  , DateTime   = require('../../lib/types/date-time');
+var ObjectType = require('../../lib/types-base/object')
+  , DateTime   = require('../../lib/types-base/date-time');
 
 module.exports = function (t, a) {
 	var fn, x;

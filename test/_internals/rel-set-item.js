@@ -1,9 +1,9 @@
 'use strict';
 
-var Base   = require('../../lib/types/base')
-  , string = require('../../lib/types/string');
+var Base   = require('../../lib/types-base/base')
+  , string = require('../../lib/types-base/string');
 
-require('../../lib/types/number');
+require('../../lib/types-base/number');
 
 module.exports = function (t, a) {
 	var ns, item;

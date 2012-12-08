@@ -1,10 +1,10 @@
 'use strict';
 
-var Base         = require('../../lib/types/base')
-  , BooleanType  = require('../../lib/types/boolean')
-  , NumberType   = require('../../lib/types/number')
-  , StringType   = require('../../lib/types/string')
-  , ObjectType   = require('../../lib/types/object')
+var Base         = require('../../lib/types-base/base')
+  , BooleanType  = require('../../lib/types-base/boolean')
+  , NumberType   = require('../../lib/types-base/number')
+  , StringType   = require('../../lib/types-base/string')
+  , ObjectType   = require('../../lib/types-base/object')
 
   , ns = Base.abstract('Definetest');
 

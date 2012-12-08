@@ -1,6 +1,6 @@
 'use strict';
 
-var Base = require('../lib/types/base');
+var Base = require('../lib/types-base/base');
 
 module.exports = function (t, a) {
 

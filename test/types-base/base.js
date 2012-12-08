@@ -1,12 +1,12 @@
 'use strict';
 
-var Base     = require('../../lib/types/base')
-  , DateTime = require('../../lib/types/date-time')
+var Base     = require('../../lib/types-base/base')
+  , DateTime = require('../../lib/types-base/date-time')
   , Plain    = require('../../lib/_internals/plain')
 
   , getPrototypeOf = Object.getPrototypeOf;
 
-require('../../lib/types/boolean');
+require('../../lib/types-base/boolean');
 
 module.exports = function (t, a) {
 	var ns = t.create('Simpletest');
