@@ -17,6 +17,8 @@ module.exports = function (t, a) {
 	a(t._createObject('String'), StringType,
 		"CreateObject: Constructor: Existing");
 	a(t.String, StringType, "Create Object: Constructor: Exposed");
+	a(t['String#'], StringType.prototype,
+		"Create Object: Constructor: Prototype: Exposed");
 	nsc = t._createObject('ObjCreateTest1');
 	a(nsc._id_, 'ObjCreateTest1', "CreateObject: Constructor: Not existing: Id");
 	a(getPrototypeOf(nsc), Base,
@@ -30,6 +32,30 @@ module.exports = function (t, a) {
 	a(t[nsc._id_], nsc,
 		"CreateObject: Constructor: Not existing with proto: Exposed");
 
+	// Prototype
+	a(t._createObject('ObjTests#'), ns1.prototype,
+		"CreateObject: Prototype: Existing");
+	a(t.ObjTests, ns1, "Create Object: Prototype: Constructor: Exposed");
+	a(t['ObjTests#'], ns1.prototype, "Create Object: Prototype: Exposed");
+	nsc = t._createObject('ObjCreateTest11#');
+	a(nsc._id_, 'ObjCreateTest11#', "CreateObject: Prototype: Not existing: Id");
+	a(nsc.ns._id_, 'ObjCreateTest11',
+		"CreateObject: Prototype: Constructor: Not existing: Id");
+	a(getPrototypeOf(nsc), Base.prototype,
+		"CreateObject: Prototype: Not existing: Prototype");
+	a(t[nsc._id_], nsc, "CreateObject: Prototype: Not existing: Exposed");
+	a(t[nsc.ns._id_], nsc.ns,
+		"CreateObject: Prototype: Constructor: Not existing: Exposed");
+	nsc = t._createObject('ObjCreateTest21#', StringType.prototype);
+	a(nsc._id_, 'ObjCreateTest21#',
+		"CreateObject: Prototype: Not existing with proto: Id");
+	a(getPrototypeOf(nsc), StringType.prototype,
+		"CreateObject: Prototype: Not existing with proto: Prototype");
+	a(t[nsc._id_], nsc,
+		"CreateObject: Prototype: Not existing with proto: Exposed");
+	a(t[nsc.ns._id_], nsc.ns,
+		"CreateObject: Prototype: Cosntructor: Not existing with proto: Exposed");
+
 	// Object
 	a(t._createObject(obj1._id_), obj1, "CreateObject: Object: Existing");
 	a(t[obj1._id_], obj1, "CreateObject: Object: Exposed");
@@ -37,7 +63,7 @@ module.exports = function (t, a) {
 	a(objc._id_, 'objCreateTest1', "CreateObject: Object: Not existing: Id");
 	a(objc.ns, ObjectType, "CreateObject: Object: Not existing: Namespace");
 	a(t[objc._id_], objc, "CreateObject: Object: Not existing: Exposed");
-	objc = t._createObject('objCreateTest2', ns1);
+	objc = t._createObject('objCreateTest2', ns1.prototype);
 	a(objc._id_, 'objCreateTest2',
 		"CreateObject: Object: Not existing with proto: Id");
 	a(objc.ns, ns1, "CreateObject: Object: Not existing with proto: Namespace");
