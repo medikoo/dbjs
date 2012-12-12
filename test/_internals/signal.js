@@ -51,11 +51,11 @@ module.exports = function (t, a, d) {
 
 			a(emitted['SignalTest1*'].length, 2, "NS* Events length");
 			a.deep(toArray(emitted['SignalTest1*'][0]),
-				[ns._fooSigTest2, 'trzy', signal], "NS* Event");
+				[ns._fooSigTest2, 'trzy', signal, null], "NS* Event");
 
 			a(emitted['SignalTest1:fooSigTest'].length, 1, "NS:prop Events length");
 			a.deep(toArray(emitted['SignalTest1:fooSigTest'][0]),
-				[ns._fooSigTest2, 'trzy', signal], "NS:prop Event #2");
+				[ns._fooSigTest2, 'trzy', signal, null], "NS:prop Event #2");
 
 			emitted = {};
 
