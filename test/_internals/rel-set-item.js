@@ -6,7 +6,7 @@ var Base   = require('../../lib/types-base/base')
 require('../../lib/types-base/number');
 
 module.exports = function (t, a) {
-	var ns, item;
+	var ns, item, data;
 	ns = Base.abstract('Relsetitemtest1',
 		 { foo: string.rel({ multiple: true }) });
 
@@ -25,4 +25,10 @@ module.exports = function (t, a) {
 
 	item.delete();
 	a.deep(ns.foo.values.sort(), ['one', 'three']);
+
+	item = ns.foo.getItemProperties('three');
+	data = [];
+	item._forEachObject_(function () { data.push(arguments); });
+	a(data.length, 1, "ForEach: Count");
+	a.deep(data[0], [item._order, item._order._id_, item], "ForEach: Content");
 };

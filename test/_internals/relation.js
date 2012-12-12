@@ -4,7 +4,7 @@ var Base   = require('../../lib/types-base/base')
   , string = require('../../lib/types-base/string');
 
 module.exports = function (a) {
-	var ns, ns2, prop, prop2;
+	var ns, ns2, prop, prop2, data;
 
 	ns = Base.abstract('Reltest',
 		 { foo: string.rel({ required: true, value: 'mario' }) });
@@ -55,4 +55,11 @@ module.exports = function (a) {
 	a.throws(function () {
 		ns.lorem = 'else';
 	}, "Write once");
+
+	ns.set('anomiszka', Base.rel('value'));
+	data = [];
+	ns._anomiszka._forEachObject_(function () { data.push(arguments); });
+	a(data.length, 1, "ForEach: Count");
+	a.deep(data[0], [ns._anomiszka._ns, ns._anomiszka._ns._id_, ns._anomiszka],
+		"ForEach: Content");
 };
