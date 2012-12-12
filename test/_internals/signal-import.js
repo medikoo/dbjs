@@ -33,7 +33,7 @@ module.exports = function (t, a, d) {
 			a(ns._raz77._value, 234, "Prop");
 			a(ns._raz77.dwa77, 'elele', "Prop: Prop");
 			a(ns.trzy77.has('dwa'), false, "Prop: Item");
-			a(ns.trzy77.getItemProperties('raz').hej77, 77, "Prop: Item: Prop");
+			a(ns.trzy77.get('raz').hej77, 77, "Prop: Item: Prop");
 			a(Object.getPrototypeOf(ns2), Base, "Proto");
 			d();
 		});

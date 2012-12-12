@@ -268,18 +268,18 @@ module.exports = function (t, a) {
 				a(index, i++, "Index");
 			}, x);
 		},
-		"getItemProperties": function () {
+		"get": function () {
 			var ns = ns1.abstract('Reltestprop1', { foo: ['raz', 123, 'trzy'] });
-			a(ns.foo.getItemProperties(123).value, '123');
+			a(ns.foo.get(123).value, '123');
 			ns.foo.delete('trzy');
-			a(ns.foo.getItemProperties('asdfada'), null);
-			a(ns.foo.getItemProperties('trzy'), null);
+			a(ns.foo.get('asdfada'), null);
+			a(ns.foo.get('trzy'), null);
 		},
 		"Reset: Array order": function () {
 			var ns = ns1.abstract('Reltestprop2', { foo: ['raz', 123, 'trzy'] });
-			a(ns.foo.getItemProperties('raz').order, 0, "#1");
-			a(ns.foo.getItemProperties(123).order, 1, "#2");
-			a(ns.foo.getItemProperties('trzy').order, 2, "#3");
+			a(ns.foo.get('raz').order, 0, "#1");
+			a(ns.foo.get(123).order, 1, "#2");
+			a(ns.foo.get('trzy').order, 2, "#3");
 		}
 	};
 };
