@@ -146,6 +146,17 @@ module.exports = function (t) {
 			a(getPrototypeOf(obj), Plain.prototype, "Removed: Prototype");
 			a(ns2.hasOwnProperty(obj._id_), false, "Removed: Visible: Ns");
 			a(t.hasOwnProperty(obj._id_), false, "Removed: Visible: Base");
+		},
+		"ForEachReverse": function (a) {
+			var ns1 = t.create('FORTest1')
+			  , ns2 = t.create('FORTest2')
+			  , obj1 = ns1({ foo: 'bar' })
+			  , obj2 = ns2({ rel: obj1 })
+			  , data = [];
+
+			obj1._forEachReverse_(function () { data.push(arguments); });
+			a(data.length, 1, "Count");
+			a.deep(data[0], [obj2._rel, obj2._rel._id_, obj1], "Content");
 		}
 	};
 };
