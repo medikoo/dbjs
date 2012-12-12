@@ -26,6 +26,11 @@ module.exports = function (t, a, d) {
 			if (!emitted[name]) emitted[name] = [];
 			emitted[name].push(arguments);
 		});
+		t.on('SignalTest1:fooSigTest', function (data) {
+			var name = 'SignalTest1:fooSigTest';
+			if (!emitted[name]) emitted[name] = [];
+			emitted[name].push(arguments);
+		});
 
 		define(ns, 'fooSigTest');
 		ns._fooSigTest.$setValue('trzy');
@@ -36,14 +41,21 @@ module.exports = function (t, a, d) {
 
 		nextTick(function () {
 			var signal = emitted['*'][0][2];
-			a.deep(keys(emitted).sort(), ['*', 'SignalTest1*'].sort(), "Events");
+			a.deep(keys(emitted).sort(),
+				['*', 'SignalTest1*', 'SignalTest1:fooSigTest'].sort(), "Events");
 			a(emitted['*'].length, 2, "* Events length");
 			a.deep(toArray(emitted['*'][0]), [ns._fooSigTest, 'trzy', signal, null],
 				"* Event #1");
 			a.deep(toArray(emitted['*'][1]), [ns._fooSigTest2, 34, signal, null],
 				"* Event #2");
+
+			a(emitted['SignalTest1*'].length, 2, "NS* Events length");
 			a.deep(toArray(emitted['SignalTest1*'][0]),
-				[ns._fooSigTest2, 'trzy', signal], "NS* Event #2");
+				[ns._fooSigTest2, 'trzy', signal], "NS* Event");
+
+			a(emitted['SignalTest1:fooSigTest'].length, 1, "NS:prop Events length");
+			a.deep(toArray(emitted['SignalTest1:fooSigTest'][0]),
+				[ns._fooSigTest2, 'trzy', signal], "NS:prop Event #2");
 
 			emitted = {};
 
