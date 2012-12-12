@@ -116,20 +116,17 @@ module.exports = function (t, a) {
 			ns1.set('foo', Base.rel('bar'));
 			data = [];
 			ns1._forEachObject_(function () { data.push(arguments); });
-			a(data.length, 2, "Count");
-			a.deep(data[0], [ns1._foo, ns1._foo._id_, ns1], "Content #1");
-			a.deep(data[1], [ns1._foo._ns, ns1._foo._ns._id_, ns1._foo],
-				"Content #2");
+			a(data.length, 1, "Count");
+			a.deep(data[0], [ns1._foo, ns1._foo._id_, ns1], "Content");
+
 
 			ns1 = ns1.prototype;
 			ns1.set('foo2', Base.rel('bar2'));
 			data = [];
 			ns1._forEachObject_(function () { data.push(arguments); });
-			a(data.length, 2, "Prototype: Count");
+			a(data.length, 1, "Prototype: Count");
 			a.deep(data[0], [ns1._foo2, ns1._foo2._id_, ns1],
-				"Prototype: Content #1");
-			a.deep(data[1], [ns1._foo2._ns, ns1._foo2._ns._id_, ns1._foo2],
-				"Prototype: Content #2");
+				"Prototype: Content");
 		}
 	};
 };
