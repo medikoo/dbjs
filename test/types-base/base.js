@@ -119,7 +119,6 @@ module.exports = function (t, a) {
 			a(data.length, 1, "Count");
 			a.deep(data[0], [ns1._foo, ns1._foo._id_, ns1], "Content");
 
-
 			ns1 = ns1.prototype;
 			ns1.set('foo2', Base.rel('bar2'));
 			data = [];
