@@ -64,11 +64,11 @@ module.exports = function (a) {
 	a.deep(data[0], [ns._anomiszka._ns, ns._anomiszka._ns._id_, ns._anomiszka],
 		"ForEach: Content");
 
-	data = ObjectType({ foo: 'raz', lorem: 'dwa', other: 'pięć',
+	data = new ObjectType({ foo: 'raz', lorem: 'dwa', other: 'pięć',
 		trzy: StringType.rel({
 			value: function () { return this.foo + '|' + this.lorem; },
 			triggers: ['foo', 'lorem']
-		})});
+		}) });
 
 	events = [];
 	data._trzy.on('update', function () { events.push(arguments); });
