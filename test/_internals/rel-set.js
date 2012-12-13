@@ -6,7 +6,7 @@ var Base   = require('../../lib/types-base/base')
 module.exports = function (t, a) {
 	var ns1, ns2, ns3, ns5;
 	ns1 = Base.abstract('Relsettest1', {
-		foo: string.rel({ multiple: true, required: true })
+		foo: string.rel({ multiple: true })
 	});
 	a(typeof ns1.foo.has, 'function', "Namspace: set");
 	a.deep(ns1.foo.values, [], "Namespace: empty");
@@ -184,9 +184,9 @@ module.exports = function (t, a) {
 		"2nd Extension: Fallback: Mid single: Namespace: Has: true");
 	a(ns1.foo.has('lorem'), false,
 		"2nd Extension: Fallback: Mid single: Namespace: Has: false");
-	a(ns2.foo, 'next',
+	a(ns2.foo, null,
 		"2nd Extension: Fallback: Mid single: Extension: Content");
-	a(ns3.foo, 'next', "2nd Extension: Fallback: Mid single: Content");
+	a(ns3.foo, null, "2nd Extension: Fallback: Mid single: Content");
 
 	ns3._foo.multiple = true;
 	a.deep(ns1.foo.values.sort(), ['marko', 'misko', 'next'].sort(),
@@ -198,12 +198,12 @@ module.exports = function (t, a) {
 		"2nd Extension: Fallback: Top multiple: Namespace: Has: true");
 	a(ns1.foo.has('lorem'), false,
 		"2nd Extension: Fallback: Top multiple: Namespace: Has: false");
-	a(ns2.foo, 'next',
+	a(ns2.foo, null,
 		"2nd Extension: Fallback: Top multiple: Extension: Content");
-	a.deep(ns3.foo.values.sort(), ['next', 'topl'].sort(),
+	a.deep(ns3.foo.values.sort(), ['topl'].sort(),
 		"2nd Extension: Fallback: Top multiple: Content");
 	a(ns3.foo._count_, 1, "2nd Extension: Fallback: Top multiple: Own count");
-	a(ns3.foo.has('next'), true,
+	a(ns3.foo.has('topl'), true,
 		"2nd Extension: Fallback: Top multiple: Has: true");
 	a(ns3.foo.has('lorem'), false,
 		"2nd Extension: Fallback: Top multiple: Has: false");
@@ -219,10 +219,10 @@ module.exports = function (t, a) {
 		"2nd Extension: Fallback: Set middle: Namespace: Has: false");
 	a(ns2.foo, 'radzio',
 		"2nd Extension: Fallback: Set middle: Extension: Content");
-	a.deep(ns3.foo.values.sort(), ['radzio', 'topl'].sort(),
+	a.deep(ns3.foo.values.sort(), ['topl'].sort(),
 		"2nd Extension: Fallback: Set middle: Content");
 	a(ns3.foo._count_, 1, "2nd Extension: Fallback: Set middle: Own count");
-	a(ns3.foo.has('radzio'), true,
+	a(ns3.foo.has('topl'), true,
 		"2nd Extension: Fallback: Set middle: Has: true");
 	a(ns3.foo.has('lorem'), false,
 		"2nd Extension: Fallback: Set middle: Has: false");
@@ -237,24 +237,22 @@ module.exports = function (t, a) {
 		"2nd Extension: Fallback: Mid multiple: Namespace: Has: true");
 	a(ns1.foo.has('lorem'), false,
 		"2nd Extension: Fallback: Mid multiple: Namespace: Has: false");
-	a.deep(ns2.foo.values, ['radzio'],
+	a.deep(ns2.foo.values, [],
 		"2nd Extension: Fallback: Mid multiple: Extension: Content");
-	a(ns2.foo._count_, 1,
+	a(ns2.foo._count_, 0,
 		"2nd Extension: Fallback: Mid multiple: Extension: Own count");
-	a(ns2.foo.has('radzio'), true,
-		"2nd Extension: Fallback: Mid multiple: Extension: Has: true");
-	a(ns2.foo.has('lorem'), false,
+	a(ns2.foo.has('radzio'), false,
 		"2nd Extension: Fallback: Mid multiple: Extension: Has: false");
-	a.deep(ns3.foo.values.sort(), ['radzio', 'topl'].sort(),
+	a.deep(ns3.foo.values.sort(), ['topl'].sort(),
 		"2nd Extension: Fallback: Mid multiple: Content");
 	a(ns3.foo._count_, 1, "2nd Extension: Fallback: Mid multiple: Own count");
-	a(ns3.foo.has('radzio'), true,
+	a(ns3.foo.has('topl'), true,
 		"2nd Extension: Fallback: Mid multiple: Has: true");
 	a(ns3.foo.has('lorem'), false,
 		"2nd Extension: Fallback: Mid multiple: Has: false");
 
 	ns5 = ns3.abstract('Reltest4').abstract('Reltest5');
-	a(ns5.foo.has('radzio'), true, "Deep extension: Has: true");
+	a(ns5.foo.has('topl'), true, "Deep extension: Has: true");
 	a(ns5.foo.has('lorem'), false, "Deep extension: Has: false");
 
 	return {
