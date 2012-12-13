@@ -13,7 +13,7 @@ module.exports = function (t, a) {
 
 	ns.set('fooX', 'bar');
 	a(ns._fooX.value, 'bar', "Relation: value");
-	a(ns._fooX.required, true, "Relation: required");
+	a(ns._fooX.required, false, "Relation: required");
 	a(ns._fooX.ns, StringType, "Relation: namespace");
 	a(ns.fooX, 'bar', "Value");
 	a(ns.hasOwnProperty('fooX'), true, "Own");
@@ -45,7 +45,7 @@ module.exports = function (t, a) {
 
 	obj = new ObjectType({ fooX: 'bar2' });
 	a(obj._fooX.value, 'bar2', "Object: Relation: value");
-	a(obj._fooX.required, true, "Object: Relation: required");
+	a(obj._fooX.required, false, "Object: Relation: required");
 	a(obj._fooX.ns, StringType, "Object: Relation: namespace");
 	a(obj.fooX, 'bar2', "Object: Value");
 	a(obj.hasOwnProperty('fooX'), true, "Object: Own");
