@@ -1,20 +1,21 @@
 'use strict';
 
-var Base   = require('../../lib/types-base/base')
-  , string = require('../../lib/types-base/string');
+var Base       = require('../../lib/types-base/base')
+  , ObjectType = require('../../lib/types-base/object')
+  , StringType = require('../../lib/types-base/string');
 
 module.exports = function (a) {
-	var ns, ns2, prop, prop2, data;
+	var ns, ns2, prop, prop2, data, events;
 
 	ns = Base.abstract('Reltest',
-		 { foo: string.rel({ required: true, value: 'mario' }) });
+		 { foo: StringType.rel({ required: true, value: 'mario' }) });
 
 	prop = ns._foo;
 	a(prop.obj, ns, "Object");
 	a(prop.name, 'foo', "Name");
 
 	a(prop.value, 'mario', "Value");
-	a(prop.ns, string, "Namespace");
+	a(prop.ns, StringType, "Namespace");
 	a(prop.required, true, "Property");
 
 	ns2 = ns.abstract('Reltest2');
@@ -28,8 +29,8 @@ module.exports = function (a) {
 
 	prop.ns = null;
 	a(prop.ns, Base, "Set namespace to null");
-	prop.ns = string;
-	a(prop.ns, string, "Bring back specific namespace");
+	prop.ns = StringType;
+	a(prop.ns, StringType, "Bring back specific namespace");
 	prop.ns = undefined;
 	a(prop.ns, Base, "Undefine namespace");
 
@@ -37,8 +38,8 @@ module.exports = function (a) {
 	prop2.value = 345;
 	a(prop2.value, 345, "Removed namespace: Set value");
 
-	prop.ns = string;
-	a(prop.ns, string, "Readded namespace: Namespace");
+	prop.ns = StringType;
+	a(prop.ns, StringType, "Readded namespace: Namespace");
 	a(prop2.value, '345', "Readded namespace: Value normalized");
 	a(prop2._value, 345, "Readded namespace: Original value intact");
 
@@ -50,7 +51,7 @@ module.exports = function (a) {
 	ns2.foo = function (x) { return [this, x]; };
 	a.deep(ns2.foo(23), [ns2, 23], "Function");
 
-	ns.set('lorem', string.rel({ writeOnce: true }));
+	ns.set('lorem', StringType.rel({ writeOnce: true }));
 	ns.lorem = 'ipsum';
 	a.throws(function () {
 		ns.lorem = 'else';
@@ -62,4 +63,32 @@ module.exports = function (a) {
 	a(data.length, 1, "ForEach: Count");
 	a.deep(data[0], [ns._anomiszka._ns, ns._anomiszka._ns._id_, ns._anomiszka],
 		"ForEach: Content");
+
+	data = ObjectType({ foo: 'raz', lorem: 'dwa', other: 'pięć',
+		trzy: StringType.rel({
+			value: function () { return this.foo + '|' + this.lorem; },
+			triggers: ['foo', 'lorem']
+		})});
+
+	events = [];
+	data._trzy.on('update', function () { events.push(arguments); });
+	a(data.trzy, 'raz|dwa', "Triggered Getter: value");
+
+	a(events.length, 0, "Triggered Getter: get doesn't event");
+
+	data.foo = 'marko';
+	a(events.length, 1, "Triggered Getter: Set #1");
+	a.deep(events[0], ['marko|dwa', 'raz|dwa'], "Triggered Getter: Set #1: Args");
+	a(data.trzy, 'marko|dwa', "Triggered Getter: Set #1: value");
+	events.length = 0;
+
+	data.other = 'else';
+	a(events.length, 0, "Triggered Getter: Set Other");
+	a(data.trzy, 'marko|dwa', "Triggered Getter: Set Other: value");
+
+	data.lorem = 'emka';
+	a(events.length, 1, "Triggered Getter: Set #2");
+	a.deep(events[0], ['marko|emka', 'marko|dwa'],
+		"Triggered Getter: Set #2: Args");
+	a(data.trzy, 'marko|emka', "Triggered Getter: Set #2: value");
 };
