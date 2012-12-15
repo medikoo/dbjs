@@ -25,9 +25,9 @@ module.exports = function (t, a) {
 			a(week.normalize({}), null, "Invalid #2");
 		},
 		"Validate": function () {
-			a(week.validate('MO'), undefined, "Valid");
+			a(week.validate('MO'), null, "Valid");
 			a(isError(week.validate('FOO')), true, "Invalid");
-			a(week.validate({ toString: function () { return 'MO'; } }), undefined,
+			a(week.validate({ toString: function () { return 'MO'; } }), null,
 				"Coercible");
 			a(isError(week.validate({})), true, "Invalid #2");
 		}

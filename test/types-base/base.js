@@ -102,11 +102,11 @@ module.exports = function (t, a) {
 			  , ns2 = t.create('Prototest2')
 			  , ns3 = ns1.create('Prototest3');
 
-			ns3.$proto(ns2);
+			ns3.$$proto(ns2);
 			a(getPrototypeOf(ns3), ns2, "Constructor");
 			a(getPrototypeOf(ns3.prototype), ns2.prototype, "Prototype");
 
-			ns3.$proto();
+			ns3.$$proto();
 			a(getPrototypeOf(ns3), Plain, "Constructor");
 			a(getPrototypeOf(ns3.prototype), Plain.prototype, "Prototype");
 			a(Base.hasOwnProperty('Prototest3'), false);

@@ -33,10 +33,10 @@ module.exports = function (t, a, d) {
 		});
 
 		define(ns, 'fooSigTest');
-		ns._fooSigTest.$setValue('trzy');
+		ns._fooSigTest.$$setValue('trzy');
 		t(ns._fooSigTest, 'trzy');
 		define(ns, 'fooSigTest2');
-		ns._fooSigTest2.$setValue(34);
+		ns._fooSigTest2.$$setValue(34);
 		t(ns._fooSigTest2, 34);
 
 		nextTick(function () {
