@@ -3,9 +3,8 @@
 var isError = require('es5-ext/lib/Error/is-error');
 
 module.exports = function (t, a) {
-	var week = t.create('Enumweektest', {
-		options: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
-	});
+	var week = t.create('Enumweektest',
+		['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']);
 
 	a(week('MO'), 'MO', "Valid");
 	a.throws(function () { week('FOO'); }, "Invalid");
