@@ -7,7 +7,7 @@ var Base       = require('../../lib/types-base/base')
 module.exports = function (a) {
 	var ns, ns2, prop, prop2, data, events, Otype;
 
-	ns = Base.abstract('Reltest',
+	ns = Base.create('Reltest',
 		 { foo: StringType.rel({ required: true, value: 'mario' }) });
 
 	prop = ns._foo;
@@ -18,7 +18,7 @@ module.exports = function (a) {
 	a(prop.ns, StringType, "Namespace");
 	a(prop.required, true, "Property");
 
-	ns2 = ns.abstract('Reltest2');
+	ns2 = ns.create('Reltest2');
 	ns2.foo = 123;
 
 	prop2 = ns2._foo;

@@ -6,7 +6,7 @@ var Base         = require('../../lib/types-base/base')
   , StringType   = require('../../lib/types-base/string')
   , ObjectType   = require('../../lib/types-base/object')
 
-  , ns = Base.abstract('Definetest');
+  , ns = Base.create('Definetest');
 
 module.exports = function (t, a) {
 	var ns2, obj;
@@ -18,7 +18,7 @@ module.exports = function (t, a) {
 	a(ns.fooX, 'bar', "Value");
 	a(ns.hasOwnProperty('fooX'), true, "Own");
 
-	ns2 = ns.abstract('Definetest2');
+	ns2 = ns.create('Definetest2');
 	a(ns2.fooX, 'bar', "Value: inherited");
 	a.not(ns2._fooX, ns.fooX, "Relation: not inherited");
 

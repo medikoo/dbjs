@@ -18,23 +18,23 @@ module.exports = function (t, a) {
 			var ns0, ns1;
 
 			a.throws(function () {
-				t.abstract('0sdfs');
+				t.create('0sdfs');
 			}, "Name: Digit first");
 			a.throws(function () {
-				t.abstract('sdsdfs');
+				t.create('sdsdfs');
 			}, "Name: No capital");
 			a.throws(function () {
-				t.abstract('Raz dwa');
+				t.create('Raz dwa');
 			}, "Name: Inner space");
 			a.throws(function () {
-				t.abstract('_foo');
+				t.create('_foo');
 			}, "Name: Underscore");
 
 			ns0 = t.create('Createtest0', { trzy: DateTime.required });
 			a.throws(function () { ns0.create('Createtest1', { trzy: 'foo' }); },
 				"Validate");
-			a.throws(function () { ns0.create('Createtest2', {}); }, "Completeness");
-			a.throws(function () { ns0.create('Createtest3'); }, "Completeness #2");
+			ns0.create('Createtest2', {});
+			ns0.create('Createtest3');
 
 			ns0.prototype.set('foo', DateTime.required);
 			a.throws(function () {
@@ -75,13 +75,6 @@ module.exports = function (t, a) {
 			});
 			a(t.Test3, ns1, "Set on Base");
 			a(ns1._id_, 'Test3', "Id");
-		},
-		"Abstract": function (a) {
-			var ns = t.create('Abstracttest1'), ns2;
-			ns.set('trzy', null);
-			ns._trzy.required = true;
-			ns2 = ns.abstract('Abstracttest2');
-			a(ns2.trzy, null, "Abstracted");
 		},
 		"Rel": function (a) {
 			ns.set('relprop', t.Boolean.rel());

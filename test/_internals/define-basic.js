@@ -3,7 +3,7 @@
 var Base    = require('../../lib/types-base/base')
   , dummyNs = require('../../lib/_internals/dummy-ns')
 
-  , ns = Base.abstract('Definebasictest');
+  , ns = Base.create('Definebasictest');
 
 module.exports = function (t, a) {
 	var ns2;
@@ -19,7 +19,7 @@ module.exports = function (t, a) {
 	a(ns.foo, 'bar', "Value");
 	a(ns.hasOwnProperty('foo'), true, "Own");
 
-	ns2 = ns.abstract('Definebasictest2');
+	ns2 = ns.create('Definebasictest2');
 	a(ns2.foo, 'bar', "Value: inherited");
 	a.not(ns2._foo, ns.foo, "Relation: not inherited");
 	a(ns2.hasOwnProperty('foo'), false, "Inherited not own");

@@ -7,7 +7,7 @@ require('../../lib/types-base/number');
 
 module.exports = function (t, a) {
 	var ns, item, data;
-	ns = Base.abstract('Relsetitemtest1',
+	ns = Base.create('Relsetitemtest1',
 		 { foo: string.rel({ multiple: true }) });
 
 	ns.foo = ['one', 'two', 'three'];
