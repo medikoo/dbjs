@@ -8,9 +8,9 @@ var Db = require('dbjs');
 var Person = Db.create('Person', {
 	firstName: Db.String.required,
 	lastName: Db.String.required,
-	fullName: Db.String.rel(function () {
+	fullName: Db.String.rel({ value: function () {
 		return this.firstName + ' ' + this.lastname;
-	})
+	}, triggers: ['firstName', 'lastName'], required: true })
 });
 
 var john = new Person({ firstName: 'John', lastName: 'Smith' });
