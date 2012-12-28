@@ -1,22 +1,36 @@
 {
   "name": "dbjs",
-  "version": "0.1.0",
-  "description": "JavaScript database engine",
+  "version": "0.0.0",
+  "author": "Mariusz Nowak <medikoo+signaldb@medikoo.com> (http://www.medikoo.com/)",
+  "description": "In-memory database engine",
   "main": "lib/dbjs",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "../tad/bin/tad lib"
+    "test": "node node_modules/tad/bin/tad lib"
   },
-  "repository": "",
   "keywords": [
     "database",
-    "db"
+    "db",
+    "signal",
+    "inmemory",
+    "memory",
+    "prototype",
+    "mongodb",
+    "mysql",
+    "nosql"
   ],
   "dependencies": {
+    "es5-ext": "~0.9.1",
+    "event-emitter": "~0.2.1",
+    "next-tick": "0.1.x",
+    "set-collection": "0.1.x",
     "time-uuid": "0.1.x"
   },
-  "author": "Mariusz Nowak",
+  "devDependencies": {
+    "tad": "~0.1.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:medikoo/dbjs.git"
+  },
   "license": "MIT"
 }
