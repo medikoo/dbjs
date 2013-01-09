@@ -24,11 +24,12 @@ module.exports = function (t, a) {
 			a(week.normalize({}), null, "Invalid #2");
 		},
 		"Validate": function () {
-			a(week.validate('MO'), null, "Valid");
-			a(isError(week.validate('FOO')), true, "Invalid");
-			a(week.validate({ toString: function () { return 'MO'; } }), null,
-				"Coercible");
-			a(isError(week.validate({})), true, "Invalid #2");
+			a(week.prototype.validateCreate('MO'), null, "Valid");
+			a(isError(week.prototype.validateCreate('FOO')), true, "Invalid");
+			a(week.prototype.validateCreate({
+				toString: function () { return 'MO'; }
+			}), null, "Coercible");
+			a(isError(week.prototype.validateCreate({})), true, "Invalid #2");
 		}
 	};
 };

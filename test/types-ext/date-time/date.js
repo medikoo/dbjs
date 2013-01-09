@@ -4,9 +4,9 @@ var isDate = require('es5-ext/lib/Date/is-date')
   , isError = require('es5-ext/lib/Error/is-error');
 
 module.exports = function (t, a) {
-	var date = new Date();
+	var date = new Date(), x;
 	a(t.is(t()), true, "Undefined");
-	a(t.is(t()), true, "Null");
+	a(t.is(t(null)), true, "Null");
 	date.setMinutes(12);
 	a.not(t(date), date, "Date: Not UTC: same");
 	a(t.is(t(date)), true, "Date: Not UTC");
@@ -20,6 +20,7 @@ module.exports = function (t, a) {
 			var date = new Date();
 			a(t.is(), false, "Undefined");
 			a(t.is(null), false, "Null");
+			date.__proto__ = t.prototype;
 			date.setUTCHours(14);
 			a(t.is(date), false, "Date: Not UTC hours");
 			date.setUTCHours(12);
@@ -54,12 +55,13 @@ module.exports = function (t, a) {
 		},
 		"Validate": function (a) {
 			var date = new Date();
-			a(t.validate(), null, "Undefined");
-			a(t.validate(null), null, "Null");
-			a(t.validate(date), null, "Date");
-			a(isError(t.validate(new Date('Invalid'))), true, "Invalid date");
-			a(isError(t.validate({})), true, "Other object");
-			a(t.validate(234234), null, "Number");
+			a(t.prototype.validateCreate(), null, "Undefined");
+			a(t.prototype.validateCreate(null), null, "Null");
+			a(t.prototype.validateCreate(date), null, "Date");
+			a(isError(t.prototype.validateCreate(new Date('Invalid'))), true,
+				"Invalid date");
+			a(isError(t.prototype.validateCreate({})), true, "Other object");
+			a(t.prototype.validateCreate(234234), null, "Number");
 		}
 	};
 };
