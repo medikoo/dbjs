@@ -1,7 +1,7 @@
 {
   "name": "dbjs",
   "version": "0.0.0",
-  "author": "Mariusz Nowak <medikoo+signaldb@medikoo.com> (http://www.medikoo.com/)",
+  "author": "Mariusz Nowak <mariusz@medikoo.com> (http://www.medikoo.com/)",
   "description": "In-memory database engine",
   "main": "lib/dbjs",
   "scripts": {
