@@ -46,6 +46,37 @@ module.exports = function (t) {
 
 			a.deep(emitted['SignalTest1:fooSigTest*'], [event], "NS:prop Events");
 		},
+		"Import": function (a) {
+			var obj = Db();
+			t._add({
+				obj: obj._getRel_('signalAddTest'),
+				value: 34,
+				sourceId: '0',
+				stamp: 0
+			}, true);
+			a(obj.signalAddTest, 34, "Import new");
+			t._add({
+				obj: obj._signalAddTest,
+				value: 58,
+				sourceId: '0',
+				stamp: 3
+			}, true);
+			a(obj.signalAddTest, 58, "Import newer");
+			t._add({
+				obj: obj._signalAddTest,
+				value: 23,
+				sourceId: '0',
+				stamp: 1
+			}, true);
+			a(obj.signalAddTest, 58, "Import older");
+			t._add({
+				obj: obj._signalAddTest,
+				value: 1232,
+				sourceId: '0',
+				stamp: 100
+			}, false);
+			a(obj.signalAddTest, 58, "Import, no set");
+		},
 		"ForEachReverse": function (a) {
 			var ns1 = Db.create('FORTest1')
 			  , ns2 = Db.create('FORTest2')
