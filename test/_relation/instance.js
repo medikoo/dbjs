@@ -6,7 +6,7 @@ var Db = require('../../')
   , StringType = Db.String, NumberType = Db.Number;
 
 module.exports = function (t, a) {
-	var obj = Db(), obj2, ns
+	var obj = Db(), obj2, ns;
 
 	// Basic set
 	obj.set('relInstTest', 'bar');
@@ -54,7 +54,7 @@ module.exports = function (t, a) {
 	a(obj2.relInstTest4, 'dwa', "Start at base");
 
 	// Make sure that validateCreate is used by rel
-	ns = Db.create('RelConstructionTest')
+	ns = Db.create('RelConstructionTest');
 	Db.create('RelConstructionTest2', {
 		revTransTest: ns.rel({ reverse: true })
 	});
