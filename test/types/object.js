@@ -2,10 +2,8 @@
 
 var isError = require('es5-ext/lib/Error/is-error')
   , Db      = require('../../')
-  , Proto   = require('../../lib/_proto')
 
   , BooleanType = Db.Boolean, StringType = Db.String
-
   , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (t) {

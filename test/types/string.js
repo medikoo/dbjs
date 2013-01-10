@@ -55,7 +55,8 @@ module.exports = function (t, a) {
 			a(t.prototype.validateCreate(false), null, "Boolean");
 			a(t.prototype.validateCreate({}), null, "Object");
 			a(t.prototype.validateCreate('foobar'), null, "String");
-			a(t.prototype.validateCreate(new String('foobar')), null, "String object");
+			a(t.prototype.validateCreate(new String('foobar')), null,
+				"String object");
 			a(t.prototype.validateCreate(123), null, "Number");
 
 			a(ns.prototype.validateCreate('23432'), null, "Custom: Validate");

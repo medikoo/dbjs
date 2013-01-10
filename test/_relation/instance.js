@@ -12,7 +12,6 @@ module.exports = function (t, a) {
 	obj.set('relInstTest', 'bar');
 	a(obj.relInstTest, 'bar', "Value");
 
-
 	// Inheritance
 	obj2 = obj.$$create('relInstTest1');
 	a(obj2.relInstTest, 'bar', "Value: inherited");

@@ -1,7 +1,6 @@
 'use strict';
 
 var Db    = require('../../')
-  , Proto = require('../../lib/_proto')
 
   , Base = Db.Base, DateTime = Db.DateTime
 

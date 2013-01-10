@@ -1,8 +1,6 @@
 'use strict';
 
-var Db = require('../../')
-
-  , StringType = Db.String;
+var Db = require('../../');
 
 module.exports = function (t, a) {
 	var obj = Db(), rel = obj._getRel_('simpleTest'), obj2, obj3, fn;

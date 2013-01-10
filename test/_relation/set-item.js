@@ -2,7 +2,7 @@
 
 var Db   = require('../../')
 
-  , Base = Db.Base, StringType = Db.String
+  , Base = Db.Base, StringType = Db.String;
 
 module.exports = function (t, a) {
 	var ns, item, data;

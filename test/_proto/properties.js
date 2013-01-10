@@ -1,10 +1,9 @@
 'use strict';
 
-var isError  = require('es5-ext/lib/Error/is-error')
-  , Db       = require('../../')
+var isError = require('es5-ext/lib/Error/is-error')
+  , Db      = require('../../')
 
-  , keys = Object.keys
-  , Base = Db.Base, StringType = Db.String;
+  , StringType = Db.String;
 
 module.exports = function () {
 	return {
@@ -42,7 +41,7 @@ module.exports = function () {
 			}, "Error");
 		},
 		validateCreateProperties: function (a) {
-			var obj = Db(), other
+			var obj = Db(), other;
 			obj.set('protoPropsSetValNew1', StringType.required);
 			other = obj.$$create('protoPropsSetValNewTest');
 			a(isError(other.validateCreateProperties({ protoPropsSetValNew1: null })),
@@ -51,7 +50,7 @@ module.exports = function () {
 				"Error");
 		},
 		validateCreateUndefined: function (a) {
-			var obj = Db(), other
+			var obj = Db(), other;
 			obj.set('protoPropsSetValNew1', StringType.required);
 			other = obj.$$create('protoPropsSetValNewTest');
 			a(isError(other.validateCreateUndefined()),

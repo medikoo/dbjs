@@ -1,13 +1,12 @@
 'use strict';
 
-var isDate = require('es5-ext/lib/Date/is-date')
-  , isError = require('es5-ext/lib/Error/is-error');
+var isError = require('es5-ext/lib/Error/is-error');
 
 module.exports = function (t, a) {
 	var getter = function () {}, fn = function (value) {};
 	a.throws(function () { t(); }, "Undefined");
 	a.throws(function () { t(getter); }, "Getter");
-	a(t(fn), fn, "Function")
+	a(t(fn), fn, "Function");
 	a.throws(function () { t(/raz/); }, "No function");
 	a.throws(function () { t({}); }, "Other object");
 	return {

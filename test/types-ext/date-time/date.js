@@ -4,7 +4,7 @@ var isDate = require('es5-ext/lib/Date/is-date')
   , isError = require('es5-ext/lib/Error/is-error');
 
 module.exports = function (t, a) {
-	var date = new Date(), x;
+	var date = new Date();
 	a(t.is(t()), true, "Undefined");
 	a(t.is(t(null)), true, "Null");
 	date.setMinutes(12);

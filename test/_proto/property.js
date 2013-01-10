@@ -9,8 +9,6 @@ module.exports = function () {
 	var obj = Base.create('ProtoPropertyTest');
 	return {
 		set: function (a) {
-			var ns2, ns, ns1;
-
 			obj.set('protoPropertyTestSet', 'bar');
 			a(obj.protoPropertyTestSet, 'bar');
 			a.throws(function () {

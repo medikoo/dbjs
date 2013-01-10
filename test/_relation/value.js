@@ -2,8 +2,7 @@
 
 var Db = require('../../')
 
-  , Base = Db.Base, ObjectType = Db.Object, BooleanType = Db.Boolean
-  , StringType = Db.String;
+  , Base = Db.Base, StringType = Db.String;
 
 module.exports = function (a) {
 	var obj = Db(), obj2;

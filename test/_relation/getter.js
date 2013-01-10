@@ -5,7 +5,7 @@ var Db = require('../../')
   , StringType = Db.String;
 
 module.exports = function (a) {
-	var ns, ns2, prop, prop2, data, events, Otype;
+	var data, events, Otype;
 
 	// Getter
 	data = new Db({ foo: 'raz', lorem: 'dwa', other: 'pięć',

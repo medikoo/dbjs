@@ -6,6 +6,7 @@ es5
 
 jslint_medikoo.tabs
 jslint_medikoo.module
+jslint_medikoo.newcap
 jslint_medikoo.nomen
 jslint_medikoo.plusplus
 
@@ -14,7 +15,6 @@ jshint.eqeqeq
 jshint.forin
 jshint.immed
 jshint.latedef
-jshint.newcap
 jshint.noarg
 jshint.noempty
 jshint.nonew
