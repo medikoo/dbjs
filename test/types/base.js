@@ -96,22 +96,6 @@ module.exports = function (t, a) {
 			a(getPrototypeOf(ns3), Base, "Constructor");
 			a(getPrototypeOf(ns3.prototype), Base.prototype, "Prototype");
 			a(Base.hasOwnProperty('Prototest3'), false);
-		},
-		"ForEachObject": function (a) {
-			var ns1 = t.create('FEOtest1'), data;
-			ns1.set('foo', Base.rel('bar'));
-			data = [];
-			ns1._forEachObject_(function () { data.push(arguments); });
-			a(data.length, 1, "Count");
-			a.deep(data[0], [ns1._foo, ns1._foo._id_, ns1], "Content");
-
-			ns1 = ns1.prototype;
-			ns1.set('foo2', Base.rel('bar2'));
-			data = [];
-			ns1._forEachObject_(function () { data.push(arguments); });
-			a(data.length, 1, "Prototype: Count");
-			a.deep(data[0], [ns1._foo2, ns1._foo2._id_, ns1],
-				"Prototype: Content");
 		}
 	};
 };

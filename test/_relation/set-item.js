@@ -25,7 +25,7 @@ module.exports = function (t, a) {
 
 	item = ns.foo.get('three');
 	data = [];
-	item._forEachObject_(function () { data.push(arguments); });
+	item._forEachRelation_(function () { data.push(arguments); });
 	a(data.length, 1, "ForEach: Count");
 	a.deep(data[0], [item._order, item._order._id_, item], "ForEach: Content");
 };
