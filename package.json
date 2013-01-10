@@ -21,6 +21,7 @@
   "dependencies": {
     "es5-ext": "~0.9.1",
     "event-emitter": "~0.2.1",
+    "memoizee": "~0.2.3",
     "next-tick": "0.1.x",
     "set-collection": "0.1.x",
     "time-uuid": "0.1.x"
