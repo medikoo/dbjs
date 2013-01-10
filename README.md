@@ -18,7 +18,7 @@ var john = new Person({ firstName: 'John', lastName: 'Smith' });
 console.log(john.fullName); // 'John Smith';
 
 try {
-	john.fistName = null;
+	john.firstName = null;
 } catch (e) {
 	console.log("Cannot remove required property");
 };
