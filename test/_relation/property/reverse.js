@@ -56,4 +56,7 @@ module.exports = function (t, a) {
 	a.deep(obj13.revreltest2.values, [], "Reverse deep: update #1");
 	a.deep(obj11.revreltest2.values.sort(), [obj22, obj31].sort(),
 		"Reverse deep: update #2");
+
+	// Test validateCreate:
+	Db.create('Revreltest4', { revTest: ns1.rel({ reverse: true }) });
 };
