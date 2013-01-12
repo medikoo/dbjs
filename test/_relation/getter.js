@@ -15,7 +15,7 @@ module.exports = function (a) {
 		}) });
 
 	events = [];
-	data._trzy.on('update', function () { events.push(arguments); });
+	data._trzy.on('change', function () { events.push(arguments); });
 	a(data.trzy, 'raz|dwa', "Triggered Getter: value");
 
 	a(events.length, 0, "Triggered Getter: get doesn't event");
@@ -44,7 +44,7 @@ module.exports = function (a) {
 	data = new Otype({ foo: 'raz', lorem: 'dwa', other: 'pięć' });
 
 	events = [];
-	data._trzy.on('update', function () { events.push(arguments); });
+	data._trzy.on('change', function () { events.push(arguments); });
 	a(data.trzy, 'raz|dwa', "Triggered proto Getter: value");
 
 	a(events.length, 0, "Triggered proto Getter: get doesn't event");
@@ -75,7 +75,7 @@ module.exports = function (a) {
 	data = new Otype({ foo: 'raz', lorem: 'dwa', other: 'pięć' });
 
 	events = [];
-	data._trzy.on('update', function () { events.push(arguments); });
+	data._trzy.on('change', function () { events.push(arguments); });
 	a(data.trzy, 'raz|dwa', "Triggered deep proto Getter: value");
 
 	a(events.length, 0, "Triggered deep proto Getter: get doesn't event");

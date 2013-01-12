@@ -21,7 +21,7 @@ module.exports = function (t) {
 				if (!emitted[name]) emitted[name] = [];
 				emitted[name].push(data);
 			});
-			ns._getRel_('fooSigTest').on('signal', function (data) {
+			ns._getRel_('fooSigTest').on('update', function (data) {
 				var name = 'SignalTest1:fooSigTest*';
 				if (!emitted[name]) emitted[name] = [];
 				emitted[name].push(data);
