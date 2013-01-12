@@ -139,13 +139,13 @@ module.exports = function (t) {
 			  , ns2 = t.create('ProtoObjectTest2')
 			  , obj = ns1({ foo: 'bar' });
 
-			obj.$$proto(ns2.prototype);
+			obj.$$setValue(ns2.prototype);
 			a(getPrototypeOf(obj), ns2.prototype, "Prototype");
 			a(ns1.hasOwnProperty(obj._id_), false, "Visible: Old");
 			a(ns2.hasOwnProperty(obj._id_), true, "Visible: New");
 			a(t.hasOwnProperty(obj._id_), true, "Visible: Base");
 
-			obj.$$proto();
+			obj.$$setValue();
 			a(getPrototypeOf(obj), Db.Base.prototype, "Removed: Prototype");
 			a(ns2.hasOwnProperty(obj._id_), false, "Removed: Visible: Ns");
 			a(t.hasOwnProperty(obj._id_), false, "Removed: Visible: Base");

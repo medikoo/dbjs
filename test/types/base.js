@@ -88,11 +88,11 @@ module.exports = function (t, a) {
 			  , ns2 = Db.create('Prototest2')
 			  , ns3 = ns1.create('Prototest3');
 
-			ns3.$$proto(ns2);
+			ns3.$$setValue(ns2);
 			a(getPrototypeOf(ns3), ns2, "Constructor");
 			a(getPrototypeOf(ns3.prototype), ns2.prototype, "Prototype");
 
-			ns3.$$proto();
+			ns3.$$setValue();
 			a(getPrototypeOf(ns3), Base, "Constructor");
 			a(getPrototypeOf(ns3.prototype), Base.prototype, "Prototype");
 			a(Base.hasOwnProperty('Prototest3'), false);
