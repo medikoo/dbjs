@@ -8,12 +8,6 @@ var startsWith = require('es5-ext/lib/String/prototype/starts-with')
 
 module.exports = function () {
 	return {
-		lastModified: function (a) {
-			var obj = Db();
-			a(typeof obj._lastModified_, 'number', "Object");
-			a(typeof Db.create('ProtoIndexTest')._lastModified_, 'number',
-				"Constructor");
-		},
 		forEachRelation: function (a) {
 			var obj = Db(), data;
 			obj.set('feRelTest', StringType.rel('bar'));
