@@ -23,11 +23,11 @@ try {
 	console.log("Cannot remove required property");
 };
 
-john._lastName.on('update', function (nu, old) {
+john._lastName.on('change', function (nu, old) {
 	console.log("Changed lastName from " + old + " to " + new)
 });
 
-john._fullName.on('update', function (nu, old) {
+john._fullName.on('change', function (nu, old) {
 	console.log("Changed fullName from " + old + " to " + new)
 });
 
