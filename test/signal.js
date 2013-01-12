@@ -11,12 +11,12 @@ module.exports = function (t) {
 			var ns = Base.create('SignalTest1')
 			  , emitted = {}, event;
 
-			t.on('signal', function (data) {
+			t.on('update', function (data) {
 				var name = '*';
 				if (!emitted[name]) emitted[name] = [];
 				emitted[name].push(data);
 			});
-			ns.on('signal', function (data) {
+			ns.on('update', function (data) {
 				var name = 'SignalTest1*';
 				if (!emitted[name]) emitted[name] = [];
 				emitted[name].push(data);
@@ -27,14 +27,11 @@ module.exports = function (t) {
 				emitted[name].push(data);
 			});
 
-			ns._fooSigTest.$$setValue('trzy');
 			ns._fooSigTest._signal_('trzy');
-			ns._getRel_('fooSigTest2').$$setValue(34);
-			ns._fooSigTest2._signal_(34);
+			ns._getRel_('fooSigTest2')._signal_(34);
 
 			event = emitted['*'][0];
-			a.deep(keys(emitted).sort(),
-				['*', 'SignalTest1*', 'SignalTest1:fooSigTest*'].sort(), "Events");
+			a.deep(keys(emitted).sort(), ['*', 'SignalTest1*'].sort(), "Events");
 
 			a(emitted['*'].length, 2, "* Events length");
 			a.deep(emitted['*'][0], { stamp: event.stamp, obj: ns._fooSigTest,
@@ -43,8 +40,6 @@ module.exports = function (t) {
 				value: 34, sourceId: '0' }, "* Event #2");
 
 			a.deep(emitted['SignalTest1*'], emitted['*'], "NS* Events");
-
-			a.deep(emitted['SignalTest1:fooSigTest*'], [event], "NS:prop Events");
 		},
 		"Import": function (a) {
 			var obj = Db();
@@ -53,40 +48,49 @@ module.exports = function (t) {
 				value: 34,
 				sourceId: '0',
 				stamp: 0
-			}, true);
+			});
 			a(obj.signalAddTest, 34, "Import new");
 			t._add({
 				obj: obj._signalAddTest,
 				value: 58,
 				sourceId: '0',
 				stamp: 3
-			}, true);
+			});
 			a(obj.signalAddTest, 58, "Import newer");
 			t._add({
 				obj: obj._signalAddTest,
 				value: 23,
 				sourceId: '0',
 				stamp: 1
-			}, true);
+			});
 			a(obj.signalAddTest, 58, "Import older");
-			t._add({
-				obj: obj._signalAddTest,
-				value: 1232,
-				sourceId: '0',
-				stamp: 100
-			}, false);
-			a(obj.signalAddTest, 58, "Import, no set");
 		},
-		"ForEachReverse": function (a) {
-			var ns1 = Db.create('FORTest1')
-			  , ns2 = Db.create('FORTest2')
-			  , obj1 = ns1({ foo: 'bar' })
-			  , obj2 = ns2({ rel: obj1 })
-			  , data = [];
+		"Reverse": function (a) {
+			var ns1, ns2, ns3, obj11, obj21, onassign = [], ondismiss = [], data = [];
+			ns1 = Db.create('SignalReverseTest1');
+			ns2 = Db.create('SignalReverseTest2');
+			ns3 = Db.create('SignalReverseTest3', {
+				revTest: ns1.rel({ multiple: true })
+			});
+			obj11 = ns1({ foo: 'bar' });
+			obj11.on('assign', function (event) { onassign.push(event); });
+			obj11.on('dismiss', function (event) { ondismiss.push(event); });
 
-			obj1._forEachReverse_(function () { data.push(arguments); });
+			obj21 = ns2({ rel: obj11 });
+
+			obj11._forEachReverse_(function () { data.push(arguments); });
 			a(data.length, 1, "Count");
-			a.deep(data[0], [obj2._rel, obj2._rel._id_, obj1], "Content");
+			a.deep(data[0], [obj21._rel, obj21._rel._id_, obj11], "Content");
+			a(onassign.length, 1, "Assign: On Assign: length");
+			a(ondismiss.length, 0, "Assign: On Dismiss: length");
+			a.deep(onassign[0], { stamp: onassign[0].stamp, obj: obj21._rel,
+				value: obj11, sourceId: '0' }, "Assign: On Assign: content");
+			onassign.length = 0;
+			obj21.rel = null;
+			a(onassign.length, 0, "Dismiss: On Assign: length");
+			a(ondismiss.length, 1, "Dismiss: On Dismiss: length");
+			a.deep(ondismiss[0], { stamp: ondismiss[0].stamp, obj: obj21._rel,
+				value: null, sourceId: '0' }, "Dismiss: On Assign: content");
 		}
 	};
 };
