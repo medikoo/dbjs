@@ -1,6 +1,7 @@
 'use strict';
 
-var Db   = require('../')
+var Db    = require('../')
+  , Event = require('../lib/event')
 
   , Base = Db.Base
   , keys = Object.keys;
@@ -35,34 +36,19 @@ module.exports = function (t) {
 
 			a(emitted['*'].length, 2, "* Events length");
 			a.deep(emitted['*'][0], { stamp: event.stamp, obj: ns._fooSigTest,
-				value: 'trzy' }, "* Event #1");
+				value: 'trzy', index: event.index }, "* Event #1");
 			a.deep(emitted['*'][1], { stamp: event.stamp, obj: ns._fooSigTest2,
-				value: 34 }, "* Event #2");
+				value: 34, index: emitted['*'][1].index }, "* Event #2");
 
 			a.deep(emitted['SignalTest1*'], emitted['*'], "NS* Events");
 		},
 		"Import": function (a) {
 			var obj = Db();
-			t._add({
-				obj: obj._getRel_('signalAddTest'),
-				value: 34,
-				sourceId: '0',
-				stamp: 0
-			});
+			t._add(new Event(obj._getRel_('signalAddTest'), 34, 0));
 			a(obj.signalAddTest, 34, "Import new");
-			t._add({
-				obj: obj._signalAddTest,
-				value: 58,
-				sourceId: '0',
-				stamp: 3
-			});
+			t._add(new Event(obj._signalAddTest, 58, 3));
 			a(obj.signalAddTest, 58, "Import newer");
-			t._add({
-				obj: obj._signalAddTest,
-				value: 23,
-				sourceId: '0',
-				stamp: 1
-			});
+			t._add(new Event(obj._signalAddTest, 23, 1));
 			a(obj.signalAddTest, 58, "Import older");
 		},
 		"Reverse": function (a) {
@@ -84,13 +70,14 @@ module.exports = function (t) {
 			a(onassign.length, 1, "Assign: On Assign: length");
 			a(ondismiss.length, 0, "Assign: On Dismiss: length");
 			a.deep(onassign[0], { stamp: onassign[0].stamp, obj: obj21._rel,
-				value: obj11 }, "Assign: On Assign: content");
+				value: obj11, index: onassign[0].index }, "Assign: On Assign: content");
 			onassign.length = 0;
 			obj21.rel = null;
 			a(onassign.length, 0, "Dismiss: On Assign: length");
 			a(ondismiss.length, 1, "Dismiss: On Dismiss: length");
 			a.deep(ondismiss[0], { stamp: ondismiss[0].stamp, obj: obj21._rel,
-				value: null }, "Dismiss: On Assign: content");
+				value: null, index: ondismiss[0].index },
+				"Dismiss: On Assign: content");
 		}
 	};
 };
