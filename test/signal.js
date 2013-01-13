@@ -35,9 +35,9 @@ module.exports = function (t) {
 
 			a(emitted['*'].length, 2, "* Events length");
 			a.deep(emitted['*'][0], { stamp: event.stamp, obj: ns._fooSigTest,
-				value: 'trzy', sourceId: '0' }, "* Event #1");
+				value: 'trzy' }, "* Event #1");
 			a.deep(emitted['*'][1], { stamp: event.stamp, obj: ns._fooSigTest2,
-				value: 34, sourceId: '0' }, "* Event #2");
+				value: 34 }, "* Event #2");
 
 			a.deep(emitted['SignalTest1*'], emitted['*'], "NS* Events");
 		},
@@ -84,13 +84,13 @@ module.exports = function (t) {
 			a(onassign.length, 1, "Assign: On Assign: length");
 			a(ondismiss.length, 0, "Assign: On Dismiss: length");
 			a.deep(onassign[0], { stamp: onassign[0].stamp, obj: obj21._rel,
-				value: obj11, sourceId: '0' }, "Assign: On Assign: content");
+				value: obj11 }, "Assign: On Assign: content");
 			onassign.length = 0;
 			obj21.rel = null;
 			a(onassign.length, 0, "Dismiss: On Assign: length");
 			a(ondismiss.length, 1, "Dismiss: On Dismiss: length");
 			a.deep(ondismiss[0], { stamp: ondismiss[0].stamp, obj: obj21._rel,
-				value: null, sourceId: '0' }, "Dismiss: On Assign: content");
+				value: null }, "Dismiss: On Assign: content");
 		}
 	};
 };

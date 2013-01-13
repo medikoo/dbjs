@@ -8,7 +8,7 @@ module.exports = function (t, a) {
 			var obj = Db(), objHistory = t[obj._id_];
 			a(objHistory.length, 1, "Length");
 			a.deep(objHistory[0], { stamp: objHistory[0].stamp, obj: obj,
-				value: Db.prototype, sourceId: '0' }, "Event");
+				value: Db.prototype }, "Event");
 		},
 		lastModified: function (a) {
 			var obj = Db();
@@ -18,8 +18,7 @@ module.exports = function (t, a) {
 		},
 		lastEvent: function (a) {
 			var obj = Db(), event = obj._lastEvent_;
-			a.deep({ obj: obj, value: Db.prototype, stamp: event.stamp,
-				sourceId: event.sourceId }, event);
+			a.deep({ obj: obj, value: Db.prototype, stamp: event.stamp }, event);
 		}
 	};
 };
