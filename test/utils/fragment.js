@@ -26,13 +26,9 @@ module.exports = function (t, a) {
 
 	iterator = new t();
 	updates = [];
-	iterator.on('update', function (event) {
-		updates.push(event.obj._id_);
-	});
+	iterator.on('update', function (event) { updates.push(event.obj._id_); });
 	removes = [];
-	iterator.on('remove', function (obj) {
-		removes.push(obj._id_);
-	});
+	iterator.on('remove', function (id) { removes.push(id); });
 	iterator.add(obj11);
 
 	a.deep(updates.sort(),
