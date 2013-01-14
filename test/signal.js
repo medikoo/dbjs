@@ -78,6 +78,14 @@ module.exports = function (t) {
 			a.deep(ondismiss[0], { stamp: ondismiss[0].stamp, obj: obj21._rel,
 				value: null, index: ondismiss[0].index },
 				"Dismiss: On Assign: content");
+		},
+		"Remove": function (a) {
+			var obj = Db(), events = [];
+			t.on('remove', function (id) { events.push(id); });
+			a(obj.ns, Db, "Before");
+			t._remove(obj._id_);
+			a(obj.ns, Db.Base, "After");
+			a.deep(events, [obj._id_], "Event");
 		}
 	};
 };
