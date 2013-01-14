@@ -1,6 +1,7 @@
 'use strict';
 
-var Db = require('../');
+var Db    = require('../')
+  , Event = require('../lib/event');
 
 module.exports = function (t, a) {
 	return {
@@ -20,6 +21,11 @@ module.exports = function (t, a) {
 			var obj = Db(), event = obj._lastEvent_;
 			a.deep({ obj: obj, value: Db.prototype, stamp: event.stamp,
 				index: event.index }, event);
+		},
+		Snapshot: function (a) {
+			t._snapshot().forEach(function (event, index) {
+				a(event instanceof Event, true, "event #" + index);
+			});
 		}
 	};
 };

@@ -32,3 +32,7 @@ jshint.expr
 
 jslint_medikoo.predef console, setTimeout
 jshint.global+ console, setTimeout
+
+./scripts
+jslint_medikoo.predef+ __dirname
+jshint.global+ __dirname
