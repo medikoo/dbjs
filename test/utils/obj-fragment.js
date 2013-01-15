@@ -12,6 +12,7 @@ module.exports = function (t, a) {
 		pablo: Db.String.rel({ multiple: true, value: ['foo', 'bar'] }) });
 
 	fragment = new t(obj, function (rel) {
+		rel.tag.has('whatever');
 		approve.push(rel);
 		return true;
 	});
@@ -21,9 +22,8 @@ module.exports = function (t, a) {
 	});
 	fragment.init();
 
-	a.deep(approve.map(getId).sort(), [obj._$construct, obj._$construct._ns,
-		obj._marko, obj._marko._ns, obj._marko._multiple, obj._pablo,
-		obj._pablo._ns, obj._pablo._multiple, obj._pablo.get('foo')._order,
+	a.deep(approve.map(getId).sort(), [obj._$construct, obj._marko, obj._pablo,
+		obj._pablo.get('foo')._order,
 		obj._pablo.get('bar')._order].map(getId).sort(), "Approve");
 	approve.length = 0;
 	a.deep(relEvents.map(getId).sort(), [obj._marko, obj._pablo, obj._pablo._ns,
@@ -35,8 +35,7 @@ module.exports = function (t, a) {
 	setEvents.length = 0;
 
 	obj.foo.add('dwa');
-	a.deep(approve.map(getId).sort(), [obj._foo,
-		obj._foo._ns, obj._foo._multiple, obj._foo._unique].map(getId).sort(),
+	a.deep(approve.map(getId).sort(), [obj._foo].map(getId).sort(),
 		"Add multiple: Approve");
 	approve.length = 0;
 	a.deep(relEvents, [], "Add multiple: Rel events");
