@@ -32,4 +32,6 @@ module.exports = function (t, a) {
 	a.throws(function () {
 		obj13.foo = 'zero';
 	}, "Unique via inherited");
+
+	a(ns1.prototype._foo.find('cztery'), obj11, "Find");
 };
