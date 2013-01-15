@@ -28,6 +28,11 @@ module.exports = function () {
 			a.deep(other.getPropertyNames().sort(),
 				standard.concat('protoPropertiesTest1', 'protoPropertiesTest2',
 					'protoPropTest3').sort(), "Extension: Set");
+
+			other._protoPropertiesTest2.tags = other._protoPropTest3.tags =
+				'getnamestest';
+			a.deep(other.getPropertyNames('getnamestest').sort(),
+				['protoPropertiesTest2', 'protoPropTest3'].sort(), "Tagged names");
 		},
 		setProperties: function (a) {
 			var obj = Db();
