@@ -21,25 +21,6 @@ module.exports = function () {
 			a.deep(data[0], [obj._$construct, obj._$construct._id_, obj], "Item #1");
 			a.deep(data[1], [obj._feRelTest, obj._feRelTest._id_, obj], "Item #2");
 			a.deep(data[2], [obj._feRelTest2, obj._feRelTest2._id_, obj], "Item #2");
-		},
-		everyRelationDeep: function (a) {
-			var obj = Db(), data, subRel, item;
-			obj.set('everyRelTest', StringType.rel({ value: ['one', 'two'] }));
-			obj.set('everyRelTest2', 'foo');
-			obj._everyRelTest2.set('evRelTest', true);
-			obj._everyRelTest.get('one').set('evRelTest2', 23);
-			data = {};
-			obj._everyRelationDeep_(function (item, id) {
-				data[id] = item;
-				return true;
-			});
-			a(keys(data).every(function (id) {
-				return startsWith.call(id, obj._id_ + ':');
-			}), true, "All of object");
-			subRel = obj._everyRelTest2._evRelTest;
-			a(data[subRel._id_], subRel, "SubRelation");
-			item = obj._everyRelTest.get('one')._evRelTest2;
-			a(data[item._id_], item, "Item");
 		}
 	};
 };
