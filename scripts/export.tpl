@@ -6,6 +6,8 @@
 'use strict';
 
 var getObject = require('dbjs/lib/objects')._get
+  , Event     = require('dbjs/lib/event')
+  , load      = require('dbjs/lib/signal')._add
 
   , now = Date.now
 

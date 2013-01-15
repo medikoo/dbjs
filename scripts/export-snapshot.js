@@ -24,8 +24,8 @@ module.exports = function (filename/*, options*/) {
 		tpl = tpl.replace('$TIME$', (new Date()).toISOString());
 		tpl = tpl.replace('$COUNT$', data.length);
 		return replace.call(tpl, '$IMPORT$', data.map(function (event) {
-			return 'getObject(' + stringify(event.obj._id_) + ').$$setValue(' +
-				codify(event.value) + ');';
+			return 'load(new Event(getObject(' + stringify(event.obj._id_) + '), ' +
+				codify(event.value) + ', 0));';
 		}).join('\n'));
 	}));
 };
