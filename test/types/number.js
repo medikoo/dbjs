@@ -1,6 +1,7 @@
 'use strict';
 
-var isError     = require('es5-ext/lib/Error/is-error');
+var isError   = require('es5-ext/lib/Error/is-error')
+  , serialize = require('../../lib/utils/serialize');
 
 module.exports = function (t, a) {
 	var ns = t.create('Numtest2', { min: -100, max: 100 });
@@ -55,6 +56,9 @@ module.exports = function (t, a) {
 			a(ns.prototype.validateCreate(60), null, "Custom");
 			a(isError(ns.prototype.validateCreate(-123)), true, "Custom: Below min");
 			a(isError(ns.prototype.validateCreate(123)), true, "Custom: Above max");
+		},
+		"Serialize": function (a) {
+			a(t._serialize_(343), serialize(343));
 		}
 	};
 };

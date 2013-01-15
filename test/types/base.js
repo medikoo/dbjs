@@ -1,6 +1,7 @@
 'use strict';
 
-var Db    = require('../../')
+var Db        = require('../../')
+  , serialize = require('../../lib/utils/serialize')
 
   , Base = Db.Base, DateTime = Db.DateTime
 
@@ -96,6 +97,11 @@ module.exports = function (t, a) {
 			a(getPrototypeOf(ns3), Base, "Constructor");
 			a(getPrototypeOf(ns3.prototype), Base.prototype, "Prototype");
 			a(Base.hasOwnProperty('Prototest3'), false);
+		},
+		"Serialize": function (a) {
+			a(t._serialize_(true), serialize(true), "#1");
+			a(t._serialize_(343), serialize(343), "#2");
+			a(t._serialize_('foo'), serialize('foo'), "#3");
 		}
 	};
 };

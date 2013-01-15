@@ -1,7 +1,8 @@
 'use strict';
 
-var isError  = require('es5-ext/lib/Error/is-error')
-  , isRegExp = require('es5-ext/lib/RegExp/is-reg-exp');
+var isError   = require('es5-ext/lib/Error/is-error')
+  , isRegExp  = require('es5-ext/lib/RegExp/is-reg-exp')
+  , serialize = require('../../lib/utils/serialize');
 
 module.exports = function (t, a) {
 	var re = /raz/;
@@ -37,6 +38,10 @@ module.exports = function (t, a) {
 			a(t.prototype.validateCreate('raz'), null, "String");
 			a(isError(t.prototype.validateCreate('\\')), true,
 				"Invalid regExp string");
+		},
+		"Serialize": function (a) {
+			var re = /raz/g;
+			a(t._serialize_(re), serialize(re));
 		}
 	};
 };

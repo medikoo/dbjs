@@ -1,7 +1,8 @@
 'use strict';
 
-var isDate  = require('es5-ext/lib/Date/is-date')
-  , isError = require('es5-ext/lib/Error/is-error');
+var isDate    = require('es5-ext/lib/Date/is-date')
+  , isError   = require('es5-ext/lib/Error/is-error')
+  , serialize = require('../../lib/utils/serialize');
 
 module.exports = function (t, a) {
 	var date = new Date();
@@ -41,6 +42,10 @@ module.exports = function (t, a) {
 				"Invalid date");
 			a(isError(t.prototype.validateCreate({})), true, "Other object");
 			a(t.prototype.validateCreate(234234), null, "Number");
+		},
+		"Serialize": function (a) {
+			var date = new Date();
+			a(t._serialize_(date), serialize(date));
 		}
 	};
 };

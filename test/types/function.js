@@ -1,6 +1,7 @@
 'use strict';
 
-var isError = require('es5-ext/lib/Error/is-error');
+var isError   = require('es5-ext/lib/Error/is-error')
+  , serialize = require('../../lib/utils/serialize');
 
 module.exports = function (t, a) {
 	var getter = function () {}, fn = function (value) {};
@@ -37,6 +38,10 @@ module.exports = function (t, a) {
 			a(isError(t.prototype.validateCreate(getter)), true, "Getter");
 			a(t.prototype.validateCreate(fn), null, "Function");
 			a(isError(t.prototype.validateCreate({})), true, "Other object");
+		},
+		"Serialize": function (a) {
+			var fn = function raz() { return 'foo'; };
+			a(t._serialize_(fn), serialize(fn));
 		}
 	};
 };

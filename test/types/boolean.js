@@ -1,5 +1,7 @@
 'use strict';
 
+var serialize = require('../../lib/utils/serialize');
+
 module.exports = function (t, a) {
 	a(t(undefined), false, "Undefined");
 	a(t(null), false, "Null");
@@ -44,6 +46,10 @@ module.exports = function (t, a) {
 			a(t.prototype.validateCreate(''), null, "Empty string");
 			a(t.prototype.validateCreate('0'), null, "Other false string");
 			a(t.prototype.validateCreate(0), null, "Zero");
+		},
+		"Serialize": function (a) {
+			a(t._serialize_(true), serialize(true), "#1");
+			a(t._serialize_(false), serialize(false), "#2");
 		}
 	};
 };

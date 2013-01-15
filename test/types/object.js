@@ -1,7 +1,8 @@
 'use strict';
 
-var isError = require('es5-ext/lib/Error/is-error')
-  , Db      = require('../../')
+var isError   = require('es5-ext/lib/Error/is-error')
+  , Db        = require('../../')
+  , serialize = require('../../lib/utils/serialize')
 
   , BooleanType = Db.Boolean, StringType = Db.String
   , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf;
@@ -149,6 +150,10 @@ module.exports = function (t) {
 			a(getPrototypeOf(obj), Db.Base.prototype, "Removed: Prototype");
 			a(ns2.hasOwnProperty(obj._id_), false, "Removed: Visible: Ns");
 			a(t.hasOwnProperty(obj._id_), false, "Removed: Visible: Base");
+		},
+		"Serialize": function (a) {
+			var obj = Db();
+			a(t._serialize_(obj), serialize(obj));
 		}
 	};
 };
