@@ -12,7 +12,7 @@ module.exports = function (t, a) {
 		pablo: Db.String.rel({ multiple: true, value: ['foo', 'bar'] }) });
 
 	fragment = new t(obj, function (rel) {
-		rel.tag.has('whatever');
+		rel.tags.has('whatever');
 		approve.push(rel);
 		return true;
 	});
