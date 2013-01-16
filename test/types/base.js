@@ -87,7 +87,9 @@ module.exports = function (t, a) {
 		"Proto change": function (a) {
 			var ns1 = Db.create('Prototest1')
 			  , ns2 = Db.create('Prototest2')
-			  , ns3 = ns1.create('Prototest3');
+			  , ns3 = ns1.create('Prototest3')
+
+			  , obj;
 
 			ns3.$$setValue(ns2);
 			a(getPrototypeOf(ns3), ns2, "Constructor");
@@ -97,6 +99,13 @@ module.exports = function (t, a) {
 			a(getPrototypeOf(ns3), Base, "Constructor");
 			a(getPrototypeOf(ns3.prototype), Base.prototype, "Prototype");
 			a(Base.hasOwnProperty('Prototest3'), false);
+
+			ns2.set('indtest', Db.String);
+
+			obj = Db({ indtest: 'foo' });
+			obj.$$setValue(ns2.prototype);
+
+			a.deep(ns2.prototype._indtest.find('foo').values, [obj], "Indexes");
 		},
 		"Serialize": function (a) {
 			a(t._serialize_(true), serialize(true), "#1");
