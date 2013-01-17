@@ -33,8 +33,10 @@ module.exports = function (t, a) {
 
 	a.deep(updates.sort(),
 		[obj11, obj11._iteTestStr, obj11._iteTestMulti,
-			obj11._iteTestMulti.get('raz'), obj11._iteTestMulti.get('raz')._order,
-			obj11._iteTestMulti.get('dwa'), obj11._iteTestMulti.get('dwa')._order,
+			obj11._iteTestMulti.getItem('raz'),
+			obj11._iteTestMulti.getItem('raz')._order,
+			obj11._iteTestMulti.getItem('dwa'),
+			obj11._iteTestMulti.getItem('dwa')._order,
 			obj11._otherObj, obj31, obj31._iteRemtest,
 			obj21, obj21._iteTest].map(getId).sort(), "Updates");
 	updates.length = 0;

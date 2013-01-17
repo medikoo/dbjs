@@ -270,16 +270,16 @@ module.exports = function (t, a) {
 		},
 		"get": function () {
 			var ns = ns1.create('Reltestprop1', { foo: ['raz', 123, 'trzy'] });
-			a(ns.foo.get(123).value, '123');
+			a(ns.foo.getItem(123).value, '123');
 			ns.foo.delete('trzy');
-			a(ns.foo.get('asdfada'), null);
-			a(ns.foo.get('trzy'), null);
+			a(ns.foo.getItem('asdfada'), null);
+			a(ns.foo.getItem('trzy'), null);
 		},
 		"Reset: Array order": function () {
 			var ns = ns1.create('Reltestprop2', { foo: ['raz', 123, 'trzy'] });
-			a(ns.foo.get('raz').order, 0, "#1");
-			a(ns.foo.get(123).order, 1, "#2");
-			a(ns.foo.get('trzy').order, 2, "#3");
+			a(ns.foo.getItem('raz').order, 0, "#1");
+			a(ns.foo.getItem(123).order, 1, "#2");
+			a(ns.foo.getItem('trzy').order, 2, "#3");
 		}
 	};
 };

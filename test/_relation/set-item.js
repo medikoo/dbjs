@@ -11,7 +11,7 @@ module.exports = function (t, a) {
 
 	ns.foo = ['one', 'two', 'three'];
 
-	item = ns.foo.get('two');
+	item = ns.foo.getItem('two');
 
 	a(item.obj, ns._foo, "Rel");
 	a(item.value, 'two', "Value");
@@ -23,7 +23,7 @@ module.exports = function (t, a) {
 	item.delete();
 	a.deep(ns.foo.values.sort(), ['one', 'three']);
 
-	item = ns.foo.get('three');
+	item = ns.foo.getItem('three');
 	data = [];
 	item._forEachRelation_(function () { data.push(arguments); });
 	a(data.length, 1, "ForEach: Count");

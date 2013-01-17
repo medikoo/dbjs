@@ -24,15 +24,15 @@ module.exports = function (t, a) {
 
 	a.deep(approve.map(getId).sort(), [obj._$construct, obj._marko, obj._pablo,
 		obj._pablo._itemPrototype_._order,
-		obj._pablo.get('foo')._order,
-		obj._pablo.get('bar')._order].map(getId).sort(), "Approve");
+		obj._pablo.getItem('foo')._order,
+		obj._pablo.getItem('bar')._order].map(getId).sort(), "Approve");
 	approve.length = 0;
 	a.deep(relEvents.map(getId).sort(), [obj._marko, obj._pablo, obj._pablo._ns,
-		obj._pablo._multiple, obj._pablo.get('foo')._order,
-		obj._pablo.get('bar')._order].map(getId).sort(), "Rel events");
+		obj._pablo._multiple, obj._pablo.getItem('foo')._order,
+		obj._pablo.getItem('bar')._order].map(getId).sort(), "Rel events");
 	relEvents.length = 0;
-	a.deep(setEvents.map(getId).sort(), [obj._pablo.get('foo'),
-		obj._pablo.get('bar')].map(getId).sort(), "Set items");
+	a.deep(setEvents.map(getId).sort(), [obj._pablo.getItem('foo'),
+		obj._pablo.getItem('bar')].map(getId).sort(), "Set items");
 	setEvents.length = 0;
 
 	obj.foo.add('dwa');
@@ -41,8 +41,8 @@ module.exports = function (t, a) {
 	approve.length = 0;
 	a.deep(relEvents, [], "Add multiple: Rel events");
 	relEvents.length = 0;
-	a.deep(setEvents.map(getId).sort(), [obj._foo.get('dwa')].map(getId).sort(),
-		"Add multiple: Set items");
+	a.deep(setEvents.map(getId).sort(),
+		[obj._foo.getItem('dwa')].map(getId).sort(), "Add multiple: Set items");
 	setEvents.length = 0;
 
 	obj.marko = 'raz';
