@@ -269,11 +269,11 @@ module.exports = function (t, a) {
 			}, x);
 		},
 		"get": function () {
-			var ns = ns1.create('Reltestprop1', { foo: ['raz', 123, 'trzy'] });
-			a(ns.foo.getItem(123).value, '123');
-			ns.foo.delete('trzy');
-			a(ns.foo.getItem('asdfada'), null);
-			a(ns.foo.getItem('trzy'), null);
+			var ns = ns1.create('Reltestprop1', { foo: ['raz', 123, 'trzy'] }), item;
+			a(ns.foo.getItem(123).value, '123', "Value");
+			item = ns.foo.delete('trzy');
+			a(ns.foo.getItem('asdfada').value, 'asdfada', "Non existing");
+			a(ns.foo.getItem('trzy'), item, "Deleted");
 		},
 		"Reset: Array order": function () {
 			var ns = ns1.create('Reltestprop2', { foo: ['raz', 123, 'trzy'] });
