@@ -30,7 +30,7 @@ module.exports = function (t) {
 				index: event.index
 			}, "Object->Rel");
 
-			obj = obj._getSetItem_(serialize('hej"mordo.moja.sdf'));
+			obj = obj._getItem_(serialize('hej"mordo.moja.sdf'));
 			event = t.unserialize('34343.' + obj._id_ + '.' + serialize(true));
 			a.deep(event, {
 				obj: obj,
@@ -49,7 +49,7 @@ module.exports = function (t) {
 				index: event.index
 			}, "Object->Rel->Item->Rel");
 
-			obj = obj._getSetItem_(serialize(2342));
+			obj = obj._getItem_(serialize(2342));
 			event = t.unserialize('333.' + obj._id_ + '.' +
 				serialize(undefined));
 			a.deep(event, {
