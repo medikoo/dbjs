@@ -5,7 +5,7 @@ var Db = require('../../')
   , DateTime = Db.DateTime;
 
 module.exports = function (t, a) {
-	var fn, x;
+	var fn, x, dateTime = new DateTime();
 	a(t(undefined), '', "Undefined");
 	a(t(null), '0', "Null");
 	a(t(false), '10', "Boolean");
@@ -14,6 +14,7 @@ module.exports = function (t, a) {
 		"String");
 	a(t(fn = function () { return 'foo'; }), '6' + String(fn), "Function");
 	a(t(new Date(12345)), '412345', "Date");
+	a(t(dateTime), t(new Date(dateTime.getTime())), "DBJS DateTime");
 	a(t(new RegExp('raz\ndwa')), '5/raz\\ndwa/', "RegExp");
 	a(t(DateTime), '7DateTime', "Namespace");
 	a(t(x = new Db({ foo: 'bar' })), '7' + x._id_, "Object");
