@@ -23,7 +23,7 @@ module.exports = function (t, a) {
 	fragment.init();
 
 	a.deep(approve.map(getId).sort(), [obj._$construct, obj._marko, obj._pablo,
-		obj._pablo._setItem_._order,
+		obj._pablo._itemPrototype_._order,
 		obj._pablo.get('foo')._order,
 		obj._pablo.get('bar')._order].map(getId).sort(), "Approve");
 	approve.length = 0;

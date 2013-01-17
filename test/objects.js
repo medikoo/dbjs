@@ -202,7 +202,7 @@ module.exports = function (t, a) {
 		"Create: Object: Prop: Item proto: Not existing obj: Namespace");
 	a(t[prop.obj.obj._id_], prop.obj.obj,
 		"Create: Object: Prop: Item proto: Not existing obj: Exposed");
-	a(prop, prop.obj.obj._huuhu._setItem_,
+	a(prop, prop.obj.obj._huuhu._itemPrototype_,
 		"Create: Object: Prop: Item proto: Not Existing obj");
 	a(t[prop._id_], prop,
 		"Create: Object: Prop: Item proto: Not Existing obj: Exposed");
