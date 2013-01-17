@@ -12,6 +12,7 @@ module.exports = function (t, a) {
 
 	a(t._id_, 'Base', "Id");
 	a(t.Base, t, "Exposed on self");
+	a(t.call, Function.prototype.call, "Function prototype methods");
 	return {
 		"Create": function (a) {
 			var ns0, ns1;
