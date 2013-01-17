@@ -22,14 +22,14 @@ module.exports = function (t) {
 				if (!emitted[name]) emitted[name] = [];
 				emitted[name].push(data);
 			});
-			ns._getRel_('fooSigTest').on('update', function (data) {
+			ns.get('fooSigTest').on('update', function (data) {
 				var name = 'SignalTest1:fooSigTest*';
 				if (!emitted[name]) emitted[name] = [];
 				emitted[name].push(data);
 			});
 
 			ns._fooSigTest._signal_('trzy');
-			ns._getRel_('fooSigTest2')._signal_(34);
+			ns.get('fooSigTest2')._signal_(34);
 
 			event = emitted['*'][0];
 			a.deep(keys(emitted).sort(), ['*', 'SignalTest1*'].sort(), "Events");
@@ -44,7 +44,7 @@ module.exports = function (t) {
 		},
 		"Import": function (a) {
 			var obj = Db();
-			t._add(new Event(obj._getRel_('signalAddTest'), 34, 0));
+			t._add(new Event(obj.get('signalAddTest'), 34, 0));
 			a(obj.signalAddTest, 34, "Import new");
 			t._add(new Event(obj._signalAddTest, 58, 3));
 			a(obj.signalAddTest, 58, "Import newer");

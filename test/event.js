@@ -21,7 +21,7 @@ module.exports = function (t) {
 				index: event.index
 			}, "Object");
 
-			obj = obj._getRel_('marKo');
+			obj = obj.get('marKo');
 			event = t.unserialize('12434.' + obj._id_ + '.' + serialize(undefined));
 			a.deep(event, {
 				obj: obj,
@@ -39,7 +39,7 @@ module.exports = function (t) {
 				index: event.index
 			}, "Object->Rel->Item");
 
-			obj = obj._getRel_('markoWki');
+			obj = obj.get('markoWki');
 			event = t.unserialize('5555.' + obj._id_ + '.' +
 				serialize(function () { return 'raz.dwa"#"'; }));
 			a.deep(event, {
@@ -59,7 +59,7 @@ module.exports = function (t) {
 				index: event.index
 			}, "Object->Rel->Item->Rel->Item");
 
-			obj = obj._getRel_('czraa');
+			obj = obj.get('czraa');
 			event = t.unserialize('11111.' + obj._id_ + '.' +
 				serialize(Db.String));
 			a.deep(event, {

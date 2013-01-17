@@ -5,7 +5,7 @@ var Db = require('../../')
   , StringType = Db.String;
 
 module.exports = function (t, a) {
-	var obj = Db(), rel = obj._getRel_('simpleTest'), obj2, obj3, fn;
+	var obj = Db(), rel = obj.get('simpleTest'), obj2, obj3, fn;
 
 	obj2 = obj.$$create('simpleTestObj');
 	t(rel, obj2);
