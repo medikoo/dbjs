@@ -13,7 +13,8 @@ module.exports = function (t, a) {
 	ns1 = Db.create('FragTest1', {
 		iteTestStr: StringType,
 		iteTestMulti: StringType.rel({ multiple: true }),
-		otherObj: ns3
+		otherObj: ns3,
+		otherMultipleObj: ns3.rel({ multiple: true })
 	});
 	ns2 = Db.create('FragTest2', {
 		iteTest: ns1.rel({ reverse: 'iteRev1' })
@@ -29,6 +30,8 @@ module.exports = function (t, a) {
 	iterator.on('update', function (event) { updates.push(event.obj._id_); });
 	removes = [];
 	iterator.on('remove', function (id) { removes.push(id); });
+
+	// Add obj11
 	iterator.add(obj11);
 
 	a.deep(updates.sort(),
@@ -43,6 +46,7 @@ module.exports = function (t, a) {
 	a.deep(removes, [], "Removes");
 	removes.length = 0;
 
+	// Add obj31
 	iterator.add(obj31);
 	a.deep(updates, [], "Add existing: Updates");
 	updates.length = 0;
@@ -55,6 +59,7 @@ module.exports = function (t, a) {
 	a.deep(removes, [], "Clear existing: Removes");
 	removes.length = 0;
 
+	// Remove obj31
 	iterator.remove(obj31);
 	a.deep(updates, [], "Remove existing: Updates");
 	updates.length = 0;
@@ -69,9 +74,25 @@ module.exports = function (t, a) {
 		"Remove reverse: Removes");
 	removes.length = 0;
 
+	// Add obj21
 	iterator.add(obj21);
 	a.deep(updates, [obj21, obj21._iteTest].map(getId), "Add other: Updates");
 	updates.length = 0;
 	a.deep(removes, [], "Add other: Removes");
+	removes.length = 0;
+
+	obj11.otherMultipleObj.add(obj31);
+	a.deep(updates.sort(), [obj11._otherMultipleObj.getItem(obj31), obj31,
+		obj31._iteRemtest].map(getId).sort(), "Add obj item: Updates");
+	updates.length = 0;
+	a.deep(removes, [], "Add obj item: Removes");
+	removes.length = 0;
+
+	obj11.otherMultipleObj.delete(obj31);
+	a.deep(updates, [obj11._otherMultipleObj.getItem(obj31)._id_],
+		"Add obj item: Updates");
+	updates.length = 0;
+	a.deep(removes.sort(), [obj31, obj31._iteRemtest].map(getId).sort(),
+		"Add obj item: Removes");
 	removes.length = 0;
 };
