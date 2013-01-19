@@ -3,11 +3,10 @@
 var Db = require('../../')
 
   , StringType = Db.String
-
   , getId = function (obj) { return obj._id_; };
 
 module.exports = function (t, a) {
-	var ns1, ns2, ns3, obj11, obj21, obj31, iterator, updates, removes;
+	var ns1, ns2, ns3, obj11, obj21, obj31, obj32, iterator, updates, removes;
 
 	ns3 = Db.create('FragTest3', { iteRemtest: StringType });
 	ns1 = Db.create('FragTest1', {
@@ -94,5 +93,13 @@ module.exports = function (t, a) {
 	updates.length = 0;
 	a.deep(removes.sort(), [obj31, obj31._iteRemtest].map(getId).sort(),
 		"Add obj item: Removes");
+	removes.length = 0;
+
+	obj32 = ns3();
+	obj11.otherMultipleObj.delete(obj32);
+	a.deep(updates, [obj11._otherMultipleObj.getItem(obj32)._id_],
+		"Invoke delete item: Updates");
+	updates.length = 0;
+	a.deep(removes, [], "Invoke delete item: Removes");
 	removes.length = 0;
 };
