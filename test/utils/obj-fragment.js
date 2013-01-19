@@ -16,9 +16,11 @@ module.exports = function (t, a) {
 		approve.push(rel);
 		return true;
 	});
-	fragment.on('relupdate', function (event) { relEvents.push(event.obj); });
-	fragment.on('setitemupdate', function (event) {
-		setEvents.push(event.obj);
+	fragment.on('relupdate', function (nu, old) {
+		relEvents.push((nu || old).obj);
+	});
+	fragment.on('setitemupdate', function (nu, old) {
+		setEvents.push((nu || old).obj);
 	});
 	fragment.init();
 
