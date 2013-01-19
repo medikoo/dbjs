@@ -54,4 +54,15 @@ module.exports = function (t, a) {
 	relEvents.length = 0;
 	a.deep(setEvents, [], "Set: Set items");
 	setEvents.length = 0;
+
+	obj.foo.getItem('test').get('testdeep').value = 'raz';
+	a.deep(approve.map(getId).sort(),
+		[obj.foo.getItem('test').get('testdeep')].map(getId).sort(),
+		"Depp rel: Approve");
+	approve.length = 0;
+	a.deep(relEvents, [obj.foo.getItem('test').get('testdeep')],
+		"Deep rel: Rel events");
+	relEvents.length = 0;
+	a.deep(setEvents, [], "Set: Set items");
+	setEvents.length = 0;
 };
