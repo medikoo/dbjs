@@ -5,7 +5,7 @@ var Db = require('../../')
   , Base = Db.Base, StringType = Db.String;
 
 module.exports = function (a) {
-	var obj = Db(), obj2;
+	var obj = Db(), obj2, item;
 
 	// Basic set
 	obj.set('relValueTest', 'bar');
@@ -43,4 +43,18 @@ module.exports = function (a) {
 	a.throws(function () {
 		obj.relValueTest3 = 'else';
 	}, "Write once");
+
+	// Delete
+	obj = Db();
+	obj.get('test').multiple = true;
+	obj.test = ['raz', 'dwa'];
+	obj._test.get('foo').value = 'bar';
+	item = obj._test.getItem('raz');
+	item.order = 35;
+	obj._test.delete();
+	a(obj.test, undefined, "Delete: Value");
+	a(obj._test.foo, undefined, "Delete: Relation");
+	a(obj._test.multiple, false, "Delete: Meta relaton");
+	a(obj._test.propertyIsEnumerable(item._key_), false, "Delete: Item");
+	a(item.order, 0, "Delete: Item: Relation");
 };

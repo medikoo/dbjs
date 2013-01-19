@@ -112,6 +112,21 @@ module.exports = function (t, a) {
 			a(t._serialize_(true), serialize(true), "#1");
 			a(t._serialize_(343), serialize(343), "#2");
 			a(t._serialize_('foo'), serialize('foo'), "#3");
+		},
+		"Delete": function (a) {
+			var ns = Db.create('DelTest')
+			  , obj = ns()
+			  , item;
+
+			obj.get('foo').value = 'marko';
+			obj.get('raz').multiple = true;
+			obj.raz = ['dwa', 'trzy'];
+			item = obj._raz.getItem('dwa');
+			obj.delete();
+			a(obj.ns, Db.Base, "");
+			a(obj.foo, undefined, "Relation");
+			a(obj._raz.multiple, false, "Relation: Relation");
+			a(obj._raz.propertyIsEnumerable(item._key_), false, "Item");
 		}
 	};
 };

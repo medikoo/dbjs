@@ -22,6 +22,7 @@ module.exports = function (t, a) {
 
 	item.delete();
 	a.deep(ns.foo.values.sort(), ['one', 'three']);
+	a(item.order, 0, "Delete: relations");
 
 	item = ns.foo.getItem('three');
 	data = [];
