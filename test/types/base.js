@@ -90,23 +90,30 @@ module.exports = function (t, a) {
 			  , ns2 = Db.create('Prototest2')
 			  , ns3 = ns1.create('Prototest3')
 
-			  , obj;
+			  , obj1, obj2;
 
-			ns3.$$setValue(ns2);
+			ns3._signal_(ns2);
 			a(getPrototypeOf(ns3), ns2, "Constructor");
 			a(getPrototypeOf(ns3.prototype), ns2.prototype, "Prototype");
 
-			ns3.$$setValue();
+			ns3._signal_();
 			a(getPrototypeOf(ns3), Base, "Constructor");
 			a(getPrototypeOf(ns3.prototype), Base.prototype, "Prototype");
 			a(Base.hasOwnProperty('Prototest3'), false);
 
 			ns2.set('indtest', Db.String);
 
-			obj = Db({ indtest: 'foo' });
-			obj.$$setValue(ns2.prototype);
+			obj1 = Db({ indtest: 'foo' });
+			obj1._signal_(ns2.prototype);
 
-			a.deep(ns2.prototype._indtest.find('foo').values, [obj], "Indexes");
+			a.deep(ns2.prototype._indtest.find('foo').values, [obj1], "Indexes");
+
+			obj1 = Db({ valueTest: 'foo' });
+			obj2 = Db({ valueTest2: ns2 });
+			obj2._valueTest2.$$setValue(obj1);
+			a(obj2.valueTest2, null, "Value: Before");
+			obj1._signal_(ns2.prototype);
+			a(obj2.valueTest2, obj1, "Value: After");
 		},
 		"Serialize": function (a) {
 			a(t._serialize_(true), serialize(true), "#1");
