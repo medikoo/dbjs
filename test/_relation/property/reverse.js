@@ -6,7 +6,7 @@ module.exports = function (t, a) {
 	var ns1 = Db.create('Revreltest1')
 	  , ns2 = Db.create('Revreltest2', { foo: ns1.required })
 
-	  , obj11, obj12, obj13, obj14, obj21, obj22, ns3, obj31, obj32
+	  , obj11, obj12, obj13, obj14, obj15, obj21, obj22, ns3, obj31, obj32, obj33
 	  , delEvents = [], addEvents = [];
 
 	obj11 = ns1({ melasa: 'dwa' });
@@ -70,4 +70,16 @@ module.exports = function (t, a) {
 
 	// Test validateCreate:
 	Db.create('Revreltest4', { revTest: ns1.rel({ reverse: true }) });
+
+	ns3._signal_();
+	ns3._signal_(ns2);
+	a(obj11.ola, obj31, "NS changes");
+
+	obj15 = Db({ fafa: 'sdfs' });
+	obj33 = Db();
+	obj33._foo._signal_(obj15);
+	obj33._signal_(ns3.prototype);
+	obj15._signal_(ns1.prototype);
+
+	a(obj15.ola, obj33, "Proto changes");
 };
