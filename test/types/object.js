@@ -51,12 +51,9 @@ module.exports = function (t) {
 			}, "Object id");
 
 			pObj = t({ foo: 'elo' });
-			obj = ns(pObj);
-			a.not(obj, pObj, "Object from other namespace #1");
-			a.deep(obj, { foo: 'elo' }, "Object from other namespace #2");
-			a.throws(function () {
-				ns(pObj._id_);
-			}, "Object Id from other namespace");
+			a.throws(function () { ns(pObj); }, "Object from other namespace #1");
+			a.throws(function () { ns(pObj._id_); },
+				"Object Id from other namespace");
 
 			ns = t.create('Otest2', function (value) { this.set('foo', value); }, {
 				foo: StringType,
