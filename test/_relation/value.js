@@ -5,7 +5,7 @@ var Db = require('../../')
   , Base = Db.Base, StringType = Db.String;
 
 module.exports = function (a) {
-	var obj = Db(), obj2, item;
+	var obj = Db(), obj2, item, ns1, ns2;
 
 	// Basic set
 	obj.set('relValueTest', 'bar');
@@ -57,4 +57,9 @@ module.exports = function (a) {
 	a(obj._test.multiple, false, "Delete: Meta relaton");
 	a(obj._test.propertyIsEnumerable(item._key_), false, "Delete: Item");
 	a(item.order, 0, "Delete: Item: Relation");
+
+	ns1 = Db.create('RelValueTest1', { foo: Db.String });
+	ns2 = Db.create('RelValueTest2', { bar: ns1.rel({ unique: true }) });
+	obj2 = ns2({ bar: { foo: 'marko' } });
+	a(obj2.bar.ns, ns1, "Deep creation");
 };
