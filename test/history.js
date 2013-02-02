@@ -1,7 +1,8 @@
 'use strict';
 
-var Db    = require('../')
-  , Event = require('../lib/event');
+var isDate = require('es5-ext/lib/Date/is-date')
+  , Db     = require('../')
+  , Event  = require('../lib/event');
 
 module.exports = function (t, a) {
 	return {
@@ -16,6 +17,15 @@ module.exports = function (t, a) {
 			a(typeof obj._lastModified_, 'number', "Object");
 			a(typeof Db.create('ProtoIndexTest')._lastModified_, 'number',
 				"Constructor");
+		},
+		lastModifiedDate: function (a) {
+			var date = new Date(Date.now() - 1000)
+			  , obj = Db()
+			  , lm = obj._lastModifiedDate_;
+			a(isDate(lm), true, "Date type");
+			a(lm > date, true, "Current #1");
+			date.setTime(Date.now() + 1000);
+			a(lm < date, true, "Current #2");
 		},
 		lastEvent: function (a) {
 			var obj = Db(), event = obj._lastEvent_;
