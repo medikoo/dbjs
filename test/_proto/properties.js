@@ -9,7 +9,7 @@ module.exports = function () {
 	return {
 		getPropertyNames: function (a) {
 			var other, obj = Db()
-			  , standard = ['$construct', 'validateConstruction', 'toString'].sort();
+			  , standard = [].sort();
 			a.deep(obj.getPropertyNames().sort(), standard, "Empty");
 			obj.set('protoPropertiesTest1');
 			a.deep(obj.getPropertyNames().sort(), standard, "One defined");
