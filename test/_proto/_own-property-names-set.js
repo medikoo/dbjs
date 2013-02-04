@@ -7,7 +7,7 @@ module.exports = function (t, a) {
 	obj = Db();
 	set = obj.getOwnPropertyNames();
 	a.deep(set.values, [], "Empty");
-	obj.set('foo', null);
+	obj.set('foo');
 	a.deep(set.values, [], "No ns property");
 	set.once('add', function (e) { event = e; });
 	obj._foo.ns = Db.String;
@@ -15,7 +15,7 @@ module.exports = function (t, a) {
 	a(event, 'foo', "Event: add");
 	event = null;
 	set.once('remove', function (e) { event = e; });
-	obj._foo.ns = null;
+	obj._foo.ns = undefined;
 	a.deep(set.values, [], "Remove Ns");
 	a(event, 'foo', "Event: remove");
 	obj.foo = 'bar';
