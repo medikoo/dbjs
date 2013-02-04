@@ -11,4 +11,6 @@ module.exports = function (t, a) {
 	a.deep(keys(obj), [], "Enumerable");
 	a(obj._id_, '$$protoTest$$', "Id");
 	a(contains.call(t._children_, obj), true, "Child");
+
+	a.deep(obj._prototypes_, [t], "Prototypes");
 };
