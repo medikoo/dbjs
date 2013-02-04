@@ -5,7 +5,7 @@ var Db = require('../../');
 module.exports = function (t, a) {
 	var obj, set, event;
 	obj = Db();
-	set = new t(obj);
+	set = obj.getOwnPropertyNames();
 	a.deep(set.values, [], "Empty");
 	obj.set('foo', null);
 	a.deep(set.values, [], "No ns property");
@@ -20,4 +20,6 @@ module.exports = function (t, a) {
 	a(event, 'foo', "Event: remove");
 	obj.foo = 'bar';
 	a.deep(set.values, ['foo'], "Set value");
+
+	a(set, obj.getOwnPropertyNames(), "Memoized");
 };
