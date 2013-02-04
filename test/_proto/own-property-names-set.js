@@ -14,10 +14,10 @@ module.exports = function (t, a) {
 	a.deep(set.values, ['foo'], "Set Ns");
 	a(event, 'foo', "Event: add");
 	event = null;
-	set.once('remove', function (e) { event = e; });
+	set.once('delete', function (e) { event = e; });
 	obj._foo.ns = undefined;
 	a.deep(set.values, [], "Remove Ns");
-	a(event, 'foo', "Event: remove");
+	a(event, 'foo', "Event: delete");
 	obj.foo = 'bar';
 	a.deep(set.values, ['foo'], "Set value");
 

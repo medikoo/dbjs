@@ -3,8 +3,8 @@
 module.exports = function (t, a) {
 	var set = new t({}), x = {}, values, i = 0;
 	a.deep(set.values, [], "Empty");
-	set[':foo'] = true;
-	set[':bar'] = true;
+	set[':foo'] = 'foo';
+	set[':bar'] = 'bar';
 	a.deep(set.values.sort(), ['bar', 'foo'], "Filled");
 	values = set.values;
 
