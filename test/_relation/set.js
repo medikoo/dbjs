@@ -19,6 +19,7 @@ module.exports = function (t, a) {
 	ns2 = ns1.create('Relsettest2', {
 		foo: ['raz', 'dwa', 13, 'trzy']
 	});
+
 	a.deep(ns2.foo.values.sort(), ['raz', 'dwa', '13', 'trzy'].sort(),
 		"Extension: Content");
 	a(ns2.foo._count_, 4, "Extension: Own count");
@@ -263,23 +264,23 @@ module.exports = function (t, a) {
 			ns1.foo.forEach(function (value, props, self, index) {
 				a(this, x, "thisArg");
 				a(value, arr[i], "Value");
-				a(props.value, value, "Props");
+				a(props.subject, value, "Props");
 				a(self, ns1.foo, "Self");
 				a(index, i++, "Index");
 			}, x);
 		},
 		"get": function () {
 			var ns = ns1.create('Reltestprop1', { foo: ['raz', 123, 'trzy'] }), item;
-			a(ns.foo.getItem(123).value, '123', "Value");
+			a(ns.foo.getItem(123).subject, '123', "Value");
 			item = ns.foo.delete('trzy');
-			a(ns.foo.getItem('asdfada').value, 'asdfada', "Non existing");
+			a(ns.foo.getItem('asdfada').subject, 'asdfada', "Non existing");
 			a(ns.foo.getItem('trzy'), item, "Deleted");
 		},
 		"Reset: Array order": function () {
 			var ns = ns1.create('Reltestprop2', { foo: ['raz', 123, 'trzy'] });
-			a(ns.foo.getItem('raz').order, 0, "#1");
-			a(ns.foo.getItem(123).order, 1, "#2");
-			a(ns.foo.getItem('trzy').order, 2, "#3");
+			a(ns.foo.getItem('raz').order, 1, "#1");
+			a(ns.foo.getItem(123).order, 2, "#2");
+			a(ns.foo.getItem('trzy').order, 3, "#3");
 		}
 	};
 };
