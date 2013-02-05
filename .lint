@@ -35,3 +35,6 @@ jshint.global+ console, setTimeout
 ./scripts
 jslint_medikoo.predef+ __dirname
 jshint.global+ __dirname
+
+./lib/_proto/object-filter-set.js
+jslint_medikoo.bitwise

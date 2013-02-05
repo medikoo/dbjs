@@ -10,28 +10,28 @@ module.exports = function () {
 		getPropertyNames: function (a) {
 			var other, obj = Db()
 			  , standard = [].sort();
-			a.deep(obj.getPropertyNames().sort(), standard, "Empty");
+			a.deep(obj.getPropertyNames().values.sort(), standard, "Empty");
 			obj.set('protoPropertiesTest1');
-			a.deep(obj.getPropertyNames().sort(), standard, "One defined");
+			a.deep(obj.getPropertyNames().values.sort(), standard, "One defined");
 			obj._protoPropertiesTest1.required = true;
-			a.deep(obj.getPropertyNames().sort(),
+			a.deep(obj.getPropertyNames().values.sort(),
 				standard.concat('protoPropertiesTest1').sort(), "One required");
 			obj.set('protoPropertiesTest2', false);
-			a.deep(obj.getPropertyNames().sort(),
+			a.deep(obj.getPropertyNames().values.sort(),
 				standard.concat('protoPropertiesTest1', 'protoPropertiesTest2').sort(),
 				"Set value");
 			other = obj.$$create('protoPropertiesTestExt');
-			a.deep(other.getPropertyNames().sort(),
+			a.deep(other.getPropertyNames().values.sort(),
 				standard.concat('protoPropertiesTest1', 'protoPropertiesTest2').sort(),
 				"Extension");
 			other.set('protoPropTest3', 0);
-			a.deep(other.getPropertyNames().sort(),
+			a.deep(other.getPropertyNames().values.sort(),
 				standard.concat('protoPropertiesTest1', 'protoPropertiesTest2',
 					'protoPropTest3').sort(), "Extension: Set");
 
 			other._protoPropertiesTest2.tags = other._protoPropTest3.tags =
 				'getnamestest';
-			a.deep(other.getPropertyNames('getnamestest').sort(),
+			a.deep(other.getPropertyNames('getnamestest').values.sort(),
 				['protoPropertiesTest2', 'protoPropTest3'].sort(), "Tagged names");
 		},
 		setProperties: function (a) {
