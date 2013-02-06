@@ -24,7 +24,8 @@ module.exports = function (a) {
 		relTransportTest1: NumberType.rel([1, 0, '23', 134])
 	});
 
-	a.deep(ns.relTransportTest1.values, [1, 0, 23, 134], "Multiple Value: Value");
+	a.deep(ns.relTransportTest1.values.sort(), [1, 0, 23, 134].sort(),
+			"Multiple Value: Value");
 
 	a.throws(function () {
 		ns = Base.create('Reltransporttest4', {
