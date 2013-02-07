@@ -21,4 +21,12 @@ module.exports = function (a) {
 		return a.order - b.order;
 	});
 	a.deep(list, [raz, bar, dwa], "Items");
+
+	list = obj.foo.listByOrder();
+	a.deep(list, ['raz', 'bar', 'dwa'], "ByOrder");
+	a(list, obj.foo.listByOrder(), "ByOrder: Memoize");
+
+	list = obj.foo.itemsListByOrder();
+	a.deep(list, [raz, bar, dwa], "ItemsByOrder");
+	a(list, obj.foo.itemsListByOrder(), "ItemsByOrder: Memoize");
 };
