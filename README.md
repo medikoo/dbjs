@@ -24,11 +24,11 @@ try {
 };
 
 john._lastName.on('change', function (nu, old) {
-	console.log("Changed lastName from " + old + " to " + new)
+	console.log("Changed lastName from " + old + " to " + nu)
 });
 
 john._fullName.on('change', function (nu, old) {
-	console.log("Changed fullName from " + old + " to " + new)
+	console.log("Changed fullName from " + old + " to " + nu)
 });
 
 john.lastName = 'Kowalski';
