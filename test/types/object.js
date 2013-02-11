@@ -5,7 +5,8 @@ var isError   = require('es5-ext/lib/Error/is-error')
   , serialize = require('../../lib/utils/serialize')
 
   , BooleanType = Db.Boolean, StringType = Db.String
-  , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf;
+  , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf
+  , byId = function (a, b) { return a._id_.localeCompare(b._id_); };
 
 module.exports = function (t) {
 	return {
@@ -91,6 +92,18 @@ module.exports = function (t) {
 			a(t.is(obj), true, "Object from descending namespace");
 			a(ns.is(obj2), false, "Object from ascending namespace");
 			a(t.is(obj2), true, "Object on ascending namespace");
+		},
+		"Set": function (a) {
+			var ns = t.create('OSetTest1'), obj1, obj2, args = [], objs, x = {};
+			obj1 = ns();
+			obj2 = ns();
+			objs = [obj1, obj2].sort(byId);
+			a(ns._isSet_, true, "Is");
+			a.deep(ns.values.sort(byId), objs, "Values");
+			ns.forEach(function () { args.push(arguments); }, x);
+			args.sort(function (a, b) { return a[0]._id_.localeCompare(b[0]._id_); });
+			a.deep(args[0], [objs[0], objs[0]._id_, ns, args[0][3]], "ForEach #1");
+			a.deep(args[1], [objs[1], objs[1]._id_, ns, args[1][3]], "ForEach #2");
 		},
 		"Create": function (a) {
 			var ns, date = new Date();
