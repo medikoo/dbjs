@@ -1,6 +1,6 @@
 'use strict';
 
-var Db = require('../../')
+var Db = require('../../../')
 
   , StringType = Db.String
   , getId = function (obj) { return obj._id_; };
@@ -8,14 +8,14 @@ var Db = require('../../')
 module.exports = function (t, a) {
 	var ns1, ns2, ns3, obj11, obj21, obj31, obj32, iterator, updates, removes;
 
-	ns3 = Db.create('FragTest3', { iteRemtest: StringType });
-	ns1 = Db.create('FragTest1', {
+	ns3 = Db.create('FragTest34', { iteRemtest: StringType });
+	ns1 = Db.create('FragTest14', {
 		iteTestStr: StringType,
 		iteTestMulti: StringType.rel({ multiple: true }),
 		otherObj: ns3,
 		otherMultipleObj: ns3.rel({ multiple: true })
 	});
-	ns2 = Db.create('FragTest2', {
+	ns2 = Db.create('FragTest24', {
 		iteTest: ns1.rel({ reverse: 'iteRev1' })
 	});
 

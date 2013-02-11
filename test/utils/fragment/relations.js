@@ -1,6 +1,6 @@
 'use strict';
 
-var Db = require('../../')
+var Db = require('../../../')
 
   , getId = function (obj) { return obj._id_; };
 
