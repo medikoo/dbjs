@@ -44,7 +44,9 @@ module.exports = function (t) {
 			a.deep(emitted['SignalTest1*'], emitted['*'], "NS* Events");
 
 			emitted2 = [];
-			ObjNs.prototype.on('add', function (event) { emitted2.push(event.obj); });
+			ObjNs.prototype.on('extend', function (event) {
+				emitted2.push(event.obj);
+			});
 			obj = new ObjNs({ test: 'mork' });
 			a.deep(emitted2, [obj], "Ns Add event");
 		},
