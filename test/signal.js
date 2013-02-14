@@ -10,7 +10,8 @@ module.exports = function (t) {
 	return {
 		"Events": function (a) {
 			var ns = Base.create('SignalTest1')
-			  , emitted = {}, event;
+			  , ObjNs = Db.Object.create('SignalObjTest1')
+			  , emitted = {}, event, obj, emitted2;
 
 			t.on('update', function (data) {
 				var name = '*';
@@ -41,6 +42,11 @@ module.exports = function (t) {
 				value: 34, index: emitted['*'][1].index }, "* Event #2");
 
 			a.deep(emitted['SignalTest1*'], emitted['*'], "NS* Events");
+
+			emitted2 = [];
+			ObjNs.prototype.on('add', function (event) { emitted2.push(event.obj); });
+			obj = new ObjNs({ test: 'mork' });
+			a.deep(emitted2, [obj], "Ns Add event");
 		},
 		"Import": function (a) {
 			var obj = Db();
