@@ -11,8 +11,9 @@ module.exports = function (t, a) {
 	a(t.RegExp._id_, 'RegExp', "RegExp");
 	a(t.String._id_, 'String', "String");
 
-	obj = t();
-	a(obj.db, t, "Access to main database from instance");
+	obj = t({ foo: 'olek' });
+	a(obj.Db, t, "Access to main database from instance");
+	a(obj._foo.Db, t, "Access to main database from any instance");
 	a.deep(t.Set('raz', 'dwa').values.sort(), ['raz', 'dwa'].sort(),
 		"Set library");
 
