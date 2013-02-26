@@ -20,7 +20,7 @@ module.exports = function (filename/*, options*/) {
 	return writeFile(resolve(String(filename)), getTpl()(function (tpl) {
 		var data;
 		if (options.log) tpl = tpl.replace(/\/\/\$LOG\$/g, '');
-		data = getSnapshot();
+		data = getSnapshot(options);
 		tpl = tpl.replace('$TIME$', (new Date()).toISOString());
 		tpl = tpl.replace('$COUNT$', data.length);
 		return replace.call(tpl, '$IMPORT$', data.map(function (event) {
