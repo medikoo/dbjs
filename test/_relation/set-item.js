@@ -5,7 +5,7 @@ var Db   = require('../../')
   , Base = Db.Base, StringType = Db.String;
 
 module.exports = function (t, a) {
-	var ns, item, data;
+	var ns, item, data, ns2, evented;
 	ns = Base.create('Relsetitemtest1',
 		 { foo: StringType.rel({ multiple: true }) });
 
@@ -30,4 +30,9 @@ module.exports = function (t, a) {
 	item._forEachRelation_(function () { data.push(arguments); });
 	a(data.length, 1, "ForEach: Count");
 	a.deep(data[0], [item._order, item._order._id_, item], "ForEach: Content");
+
+	ns2 = ns.create('RelSetItemTest2');
+	ns2.foo.once('delete', function (value) { evented = value; });
+	ns2.foo.add('lorem').$delete();
+	a(evented, 'lorem', "Emit delete on nested");
 };
