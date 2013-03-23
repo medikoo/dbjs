@@ -22,4 +22,8 @@ module.exports = function (t, a) {
 
 	obj2.foo = 'bwdfd';
 	a.deep(set.values.sort(compare), [obj1, obj3], "Update: remove");
+
+	obj2.foo = 'bwa';
+	a.deep(set.values.sort(compare), [obj1, obj2, obj3],
+		"Update same property twice");
 };
