@@ -1,6 +1,7 @@
 'use strict';
 
 var Db        = require('../../')
+  , getObject = require('../../lib/objects')._get
   , serialize = require('../../lib/utils/serialize')
 
   , Base = Db.Base, DateTime = Db.DateTime
@@ -114,6 +115,34 @@ module.exports = function (t, a) {
 			a(obj2.valueTest2, null, "Value: Before");
 			obj1._signal_(ns2.prototype);
 			a(obj2.valueTest2, obj1, "Value: After");
+		},
+		"Proto: index handling": function (a) {
+			var ns1 = Db.create('IndexObjRelTest1')
+			  , ns2 = Db.create('IndexObjRelTest2',
+					{ foo: ns1 })
+			  , obj, obj1, obj2;
+			obj = getObject('51vpsfr080s');
+			obj2 = getObject('01vo3s3m6wa');
+			obj2.foo = obj;
+			obj2.$$setValue(ns2.prototype);
+			a(obj2.foo, null, "Invalid cleared");
+			obj1 = ns1();
+			obj2.foo = obj1;
+			a(obj2.foo, obj1, "Assign good");
+		},
+		"Proto: index handling multiple": function (a) {
+			var ns1 = Db.create('IndexObjRelTest3')
+			  , ns2 = Db.create('IndexObjRelTest4',
+					{ bar: ns1.rel({ multiple: true }) })
+			  , item, obj1, obj2;
+			item = getObject('91s43q0tlhb:bar:791s43pq2s7b"');
+			item.$$setValue(true);
+			obj2 = getObject('91s43q0tlhb');
+			obj2.$$setValue(ns2.prototype);
+			a.deep(obj2.bar.values, [], "Invalid cleared");
+			obj1 = ns1();
+			obj2.bar = [obj1];
+			a.deep(obj2.bar.values, [obj1], "Assigned");
 		},
 		"Serialize": function (a) {
 			a(t._serialize_(true), serialize(true), "#1");
