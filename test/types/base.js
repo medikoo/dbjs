@@ -144,6 +144,20 @@ module.exports = function (t, a) {
 			obj2.bar = [obj1];
 			a.deep(obj2.bar.values, [obj1], "Assigned");
 		},
+		"Proto: index handling multiple: false": function (a) {
+			var ns1 = Db.create('IndexObjRelTest5')
+			  , ns2 = Db.create('IndexObjRelTest6',
+					{ bar: ns1.rel({ multiple: true }) })
+			  , obj11, obj12, obj2;
+			obj11 = ns1();
+			obj12 = ns1();
+			obj2 = ns2();
+			obj2.bar.add(obj11);
+			obj2.bar.delete(obj11);
+			obj2.bar.getItem(obj12);
+			obj2.$$setValue();
+			a(obj2._bar.multiple, false, "");
+		},
 		"Serialize": function (a) {
 			a(t._serialize_(true), serialize(true), "#1");
 			a(t._serialize_(343), serialize(343), "#2");
