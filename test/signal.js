@@ -37,9 +37,10 @@ module.exports = function (t) {
 
 			a(emitted['*'].length, 2, "* Events length");
 			a.deep(emitted['*'][0], { stamp: event.stamp, obj: ns._fooSigTest,
-				value: 'trzy', index: event.index }, "* Event #1");
+				value: 'trzy', index: event.index, fulfilled: true }, "* Event #1");
 			a.deep(emitted['*'][1], { stamp: event.stamp, obj: ns._fooSigTest2,
-				value: 34, index: emitted['*'][1].index }, "* Event #2");
+				value: 34, index: emitted['*'][1].index, fulfilled: true },
+				"* Event #2");
 
 			a.deep(emitted['SignalTest1*'], emitted['*'], "NS* Events");
 
@@ -78,13 +79,14 @@ module.exports = function (t) {
 			a(onassign.length, 1, "Assign: On Assign: length");
 			a(ondismiss.length, 0, "Assign: On Dismiss: length");
 			a.deep(onassign[0], { stamp: onassign[0].stamp, obj: obj21._rel,
-				value: obj11, index: onassign[0].index }, "Assign: On Assign: content");
+				value: obj11, index: onassign[0].index, fulfilled: true },
+				"Assign: On Assign: content");
 			onassign.length = 0;
 			obj21.rel = null;
 			a(onassign.length, 0, "Dismiss: On Assign: length");
 			a(ondismiss.length, 1, "Dismiss: On Dismiss: length");
 			a.deep(ondismiss[0], { stamp: ondismiss[0].stamp, obj: obj21._rel,
-				value: null, index: ondismiss[0].index },
+				value: null, index: ondismiss[0].index, fulfilled: true },
 				"Dismiss: On Assign: content");
 		},
 		"Remove": function (a) {
