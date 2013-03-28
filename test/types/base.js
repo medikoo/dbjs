@@ -158,6 +158,17 @@ module.exports = function (t, a) {
 			obj2.$$setValue();
 			a(obj2._bar.multiple, false, "");
 		},
+		"Proto: Multiple handling": function () {
+			var obj, emitted, ns = Db.create('MultipleObjRelTest1',
+				{ foo: Db.String.rel({ multiple: true }) });
+
+			obj = Db({ foo: 'raz' });
+			obj._foo.once('change', function (nu, old) {
+				emitted = [nu, old];
+			});
+			obj.$$setValue(ns.prototype);
+			a.deep(emitted, [obj._foo, 'raz']);
+		},
 		"Serialize": function (a) {
 			a(t._serialize_(true), serialize(true), "#1");
 			a(t._serialize_(343), serialize(343), "#2");
