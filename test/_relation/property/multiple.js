@@ -5,7 +5,7 @@ var Db = require('../../../')
   , StringType = Db.String;
 
 module.exports = function (a) {
-	var obj = Db({ multipleTest: StringType });
+	var obj = Db({ multipleTest: StringType }), emitted;
 
 	obj.multipleTest = 'raz';
 	a(obj.multipleTest, 'raz', "Init");
@@ -21,4 +21,8 @@ module.exports = function (a) {
 		"Deletion");
 	obj._multipleTest.multiple = false;
 	a(obj.multipleTest, 'dwa', "Convert back");
+
+	obj._multipleTest.once('change', function (nu, old) { emitted = [nu, old]; });
+	obj._multipleTest._multiple._signal_(true);
+	a.deep(emitted, [obj._multipleTest, 'dwa'], "Emit change");
 };
