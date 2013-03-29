@@ -55,6 +55,8 @@ module.exports = function (t) {
 			obj2.relInstTest4 = undefined;
 			a(obj2.relInstTest4, 'dwa', "Start at base");
 
+			obj.set('value', 'foo');
+
 			// Make sure that validateCreate is used by rel
 			ns = Db.create('RelConstructionTest');
 			Db.create('RelConstructionTest2', {
