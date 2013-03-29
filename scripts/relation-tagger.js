@@ -22,6 +22,7 @@ module.exports = function (filename, tag/*, options*/) {
 		if (options.log) tpl = tpl.replace(/\/\/\$LOG\$/g, '');
 		tpl = tpl.replace('$TAG$', tag.slice(1, -1));
 		tpl = tpl.replace('$TIME$', (new Date()).toISOString());
+		lines.push('getObject(\':":order\').tags.add(' + tag + ');');
 		data.forEach(function (event) {
 			var obj = event.obj;
 			if (done.hasOwnProperty(obj._id_)) return null;
