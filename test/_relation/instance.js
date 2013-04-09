@@ -50,6 +50,9 @@ module.exports = function (t) {
 			a(obj._RelInstTest3.ns, Base, "Namespace value: ns");
 			a(obj.RelInstTest3, ObjectType, "Namespace value: value");
 
+			obj.RelInstTest3 = NumberType;
+			a(obj.RelInstTest3, NumberType, "Namespace value: update");
+
 			obj2.set('relInstTest4', 'raz');
 			obj.relInstTest4 = 'dwa';
 			obj2.relInstTest4 = undefined;
