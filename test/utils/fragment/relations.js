@@ -1,6 +1,7 @@
 'use strict';
 
-var Db = require('../../../')
+var values = require('es5-ext/lib/Object/values')
+  , Db     = require('../../../')
 
   , getId = function (obj) { return obj._id_; };
 
@@ -21,20 +22,17 @@ module.exports = function (T, a) {
 		if (obj._type_ === 'relation') relEvents.push(obj);
 		else setEvents.push(obj);
 	});
-	fragment.init();
 
 	a.deep(approve.map(getId).sort(), [obj._$construct, obj._marko, obj._pablo,
 		obj._pablo._itemPrototype_._order,
 		obj._pablo.getItem('foo')._order,
 		obj._pablo.getItem('bar')._order].map(getId).sort(), "Approve");
 	approve.length = 0;
-	a.deep(relEvents.map(getId).sort(), [obj._marko, obj._pablo, obj._pablo._ns,
-		obj._pablo._multiple, obj._pablo.getItem('foo')._order,
-		obj._pablo.getItem('bar')._order].map(getId).sort(), "Rel events");
-	relEvents.length = 0;
-	a.deep(setEvents.map(getId).sort(), [obj._pablo.getItem('foo'),
-		obj._pablo.getItem('bar')].map(getId).sort(), "Set items");
-	setEvents.length = 0;
+	a.deep(values(fragment.objects).map(getId).sort(), [obj, obj._marko,
+		obj._pablo, obj._pablo._ns, obj._pablo._multiple,
+		obj._pablo.getItem('foo')._order, obj._pablo.getItem('bar')._order,
+		obj._pablo.getItem('foo'), obj._pablo.getItem('bar')].map(getId).sort(),
+		"Objects");
 
 	obj.foo.add('dwa');
 	a.deep(approve.map(getId).sort(), [obj._foo].map(getId).sort(),
