@@ -4,23 +4,22 @@ var Db = require('../../../')
 
   , getId = function (obj) { return obj._id_; };
 
-module.exports = function (t, a) {
+module.exports = function (T, a) {
 	var ns, obj, relEvents = [], setEvents = [], approve = [], fragment;
 
 	ns = Db.create('ObjFragTest', { foo: Db.String.rel({ multiple: true }) });
 	obj = ns({ marko: 12,
 		pablo: Db.String.rel({ multiple: true, value: ['foo', 'bar'] }) });
 
-	fragment = new t(obj, function (rel) {
+	fragment = new T(obj, function (rel) {
 		rel.tags.has('whatever');
 		approve.push(rel);
 		return true;
 	});
-	fragment.on('relupdate', function (nu, old) {
-		relEvents.push((nu || old).obj);
-	});
-	fragment.on('setitemupdate', function (nu, old) {
-		setEvents.push((nu || old).obj);
+	fragment.on('update', function (nu, old) {
+		var obj = (nu || old).obj;
+		if (obj._type_ === 'relation') relEvents.push(obj);
+		else setEvents.push(obj);
 	});
 	fragment.init();
 
