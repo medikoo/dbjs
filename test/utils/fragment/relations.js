@@ -8,14 +8,17 @@ var values = require('es5-ext/lib/Object/values')
 module.exports = function (T, a) {
 	var ns, obj, relEvents = [], setEvents = [], approve = [], fragment;
 
-	ns = Db.create('ObjFragTest', { foo: Db.String.rel({ multiple: true }) });
+	ns = Db.create('ObjFragTest', { foo: Db.String.rel({ multiple: true }),
+		 restricted: Db.String.rel({ multiple: true }) });
 	obj = ns({ marko: 12,
 		pablo: Db.String.rel({ multiple: true, value: ['foo', 'bar'] }) });
+
+	obj.restricted.add('foo');
 
 	fragment = new T(obj, function (rel) {
 		rel.tags.has('whatever');
 		approve.push(rel);
-		return true;
+		return (rel.name !== 'restricted');
 	});
 	fragment.on('update', function (nu, old) {
 		var obj = (nu || old).obj;
@@ -23,8 +26,9 @@ module.exports = function (T, a) {
 		else setEvents.push(obj);
 	});
 
-	a.deep(approve.map(getId).sort(), [obj._$construct, obj._marko, obj._pablo,
-		obj._pablo._itemPrototype_._order,
+	a.deep(approve.map(getId).sort(), [obj._marko, obj._pablo,
+		obj._pablo._multiple, obj._pablo._ns,
+		obj._restricted,
 		obj._pablo.getItem('foo')._order,
 		obj._pablo.getItem('bar')._order].map(getId).sort(), "Approve");
 	approve.length = 0;
