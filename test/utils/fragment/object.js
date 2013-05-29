@@ -16,6 +16,7 @@ module.exports = function (t, a) {
 		otherObj: ns3,
 		otherMultipleObj: ns3.rel({ multiple: true })
 	});
+	ns3.prototype.set('forbiddenMultipleObj', ns1.rel({ multiple: true }));
 	ns2 = Db.create('FragTest2', {
 		iteTest: ns1.rel({ reverse: 'iteRev1' })
 	});
@@ -23,9 +24,12 @@ module.exports = function (t, a) {
 	obj31 = ns3({ iteRemtest: 'remotes' });
 	obj11 = ns1({ iteTestStr: 'foo', iteTestMulti: ['raz', 'dwa'],
 		otherObj: obj31 });
+	obj32 = ns3({ forbiddenMultipleObj: [obj11] });
 	obj21 = ns2({ iteTest: obj11 });
 
-	iterator = t(obj11, function () { return true; });
+	iterator = t(obj11, function (rel) {
+		return rel.name !== 'forbiddenMultipleObj';
+	});
 	a.deep(values(iterator.objects).map(getId).sort(), [obj11, obj11._iteTestStr,
 		obj11._iteTestMulti, obj11._iteTestMulti.getItem('raz'),
 		obj11._iteTestMulti.getItem('raz')._order,
