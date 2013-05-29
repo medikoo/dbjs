@@ -1,7 +1,8 @@
 'use strict';
 
-var values = require('es5-ext/lib/Object/values')
-  , Db     = require('../../../')
+var values  = require('es5-ext/lib/Object/values')
+  , Db      = require('../../../')
+  , objects = require('../../../lib/objects')
 
   , getId = function (obj) { return obj._id_; };
 
@@ -15,7 +16,8 @@ module.exports = function (T, a) {
 
 	obj.restricted.add('foo');
 
-	fragment = new T(obj, function (rel) {
+	fragment = new T(obj, function (id) {
+		var rel = objects[id];
 		rel.tags.has('whatever');
 		approve.push(rel);
 		return (rel.name !== 'restricted');
