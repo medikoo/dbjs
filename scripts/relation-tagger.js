@@ -16,13 +16,13 @@ getTpl = memoize(function () {
 
 module.exports = function (filename, tag/*, options*/) {
 	var options = Object(arguments[2]);
-	tag = stringify(String(tag));
+	tag = stringify('_' + String(tag) + '_');
 	return writeFile(resolve(String(filename)), getTpl()(function (tpl) {
 		var data = getSnapshot(), done = {}, lines = [];
 		if (options.log) tpl = tpl.replace(/\/\/\$LOG\$/g, '');
 		tpl = tpl.replace('$TAG$', tag.slice(1, -1));
 		tpl = tpl.replace('$TIME$', (new Date()).toISOString());
-		lines.push('getObject(\':":order\').tags.add(' + tag + ');');
+		lines.push('defineProperty(getObject(\':":order\'), ' + tag + ', value);');
 		data.forEach(function (event) {
 			var obj = event.obj;
 			if (done.hasOwnProperty(obj._id_)) return null;
@@ -31,12 +31,12 @@ module.exports = function (filename, tag/*, options*/) {
 					((obj.name === 'ns') || (obj.name === 'required'))) {
 				if (!done.hasOwnProperty(obj.obj._id_)) {
 					done[obj.obj._id_] = true;
-					lines.push('getObject(' + stringify(obj.obj._id_) + ').tags.add(' +
-						tag + ');');
+					lines.push('defineProperty(getObject(' + stringify(obj.obj._id_) +
+						'), ' + tag + ', value);');
 				}
 			}
-			lines.push('getObject(' + stringify(obj._id_) + ').tags.add(' + tag +
-				');');
+			lines.push('defineProperty(getObject(' + stringify(obj._id_) + '), ' +
+				tag + ', value);');
 		});
 		tpl = tpl.replace('$COUNT$', data.length);
 		return replace.call(tpl, '$CONTENT$', lines.join('\n'));

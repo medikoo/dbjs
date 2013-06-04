@@ -5,7 +5,11 @@
 
 'use strict';
 
-var getObject = require('dbjs/lib/objects')._get;
+var getObject = require('dbjs/lib/objects')._get
+
+  , defineProperty = Object.defineProperty
+  , value = { value: true, enumerable: false, configurable: true,
+		writable: true };
 
 //$LOG$process.stdout.write("Setup '$TAG$' tags...");
 
