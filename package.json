@@ -23,7 +23,7 @@
     "es5-ext": "git://github.com/medikoo/es5-ext",
     "event-emitter": "~0.2.1",
     "memoizee": "~0.2.3",
-    "mutable-emitter-value": "git://github.com/medikoo/mutable-emitter-value",
+    "mutable": "0.1.x",
     "next-tick": "0.1.x",
     "set-collection": "0.1.x",
     "time-uuid": "0.1.x"
