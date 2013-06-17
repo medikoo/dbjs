@@ -52,7 +52,7 @@ module.exports = function (t) {
 			a.deep(emitted2, [obj], "Ns Add event");
 		},
 		"Import": function (a) {
-			var obj = Db();
+			var obj = new Db();
 			t._add(new Event(obj.get('signalAddTest'), 34, 0));
 			a(obj.signalAddTest, 34, "Import new");
 			t._add(new Event(obj._signalAddTest, 58, 3));
@@ -90,7 +90,7 @@ module.exports = function (t) {
 				"Dismiss: On Assign: content");
 		},
 		"Remove": function (a) {
-			var obj = Db(), events = [];
+			var obj = new Db(), events = [];
 			t.on('remove', function (id) { events.push(id); });
 			a(obj.ns, Db, "Before");
 			t._remove(obj._id_);

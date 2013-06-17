@@ -2,8 +2,8 @@
 
 var Db = require('../../');
 
-module.exports = function (t, a, d) {
-	var set = new t({}), x = {}, values, i = 0, obj, list;
+module.exports = function (T, a, d) {
+	var set = new T({}), x = {}, values, i = 0, obj, list;
 	a.deep(set.values, [], "Empty");
 	set[set._serialize('foo')] = 'foo';
 	set[set._serialize('bar')] = 'bar';
@@ -18,7 +18,7 @@ module.exports = function (t, a, d) {
 		++i;
 	}, x);
 
-	obj = Db({ raz: 1, dwa: 2, trzy: 3 });
+	obj = new Db({ raz: 1, dwa: 2, trzy: 3 });
 	obj._raz.order = 10;
 	obj._dwa.order = 12;
 	obj._trzy.order = -5;

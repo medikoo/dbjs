@@ -75,8 +75,8 @@ module.exports = function (t, a) {
 	ns3._signal_(ns2);
 	a(obj11.ola, obj31, "NS changes");
 
-	obj15 = Db({ fafa: 'sdfs' });
-	obj33 = Db();
+	obj15 = new Db({ fafa: 'sdfs' });
+	obj33 = new Db();
 	obj33._foo._signal_(obj15);
 	obj33._signal_(ns3.prototype);
 	obj15._signal_(ns1.prototype);

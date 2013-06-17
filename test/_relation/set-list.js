@@ -3,7 +3,7 @@
 var Db = require('../../');
 
 module.exports = function (a) {
-	var obj = Db({ foo: 'bar' }), list, raz, bar, dwa;
+	var obj = new Db({ foo: 'bar' }), list, raz, bar, dwa;
 	obj._foo.multiple = true;
 	bar = obj.foo.getItem('bar');
 	bar.order = 10;

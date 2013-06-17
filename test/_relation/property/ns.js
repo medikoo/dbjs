@@ -5,7 +5,7 @@ var Db = require('../../../')
   , Base = Db.Base, StringType = Db.String;
 
 module.exports = function (a) {
-	var obj = Db({ nsTest: 'foo' });
+	var obj = new Db({ nsTest: 'foo' });
 
 	a(obj._nsTest.ns, Base, "Initial");
 	a.throws(function () {

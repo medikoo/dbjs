@@ -4,7 +4,7 @@ var Db = require('../../');
 
 module.exports = function (t, a) {
 	var obj, set, event, filter;
-	obj = Db({ raz: 1, dwa: 2, trzy: 3 });
+	obj = new Db({ raz: 1, dwa: 2, trzy: 3 });
 	set = obj.getOwnPropertyNames().filter(filter = function (name, onupdate) {
 		return this[name] % 2;
 	});

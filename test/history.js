@@ -7,21 +7,21 @@ var isDate = require('es5-ext/lib/Date/is-date')
 module.exports = function (t, a) {
 	return {
 		"": function () {
-			var obj = Db(), objHistory = t[obj._id_];
+			var obj = new Db(), objHistory = t[obj._id_];
 			a(objHistory.length, 1, "Length");
 			a.deep(objHistory[0], { stamp: objHistory[0].stamp, obj: obj,
 				value: Db.prototype, index: objHistory[0].index, fulfilled: true },
 				"Event");
 		},
 		lastModified: function (a) {
-			var obj = Db();
+			var obj = new Db();
 			a(typeof obj._lastModified_, 'number', "Object");
 			a(typeof Db.create('ProtoIndexTest')._lastModified_, 'number',
 				"Constructor");
 		},
 		lastModifiedDate: function (a) {
 			var date = new Date(Date.now() - 1000)
-			  , obj = Db()
+			  , obj = new Db()
 			  , lm = obj._lastModifiedDate_;
 			a(isDate(lm), true, "Date type");
 			a(lm > date, true, "Current #1");
@@ -29,7 +29,7 @@ module.exports = function (t, a) {
 			a(lm < date, true, "Current #2");
 		},
 		lastEvent: function (a) {
-			var obj = Db(), event = obj._lastEvent_;
+			var obj = new Db(), event = obj._lastEvent_;
 			a.deep({ obj: obj, value: Db.prototype, stamp: event.stamp,
 				index: event.index, fulfilled: true }, event);
 		},

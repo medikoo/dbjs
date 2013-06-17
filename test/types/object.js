@@ -162,7 +162,7 @@ module.exports = function (t) {
 			a(t.hasOwnProperty(obj._id_), false, "Removed: Visible: Base");
 		},
 		"Serialize": function (a) {
-			var obj = Db();
+			var obj = new Db();
 			a(t._serialize_(obj), serialize(obj));
 		}
 	};

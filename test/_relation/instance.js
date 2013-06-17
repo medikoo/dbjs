@@ -8,7 +8,7 @@ var Db = require('../../')
 module.exports = function (t) {
 	return {
 		"": function (a) {
-			var obj = Db(), obj2, ns;
+			var obj = new Db(), obj2, ns;
 
 			// Basic set
 			obj.set('relInstTest', 'bar');
@@ -67,7 +67,7 @@ module.exports = function (t) {
 			});
 		},
 		forEachRelation: function (a) {
-			var obj = Db(), data;
+			var obj = new Db(), data;
 			obj.set('feRelTest', StringType.rel('bar'));
 			obj.set('feRelTest2', 'foo');
 			data = [];

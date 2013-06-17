@@ -5,7 +5,7 @@ var Db = require('../../')
   , Base = Db.Base, StringType = Db.String;
 
 module.exports = function (a) {
-	var obj = Db(), obj2, item, ns1, ns2;
+	var obj = new Db(), obj2, item, ns1, ns2;
 
 	// Basic set
 	obj.set('relValueTest', 'bar');
@@ -45,7 +45,7 @@ module.exports = function (a) {
 	}, "Write once");
 
 	// Delete
-	obj = Db();
+	obj = new Db();
 	obj.get('test').multiple = true;
 	obj.test = ['raz', 'dwa'];
 	obj._test.get('foo').value = 'bar';

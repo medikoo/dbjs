@@ -6,7 +6,7 @@ var Db = require('../../')
 
 module.exports = function (t, a) {
 	var obj, set, event, map;
-	obj = Db({ raz: 1, trzy: 3 });
+	obj = new Db({ raz: 1, trzy: 3 });
 	set = obj.getOwnPropertyNames().liveSetMap(map = function (name) {
 		return this.get(name);
 	});
@@ -27,7 +27,7 @@ module.exports = function (t, a) {
 
 	a(set, obj.getOwnPropertyNames().liveSetMap(map), "Memoized");
 
-	obj = Db({ raz: 1, trzy: 3 });
+	obj = new Db({ raz: 1, trzy: 3 });
 	set = obj.getOwnPropertyNames().relMap();
 
 	a.deep(set.values.sort(byName), [obj._raz, obj._trzy], "RelMap: Mapped");

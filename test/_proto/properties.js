@@ -8,7 +8,7 @@ var isError = require('es5-ext/lib/Error/is-error')
 module.exports = function () {
 	return {
 		getPropertyNames: function (a) {
-			var other, obj = Db()
+			var other, obj = new Db()
 			  , standard = [].sort();
 			a.deep(obj.getPropertyNames().values.sort(), standard, "Empty");
 			obj.set('protoPropertiesTest1');
@@ -35,7 +35,7 @@ module.exports = function () {
 				['protoPropertiesTest2', 'protoPropTest3'].sort(), "Tagged names");
 		},
 		setProperties: function (a) {
-			var obj = Db();
+			var obj = new Db();
 			obj.setProperties({
 				protoPropsSet1: true,
 				protoPropsSet2: 23
@@ -46,7 +46,7 @@ module.exports = function () {
 			}, "Error");
 		},
 		validateCreateProperties: function (a) {
-			var obj = Db(), other;
+			var obj = new Db(), other;
 			obj.set('protoPropsSetValNew1', StringType.required);
 			other = obj.$$create('protoPropsSetValNewTest');
 			a(isError(other.validateCreateProperties({ protoPropsSetValNew1: null })),
@@ -55,7 +55,7 @@ module.exports = function () {
 				"Error");
 		},
 		validateCreateUndefined: function (a) {
-			var obj = Db(), other;
+			var obj = new Db(), other;
 			obj.set('protoPropsSetValNew1', StringType.required);
 			other = obj.$$create('protoPropsSetValNewTest');
 			a(isError(other.validateCreateUndefined()),

@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function (t, a) {
-	var set = new t({}), x = {}, values, i = 0;
+module.exports = function (T, a) {
+	var set = new T({}), x = {}, values, i = 0;
 	a.deep(set.values, [], "Empty");
 	set[':foo'] = 'foo';
 	set[':bar'] = 'bar';

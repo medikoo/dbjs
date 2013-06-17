@@ -4,7 +4,7 @@ var Db = require('../../');
 
 module.exports = function (t, a, d) {
 	var obj, set, evented = 0, list, compareFn, map, mapEvented = 0, mapFn;
-	obj = Db({ raz: 20, dwa: 10, trzy: 31 });
+	obj = new Db({ raz: 20, dwa: 10, trzy: 31 });
 	set = obj.getOwnPropertyNames();
 	list = set.list(compareFn = function (a, b) { return this[a] - this[b]; });
 	a.deep(list, ['dwa', 'raz', 'trzy'], "Initial sort");

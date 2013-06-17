@@ -5,7 +5,7 @@ var Db = require('../../../')
   , StringType = Db.String;
 
 module.exports = function (a) {
-	var obj = Db({ multipleTest: StringType }), emitted;
+	var obj = new Db({ multipleTest: StringType }), emitted;
 
 	obj.multipleTest = 'raz';
 	a(obj.multipleTest, 'raz', "Init");

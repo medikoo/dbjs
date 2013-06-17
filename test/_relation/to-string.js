@@ -3,7 +3,7 @@
 var Db = require('../../');
 
 module.exports = function (a) {
-	var obj = Db({
+	var obj = new Db({
 		toString: function () { return this.toStringTest + 'bar'; },
 		toStringTest: 'foo'
 	});

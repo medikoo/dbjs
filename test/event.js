@@ -3,8 +3,8 @@
 var Db        = require('../')
   , serialize = require('../lib/utils/serialize');
 
-module.exports = function (t) {
-	var obj = Db(), event = new t(obj, Db.prototype, 123);
+module.exports = function (T) {
+	var obj = new Db(), event = new T(obj, Db.prototype, 123);
 
 	return {
 		toString: function (a) {
@@ -12,7 +12,7 @@ module.exports = function (t) {
 		},
 		Unserialize: function (a) {
 			var event;
-			event = t.unserialize('124.' + obj._id_ + '.' +
+			event = T.unserialize('124.' + obj._id_ + '.' +
 				serialize('ra.sd#.#sdfdsz'));
 			a.deep(event, {
 				obj: obj,
@@ -22,7 +22,7 @@ module.exports = function (t) {
 			}, "Object");
 
 			obj = obj.get('marKo');
-			event = t.unserialize('12434.' + obj._id_ + '.' + serialize(undefined));
+			event = T.unserialize('12434.' + obj._id_ + '.' + serialize(undefined));
 			a.deep(event, {
 				obj: obj,
 				value: undefined,
@@ -31,7 +31,7 @@ module.exports = function (t) {
 			}, "Object->Rel");
 
 			obj = obj._getItem_(serialize('hej"mordo.moja.sdf'));
-			event = t.unserialize('34343.' + obj._id_ + '.' + serialize(true));
+			event = T.unserialize('34343.' + obj._id_ + '.' + serialize(true));
 			a.deep(event, {
 				obj: obj,
 				value: true,
@@ -40,7 +40,7 @@ module.exports = function (t) {
 			}, "Object->Rel->Item");
 
 			obj = obj.get('markoWki');
-			event = t.unserialize('5555.' + obj._id_ + '.' +
+			event = T.unserialize('5555.' + obj._id_ + '.' +
 				serialize(function () { return 'raz.dwa"#"'; }));
 			a.deep(event, {
 				obj: obj,
@@ -50,7 +50,7 @@ module.exports = function (t) {
 			}, "Object->Rel->Item->Rel");
 
 			obj = obj._getItem_(serialize(2342));
-			event = t.unserialize('333.' + obj._id_ + '.' +
+			event = T.unserialize('333.' + obj._id_ + '.' +
 				serialize(undefined));
 			a.deep(event, {
 				obj: obj,
@@ -60,7 +60,7 @@ module.exports = function (t) {
 			}, "Object->Rel->Item->Rel->Item");
 
 			obj = obj.get('czraa');
-			event = t.unserialize('11111.' + obj._id_ + '.' +
+			event = T.unserialize('11111.' + obj._id_ + '.' +
 				serialize(Db.String));
 			a.deep(event, {
 				obj: obj,

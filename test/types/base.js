@@ -104,13 +104,13 @@ module.exports = function (t, a) {
 
 			ns2.set('indtest', Db.String);
 
-			obj1 = Db({ indtest: 'foo' });
+			obj1 = new Db({ indtest: 'foo' });
 			obj1._signal_(ns2.prototype);
 
 			a.deep(ns2.prototype._indtest.find('foo').values, [obj1], "Indexes");
 
-			obj1 = Db({ valueTest: 'foo' });
-			obj2 = Db({ valueTest2: ns2 });
+			obj1 = new Db({ valueTest: 'foo' });
+			obj2 = new Db({ valueTest2: ns2 });
 			obj2._valueTest2.$$setValue(obj1);
 			a(obj2.valueTest2, null, "Value: Before");
 			obj1._signal_(ns2.prototype);
@@ -162,7 +162,7 @@ module.exports = function (t, a) {
 			var obj, emitted, ns = Db.create('MultipleObjRelTest1',
 				{ foo: Db.String.rel({ multiple: true }) });
 
-			obj = Db({ foo: 'raz' });
+			obj = new Db({ foo: 'raz' });
 			obj._foo.once('change', function (nu, old) {
 				emitted = [nu, old];
 			});

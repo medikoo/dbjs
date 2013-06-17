@@ -4,7 +4,7 @@ var Db = require('../../');
 
 module.exports = function (t, a) {
 	var obj, set, event;
-	obj = Db();
+	obj = new Db();
 	set = obj.getOwnPropertyNames();
 	a.deep(set.values, [], "Empty");
 	obj.set('foo');
