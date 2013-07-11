@@ -1,14 +1,10 @@
 # DBJS
 ## In-Memory Database Engine for JavaScript
-### The concept
+### Concept
 
-DBJS is kind of object-relational mapping solution, but done from _other side_, it's different from ORM solutions you may be familiar with, and stating it is ORM is probably wrong.
+In common application we define models in Database engine that persists our data, and then we try to resemble that in manual or more less automatic way in models written in language that we use, we connect both worlds and work like that.
 
-* In DBJS we define models in JavaScript and in most natural for JavaScript way, using it's types, functions, prototype inheritance etc.
-* Same way we work with instances, there's no need for extra handling of `save` or `sync` operations, it's done transparently behind the scenes
-* The persistent layer that may be connected to DBJS is transparent to our work, and in normal work we don't need to deal with it directly. Technically persistent layer is low-level graph/key-value data representation, which you may connect to persistent database solution of your choice.
-* Schema is defined same way as data objects. Schema can also be mutable and propagate changes during run of application. Technically it's all one, living world.
-* You can mix normal JavaScript properties and values with those that are backed by DBJS
+With DBJS we define models directly and just in a language, using all things that JavaScript has to offer, its types, functions, prototypal inheritance etc. and we work with it natural way. DBJS on the other side provides all means to observe the changes in reasonable manner. Persistent layer can be easily connected to end point which expresses data with low-level graph/key-value representation, and that remains transparent to our work.
 
 ***Important: DBJS alredy powers sophisticated projects, but it's still under heavy development. It's API is not yet in stable state and is subject to changes***
 
@@ -81,13 +77,13 @@ Db.ShortString('foobar'); // TypeError: foobar is too long
 Similar options can be provided when extending `Number` type (`min`, `max` and `step`) or 
 `DateTime` type (`min` and `max`).
 
-Mind that while this is the only programmed-in options, you can create your own very custom types, programmatically, with they're constructors and other internal logic.
+Mind that, while this is the only programmed-in options, you still can create your very own custom types programmatically, by creating custom constructors and providing other logic.
 
-Within DBJS `Boolean`, `Number`, `String`, `DateTime`, `RegExp` and `Function` types are all primitives expressed with one value (even though in JavaScript some of them object types). Base of type for objects which references individual propertis is `Object`
+Within DBJS following types: `Boolean`, `Number`, `String`, `DateTime`, `RegExp` and `Function` are all considered as primitive and are expressed with one end value (even though in JavaScript language some of them are expressed with objects).
 
 #### Object type
 
-The object type in DBJS is `Db.Object`, instance of it is set of properties, and each property has both _name_ and value that can be of any defined DBJS type
+Base type for object types is `Db.Object`, Instance of `Db.Object` is (as in plain JavaScript) a plain object (a set of proprties). Each property can have value that can be of any defined DBJS type
 
 ```javascript
 var obj = Db.Object({ foo: 'bar', bar: 34 });
@@ -96,7 +92,7 @@ Object.keys(obj); // ['foo', 'bar']
 obj._id_;         // '158nineyo28' Unique internal id of an object
 ```
 
-When we didn't define types for object properties, all of them become of type `Base`, Type `Base` is representation of _undefined_ type and shouldn't be used when defining model. All basic types inherit from `Base`.
+When type for property is not defined, then property is of `Db.Base` type. `Base` is representation of _undefined_ type and shouldn't be used when defining model. Note: all basic types inherit from `Base`.
 
 ```javascript
 Object.getPrototypeOf(Db.Boolean); // Db.Base
@@ -104,7 +100,7 @@ Object.getPrototypeOf(Db.String); // Db.Base
 Object.getPrototypeOf(Db.ShortString); // Db.String
 ```
 
-We can access meta-data object of a property via prefixing it's name with underscore:
+We can access meta-data object of a property via it's name prefixed with underscore:
 
 ```javascript
 obj.foo; // 'bar'
@@ -119,7 +115,7 @@ obj._foo._lastModified_ // 1373553256564482,  microtime stamp of last modificati
 obj._foo.required; // false, id, whether property is required
 ```
 
-We can override some settings:
+We can override property characteristics:
 
 ```javascript
 obj._bar.ns = Db.String;
@@ -137,9 +133,11 @@ obj.bar = null; // Ok
 
 #### Defining object model
 
-Let's define some object example namespace. We're gonna create `Patient` and `Doctor` types for simple patient registry system.
+Let's define some custom object types.
 
-Each type provides `rel` function that returns property descriptor, through which we define property of given type:
+We're gonna create `Patient` and `Doctor` types for simple patient registry system:
+
+Each DBJS type provides `rel` function, which generates property descriptor, through which we can define custom property of given type:
 
 ```javascript
 Db.Object.create('Patient', {
@@ -155,17 +153,17 @@ Db.Object.create('Doctor', {
 });
 ```
 
-Following descriptor properties have special semantics defined in DBJS internals:
+Following descriptor properties, have special semantics defined in DBJS internals:
 
 * **required** `boolean` -  Property will be required
 * **multiple** `boolean` - Property will be multiple (set of multiple values)
 * **reverse** `boolean|string` - Valid only for object types, will expose reverse property on a values, e.g.
-In Case of `doctor.patients` and reverse set to `true`, we would be able to access patient's doctor on patient's object, via `patient.doctor` property, we can exact name for a property `reverse: familyDoctor` and then doctor would be accessible on `patient.familyDoctor` property.
+In Case of `doctor.patients` and reverse set to `true`, we would be able to access patient's doctor on patient's object, via `patient.doctor` property. We can decide on exact name for a property e.g. `reverse: familyDoctor` and then doctor would be accessible on `patient.familyDoctor` property.
 * **unique** `boolean` - Whether values should be unique.
-* **order** `number` - Order number, used for ordered lists of properties
+* **order** `number` - Order number, used in ordered lists of properties
 * **value** _in type of namespace_ - Default value, that will be set on prototype.
 
-All other options that may be provided, are set in direct form on property's meta object and are not used in any way internally by DBJS engine. That way you can define your custom properties and use them later in your custom way.
+Any other option which may be provided will be set in it's direct form on property's meta-data object. It will not be used in any way, internally by DBJS engine. That way you can define your custom properties and use them later in your custom way.
 
 Let's build some objects for given schema:
 
@@ -177,7 +175,7 @@ drHouse.lastName; // 'House'
 drHouse.patients; // {}, set of patients
 drHouse.patients.values; // [], array of patients set values
 
-var john = Db.Patient({ firstName: "John", lastName: "Smith", birthDate: new Date(1977, 0, 3) });
+var john = new Db.Patient({ firstName: "John", lastName: "Smith", birthDate: new Date(1977, 0, 3) });
 
 john.firstName; // 'John';
 john.doctor; // null, we access reverse doctor value out of doctor.patients property.
@@ -210,7 +208,7 @@ drHouse.patients.delete(john); // 'delete' emitted on drHouse.patients, and 'cha
 drHouse.patients.add(john); // 'add' emitted on drHouse.patients, and 'change' emitted on johnItem
 ```
 
-There are more type events dedicated for persistent layer, they'll be documented in near future.
+There are more event types dedicated for persistent layer, they'll be documented in near future.
 
 #### Dynamic (calculated) properties
 
@@ -226,7 +224,7 @@ Db.Doctor.prototype.set('fullName', Db.String.rel({
 drHouse.fullName; // "Gregory House"
 ```
 
-In above case value is recalculated on each access, to improve things, and have valid _change_ events on our dynamic propertu, we can point the triggers that change the value, then value will be recalculated only when triggered _(this is subject to change, in close future triggers will be calculated from function's content and no extra definition of them will be needed)_:
+In above case value is recalculated on each access, to improve things, and have valid _change_ events on our dynamic property, we can point the triggers that change the value, then value will be recalculated only when triggered _(this is subject to change, in close future triggers will be calculated from function's content and no extra definition of them will be needed)_:
 
 ```javascript
 Db.Doctor.prototype.set('fullName', Db.String.rel({
