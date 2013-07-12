@@ -244,6 +244,14 @@ It's important to understand how DBJS object inheritance is organized. Below dia
 
 <img src="http://medyk.org/dbjs-prototypes.png" />
 
+#### [DBJS-EXT](https://github.com/medikoo/dbjs-ext) Other types (extensions)
+
+DBJS on its own provides just basic types (which correspond to native JavaScript types), you can extend them into more custom on your own, but there's also dedicated [DBJS-EXT](https://github.com/medikoo/dbjs-ext) project which defines all other common types that you may be after.
+
+#### [DBJS-DOM](https://github.com/medikoo/dbjs-dom) DOM bindings
+
+DBJS-DOM is dedicated project which provides two-way DOM bindings for any DBJS objects (each type is handled in dedicated way). If you build website with DBJS models, it will definitely you a lot of time.
+
 ## Tests
 
 	$ npm test
