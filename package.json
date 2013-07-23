@@ -19,17 +19,17 @@
     "nosql"
   ],
   "dependencies": {
-    "deferred": "~0.6.1",
+    "deferred": "~0.6.5",
     "es5-ext": "git://github.com/medikoo/es5-ext",
-    "event-emitter": "~0.2.1",
-    "memoizee": "~0.2.3",
-    "mutable": "0.1.x",
+    "event-emitter": "~0.2.2",
+    "memoizee": "git://github.com/medikoo/memoize",
+    "mutable": "git://github.com/medikoo/mutable",
     "next-tick": "0.1.x",
-    "set-collection": "0.1.x",
+    "set-collection": "git://github.com/medikoo/set-collection",
     "time-uuid": "0.1.x"
   },
   "devDependencies": {
-    "tad": "~0.1.12"
+    "tad": "~0.1.16"
   },
   "repository": {
     "type": "git",
