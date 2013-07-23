@@ -2,7 +2,6 @@
 
 var values  = require('es5-ext/lib/Object/values')
   , Db      = require('../../../')
-  , objects = require('../../../lib/objects')
 
   , getId = function (obj) { return obj._id_; };
 
@@ -16,8 +15,7 @@ module.exports = function (T, a) {
 
 	obj.restricted.add('foo');
 
-	fragment = new T(obj, function (id) {
-		var rel = objects[id];
+	fragment = new T(obj, function (rel) {
 		rel.tags.has('whatever');
 		approve.push(rel);
 		return (rel.name !== 'restricted');

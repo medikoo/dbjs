@@ -28,7 +28,7 @@ module.exports = {
 			otherObj: obj31 });
 		obj21 = ns2({ iteTest: obj11 });
 
-		frag = objectFrag(obj11, function () { return true; });
+		frag = objectFrag(obj11);
 		iterator = new T();
 		iterator.add(frag);
 		updates = [];
@@ -140,7 +140,7 @@ module.exports = {
 		obj11.first = obj21;
 
 		plainObj = new Db();
-		frag2 = objectFrag(plainObj, function () { return true; });
+		frag2 = objectFrag(plainObj);
 		iterator = new T();
 		iterator.add(frag2);
 		iterator.add(frag);
@@ -206,7 +206,7 @@ module.exports = {
 		iterator.on('remove', function (id) { removes.push(id); });
 
 		// Add obj11
-		frag11 = objectFrag(obj11, function () { return true; });
+		frag11 = objectFrag(obj11);
 		iterator.add(frag11);
 		a.deep(updates.sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
@@ -221,7 +221,7 @@ module.exports = {
 		removes.length = 0;
 
 		// Add obj31
-		frag31 = objectFrag(obj31, function () { return true; });
+		frag31 = objectFrag(obj31);
 		iterator.add(frag31);
 		a.deep(updates, [], "Add existing: Updates");
 		updates.length = 0;
@@ -250,7 +250,7 @@ module.exports = {
 		removes.length = 0;
 
 		// Add obj21
-		frag21 = objectFrag(obj21, function () { return true; });
+		frag21 = objectFrag(obj21);
 		iterator.add(frag21);
 		a.deep(updates, [obj21, obj21._iteTest].map(getId), "Add other: Updates");
 		updates.length = 0;

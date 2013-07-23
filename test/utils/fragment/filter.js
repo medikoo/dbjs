@@ -27,7 +27,7 @@ module.exports = function (t, a) {
 		otherObj: obj31 });
 	obj21 = ns2({ iteTest: obj11 });
 
-	frag = objectFrag(obj11, function () { return true; });
+	frag = objectFrag(obj11);
 	iterator = t(frag, function (obj) { return obj._id_.indexOf('"') === -1; });
 	a.deep(values(iterator.objects).map(getId).sort(), [obj11, obj11._iteTestStr,
 		obj11._iteTestMulti, obj11._otherObj, obj31, obj31._iteRemtest, obj21,

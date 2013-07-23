@@ -27,9 +27,9 @@ module.exports = function (t, a) {
 	obj32 = ns3({ forbiddenMultipleObj: [obj11] });
 	obj21 = ns2({ iteTest: obj11 });
 
-	iterator = t(obj11, function (rel) {
+	iterator = t(obj11, { relation: function (rel) {
 		return rel.name !== 'forbiddenMultipleObj';
-	});
+	} });
 	a.deep(values(iterator.objects).map(getId).sort(), [obj11, obj11._iteTestStr,
 		obj11._iteTestMulti, obj11._iteTestMulti.getItem('raz'),
 		obj11._iteTestMulti.getItem('raz')._order,
