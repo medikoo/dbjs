@@ -16,7 +16,7 @@ module.exports = function (t) {
 				pattern: /^\d{2}-\d{3}$/
 			});
 			ns = t.create('Otest1',
-				 { foo: StringType, bar: BooleanType, raz: strNs });
+				{ foo: StringType, bar: BooleanType, raz: strNs });
 			obj = ns({ foo: 12, bar: {}, other: null, other2: 'razdwa' });
 			a.deep(keys(obj).sort(), ['bar', 'foo', 'other', 'other2'],
 				"Object keys");
@@ -108,7 +108,7 @@ module.exports = function (t) {
 		"Create": function (a) {
 			var ns, date = new Date();
 			ns = t.create('Otest3', { foo: StringType, bar: BooleanType },
-				 { raz: 15, dwa: date });
+				{ raz: 15, dwa: date });
 			a.deep(keys(ns.prototype).sort(), [], "Defined on prototype");
 			ns.prototype.foo = 23;
 			ns.prototype.bar = {};

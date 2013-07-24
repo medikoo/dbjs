@@ -9,7 +9,7 @@ module.exports = function (T, a) {
 	var ns, obj, relEvents = [], setEvents = [], approve = [], fragment;
 
 	ns = Db.create('ObjFragTest', { foo: Db.String.rel({ multiple: true }),
-		 restricted: Db.String.rel({ multiple: true }) });
+		restricted: Db.String.rel({ multiple: true }) });
 	obj = ns({ marko: 12,
 		pablo: Db.String.rel({ multiple: true, value: ['foo', 'bar'] }) });
 
