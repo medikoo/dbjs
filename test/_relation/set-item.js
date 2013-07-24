@@ -7,7 +7,7 @@ var Db   = require('../../')
 module.exports = function (t, a) {
 	var ns, item, data, ns2, evented;
 	ns = Base.create('Relsetitemtest1',
-		 { foo: StringType.rel({ multiple: true }) });
+		{ foo: StringType.rel({ multiple: true }) });
 
 	ns.foo = ['one', 'two', 'three'];
 

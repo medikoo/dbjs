@@ -9,7 +9,7 @@ var Db  = require('../')
 module.exports = function (t, a) {
 	var ns1, obj1, nsc, objc, prop;
 	ns1 = Db.create('ObjTests', { foo: StringType,
-		 bar: StringType.rel({ multiple: true }) });
+		bar: StringType.rel({ multiple: true }) });
 	obj1 = ns1({ foo: 'raz', bar: ['dwa', 'trzy'] });
 
 	// CreateObject
