@@ -4,7 +4,7 @@ var Db = require('../../')
 
   , NumberType = Db.Number, StringType = Db.String;
 
-module.exports = function (t, a) {
+module.exports = function (T, a) {
 	var testValue, set, ns = StringType.create('Relsetreadonlytest', {
 		foo: StringType.rel({ multiple: true, value: function () {
 			return testValue;
@@ -37,4 +37,9 @@ module.exports = function (t, a) {
 	ns._foo.ns = NumberType;
 	a.deep(set.values, ['12', '32', '14', 'asdf'],
 		"Rel ns change doesn't affect value");
+
+	set = new T(StringType, ['one', 'two']);
+	a.deep(set.union(new T(StringType, ['foo', 'one']),
+		new T(StringType, ['foo', 'bar', 'two'])).values.sort(),
+		['one', 'two', 'foo', 'bar'].sort(), "Union");
 };
