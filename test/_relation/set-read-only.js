@@ -38,8 +38,8 @@ module.exports = function (T, a) {
 	a.deep(set.values, ['12', '32', '14', 'asdf'],
 		"Rel ns change doesn't affect value");
 
-	set = new T(StringType, ['one', 'two']);
+	set = new T(StringType, ['one', 'two', 'elo']);
 	a.deep(set.union(new T(StringType, ['foo', 'one']),
 		new T(StringType, ['foo', 'bar', 'two'])).values.sort(),
-		['one', 'two', 'foo', 'bar'].sort(), "Union");
+		['one', 'two', 'foo', 'bar', 'elo'].sort(), "Union");
 };
