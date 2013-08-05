@@ -2,11 +2,11 @@
 ## In-Memory Database Engine for JavaScript
 ### Concept
 
-In common application we define models in Database engine that persists our data, and then we try to resemble that in manual or more less automatic way in models written in language that we use, we connect both worlds and work like that.
+In common application we define models in Database engine that persists our data, and then we try to resemble that in manual or more less automatic way with models written in language that we use, we connect both worlds and work like that.
 
 With DBJS we define models directly and just in a language, using all things that JavaScript has to offer, its types, functions, prototypal inheritance etc. and we work with it natural way. DBJS on the other side provides all means to observe the changes in reasonable manner. Persistent layer can be easily connected to end point which expresses data with low-level graph/key-value representation, and that remains transparent to our work.
 
-***Important: DBJS alredy powers sophisticated projects, but it's still under heavy development. It's API is not yet in stable state and is subject to changes***
+***Important: DBJS already powers sophisticated projects, but it's still under heavy development. It's API is not yet in stable state and is subject to changes***
 
 ### Installation
 #### NPM
@@ -83,7 +83,7 @@ Within DBJS following types: `Boolean`, `Number`, `String`, `DateTime`, `RegExp`
 
 #### Object type
 
-Base type for object types is `Db.Object`, Instance of `Db.Object` is (as in plain JavaScript) a plain object (a set of proprties). Each property can have value that can be of any defined DBJS type
+Base type for object types is `Db.Object`, Instance of `Db.Object` is (as in plain JavaScript) a plain object (a set of properties). Each property can have value that can be of any defined DBJS type
 
 ```javascript
 var obj = Db.Object({ foo: 'bar', bar: 34 });
@@ -112,7 +112,7 @@ We can read property's characteristics from it's meta object
 obj._foo.ns; // Db.Base, namespace
 obj._foo._id_; // '158nineyo28:foo', id, each property is an individual object in DBJS
 obj._foo._lastModified_ // 1373553256564482,  microtime stamp of last modification
-obj._foo.required; // false, id, whether property is required
+obj._foo.required; // false, whether property is required
 ```
 
 We can override property characteristics:
@@ -135,7 +135,7 @@ obj.bar = null; // Ok
 
 Let's define some custom object types.
 
-We're gonna create `Patient` and `Doctor` types for simple patient registry system:
+We're going to create `Patient` and `Doctor` types for simple patient registry system:
 
 Each DBJS type provides `rel` function, which generates property descriptor, through which we can define custom property of given type:
 
@@ -163,7 +163,7 @@ In Case of `doctor.patients` and reverse set to `true`, we would be able to acce
 * **order** `number` - Order number, used in ordered lists of properties
 * **value** _in type of namespace_ - Default value, that will be set on prototype.
 
-Any other option which may be provided will be set in it's direct form on property's meta-data object. It will not be used in any way, internally by DBJS engine. That way you can define your custom properties and use them later in your custom way.
+Any other option which may be provided will be set in it's direct form on meta-data object and it will not be used in  internally by DBJS engine. That way you can define your custom meta properties and use them later in your custom way.
 
 Let's build some objects for given schema:
 
@@ -224,7 +224,7 @@ Db.Doctor.prototype.set('fullName', Db.String.rel({
 drHouse.fullName; // "Gregory House"
 ```
 
-In above case value is recalculated on each access, to improve things, and have valid _change_ events on our dynamic property, we can point the triggers that change the value, then value will be recalculated only when triggered _(this is subject to change, in close future triggers will be calculated from function's content and no extra definition of them will be needed)_:
+In above case value is recalculated on each access. However we can optimize it and additionally have valid _change_ events on our dynamic property. To achieve that we need to point the triggers that change the value. After that, value will be recalculated immediatelly when one of its triggers have changed, and already calculated value will be provided on access.
 
 ```javascript
 Db.Doctor.prototype.set('fullName', Db.String.rel({
@@ -237,6 +237,8 @@ drHouse.fullName; // "Gregory House"
 drHouse.firstName = "John" // 'change' emitted on both drHouse._firstName and drHouse._fullName
 drHouse.fullName; // "John House"
 ```
+
+_In close feature, need of listing triggers will not be needed, they'll be read out of function body automatically._
 
 #### Inheritance
 
