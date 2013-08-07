@@ -12,7 +12,7 @@ module.exports = function (t, a) {
 	a.throws(function () { t('false'); }, "Unconvertable string");
 	a(t('0'), 0, "Convertable string");
 	a(t(123), 123, "Number");
-	a(t(new Number(123)), 123, "Number object");
+	a(t(new Number(123)), 123, "Number object"); //jslint: skip
 	a(ns(60), 60, "Custom");
 	a.throws(function () { ns(-123); }, "Custom: Below min");
 	a.throws(function () { ns(123); }, "Custom: Above max");
@@ -25,7 +25,7 @@ module.exports = function (t, a) {
 			a(t.is('false'), false, "Unconrvertable string");
 			a(t.is('0'), false, "Convertable string");
 			a(t.is(123), true, "Number");
-			a(t.is(new Number(123)), false, "Number object");
+			a(t.is(new Number(123)), false, "Number object"); //jslint: skip
 			a(ns.is(60), true, "Custom");
 			a(ns.is(-123), false, "Custom: Below min");
 			a(ns.is(123), false, "Custom: Above max");
@@ -38,7 +38,7 @@ module.exports = function (t, a) {
 			a(t.normalize('false'), null, "Unconrvertable string");
 			a(t.normalize('0'), 0, "Convertable string");
 			a(t.normalize(123), 123, "Number");
-			a(t.normalize(new Number(123)), 123, "Number object");
+			a(t.normalize(new Number(123)), 123, "Number object"); //jslint: skip
 			a(ns.normalize(60), 60, "Custom");
 			a(ns.normalize(-123), null, "Custom: Below min");
 			a(ns.normalize(123), null, "Custom: Above max");
@@ -52,7 +52,8 @@ module.exports = function (t, a) {
 				"Unconrvertable string");
 			a(t.prototype.validateCreate('0'), null, "Convertable string");
 			a(t.prototype.validateCreate(123), null, "Number");
-			a(t.prototype.validateCreate(new Number(123)), null, "Number object");
+			a(t.prototype.validateCreate(new Number(123)), null, //jslint: skip
+				"Number object");
 			a(ns.prototype.validateCreate(60), null, "Custom");
 			a(isError(ns.prototype.validateCreate(-123)), true, "Custom: Below min");
 			a(isError(ns.prototype.validateCreate(123)), true, "Custom: Above max");

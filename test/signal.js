@@ -61,10 +61,10 @@ module.exports = function (t) {
 			a(obj.signalAddTest, 58, "Import older");
 		},
 		"Reverse": function (a) {
-			var ns1, ns2, ns3, obj11, obj21, onassign = [], ondismiss = [], data = [];
+			var ns1, ns2, obj11, obj21, onassign = [], ondismiss = [], data = [];
 			ns1 = Db.create('SignalReverseTest1');
 			ns2 = Db.create('SignalReverseTest2');
-			ns3 = Db.create('SignalReverseTest3', {
+			Db.create('SignalReverseTest3', {
 				revTest: ns1.rel({ multiple: true })
 			});
 			obj11 = ns1({ foo: 'bar' });

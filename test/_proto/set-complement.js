@@ -3,12 +3,12 @@
 var Db = require('../../');
 
 module.exports = function (t, a) {
-	var obj, set, set1, set2, event, filter;
+	var obj, set, set1, set2, event;
 	obj = new Db({ raz: 1, dwa: 2, trzy: 3, cztery: 5 });
-	set1 = obj.getOwnPropertyNames().filter(filter = function (name, onupdate) {
+	set1 = obj.getOwnPropertyNames().filter(function (name, onupdate) {
 		return this[name] % 2;
 	});
-	set2 = obj.getOwnPropertyNames().filter(filter = function (name, onupdate) {
+	set2 = obj.getOwnPropertyNames().filter(function (name, onupdate) {
 		return this[name] > 1;
 	});
 	set = set1.complement(set2);

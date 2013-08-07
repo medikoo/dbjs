@@ -11,7 +11,7 @@ module.exports = function (t, a) {
 	a(t(false), 'false', "Boolean");
 	a(t({}), {}.toString(), "Object");
 	a(t('foobar'), 'foobar', "String");
-	a(t(new String('foobar')), 'foobar', "String object");
+	a(t(new String('foobar')), 'foobar', "String object"); //jslint: skip
 	a(t(123), '123', "Number");
 
 	a(ns('23432'), '23432', "Custom");
@@ -26,7 +26,7 @@ module.exports = function (t, a) {
 			a(t.is(false), false, "Boolean");
 			a(t.is({}), false, "Object");
 			a(t.is('foobar'), true, "String");
-			a(t.is(new String('foobar')), false, "String object");
+			a(t.is(new String('foobar')), false, "String object"); //jslint: skip
 			a(t.is(123), false, "Number");
 
 			a(ns.is('23432'), true, "Custom: Is");
@@ -41,7 +41,8 @@ module.exports = function (t, a) {
 			a(t.normalize(false), 'false', "Boolean");
 			a(t.normalize({}), {}.toString(), "Object");
 			a(t.normalize('foobar'), 'foobar', "String");
-			a(t.normalize(new String('foobar')), 'foobar', "String object");
+			a(t.normalize(new String('foobar')), 'foobar', //jslint: skip
+				"String object");
 			a(t.normalize(123), '123', "Number");
 
 			a(ns.normalize('23432'), '23432', "Custom: Normalize");
@@ -56,7 +57,7 @@ module.exports = function (t, a) {
 			a(t.prototype.validateCreate(false), null, "Boolean");
 			a(t.prototype.validateCreate({}), null, "Object");
 			a(t.prototype.validateCreate('foobar'), null, "String");
-			a(t.prototype.validateCreate(new String('foobar')), null,
+			a(t.prototype.validateCreate(new String('foobar')), null, //jslint: skip
 				"String object");
 			a(t.prototype.validateCreate(123), null, "Number");
 

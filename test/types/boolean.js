@@ -6,7 +6,7 @@ module.exports = function (t, a) {
 	a(t(undefined), false, "Undefined");
 	a(t(null), false, "Null");
 	a(t(false), false, "Boolean (primitive)");
-	a(t(new Boolean(false)), true, "Boolean (object)");
+	a(t(new Boolean(false)), true, "Boolean (object)"); //jslint: skip
 	a(t({}), true, "Object");
 	a(t('false'), true, "False string");
 	a(t(''), false, "Empty string");
@@ -17,7 +17,7 @@ module.exports = function (t, a) {
 			a(t.is(undefined), false, "Undefined");
 			a(t.is(null), false, "Null");
 			a(t.is(false), true, "Boolean (primitive)");
-			a(t.is(new Boolean(false)), false, "Boolean (object)");
+			a(t.is(new Boolean(false)), false, "Boolean (object)"); //jslint: skip
 			a(t.is({}), false, "Object");
 			a(t.is('false'), false, "False string");
 			a(t.is(''), false, "Empty string");
@@ -28,7 +28,8 @@ module.exports = function (t, a) {
 			a(t.normalize(undefined), false, "Undefined");
 			a(t.normalize(null), false, "Null");
 			a(t.normalize(false), false, "Boolean (primitive)");
-			a(t.normalize(new Boolean(false)), true, "Boolean (object)");
+			a(t.normalize(new Boolean(false)), true, //jslint: skip
+				"Boolean (object)");
 			a(t.normalize({}), true, "Object");
 			a(t.normalize('false'), true, "False string");
 			a(t.normalize(''), false, "Empty string");
@@ -39,7 +40,7 @@ module.exports = function (t, a) {
 			a(t.prototype.validateCreate(undefined), null, "Undefined");
 			a(t.prototype.validateCreate(null), null, "Null");
 			a(t.prototype.validateCreate(false), null, "Boolean (primitive)");
-			a(t.prototype.validateCreate(new Boolean(false)), null,
+			a(t.prototype.validateCreate(new Boolean(false)), null, //jslint: skip
 				"Boolean (object)");
 			a(t.prototype.validateCreate({}), null, "Object");
 			a(t.prototype.validateCreate('false'), null, "False string");
