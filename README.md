@@ -1,10 +1,13 @@
 # DBJS
 ## In-Memory Database Engine for JavaScript
+
 ### Concept
 
-In common application we define models in Database engine that persists our data, and then we try to resemble that in manual or more less automatic way with models written in language that we use, we connect both worlds and work like that.
+DBJS is database of events, each atomic update is represented as an event which is added on top of log.
 
-With DBJS we define models directly and just in a language, using all things that JavaScript has to offer, its types, functions, prototypal inheritance etc. and we work with it natural way. DBJS on the other side provides all means to observe the changes in reasonable manner. Persistent layer can be easily connected to end point which expresses data with low-level graph/key-value representation, and that remains transparent to our work.
+Contrary to popular CRUD model, there are no deletions, each definition, update and deletion is just another event that occurs and affects state of an things.
+
+Please see great [presentation by Greg Young](http://www.infoq.com/presentations/Events-Are-Not-Just-for-Notifications), which while unrelated to this project, describes well one of the main ideas behind DBJS.
 
 ***Important: DBJS already powers sophisticated projects, but it's still under heavy development. It's API is not yet in stable state and is subject to changes***
 
@@ -21,6 +24,12 @@ You can easily bundle NPM packages for browser with [modules-webmake](https://gi
 
 ### Introduction
 
+#### Data modelling
+
+In common application we define models in Database engine that persists our data, and then we try to resemble that in manual or more less automatic way with models written in language that we use, we connect both worlds and work like that.
+
+With DBJS we define models directly and just in a language, using all things that JavaScript has to offer, its types, functions, prototypal inheritance etc. and we work with it natural way. DBJS on the other side provides all means to observe the changes in reasonable manner. Persistent layer can be easily connected to end point which expresses data with low-level graph/key-value representation, and that remains transparent to our work.
+
 Let's start step by step, by writing example model setup:
 
 ```javascript
@@ -29,7 +38,7 @@ var Db = require('dbjs');
 
 `Db` is our database, it exposes basic types, that correspond directly to JavaScript types
 
-#### Basic types
+##### Basic types
 
 * `Db.Boolean`
 * `Db.Number`
@@ -81,7 +90,7 @@ Mind that, while this is the only programmed-in options, you still can create yo
 
 Within DBJS following types: `Boolean`, `Number`, `String`, `DateTime`, `RegExp` and `Function` are all considered as primitive and are expressed with one end value (even though in JavaScript language some of them are expressed with objects).
 
-#### Object type
+##### Object type
 
 Base type for object types is `Db.Object`, Instance of `Db.Object` is (as in plain JavaScript) a plain object (a set of properties). Each property can have value that can be of any defined DBJS type
 
@@ -131,7 +140,7 @@ obj._bar.required = false;
 obj.bar = null; // Ok
 ```
 
-#### Defining object model
+##### Defining object model
 
 Let's define some custom object types.
 
