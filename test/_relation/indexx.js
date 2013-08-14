@@ -21,6 +21,7 @@ module.exports = function (t, a) {
 		obj11.foo = 'dwa';
 	}, "Try to set unique");
 
+	obj11.foo = 'raz';
 	obj12.foo = 'trzy';
 	obj13 = ns1({ foo: 'dwa' });
 	obj11.foo = 'cztery';
