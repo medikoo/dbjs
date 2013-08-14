@@ -35,4 +35,20 @@ module.exports = function (t, a) {
 	}, "Unique via inherited");
 
 	a(ns1.prototype._foo.find('cztery'), obj11, "Find");
+
+	ns1 = Db.create('Uniqtest2',
+		{ foo: StringType.rel({ unique: true, value: ['zero'], multiple: true }) });
+
+	obj11 = ns1({ foo: ['raz', 'dwa'] });
+	obj12 = ns1({ foo: ['trzy', 'cztery'] });
+
+	a.throws(function () {
+		obj13 = ns1({ foo: ['dwa', 'pięć'] });
+	}, "Multiple: Set");
+
+	a.throws(function () {
+		obj11.foo.add('trzy');
+	}, "Multiple: Add");
+
+	obj11.foo = ['raz', 'elo'];
 };
