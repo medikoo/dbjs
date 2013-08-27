@@ -1,7 +1,7 @@
 'use strict';
 
-var isError   = require('es5-ext/lib/Error/is-error')
-  , isRegExp  = require('es5-ext/lib/RegExp/is-reg-exp')
+var isError   = require('es5-ext/error/is-error')
+  , isRegExp  = require('es5-ext/reg-exp/is-reg-exp')
   , serialize = require('../../lib/utils/serialize');
 
 module.exports = function (t, a) {

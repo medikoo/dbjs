@@ -1,7 +1,7 @@
 'use strict';
 
-var isDate    = require('es5-ext/lib/Date/is-date')
-  , isError   = require('es5-ext/lib/Error/is-error')
+var isDate    = require('es5-ext/date/is-date')
+  , isError   = require('es5-ext/error/is-error')
   , serialize = require('../../lib/utils/serialize');
 
 module.exports = function (t, a) {

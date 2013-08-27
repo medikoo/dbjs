@@ -1,6 +1,6 @@
 'use strict';
 
-var values = require('es5-ext/lib/Object/values')
+var values = require('es5-ext/object/values')
   , Db     = require('../../../')
 
   , StringType = Db.String

@@ -1,6 +1,6 @@
 'use strict';
 
-var contains = require('es5-ext/lib/Array/prototype/contains')
+var contains = require('es5-ext/array/#/contains')
 
   , getPrototypeOf = Object.getPrototypeOf, keys = Object.keys;
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var replace     = require('es5-ext/lib/String/prototype/simple-replace')
+var replace     = require('es5-ext/string/#/simple-replace')
   , memoize     = require('memoizee')
   , promisify   = require('deferred').promisify
   , resolve     = require('path').resolve

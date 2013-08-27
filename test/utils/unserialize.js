@@ -1,6 +1,6 @@
 'use strict';
 
-var isDate = require('es5-ext/lib/Date/is-date')
+var isDate = require('es5-ext/date/is-date')
   , Db     = require('../../')
 
   , DateTime = Db.DateTime;
