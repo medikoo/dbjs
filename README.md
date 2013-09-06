@@ -5,7 +5,7 @@
 
 DBJS is database of events, each atomic update is represented as an event which is added on top of log.
 
-Contrary to popular CRUD model, there are no deletions, each definition, update and deletion is just another event that occurs and affects state of an things.
+Contrary to popular CRUD model, there are no deletions, each definition, update and deletion is just another event that occurs and affects state of things.
 
 Please see great [presentation by Greg Young](http://www.infoq.com/presentations/Events-Are-Not-Just-for-Notifications), which while unrelated to this project, describes well one of the main ideas behind DBJS.
 
