@@ -17,6 +17,11 @@ module.exports = function (t, a) {
 	a.deep(t.Set('raz', 'dwa').values.sort(), ['raz', 'dwa'].sort(),
 		"Set library");
 
+	a(typeof obj.foo, 'string', "Primitive values by default");
+	t.valueObjectMode = true;
+	a(typeof obj.foo, 'object', "Object mode");
+	t.valueObjectMode = false;
+
 	obj.set('externalTest', t.external(function () {
 		++invoked;
 		return x;
