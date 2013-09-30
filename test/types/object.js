@@ -67,10 +67,15 @@ module.exports = function (t) {
 			a(obj.foo, 'whatever', "Custom construct");
 		},
 		"NewNamed": function (a) {
-			var obj = t.newNamed('namedobjtest', { foo: 'raz', bar: 12 });
-			a.deep(obj, { foo: 'raz', bar: 12 }, "Content");
+			var Ns, obj;
+			Ns = t.create('NamedTest', {
+				foo: Db.String,
+				bar: Db.Number.rel({ multiple: true })
+			});
+			obj = Ns.newNamed('namedobjtest', { foo: 'raz', bar: [12, 18] });
+			a.deep(obj, { foo: 'raz', bar: obj.bar }, "Content");
 			a(typeof obj, 'object', "Type");
-			a(obj.ns, t, "Namespace");
+			a(obj.ns, Ns, "Namespace");
 			a(obj._id_, 'namedobjtest', "Id");
 			a(t[obj._id_], obj, "Exposed on namespace");
 			a.throws(function () {
