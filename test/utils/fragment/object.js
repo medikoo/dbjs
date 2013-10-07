@@ -1,9 +1,8 @@
 'use strict';
 
-var values = require('es5-ext/object/values')
-  , Db     = require('../../../')
+var Db = require('../../../')
 
-  , StringType = Db.String
+  , keys = Object.keys, StringType = Db.String
   , getId = function (obj) { return obj._id_; };
 
 module.exports = function (t, a) {
@@ -30,7 +29,7 @@ module.exports = function (t, a) {
 	iterator = t(obj11, { relation: function (rel) {
 		return rel.name !== 'forbiddenMultipleObj';
 	} });
-	a.deep(values(iterator.objects).map(getId).sort(), [obj11, obj11._iteTestStr,
+	a.deep(keys(iterator.objects).sort(), [obj11, obj11._iteTestStr,
 		obj11._iteTestMulti, obj11._iteTestMulti.getItem('raz'),
 		obj11._iteTestMulti.getItem('raz')._order,
 		obj11._iteTestMulti.getItem('dwa'),

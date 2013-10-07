@@ -1,10 +1,9 @@
 'use strict';
 
-var values     = require('es5-ext/object/values')
-  , Db         = require('../../../')
+var Db         = require('../../../')
   , objectFrag = require('../../../lib/utils/fragment/object')
 
-  , StringType = Db.String
+  , keys = Object.keys, StringType = Db.String
   , getId = function (obj) { return obj._id_; };
 
 module.exports = function (t, a) {
@@ -29,7 +28,7 @@ module.exports = function (t, a) {
 
 	frag = objectFrag(obj11);
 	iterator = t(frag, function (obj) { return obj._id_.indexOf('"') === -1; });
-	a.deep(values(iterator.objects).map(getId).sort(), [obj11, obj11._iteTestStr,
+	a.deep(keys(iterator.objects).sort(), [obj11, obj11._iteTestStr,
 		obj11._iteTestMulti, obj11._otherObj, obj31, obj31._iteRemtest, obj21,
 		obj21._iteTest].map(getId).sort(), "Objects");
 	updates = [];

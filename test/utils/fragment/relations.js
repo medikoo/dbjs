@@ -1,9 +1,8 @@
 'use strict';
 
-var values  = require('es5-ext/object/values')
-  , Db      = require('../../../')
+var Db = require('../../../')
 
-  , getId = function (obj) { return obj._id_; };
+  , keys = Object.keys, getId = function (obj) { return obj._id_; };
 
 module.exports = function (T, a) {
 	var ns, obj, relEvents = [], setEvents = [], approve = [], fragment;
@@ -32,7 +31,7 @@ module.exports = function (T, a) {
 		obj._pablo.getItem('foo')._order,
 		obj._pablo.getItem('bar')._order].map(getId).sort(), "Approve");
 	approve.length = 0;
-	a.deep(values(fragment.objects).map(getId).sort(), [obj, obj._marko,
+	a.deep(keys(fragment.objects).sort(), [obj, obj._marko,
 		obj._pablo, obj._pablo._ns, obj._pablo._multiple,
 		obj._pablo.getItem('foo')._order, obj._pablo.getItem('bar')._order,
 		obj._pablo.getItem('foo'), obj._pablo.getItem('bar')].map(getId).sort(),

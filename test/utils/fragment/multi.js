@@ -1,10 +1,9 @@
 'use strict';
 
-var values     = require('es5-ext/object/values')
-  , Db         = require('../../../')
+var Db         = require('../../../')
   , objectFrag = require('../../../lib/utils/fragment/object')
 
-  , StringType = Db.String
+  , keys = Object.keys, StringType = Db.String
   , getId = function (obj) { return obj._id_; };
 
 module.exports = {
@@ -36,7 +35,7 @@ module.exports = {
 		removes = [];
 		iterator.on('remove', function (id) { removes.push(id); });
 
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
 				obj11._iteTestMulti.getItem('raz'),
 				obj11._iteTestMulti.getItem('raz')._order,
@@ -51,7 +50,7 @@ module.exports = {
 		a.deep(removes.sort(), [obj31, obj31._iteRemtest].map(getId).sort(),
 			"Clear existing: Removes");
 		removes.length = 0;
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
 				obj11._iteTestMulti.getItem('raz'),
 				obj11._iteTestMulti.getItem('raz')._order,
@@ -66,7 +65,7 @@ module.exports = {
 		a.deep(removes.sort(), [obj21, obj21._iteTest].map(getId).sort(),
 			"Remove reverse: Removes");
 		removes.length = 0;
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
 				obj11._iteTestMulti.getItem('raz'),
 				obj11._iteTestMulti.getItem('raz')._order,
@@ -80,7 +79,7 @@ module.exports = {
 		updates.length = 0;
 		a.deep(removes, [], "Add obj item: Removes");
 		removes.length = 0;
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
 				obj11._iteTestMulti.getItem('raz'),
 				obj11._iteTestMulti.getItem('raz')._order,
@@ -96,7 +95,7 @@ module.exports = {
 		a.deep(removes.sort(), [obj31, obj31._iteRemtest].map(getId).sort(),
 			"Delete obj item: Removes");
 		removes.length = 0;
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
 				obj11._iteTestMulti.getItem('raz'),
 				obj11._iteTestMulti.getItem('raz')._order,
@@ -113,7 +112,7 @@ module.exports = {
 		updates.length = 0;
 		a.deep(removes, [], "Invoke delete item: Removes");
 		removes.length = 0;
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
 				obj11._iteTestMulti.getItem('raz'),
 				obj11._iteTestMulti.getItem('raz')._order,
@@ -149,7 +148,7 @@ module.exports = {
 		removes = [];
 		iterator.on('remove', function (id) { removes.push(id); });
 
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[obj11, obj11._iteTestStr, obj11._iteTestMulti,
 				obj11._iteTestMulti.getItem('raz'),
 				obj11._iteTestMulti.getItem('raz')._order,
@@ -176,7 +175,7 @@ module.exports = {
 			obj11._first, obj21, obj21._iteTest, obj21._second, obj33,
 			obj33._third, obj33._foo, obj33._fourth, obj41].map(getId).sort(),
 			"Circular: Remove");
-		a.deep(values(iterator.objects).map(getId).sort(),
+		a.deep(keys(iterator.objects).sort(),
 			[plainObj].map(getId).sort(), "Circular: Remove: Total");
 	},
 	"Index Legacy": function (T, a) {
