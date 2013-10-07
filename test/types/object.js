@@ -48,13 +48,11 @@ module.exports = function (t) {
 
 			a(ns(obj), obj, "Created object");
 			a.throws(function () {
-				ns(obj._id_);
+				ns({ 0: '0', 1: 'd', 2: '4' });
 			}, "Object id");
 
 			pObj = t({ foo: 'elo' });
 			a.throws(function () { ns(pObj); }, "Object from other namespace #1");
-			a.throws(function () { ns(pObj._id_); },
-				"Object Id from other namespace");
 
 			ns = t.create('Otest2', function (value) { this.set('foo', value); }, {
 				foo: StringType,
@@ -131,7 +129,8 @@ module.exports = function (t) {
 			a(ns.prototype.validateCreate(), null, "Undefined");
 			a(ns.prototype.validateCreate(obj), null, "Created object");
 			a(ns.prototype.validateCreate({}), null, "Data for object");
-			a(isError(ns.prototype.validateCreate(obj._id_)), true, "Object id");
+			a(isError(ns.prototype.validateCreate({ 0: '0', 1: 'd', 2: '4' })),
+				true, "Object id");
 		},
 		"Normalize": function (a) {
 			var ns, obj, pObj;
