@@ -1,0 +1,130 @@
+'use strict';
+
+var isDate         = require('es5-ext/date/is-date')
+  , copy           = require('es5-ext/date/#/copy')
+  , mixin          = require('es5-ext/object/mixin')
+  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
+  , d              = require('d/d')
+  , DbjsError      = require('../error')
+
+  , defineProperty = Object.defineProperty
+  , defineProperties = Object.defineProperties
+  , getPrototypeOf = Object.getPrototypeOf
+  , abs = Math.abs, floor = Math.floor, max = Math.max, min = Math.min;
+
+module.exports = function (db) {
+	var DateTime = db.Base._extend_('DateTime');
+
+	defineProperty(DateTime, 'prototype', d('', DateTime.prototype));
+	try { mixin(DateTime, Date); } catch (ignore) {}
+
+	defineProperties(DateTime, {
+		min: d(-Infinity),
+		max: d(Infinity),
+		step: d(0),
+		is: d(function (value/*, descriptor*/) {
+			var minv, maxv, step, descriptor = arguments[1];
+			if (!isDate(value)) return false;
+			if (isNaN(value)) return false;
+			if (getPrototypeOf(value) !== this.prototype) return false;
+			minv = (descriptor && !isNaN(descriptor.min))
+				? max(descriptor.min, this.min)
+				: this.min;
+			if (value < minv) return false;
+			maxv = (descriptor && !isNaN(descriptor.max))
+				? min(descriptor.max, this.max)
+				: this.max;
+			if (value > maxv) return false;
+			step = (descriptor && !isNaN(descriptor.step))
+				? max(descriptor.step, this.step)
+				: this.step;
+			if (step && ((value % step) !== 0)) return false;
+			return true;
+		}),
+		normalize: d(function (value/*, descriptor*/) {
+			var minv, maxv, step, trail, sign, descriptor = arguments[1]
+			  , copied;
+			if (!isDate(value)) {
+				value = new Date(value);
+				copied = true;
+			}
+			if (isNaN(value)) return null;
+			minv = (descriptor && !isNaN(descriptor.min))
+				? max(descriptor.min, this.min)
+				: this.min;
+			if (value < minv) return null;
+			maxv = (descriptor && !isNaN(descriptor.max))
+				? min(descriptor.max, this.max)
+				: this.max;
+			if (value > maxv) return null;
+			step = (descriptor && !isNaN(descriptor.step))
+				? max(descriptor.step, this.step)
+				: this.step;
+			setPrototypeOf(value, this.prototype);
+			if (!step) return value;
+			trail = value % step;
+			if (!trail) return value;
+			sign = (value >= 0) ? 1 : -1;
+			if (!copied) value = copy.call(value);
+			value.setTime(sign * floor(abs(value) * (1 / step)) * step);
+			return value;
+		}),
+		validate: d(function (value/*, descriptor*/) {
+			var minv, maxv, step, trail, sign, descriptor = arguments[1]
+			  , copied;
+			if (!isDate(value)) {
+				value = new Date(value);
+				copied = true;
+			}
+			if (isNaN(value)) {
+				throw new DbjsError(value + " is invalid datetime", 'INVALID_DATETIME');
+			}
+			minv = (descriptor && !isNaN(descriptor.min))
+				? max(descriptor.min, this.min)
+				: this.min;
+			if (value < minv) {
+				throw new DbjsError("Date cannot be before " + minv, 'PAST_DATE');
+			}
+			maxv = (descriptor && !isNaN(descriptor.max))
+				? min(descriptor.max, this.max)
+				: this.max;
+			if (value > maxv) {
+				throw new DbjsError("Date cannot be after " + maxv, 'FUTURE_DATE');
+			}
+			step = (descriptor && !isNaN(descriptor.step))
+				? max(descriptor.step, this.step)
+				: this.step;
+			setPrototypeOf(value, this.prototype);
+			if (!step) return value;
+			trail = value % step;
+			if (!trail) return value;
+			sign = (value >= 0) ? 1 : -1;
+			if (!copied) value = copy.call(value);
+			value.setTime(sign * floor(abs(value) * (1 / step)) * step);
+			return value;
+		}),
+		_validateCreate_: d(function (value/*[, mth[, d[, h[, mn[, s[, ms]]]]]]*/) {
+			var l = arguments.length;
+			if (!l) {
+				value = new Date();
+			} else if (l === 1) {
+				value = new Date(value);
+			} else {
+				value = new Date(value, arguments[1], (l > 2) ? arguments[2] : 1,
+					(l > 3) ? arguments[3] : 0, (l > 4) ? arguments[4] : 0,
+					(l > 5) ? arguments[5] : 0, (l > 6) ? arguments[6] : 0);
+			}
+			return [this.validate(value)];
+		})
+	});
+
+	defineProperties(mixin(DateTime.prototype, Date.prototype), {
+		toString: d(function () {
+			var proto = getPrototypeOf(this), value;
+			setPrototypeOf(this, Date.prototype);
+			value = this.toLocaleString(db.locale);
+			setPrototypeOf(this, proto);
+			return value;
+		})
+	});
+};

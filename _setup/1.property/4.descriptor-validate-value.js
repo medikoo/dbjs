@@ -1,0 +1,137 @@
+'use strict';
+
+var arrayLikeToArray = require('es5-ext/array/to-array')
+  , uniq             = require('es5-ext/array/#/uniq')
+  , pluck            = require('es5-ext/function/pluck')
+  , d                = require('d/d')
+  , isIterable       = require('es6-iterator/is-iterable')
+  , iterableToArray  = require('es6-iterator/to-array')
+  , DbjsError        = require('../error')
+  , isGetter         = require('../utils/is-getter')
+  , serialize        = require('../utils/serialize')
+
+  , getPrototypeOf = Object.getPrototypeOf
+  , defineProperties = Object.defineProperties
+  , getMessage = pluck('message');
+
+module.exports = function (descriptor) {
+	defineProperties(descriptor, {
+		_validateDeleteValue_: d(function (obj, sKey) {
+			var current;
+			if (this._reverse_) return this._reverse_._validateDelete_(obj);
+			if (this.nested) {
+				throw new DbjsError("Cannot delete nested object",
+					'NESTED_DELETE');
+			}
+			if (this.multiple) {
+				throw new DbjsError("Cannot delete multiple property",
+					'MULTIPLE_DELETE');
+			}
+			if (!this.required) return sKey;
+			if (this.hasOwnProperty('_value_')) {
+				current = getPrototypeOf(this)._resolveInner_(obj, sKey);
+			} else {
+				current = this._resolveValueValue_(obj, sKey);
+			}
+			if (current == null) {
+				throw new DbjsError("Property is required", 'VALUE_REQUIRED');
+			}
+			if (isGetter(current)) return sKey;
+			if (this._normalizeValue_(current) == null) {
+				throw new DbjsError("Property is required", 'VALUE_REQUIRED');
+			}
+			return sKey;
+		}),
+		_validateSetValue_: d(function (obj, sKey, value) {
+			if (value === undefined) {
+				throw new DbjsError("Cannot set value to undefined", 'SET_UNDEFINED');
+			}
+			if (this._reverse_) return this._reverse_._validateSet_(obj, value);
+			if (this.nested) {
+				throw new DbjsError("Nested objects cannot be overriden",
+					'NESTED_OVERRIDE');
+			}
+			if (isGetter(value)) return value;
+			if (this.multiple) return this._validateMultiple_(obj, sKey, value);
+			if (value === null) {
+				if (this.required) {
+					throw new DbjsError("Property is required", 'VALUE_REQUIRED');
+				}
+				return value;
+			}
+			value = this.type.validate(value, this);
+			if (this.unique) this._validateUnique_(obj, sKey, value);
+			return value;
+		}),
+		_validateUnique_: d(function (obj, sKey, value) {
+			var vKey = serialize(value), mapData, desc, l;
+			desc = obj.__descriptors__[sKey];
+			if (!desc) return value;
+			desc = desc.__descriptors__.unique;
+			while (!desc.hasOwnProperty('_value_')) desc = getPrototypeOf(desc);
+			mapData = desc.__master__._getReverseMap_(sKey).__mapValuesData__;
+			if (!mapData[vKey]) return value;
+			mapData = mapData[vKey].__setData__;
+			l = mapData.length;
+			if (!l) return value;
+			if ((l === 1) && (mapData[0] === obj)) return value;
+			throw new DbjsError(value + " is already assigned to other object",
+				'VALUE_NOT_UNIQUE');
+		}),
+		_validateMultiple_: d(function (obj, sKey, value) {
+			var errors, set, iKey;
+			if (value == null) {
+				throw new DbjsError("Cannot set multiple property to " + value,
+					'MULTIPLE_NULL');
+			}
+			if (isIterable(value)) value = iterableToArray(value);
+			else value = arrayLikeToArray(value);
+			if (!value.length) {
+				if (this.required) {
+					set = getPrototypeOf(obj).__multiples__[sKey];
+					if (set) {
+						for (iKey in set) {
+							if (!set[iKey]._value_) continue;
+							if (obj._normalize_(set[iKey]._key_) == null) continue;
+							return value; //jslint: skip
+						}
+					}
+					throw new DbjsError("Property is required. List must not be empty",
+						'MULTIPLE_REQUIRED');
+				}
+				return value;
+			}
+			value = uniq.call(value).map(function (value) {
+				if (value == null) {
+					if (!errors) errors = [];
+					errors.push(new DbjsError(value + " is not a value",
+						'MULTIPLE_NULL_VALUE'));
+					return;
+				}
+				try {
+					value = this.type.validate(value, this);
+				} catch (e) {
+					if (e.name !== 'DbjsError') throw e;
+					if (!errors) errors = [];
+					errors.push(e);
+					return;
+				}
+				if (this.unique) {
+					try {
+						this._validateUnique_(obj, sKey, value);
+					} catch (e2) {
+						if (e2.name !== 'DbjsError') throw e2;
+						if (!errors) errors = [];
+						errors.push(e2);
+						return;
+					}
+				}
+				return value;
+			}, this);
+			if (!errors) return value;
+			throw new DbjsError("Some values are invalid:\n\t" +
+				errors.map(getMessage).join('\t\n'), 'MULTIPLE_ERRORS',
+				{ errors: errors });
+		})
+	});
+};

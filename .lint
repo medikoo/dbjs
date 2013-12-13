@@ -1,20 +1,21 @@
 @root
 
 module
-es5
 
 indent 2
 maxlen 80
 tabs
 
 ass
+continue
+forin
 nomen
 plusplus
 
-jslint.predef+ console, setTimeout
+predef+ console, setTimeout
 
-./scripts
-jslint.predef+ __dirname
+./_setup/2.multiple-item/iterator.js
+bitwise
 
-./lib/_proto/object-filter-set.js
-jslint.bitwise
+./test/_setup/4.type
+newcap
