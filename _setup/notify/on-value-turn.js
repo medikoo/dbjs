@@ -4,7 +4,7 @@ var notifyMultiple = require('./item')
   , notifyProperty = require('./property')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
-  , notifyDescs, notifyItems, notifyDesc, notifyDescDescendants, notifyItem
+  , notifyDesc, notifyDescDescendants, notifyItem
   , notifyItemDescendants, notifyTurnedProperty, notifyTurnedItem;
 
 notifyDescDescendants = function (obj, desc, nu, old, dbEvent, postponed) {
@@ -20,12 +20,20 @@ notifyDescDescendants = function (obj, desc, nu, old, dbEvent, postponed) {
 };
 
 notifyTurnedProperty = function (obj, desc, nu, old, dbEvent, postponed) {
+	var nuValid, oldValid;
+
 	if (desc._reverse_) return postponed;
 	if (desc.nested) return postponed;
 	if (desc.multiple) return postponed;
 
-	return notifyProperty(obj, desc._sKey_, nu ? desc._value_ : null,
-		old ? desc._value_ : null, null, null, dbEvent, postponed);
+	if (nu === desc.type) nuValid = true;
+	else if (desc.type.isPrototypeOf(nu)) nuValid = true;
+	if (old === desc.type) oldValid = true;
+	else if (desc.type.isPrototypeOf(old)) oldValid = true;
+
+	if (nuValid === oldValid) return postponed;
+	return notifyProperty(obj, desc._sKey_, nuValid ? desc._value_ : null,
+		oldValid ? desc._value_ : null, null, null, dbEvent, postponed);
 };
 
 notifyDesc = function (desc, nu, old, dbEvent, postponed) {
@@ -33,25 +41,6 @@ notifyDesc = function (desc, nu, old, dbEvent, postponed) {
 		dbEvent, postponed);
 	return notifyDescDescendants(desc.__master__, desc, nu, old,
 		dbEvent, postponed);
-};
-
-notifyDescs = function (desc, obj, nu, old, dbEvent, postponed) {
-	if (!desc.hasOwnProperty('__descendants__')) return postponed;
-	desc.__descendants__._plainForEach_(function (desc) {
-		var nuValid, oldValid;
-		if (desc._sKey_ && desc.hasOwnProperty('_value_') &&
-				(desc._value_ === obj)) {
-			if (nu === desc.type) nuValid = true;
-			else if (desc.type.isPrototypeOf(nu)) nuValid = true;
-			if (old === desc.type) oldValid = true;
-			else if (desc.type.isPrototypeOf(old)) oldValid = true;
-			if (nuValid !== oldValid) {
-				postponed = notifyDesc(desc, nuValid, oldValid, dbEvent, postponed);
-			}
-		}
-		postponed = notifyDescs(desc, obj, nu, old, dbEvent, postponed);
-	});
-	return postponed;
 };
 
 notifyItemDescendants = function (obj, item, nu, old, dbEvent, postponed) {
@@ -84,7 +73,6 @@ notifyTurnedItem = function (obj, item, nu, old, dbEvent, postponed) {
 	else if (desc.type.isPrototypeOf(old)) oldValid = true;
 
 	if (nuValid === oldValid) return postponed;
-
 	return notifyMultiple(obj, item._pKey_, item._sKey_, item._key_, nuValid,
 		null, dbEvent, postponed);
 };
@@ -96,20 +84,14 @@ notifyItem = function (item, nu, old, dbEvent, postponed) {
 		dbEvent, postponed);
 };
 
-notifyItems = function (item, obj, nu, old, dbEvent, postponed) {
-	if (!item.hasOwnProperty('__descendants__')) return postponed;
-	item.__descendants__._plainForEach_(function (item) {
-		if (item._pKey_ && (item._key_ === obj) && item._value_) {
-			postponed = notifyItem(item, nu, old, dbEvent, postponed);
+module.exports = function (obj, nu, old, dbEvent, postponed) {
+	if (!obj.hasOwnProperty('__assignments__')) return postponed;
+	obj.__assignments__._plainForEach_(function (obj) {
+		if (obj._kind_ === 'descriptor') {
+			postponed = notifyDesc(obj, nu, old, dbEvent, postponed);
+			return;
 		}
-		postponed = notifyItems(item, obj, nu, old, dbEvent, postponed);
+		postponed = notifyItem(obj, nu, old, dbEvent, postponed);
 	});
 	return postponed;
-};
-
-module.exports = function (obj, nu, old, dbEvent, postponed) {
-	var proto = obj._db_.Base.prototype;
-	postponed = notifyDescs(proto.__descriptorPrototype__, obj,
-		nu, old, dbEvent, postponed);
-	return notifyItems(proto.__itemPrototype__, obj, nu, old, dbEvent, postponed);
 };
