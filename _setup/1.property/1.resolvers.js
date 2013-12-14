@@ -112,6 +112,15 @@ module.exports = function (db, object, descriptor) {
 			keys(this.__descriptors__).forEach(function (sKey) {
 				call.call(cb, thisArg, this[sKey], sKey);
 			}, this.__descriptors__);
+		}),
+
+		_forEachOwnNestedObject_: d(function (cb/*, thisArg*/) {
+			var thisArg = arguments[1];
+			callable(cb);
+			if (!this.hasOwnProperty('__objects__')) return;
+			keys(this.__objects__).forEach(function (sKey) {
+				call.call(cb, thisArg, this[sKey], sKey);
+			}, this.__objects__);
 		})
 
 	}, lazy({

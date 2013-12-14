@@ -42,4 +42,23 @@ module.exports = function (a) {
 		a(this, x, "Context #" + i);
 	}, x);
 	a(keys(args).length, 0, "All processed");
+
+	a.h1("forEachOwnNestedObjects");
+	db.Object.prototype._getObject_('3raz');
+	obj._getObject_('3dwa');
+	obj._getObject_('3trzy');
+
+	args = primitiveSet('3foo', '3dwa', '3trzy');
+	i = 0;
+	obj._forEachOwnNestedObject_(function (nObj, key) {
+		if (!args[key]) {
+			a.never();
+			return;
+		}
+		delete args[key];
+		++i;
+		a(obj._getObject_(key), nObj, "Object #" + i);
+		a(this, x, "Context #" + i);
+	}, x);
+	a(keys(args).length, 0, "All processed");
 };
