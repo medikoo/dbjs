@@ -67,9 +67,7 @@ module.exports = function (db) {
 
 	// 0. Empty space
 	objects = new ObjectsSet();
-	defineProperties(db, {
-		objects: d(objects)
-	});
+	defineProperty(db, 'objects', d(objects));
 
 	// 1. Proto constructor
 	createProto = function (proto, id, kind, object) {
