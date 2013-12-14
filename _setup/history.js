@@ -60,7 +60,12 @@ History.prototype = Object.create(ObservableArray.prototype, {
 		}
 
 		// Emit on master and main objects collection
-		event.object.__master__.emit('update', event);
-		event.object._db_.objects.emit('update', event);
+		if (event.value !== undefined) {
+			event.object.__master__.emit('update', event);
+			event.object._db_.objects.emit('update', event);
+		} else {
+			event.object.__master__.emit('delete', event);
+			event.object._db_.objects.emit('delete', event);
+		}
 	})
 });

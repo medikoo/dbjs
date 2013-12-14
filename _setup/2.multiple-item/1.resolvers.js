@@ -1,6 +1,7 @@
 'use strict';
 
 var assign          = require('es5-ext/object/assign')
+  , callable        = require('es5-ext/object/valid-callable')
   , setPrototypeOf  = require('es5-ext/object/set-prototype-of')
   , d               = require('d/d')
   , lazy            = require('d/lazy')
@@ -8,8 +9,9 @@ var assign          = require('es5-ext/object/assign')
   , Observable      = require('./observable')
   , Multiple        = require('./multiple')
 
+  , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty, create = Object.create
-  , defineProperties = Object.defineProperties
+  , keys = Object.keys, defineProperties = Object.defineProperties
 
   , injectPrimitiveNested;
 
@@ -70,7 +72,19 @@ module.exports = function (object, item) {
 			var iterators = this._multipleIterators_;
 			if (hasOwnProperty.call(iterators, sKey)) return iterators[sKey];
 			return (iterators[sKey] = []);
+		}),
+
+		_forEachOwnItem_: d(function (cb/*, thisArg*/) {
+			var thisArg = arguments[1];
+			callable(cb);
+			if (!this.hasOwnProperty('__multiples__')) return;
+			keys(this.__multiples__).forEach(function (sKey) {
+				keys(this[sKey]).forEach(function (sKey) {
+					call.call(cb, thisArg, this[sKey], sKey);
+				}, this[sKey]);
+			}, this.__multiples__);
 		})
+
 	}, lazy({
 
 		// Item
