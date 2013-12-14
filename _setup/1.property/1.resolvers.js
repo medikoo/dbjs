@@ -1,6 +1,7 @@
 'use strict';
 
 var assign          = require('es5-ext/object/assign')
+  , callable        = require('es5-ext/object/valid-callable')
   , d               = require('d/d')
   , lazy            = require('d/lazy')
   , injectPrimitive = require('../utils/inject-primitive')
@@ -10,7 +11,8 @@ var assign          = require('es5-ext/object/assign')
   , DynamicValue    = require('./dynamic-value')
   , ReverseMap      = require('./reverse-map')
 
-  , hasOwnProperty = Object.prototype.hasOwnProperty
+  , call = Function.prototype.call
+  , hasOwnProperty = Object.prototype.hasOwnProperty, keys = Object.keys
   , create = Object.create, defineProperties = Object.defineProperties;
 
 module.exports = function (db, object, descriptor) {
@@ -100,6 +102,15 @@ module.exports = function (db, object, descriptor) {
 			var data = this._dynamicValues_;
 			if (!data[sKey]) data[sKey] = new DynamicValue(this, sKey);
 			return data[sKey];
+		}),
+
+		_forEachOwnDescriptor_: d(function (cb/*, thisArg*/) {
+			var thisArg = arguments[1];
+			callable(cb);
+			if (!this.hasOwnProperty('__descriptors__')) return;
+			keys(this.__descriptors__).forEach(function (sKey) {
+				call.call(cb, thisArg, this[sKey], sKey);
+			}, this.__descriptors__);
 		})
 
 	}, lazy({
