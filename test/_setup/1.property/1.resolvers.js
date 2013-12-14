@@ -7,7 +7,7 @@ var primitiveSet = require('es5-ext/object/primitive-set')
   , Database     = require('../../../')
 
   , defineProperty = Object.defineProperty
-  , getPrototypeOf = Object.getPrototypeOf;
+  , getPrototypeOf = Object.getPrototypeOf, keys = Object.keys;
 
 module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), protoDesc, desc, args
@@ -41,4 +41,5 @@ module.exports = function (a) {
 		a(desc._sKey_, key, "Descriptor #" + i);
 		a(this, x, "Context #" + i);
 	}, x);
+	a(keys(args).length, 0, "All processed");
 };
