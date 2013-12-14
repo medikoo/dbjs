@@ -111,6 +111,9 @@ module.exports = function (a) {
 		"Owner");
 	a(prop.__object__.constructor, Base, "Type");
 	a(prop, prop.__object__.$elka, "Prop");
+	a(prop.__master__, unserialize('objNewreateTest222'), "Master");
+	a(prop.__object__.__master__, unserialize('objNewreateTest222'),
+		"Nested obj master");
 
 	a.h2("No Ident");
 	a.h3("Existing");

@@ -19,16 +19,24 @@ var assign            = require('es5-ext/object/assign')
   , defineProperties = Object.defineProperties
   , getPrototypeOf = Object.getPrototypeOf
   , idDesc = d('', undefined)
+  , objDesc = d('', undefined)
   , masterDesc = d('', undefined)
-  , initDesc = { __id__: idDesc, __object__: masterDesc }
+  , initDesc = { __id__: idDesc, __object__: objDesc, __master__: masterDesc }
   , accessCollector = ee()
   , Constructor, protoProperties;
 
-Constructor = function (id, master) {
+Constructor = function (id, object, master) {
+	if (!object) {
+		object = this;
+		if (!master) master = this;
+	} else if (!master) {
+		master = object.__master__;
+	}
 	idDesc.value = id;
-	masterDesc.value = master || this;
+	objDesc.value = object;
+	masterDesc.value = master;
 	defineProperties(this, initDesc);
-	masterDesc.value = null;
+	objDesc.value = masterDesc.value = null;
 };
 
 protoProperties = assign({
@@ -72,9 +80,11 @@ module.exports = function (db) {
 	// 1. Proto constructor
 	createProto = function (proto, id, kind, object) {
 		proto = create(proto);
+		if (!object) object = proto;
 		return defineProperties(proto, assign({
 			__id__: d('', id),
-			__object__: d('', object || proto),
+			__master__: d('', object),
+			__object__: d('', object),
 			_kind_: d('', kind),
 			_db_: d('', db),
 			toString: d('c', function () { return '[dbjs ' + this.__id__ + ']'; })
@@ -82,10 +92,10 @@ module.exports = function (db) {
 	};
 
 	// 2. Value constructor
-	createObj = function (proto, id, master) {
+	createObj = function (proto, id, object, master) {
 		var obj;
 		Constructor.prototype = proto;
-		obj = new Constructor(id, master);
+		obj = new Constructor(id, object, master);
 		objects._add(obj);
 		proto._descendants_._add(obj);
 		return obj;

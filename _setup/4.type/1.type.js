@@ -159,12 +159,12 @@ module.exports = function (db, createObj, object) {
 		_createNested_: d(function (object, sKey) {
 			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
 			return this._create_(object.__id__ + '/' +
-				getIdent(this._keys_[sKey], sKey));
+				getIdent(this._keys_[sKey], sKey), object.__master__);
 		}),
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(i),
-		_create_: d(function (id) {
-			return updateObjEnum(createObj(this.prototype, id));
+		_create_: d(function (id, master) {
+			return updateObjEnum(createObj(this.prototype, id, null, master));
 		}),
 		find: d(function (key, value) {
 			var sKey = this._serialize_(key), sValue;
