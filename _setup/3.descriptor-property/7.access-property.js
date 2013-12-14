@@ -26,7 +26,7 @@ module.exports = function (db, descriptor) {
 			return this._getDescriptor_(key);
 		});
 		descs['_' + key] = d.gs('', function () {
-			return this.__master__
+			return this.__object__
 				._getDescriptorPropertyObservable_(this._sKey_, key);
 		});
 		defineProperties(descriptor, descs);

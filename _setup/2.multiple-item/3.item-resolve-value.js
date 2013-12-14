@@ -16,7 +16,7 @@ module.exports = function (item) {
 		}),
 		_normalizeValue_: d(function (value) {
 			if (!value) return false;
-			return (this.__master__._normalize_(this._pKey_, this._key_) != null);
+			return (this.__object__._normalize_(this._pKey_, this._key_) != null);
 		})
 	});
 };

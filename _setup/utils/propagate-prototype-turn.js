@@ -332,16 +332,16 @@ exports.object = function (obj, nu, dbEvent, postponed) {
 
 exports.descriptor = function (desc, nuProto, dbEvent, postponed) {
 	var oldProto = getPrototypeOf(desc), nu, old
-	  , objSnapshot = snapshotObservableObjKey(desc.__master__, desc._sKey_);
+	  , objSnapshot = snapshotObservableObjKey(desc.__object__, desc._sKey_);
 
 	postponed = turn.descriptor(desc, nuProto, postponed);
-	postponed = notifyObservableObjKey(desc.__master__, desc._sKey_, objSnapshot,
+	postponed = notifyObservableObjKey(desc.__object__, desc._sKey_, objSnapshot,
 		dbEvent, postponed);
-	postponed = emitDescDescs(desc.__master__, desc._sKey_, nuProto, oldProto,
+	postponed = emitDescDescs(desc.__object__, desc._sKey_, nuProto, oldProto,
 		dbEvent, postponed);
 	if (desc.hasOwnProperty('_value_')) return postponed;
 	nu = nuProto._resolveInner_();
 	old = oldProto._resolveInner_();
 	if (nu === old) return postponed;
-	return desc._emitValue_(desc.__master__, nu, old, dbEvent, postponed);
+	return desc._emitValue_(desc.__object__, nu, old, dbEvent, postponed);
 };

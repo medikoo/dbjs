@@ -20,7 +20,7 @@ var assign            = require('es5-ext/object/assign')
   , getPrototypeOf = Object.getPrototypeOf
   , idDesc = d('', undefined)
   , masterDesc = d('', undefined)
-  , initDesc = { __id__: idDesc, __master__: masterDesc }
+  , initDesc = { __id__: idDesc, __object__: masterDesc }
   , accessCollector = ee()
   , Constructor, protoProperties;
 
@@ -45,7 +45,7 @@ protoProperties = assign({
 		var obj = this;
 		while (!obj.hasOwnProperty('_value_')) {
 			obj = getPrototypeOf(obj);
-			if (!obj.__master__) return null;
+			if (!obj.__object__) return null;
 		}
 		return obj._lastOwnEvent_;
 	}),
@@ -75,7 +75,7 @@ module.exports = function (db) {
 	createProto = function (proto, id, kind) {
 		return defineProperties(create(proto), assign({
 			__id__: d('', id),
-			__master__: d('', proto),
+			__object__: d('', proto),
 			_kind_: d('', kind),
 			_db_: d('', db),
 			toString: d('c', function () { return '[dbjs ' + this.__id__ + ']'; })

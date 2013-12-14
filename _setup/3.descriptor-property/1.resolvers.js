@@ -68,7 +68,7 @@ module.exports = function (object, descriptor, property) {
 
 		// Observable
 		_getObservable_: d(function (sKey) {
-			return this.__master__
+			return this.__object__
 				._getDescriptorPropertyObservable_(this._sKey_, sKey);
 		}),
 		_get: d(function (key) {

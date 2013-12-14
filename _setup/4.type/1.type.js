@@ -43,7 +43,7 @@ module.exports = function (db, createObj, object) {
 
 	defineProperties(Base, {
 		__id__: d('', 'Base'),
-		__master__: d('', Base),
+		__object__: d('', Base),
 		extend: d(function (name) {
 			return this._extendAndInitialize_.apply(this,
 				this._validateExtend_.apply(this, arguments));
@@ -127,13 +127,13 @@ module.exports = function (db, createObj, object) {
 			setPrototypeOf(constructor, this);
 			defineProperties(constructor, {
 				__id__: d('', name),
-				__master__: d('', constructor)
+				__object__: d('', constructor)
 			});
 			constructor.prototype = create(this.prototype, {
 				constructor: d(constructor),
 				__id__: d('', name + '#')
 			});
-			defineProperty(constructor.prototype, '__master__', d('',
+			defineProperty(constructor.prototype, '__object__', d('',
 				constructor.prototype));
 			db.objects._add(constructor);
 			db.objects._add(constructor.prototype);

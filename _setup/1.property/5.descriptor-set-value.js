@@ -94,7 +94,7 @@ module.exports = function (db, descriptor) {
 			if (nu === old) return;
 			if (!this._reverse_ && !this.nested && !this.multiple &&
 					((old === undefined) || (nu === undefined))) {
-				updateEnum(this.__master__, this._sKey_, (nu !== undefined));
+				updateEnum(this.__object__, this._sKey_, (nu !== undefined));
 			}
 			if (old && old.__id__ && (old._kind_ === 'object')) {
 				old._assignments_._delete(this);
@@ -108,7 +108,7 @@ module.exports = function (db, descriptor) {
 			else defineProperty(this, '_value_', d('cw', nu));
 			nu = this._resolveValueValue_();
 			if (nu === old) return;
-			db._release_(this._emitValue_(this.__master__, nu, old, dbEvent));
+			db._release_(this._emitValue_(this.__object__, nu, old, dbEvent));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
 			var nuGet, oldGet;

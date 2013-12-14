@@ -12,9 +12,9 @@ module.exports = function (descriptor, accessCollector) {
 		_value_: d('', undefined),
 		_resolveInner_: d(function () {
 			if (!this._sKey_) return;
-			if (this._reverse_) return this._reverse_.get(this.__master__);
+			if (this._reverse_) return this._reverse_.get(this.__object__);
 			if (this.nested) {
-				return this.__master__._getObject_(this._sKey_);
+				return this.__object__._getObject_(this._sKey_);
 			}
 			return this.hasOwnProperty('_value_') ? this._value_ :
 					getPrototypeOf(this)._resolveInner_();

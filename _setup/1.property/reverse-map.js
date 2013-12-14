@@ -150,7 +150,7 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 			throw new DbjsError("Cannot overwrite multiple property",
 				'MULTIPLE_OVERRIDE');
 		}
-		this.__descriptor__.__master__.constructor.validate(value);
+		this.__descriptor__.__object__.constructor.validate(value);
 		this._validateDelete_(obj, value);
 		value._validateSet_(this.__descriptor__._sKey_, obj);
 		return value;

@@ -55,7 +55,7 @@ notifyNamedDescs = function (descP, key, nu, old, dbEvent, sidNfy, postponed) {
 				sidNfy, postponed);
 			return;
 		}
-		obj = desc.__master__;
+		obj = desc.__object__;
 		postponed = notify(obj, desc._sKey_, key, nu, old, dbEvent, postponed);
 		if (sidNfy) {
 			postponed = sidNfy(obj, desc._sKey_, key, nu, old, dbEvent, postponed);
@@ -73,7 +73,7 @@ module.exports = function (db, property) {
 			old = has ? this._value_ : undefined;
 			if (nu === old) return;
 			if ((nu === undefined) || (old === undefined)) {
-				obj = this.__master__;
+				obj = this.__object__;
 				if (obj.hasOwnProperty('__descriptors__')) {
 					obj = obj.__descriptors__;
 					if (hasOwnProperty.call(obj, this._pKey_)) {
@@ -94,7 +94,7 @@ module.exports = function (db, property) {
 			nu = this._value_;
 			if (nu != null) nu = this.type.normalize(nu);
 			if (nu === old) return;
-			db._release_(this._emitValue_(this.__master__, nu, old, dbEvent));
+			db._release_(this._emitValue_(this.__object__, nu, old, dbEvent));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
 			postponed = notify(obj, this._pKey_, this._sKey_, nu, old, dbEvent,
