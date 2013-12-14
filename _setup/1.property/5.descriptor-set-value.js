@@ -96,8 +96,8 @@ module.exports = function (db, descriptor) {
 				if (!this.multiple && ((old === undefined) || (nu === undefined))) {
 					updateEnum(this.__master__, this._sKey_, (nu !== undefined));
 				}
-				old = this._resolveValueValue_();
 			}
+			old = this._resolveValueValue_();
 			if (nu === undefined) delete this._value_;
 			else if (has) this._value_ = nu;
 			else defineProperty(this, '_value_', d('cw', nu));
