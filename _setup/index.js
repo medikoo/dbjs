@@ -72,10 +72,11 @@ module.exports = function (db) {
 	});
 
 	// 1. Proto constructor
-	createProto = function (proto, id) {
+	createProto = function (proto, id, kind) {
 		return defineProperties(create(proto), assign({
 			__id__: d('', id),
 			__master__: d('', proto),
+			_kind_: d('', kind),
 			_db_: d('', db),
 			toString: d('c', function () { return '[dbjs ' + this.__id__ + ']'; })
 		}, protoProperties));
@@ -91,10 +92,10 @@ module.exports = function (db) {
 		return obj;
 	};
 
-	object = createProto(Map.prototype, 'Base#');
-	descriptor = createProto(Map.prototype, '$', object);
-	item = createProto(Object.prototype, '*', object);
-	descriptorDescriptor = createProto(Object.prototype, '/', object);
+	object = createProto(Map.prototype, 'Base#', 'object');
+	descriptor = createProto(Map.prototype, '$', 'descriptor');
+	item = createProto(Object.prototype, '*', 'item');
+	descriptorDescriptor = createProto(Object.prototype, '/', 'sub-descriptor');
 
 	setupProp(db, createObj, object, descriptor, item, descriptorDescriptor,
 		accessCollector);

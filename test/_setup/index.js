@@ -29,4 +29,11 @@ module.exports = function (a) {
 	a(obj1._history_[0] instanceof Event, true, "History");
 
 	a(db.objects.unserialize(obj1.__id__), obj1, "Unserialize");
+
+	a.h1("Kind");
+	a(obj1._kind_, 'object', "Object");
+	a(db.Object._kind_, 'object', "Type");
+	a(obj1.$get('foo')._kind_, 'descriptor', "Descriptor");
+	a(obj1.$get('foo').$get('bar')._kind_, 'sub-descriptor', "Sub Descriptor");
+	a(obj1._getMultiple_('3bar').$get('bar')._kind_, 'item', "Multiple item");
 };
