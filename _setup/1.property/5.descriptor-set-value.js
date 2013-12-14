@@ -96,6 +96,12 @@ module.exports = function (db, descriptor) {
 					((old === undefined) || (nu === undefined))) {
 				updateEnum(this.__master__, this._sKey_, (nu !== undefined));
 			}
+			if (old && old.__id__ && (old._kind_ === 'object')) {
+				old._assignments_._delete(this);
+			}
+			if (nu && nu.__id__ && (nu._kind_ === 'object')) {
+				nu._assignments_._add(this);
+			}
 			if (old === undefined) old = this._resolveValueValue_();
 			if (nu === undefined) delete this._value_;
 			else if (has) this._value_ = nu;

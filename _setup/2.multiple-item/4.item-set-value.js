@@ -38,6 +38,10 @@ module.exports = function (db, item) {
 			var old, has = this.hasOwnProperty('_value_');
 			old = has ? this._value_ : undefined;
 			if (nu === old) return;
+			if (this._key_.__id__ && (this._key_._kind_ === 'object')) {
+				if (old) this._key_._assignments_._delete(this);
+				else if (nu) this._key_._assignments_._add(this);
+			}
 			old = Boolean(this._value_);
 			if (nu === undefined) delete this._value_;
 			else if (has) this._value_ = nu;

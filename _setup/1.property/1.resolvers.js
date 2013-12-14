@@ -6,6 +6,7 @@ var assign          = require('es5-ext/object/assign')
   , lazy            = require('d/lazy')
   , injectPrimitive = require('../utils/inject-primitive')
   , DbjsError       = require('../error')
+  , ObjectsSet      = require('../objects-set')
   , Observable      = require('./observable')
   , DynamicMultiple = require('./dynamic-multiple')
   , DynamicValue    = require('./dynamic-value')
@@ -147,7 +148,11 @@ module.exports = function (db, object, descriptor) {
 
 		// Iterator
 		_iterators_: d(function () { return []; },
-			{ cacheName: '__iterators__', desc: '' })
+			{ cacheName: '__iterators__', desc: '' }),
+
+		// Assignments
+		_assignments_: d(function () { return new ObjectsSet(); },
+			{ cacheName: '__assignments__', desc: '' })
 
 	})));
 };

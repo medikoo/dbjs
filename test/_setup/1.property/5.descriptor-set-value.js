@@ -6,7 +6,7 @@ var isSet    = require('es6-set/is-set')
 
 module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), desc, observable
-	  , emitted = null, set, iterator, listener;
+	  , emitted = null, set, iterator, listener, obj1, obj2;
 
 	observable = obj._get('test');
 	observable.on('change',
@@ -39,4 +39,17 @@ module.exports = function (a) {
 	if (emitted) delete emitted.dbjs;
 	a.deep(emitted, { type: 'set', key: 'foo', value: 'marko', oldValue: 'bar' },
 		"Observable Map");
+
+	a.h1("Assignments");
+	obj1 = new db.Object();
+	obj2 = new db.Object();
+
+	a.deep(toArray(obj1._assignments_), [], "Pre");
+	obj.set('assitest', obj1);
+	a.deep(toArray(obj1._assignments_), [obj.$assitest], "Set");
+	obj.assitest = obj2;
+	a.deep(toArray(obj1._assignments_), [], "Reset #1");
+	a.deep(toArray(obj2._assignments_), [obj.$assitest], "Reset #1");
+	obj.delete('assitest');
+	a.deep(toArray(obj2._assignments_), [], "Delete");
 };
