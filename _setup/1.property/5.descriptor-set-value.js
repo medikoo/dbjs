@@ -92,10 +92,9 @@ module.exports = function (db, descriptor) {
 			var old, has = this.hasOwnProperty('_value_');
 			old = has ? this._value_ : undefined;
 			if (nu === old) return;
-			if (!this._reverse_ && !this.nested) {
-				if (!this.multiple && ((old === undefined) || (nu === undefined))) {
-					updateEnum(this.__master__, this._sKey_, (nu !== undefined));
-				}
+			if (!this._reverse_ && !this.nested && !this.multiple &&
+					((old === undefined) || (nu === undefined))) {
+				updateEnum(this.__master__, this._sKey_, (nu !== undefined));
 			}
 			old = this._resolveValueValue_();
 			if (nu === undefined) delete this._value_;
