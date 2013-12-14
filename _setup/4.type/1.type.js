@@ -157,9 +157,14 @@ module.exports = function (db, createObj, object) {
 				this._validateCreate_.apply(this, arguments));
 		}),
 		_createNested_: d(function (object, sKey) {
+			var nested;
 			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
-			return this._create_(object.__id__ + '/' +
+			nested = this._create_(object.__id__ + '/' +
 				getIdent(this._keys_[sKey], sKey), object.__master__);
+			return defineProperties(nested, {
+				__parent__: d('', object),
+				__sKey__: d('', sKey)
+			});
 		}),
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(i),

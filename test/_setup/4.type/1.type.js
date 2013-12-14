@@ -250,12 +250,18 @@ module.exports = function (a) {
 			a.h1("Base object");
 			a(obj.__object__, obj, "__object__");
 			a(obj.__master__, obj, "__master__");
+			a(obj.__parent__, undefined, "__parent__");
+			a(obj.__sKey__, undefined, "__sKey__");
 			obj1 = obj._getObject_('3foo');
 			a(obj1.__object__, obj1, "__object__");
 			a(obj1.__master__, obj, "__master__");
-			obj2 = obj1._getObject_('3foo');
+			a(obj1.__parent__, obj, "__parent__");
+			a(obj1.__sKey__, '3foo', "__sKey__");
+			obj2 = obj1._getObject_('3foor');
 			a(obj2.__object__, obj2, "__object__");
 			a(obj2.__master__, obj, "__master__");
+			a(obj2.__parent__, obj1, "__parent__");
+			a(obj2.__sKey__, '3foor', "__sKey__");
 		}
 	};
 };
