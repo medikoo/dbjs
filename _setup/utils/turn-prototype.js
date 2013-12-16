@@ -58,6 +58,7 @@ turnDescProperties = function (desc, proto, postponed, done) {
 		if (!nu._sKey_ && property._sKey_ && !property.hasOwnProperty('_sKey_')) {
 			defineProperties(property, {
 				_pKey_: d('', property._pKey_),
+				_pIdent_: d('', property._pIdent_),
 				_sKey_: d('', property._sKey_),
 				_create_: d(property._create_)
 			});
