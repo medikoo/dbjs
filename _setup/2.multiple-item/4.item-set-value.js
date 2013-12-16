@@ -35,12 +35,17 @@ notifyDescendants = function (obj, pKey, sKey, key, value, dbEvent, postponed) {
 module.exports = function (db, item) {
 	defineProperties(item, {
 		_setValue_: d(function (nu, dbEvent) {
-			var old, has = this.hasOwnProperty('_value_');
+			var old, has = this.hasOwnProperty('_value_'), postponed, assignments;
 			old = has ? this._value_ : undefined;
 			if (nu === old) return;
 			if (this._key_.__id__ && (this._key_._kind_ === 'object')) {
-				if (old) this._key_._assignments_._delete(this);
-				else if (nu) this._key_._assignments_._add(this);
+				if (old || nu) {
+					assignments = this._key_._assignments_;
+					assignments._postponed_ += 1;
+					postponed = [assignments];
+					if (old) assignments._delete(this);
+					else if (nu) this._key_._assignments_._add(this);
+				}
 			}
 			old = Boolean(this._value_);
 			if (nu === undefined) delete this._value_;
@@ -48,7 +53,8 @@ module.exports = function (db, item) {
 			else defineProperty(this, '_value_', d('cw', nu));
 			nu = Boolean(this._value_);
 			if (nu === old) return;
-			db._release_(this._emitValue_(this.__object__, nu, old, dbEvent));
+			db._release_(this._emitValue_(this.__object__, nu, old,
+				dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
 			postponed = notify(obj, this._pKey_, this._sKey_, this._key_,

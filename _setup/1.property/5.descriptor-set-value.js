@@ -89,7 +89,7 @@ notifyDescs = function (obj, sKey, nu, old, nuGet, oldGet, dbEvent, sideNotify,
 module.exports = function (db, descriptor) {
 	defineProperties(descriptor, {
 		_setValue_: d(function (nu, dbEvent) {
-			var old, has = this.hasOwnProperty('_value_');
+			var old, has = this.hasOwnProperty('_value_'), postponed, assignments;
 			old = has ? this._value_ : undefined;
 			if (nu === old) return;
 			if (!this._reverse_ && !this.nested && !this.multiple &&
@@ -97,9 +97,16 @@ module.exports = function (db, descriptor) {
 				updateEnum(this.__object__, this._sKey_, (nu !== undefined));
 			}
 			if (old && old.__id__ && (old._kind_ === 'object')) {
+				assignments = old._assignments_;
+				assignments._postponed_ += 1;
+				postponed = [assignments];
 				old._assignments_._delete(this);
 			}
 			if (nu && nu.__id__ && (nu._kind_ === 'object')) {
+				assignments = nu._assignments_;
+				assignments._postponed_ += 1;
+				if (!postponed) postponed = [assignments];
+				else postponed.push(assignments);
 				nu._assignments_._add(this);
 			}
 			if (old === undefined) old = this._resolveValueValue_();
@@ -108,7 +115,8 @@ module.exports = function (db, descriptor) {
 			else defineProperty(this, '_value_', d('cw', nu));
 			nu = this._resolveValueValue_();
 			if (nu === old) return;
-			db._release_(this._emitValue_(this.__object__, nu, old, dbEvent));
+			db._release_(this._emitValue_(this.__object__, nu, old,
+				dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
 			var nuGet, oldGet;
