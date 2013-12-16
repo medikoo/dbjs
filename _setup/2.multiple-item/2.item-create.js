@@ -44,6 +44,7 @@ module.exports = function (db, item, createObj) {
 
 	item = defineProperties(item, {
 		_pKey_: d('', ''),
+		_pIdent_: d('', ''),
 		_key_: d('', undefined),
 		_value_: d('', undefined),
 		_sKey_: d('', ''),
