@@ -91,6 +91,7 @@ module.exports = function (db, createObj, descriptor) {
 
 	defineProperties(descriptor, {
 		_sKey_: d('', ''),
+		_ident_: d('', ''),
 		_writable_: d('', false),
 		_extensible_: d('c', true),
 		_create_: d(function (obj) {
