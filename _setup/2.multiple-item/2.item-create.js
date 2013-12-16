@@ -49,13 +49,15 @@ module.exports = function (db, item, createObj) {
 		_sKey_: d('', ''),
 		_ident_: d('', '*'),
 		_create_: d(function (obj, pKey, key, sKey, setData) {
-			var ident, item;
+			var pIdent, ident, item;
 			if (!obj._keys_[pKey]) obj._serialize_(unserialize(pKey, db.objects));
-			ident = getIdent(obj._keys_[pKey], pKey) + '*' + getIdent(key, sKey);
+			pIdent = getIdent(obj._keys_[pKey], pKey);
+			ident = pIdent + '*' + getIdent(key, sKey);
 			item = createObj(this, obj.__id__ + '/' + ident, obj);
 			setData[sKey] = item;
 			defineProperties(item, {
 				_pKey_: d('', pKey),
+				_pIdent_: d('', pIdent),
 				_ident_: d('', ident),
 				_key_: d('', key),
 				_sKey_: d('', sKey),
