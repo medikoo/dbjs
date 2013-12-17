@@ -61,6 +61,11 @@ module.exports = function (object, accessCollector) {
 			if (!desc) return false;
 			return desc._hasValue_(this);
 		}),
+		_hasOwn_: d(function (sKey) {
+			var desc = this.__descriptors__[sKey];
+			if (!desc) return false;
+			return desc._hasOwnValue_(this);
+		}),
 		_lastEvent_: d.gs(function () { return this._lastOwnEvent_; })
 	});
 

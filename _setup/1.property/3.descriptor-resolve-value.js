@@ -96,10 +96,18 @@ module.exports = function (descriptor, accessCollector) {
 		}),
 		_hasValue_: d(function (obj) {
 			if (!this._sKey_) return false;
-			if (this._reverse_) return this._reverse_.has(obj, this._sKey_);
+			if (this._reverse_) return this._reverse_.has(obj);
 			if (this.nested) return true;
 			if (this.multiple) return true;
 			return (this._resolveValueValue_(obj, this._sKey_) !== undefined);
+		}),
+		_hasOwnValue_: d(function (obj) {
+			if (!this._sKey_) return false;
+			if (this._reverse_) return this._reverse_.has(obj);
+			if (this.nested) return true;
+			if (this.multiple) return true;
+			if (this.__object__ !== obj) return false;
+			return this.hasOwnProperty('_value_');
 		}),
 		_normalizeValue_: d(function (value) {
 			return this.type.normalize(value, this);
