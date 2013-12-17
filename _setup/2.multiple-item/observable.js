@@ -40,5 +40,10 @@ ObservableValue.prototype = Object.create(proto, {
 			this.__lastModified__ = item ? item.lastModified : 0;
 		}
 		return this.__lastModified__;
+	}),
+	getDescriptor: d(function () {
+		var data = this.__object__.__multiples__[this.__pKey__];
+		if (!data) return this.__object__.__itemPrototype__;
+		return data[this.__sKey__] || this.__object__.__itemPrototype__;
 	})
 });

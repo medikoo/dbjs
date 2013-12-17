@@ -33,5 +33,9 @@ ObservableProperty.prototype = Object.create(proto, {
 				this.__object__._getPropertyLastModified_(this.__sKey__);
 		}
 		return this.__lastModified__;
+	}),
+	getDescriptor: d(function () {
+		return this.__object__.__descriptors__[this.__sKey__] ||
+			this.__object__.__descriptorPrototype__;
 	})
 });

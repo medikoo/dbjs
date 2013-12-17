@@ -37,5 +37,11 @@ ObservableValue.prototype = Object.create(proto, {
 			this.__lastModified__ = prop ? prop.lastModified : 0;
 		}
 		return this.__lastModified__;
+	}),
+	getDescriptor: d(function () {
+		var data = this.__pKey__
+			? this.__object__.__descriptors__[this.__pKey__]
+			: this.__object__.__descriptorPrototype__;
+		return data.__descriptors__[this.__sKey__] || data.__descriptorPrototype__;
 	})
 });
