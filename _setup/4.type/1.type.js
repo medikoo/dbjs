@@ -2,11 +2,14 @@
 
 var i              = require('es5-ext/function/i')
   , isFunction     = require('es5-ext/function/is-function')
+  , assign         = require('es5-ext/object/assign')
   , mixin          = require('es5-ext/object/mixin')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
+  , lazy           = require('d/lazy')
   , DbjsError      = require('../error')
   , Event          = require('../event')
+  , ObjectsSet     = require('../objects-set')
   , getIdent       = require('../utils/get-ident')
   , turnPrototype  = require('../utils/propagate-prototype-turn').object
   , serialize      = require('../utils/serialize')
@@ -41,7 +44,7 @@ module.exports = function (db, createObj, object) {
 	setPrototypeOf(Base, object);
 	try { mixin(Base, Function.prototype); } catch (ignore) {}
 
-	defineProperties(Base, {
+	defineProperties(Base, assign({
 		__id__: d('', 'Base'),
 		__object__: d('', Base),
 		extend: d(function (name) {
@@ -187,7 +190,11 @@ module.exports = function (db, createObj, object) {
 			}
 			return this.prototype._getReverseMap_(sKey)._getMultiple_(sValue, value);
 		})
-	});
+	}, lazy({
+		_typeAssignments_: d(function () { return new ObjectsSet(); },
+			{ cacheName: '__typeAssignments__', desc: '' })
+	})));
+
 	db.objects._add(Base);
 	db.Base = Base;
 	Base.prototype = object;

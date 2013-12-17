@@ -28,7 +28,7 @@ confirmItem = function (nu, old, item) {
 };
 
 module.exports = function (db, descriptor) {
-	var Base = db.Base, property, Type, baseEmitValue
+	var Base = db.Base, property, Type, baseEmitValue, baseSetValue
 	  , isObjectType = db.isObjectType;
 
 	Type = defineProperties(function (value) {
@@ -61,6 +61,7 @@ module.exports = function (db, descriptor) {
 		_value_: d('w', Base)
 	});
 
+	baseSetValue = property._setValue_;
 	baseEmitValue = property._emitValue_;
 
 	defineProperties(property, {
@@ -118,6 +119,16 @@ module.exports = function (db, descriptor) {
 				if (oldValue !== undefined) return oldValue;
 				return (oldValue = old.normalize(value, desc));
 			}, dbEvent, postponed);
+		}),
+		_setValue_: d(function (nu, dbEvent) {
+			var old = (this.hasOwnProperty('_value_') && this._value_) || undefined
+			  , desc;
+			if (nu === old) return;
+			if (this._pKey_) desc = this.__object__.__descriptors__[this._pKey_];
+			else desc = this.__object__.__descriptorPrototype__;
+			if (old) old.__typeAssignments__._delete(desc);
+			if (nu) nu._typeAssignments_._add(desc);
+			baseSetValue.call(this, nu, dbEvent);
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
 			postponed = baseEmitValue.call(this, obj, nu, old, dbEvent, postponed);

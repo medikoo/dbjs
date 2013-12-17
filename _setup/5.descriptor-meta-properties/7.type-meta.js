@@ -11,7 +11,8 @@ var d                     = require('d/d')
   , configure;
 
 configure = function (name, descriptor, type, types, defValue) {
-	var property, baseEmitValue, notify, notifyDesc, notifyDescs, notifyObjDescs;
+	var property, baseEmitValue, notify, notifyDesc, notifyObjDescs
+	  , notifyNamedDescs;
 
 	property = defineProperties(descriptor.$get(name), {
 		type: d('', type),
@@ -25,7 +26,14 @@ configure = function (name, descriptor, type, types, defValue) {
 		if (!obj.hasOwnProperty('__descendants__')) return postponed;
 		obj.__descendants__._plainForEach_(function (obj) {
 			if (obj.hasOwnProperty('__descriptors__')) {
-				if (hasOwnProperty.call(obj.__descriptors__, desc._sKey_)) return;
+				if (hasOwnProperty.call(obj.__descriptors__, desc._sKey_)) {
+					desc = obj.__descriptors__[desc._sKey_];
+					if (desc.hasOwnProperty('__descriptors__') &&
+							hasOwnProperty.call(desc.__descriptors__, 'type') &&
+							desc.__descriptors__.type.hasOwnProperty('_value_')) {
+						return;
+					}
+				}
 			}
 			postponed = notify(obj, desc._sKey_, nt, ot, desc, desc,
 				dbEvent, postponed);
@@ -40,13 +48,11 @@ configure = function (name, descriptor, type, types, defValue) {
 		return notifyObjDescs(desc.__object__, desc, nt, ot, dbEvent, postponed);
 	};
 
-	notifyDescs = function (desc, nt, ot, dbEvent, postponed) {
+	notifyNamedDescs = function (desc, nt, ot, dbEvent, postponed) {
 		if (!desc.hasOwnProperty('__descendants__')) return postponed;
 		desc.__descendants__._plainForEach_(function (desc) {
-			if ((desc.type === nt) && !desc._reverse_ && !desc.nested) {
-				postponed = notifyDesc(desc, nt, ot, dbEvent, postponed);
-			}
-			postponed = notifyDescs(desc, nt, ot, dbEvent, postponed);
+			if (desc._sKey_) postponed = notifyDesc(desc, nt, ot, dbEvent, postponed);
+			else postponed = notifyNamedDescs(desc, nt, ot, dbEvent, postponed);
 		});
 		return postponed;
 	};
@@ -91,7 +97,15 @@ configure = function (name, descriptor, type, types, defValue) {
 				if (oldGet) old = resolveValue(obj, old, true, desc.type, desc);
 
 				ot = defineProperty(create(obj), name, d('', old));
-				return notifyDescs(descriptor, obj, ot, dbEvent, postponed);
+				if (!obj.hasOwnProperty('__typeAssignments__')) return postponed;
+				obj.__typeAssignments__._plainForEach_(function (desc) {
+					if (desc._sKey_) {
+						postponed = notifyDesc(desc, obj, ot, dbEvent, postponed);
+						return;
+					}
+					postponed = notifyNamedDescs(desc, obj, ot, dbEvent, postponed);
+				});
+				return postponed;
 			}),
 			_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
 				postponed = baseEmitValue.call(this, obj, nu, old, dbEvent, postponed);
