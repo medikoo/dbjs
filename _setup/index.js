@@ -1,11 +1,13 @@
 'use strict';
 
 var assign            = require('es5-ext/object/assign')
+  , primitiveSet      = require('es5-ext/object/primitive-set')
   , d                 = require('d/d')
   , lazy              = require('d/lazy')
   , Map               = require('es6-map/primitive')
   , ee                = require('event-emitter/lib/core')
   , ObjectsSet        = require('./objects-set')
+  , DbjsError             = require('./error')
   , History           = require('./history')
   , unserializeObject = require('./unserialize/object')
 
@@ -14,6 +16,7 @@ var assign            = require('es5-ext/object/assign')
   , setupDescProp     = require('./3.descriptor-property')
   , setupType         = require('./4.type')
   , setupDescMeta     = require('./5.descriptor-meta-properties')
+  , validDbjsObject   = require('../valid-dbjs-object')
 
   , create = Object.create, defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -23,7 +26,28 @@ var assign            = require('es5-ext/object/assign')
   , masterDesc = d('', undefined)
   , initDesc = { __id__: idDesc, __object__: objDesc, __master__: masterDesc }
   , accessCollector = ee()
-  , Constructor, protoProperties;
+  , nativeTypes = primitiveSet('Base', 'Boolean', 'Number', 'String',
+	'DateTime', 'RegExp', 'Function', 'Object')
+  , deleteObject, Constructor, protoProperties;
+
+deleteObject = function (obj) {
+	validDbjsObject(obj);
+	if (obj._kind_ === 'object') {
+		if (typeof obj === 'function') {
+			// Type
+			if (nativeTypes[obj.__id__]) {
+				throw new DbjsError("Cannot delete native dbjs type",
+					'DELETE_NATIVE_TYPE');
+			}
+		} else if (obj.constructor.prototype === obj) {
+			throw new DbjsError("Cannot delete prototype (delete type instead)",
+				'DELETE_PROTOTYPE');
+		}
+	}
+	obj._db_._postponed_ += 1;
+	obj._destroy_();
+	obj._db_._postponed_ -= 1;
+};
 
 Constructor = function (id, object, master) {
 	if (!object) {
@@ -118,5 +142,8 @@ module.exports = function (db) {
 	setupDescMeta(db, createObj, object, descriptor, item, descriptorDescriptor,
 		accessCollector);
 
-	defineProperty(objects, 'unserialize', d(unserializeObject(db)));
+	defineProperties(objects, {
+		unserialize: d(unserializeObject(db)),
+		delete: d(deleteObject)
+	});
 };

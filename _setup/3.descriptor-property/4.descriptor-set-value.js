@@ -2,6 +2,7 @@
 
 var d      = require('d/d')
   , notify = require('../notify/desc-property')
+  , Event  = require('../event')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties
@@ -68,6 +69,10 @@ notifyNamedDescs = function (descP, key, nu, old, dbEvent, sidNfy, postponed) {
 
 module.exports = function (db, property) {
 	defineProperties(property, {
+		_destroy_: d(function () {
+			if (!this.hasOwnProperty('_value_')) return;
+			new Event(this); //jslint: skip
+		}),
 		_setValue_: d(function (nu, dbEvent) {
 			var old, has = this.hasOwnProperty('_value_'), obj;
 			old = has ? this._value_ : undefined;

@@ -19,9 +19,10 @@ var i              = require('es5-ext/function/i')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
   , create = Object.create, defineProperties = Object.defineProperties
-  , defineProperty = Object.defineProperty
+  , defineProperty = Object.defineProperty, keys = Object.keys
   , getPrototypeOf = Object.getPrototypeOf
   , isValidTypeName = RegExp.prototype.test.bind(/^[A-Z][0-9a-zA-Z]*$/)
+  , destroy = function (sKey) { this[sKey]._destroy_(); }
   , updateObjEnum;
 
 updateObjEnum = function (obj) {
@@ -189,6 +190,15 @@ module.exports = function (db, createObj, object) {
 					'NOT_SUPPORTED_VALUE');
 			}
 			return this.prototype._getReverseMap_(sKey)._getMultiple_(sValue, value);
+		}),
+		_destroy_: d(function () {
+			if (this.hasOwnProperty('__typeAssignments__')) {
+				this.__typeAssignments__._plainForEach_(function (obj) {
+					new Event(obj.$type); //jslint: skip
+				});
+			}
+			this.prototype._destroy_();
+			this.prototype._destroy_.call(this);
 		})
 	}, lazy({
 		_typeAssignments_: d(function () { return new ObjectsSet(); },
@@ -201,6 +211,31 @@ module.exports = function (db, createObj, object) {
 
 	defineProperties(object, {
 		constructor: d(Base),
+		_destroy_: d(function () {
+			if (this.hasOwnProperty('__descendants__')) {
+				this.__descendants__._plainForEach_(function (obj) {
+					obj._destroy_();
+				});
+			}
+			if (this.hasOwnProperty('__assignments__')) {
+				this.__assignments__._plainForEach_(function (obj) {
+					new Event(this); //jslint: skip
+				});
+			}
+			if (this.hasOwnProperty('__objects__')) {
+				keys(this.__objects__).forEach(destroy, this.__objects__);
+			}
+			if (this.hasOwnProperty('__descriptors__')) {
+				keys(this.__descriptors__).forEach(destroy, this.__descriptors__);
+			}
+			if (this.hasOwnProperty('__multiples__')) {
+				keys(this.__multiples__).forEach(function (pKey) {
+					keys(this[pKey]).forEach(destroy, this[pKey]);
+				}, this.__multiples__);
+			}
+			if (this.constructor.prototype === this) return;
+			new Event(this); //jslint: skip
+		}),
 		_setValue_: d(function (nu, dbEvent) {
 			var old;
 			if (this.constructor.prototype === this) {

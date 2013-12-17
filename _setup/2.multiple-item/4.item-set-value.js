@@ -2,6 +2,7 @@
 
 var d          = require('d/d')
   , notifyItem = require('../notify/item')
+  , Event      = require('../event')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties
@@ -34,6 +35,10 @@ notifyDescendants = function (obj, pKey, sKey, key, value, dbEvent, postponed) {
 
 module.exports = function (db, item) {
 	defineProperties(item, {
+		_destroy_: d(function () {
+			if (!this.hasOwnProperty('_value_')) return;
+			new Event(this); //jslint: skip
+		}),
 		_setValue_: d(function (nu, dbEvent) {
 			var old, has = this.hasOwnProperty('_value_'), postponed, assignments;
 			old = has ? this._value_ : undefined;

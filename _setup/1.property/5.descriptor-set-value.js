@@ -6,10 +6,12 @@ var d              = require('d/d')
   , updateEnum     = require('../utils/update-enumerability')
   , notifyGetter   = require('../notify/getter')
   , notifyProperty = require('../notify/property')
+  , Event          = require('../event')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties
-  , defineProperty = Object.defineProperty
+  , defineProperty = Object.defineProperty, keys = Object.keys
+  , destroy = function (sKey) { this[sKey]._destroy_(); }
   , notify, notifyDescs, resolve;
 
 resolve = function (desc, sKey, value, isGet) {
@@ -88,6 +90,23 @@ notifyDescs = function (obj, sKey, nu, old, nuGet, oldGet, dbEvent, sideNotify,
 
 module.exports = function (db, descriptor) {
 	defineProperties(descriptor, {
+		_destroy_: d(function () {
+			var data;
+			if (this.hasOwnProperty('__descriptors__')) {
+				keys(this.__descriptors__).forEach(destroy, this.__descriptors__);
+			}
+			if (!this._sKey_) return;
+			data = this.__object__;
+			if (data.hasOwnProperty('__multiples__')) {
+				data = data.__multiples__;
+				if (hasOwnProperty.call(data, this._sKey_)) {
+					data = data[this._sKey_];
+					keys(data).forEach(destroy, data);
+				}
+			}
+			if (!this.hasOwnProperty('_value_')) return;
+			new Event(this); //jslint: skip
+		}),
 		_setValue_: d(function (nu, dbEvent) {
 			var old, has = this.hasOwnProperty('_value_'), postponed, assignments;
 			old = has ? this._value_ : undefined;
