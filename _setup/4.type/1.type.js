@@ -164,7 +164,7 @@ module.exports = function (db, createObj, object) {
 			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
 			nested = this._create_(object.__id__ + '/' + sKey, object.master);
 			return defineProperties(nested, {
-				__parent__: d('', object),
+				owner: d('', object),
 				__sKey__: d('', sKey)
 			});
 		}),
