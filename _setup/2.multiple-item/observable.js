@@ -13,9 +13,9 @@ ObservableValue = module.exports = function (object, pKey, sKey, key) {
 	var data, value;
 	defineProperties(this, {
 		object: d('', object),
+		key: d('', key),
 		__pKey__: d('', pKey),
 		__sKey__: d('', sKey),
-		__key__: d('', key),
 		__dbId__: d('', object.__id__ + '/' + pKey + '*' + sKey)
 	});
 	data = object.__multiples__[pKey];
@@ -30,8 +30,8 @@ ObservableValue.prototype = Object.create(proto, {
 	constructor: d(ObservableValue),
 	value: d.gs('', valueDesc.get, function (value) {
 		var set = this.object._getMultiple_(this.__pKey__);
-		if (value) set.add(this.__key__);
-		else set.delete(this.__key__);
+		if (value) set.add(this.key);
+		else set.delete(this.key);
 	}),
 	lastModified: d.gs(function () {
 		var data, item;
