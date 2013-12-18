@@ -5,7 +5,7 @@ var toArray  = require('es6-iterator/to-array')
 
 module.exports = function (a) {
 	var db = new Database(), obj = new db.Object()
-	  , desc = db.Object.prototype.$get('test'), iterator, event;
+	  , desc = db.Object.prototype.$getOwn('test'), iterator, event;
 
 	desc.multiple = true;
 

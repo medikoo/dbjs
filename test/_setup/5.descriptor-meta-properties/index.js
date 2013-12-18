@@ -3,7 +3,7 @@
 var Database = require('../../../');
 
 module.exports = function (a) {
-	var db = new Database(), obj = new db.Object(), desc = obj.$get('test');
+	var db = new Database(), obj = new db.Object(), desc = obj.$getOwn('test');
 
 	a(desc.type, db.Base, "Type");
 	a(desc.required, false, "Required");

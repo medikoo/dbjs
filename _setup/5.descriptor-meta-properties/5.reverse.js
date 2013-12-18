@@ -11,7 +11,7 @@ var d             = require('d/d')
 module.exports = function (db, descriptor) {
 	var Base = db.Base, property, isObjectType = db.isObjectType;
 
-	property = descriptor.$get('reverse');
+	property = descriptor.$getOwn('reverse');
 
 	defineProperties(property, {
 		type: d('', db.Base),

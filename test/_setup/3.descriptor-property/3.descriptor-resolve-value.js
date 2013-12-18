@@ -9,10 +9,10 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , desc, ownDesc, event, prop, ownProp;
 
-	desc = proto.$get('test');
+	desc = proto.$getOwn('test');
 	ownDesc = obj.$test;
-	prop = desc.$get('foo');
-	ownProp = ownDesc.$get('foo');
+	prop = desc.$getOwn('foo');
+	ownProp = ownDesc.$getOwn('foo');
 
 	// Resolve value
 	a.h1("Undefined");

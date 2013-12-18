@@ -3,7 +3,7 @@
 var Database = require('../../');
 
 module.exports = function (T, a) {
-	var db = new Database(), obj = new db.Object(), desc = obj.$get('test')
+	var db = new Database(), obj = new db.Object(), desc = obj.$getOwn('test')
 	  , event, event2;
 
 	event = new T(desc, 'foo', 1000);

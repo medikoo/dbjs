@@ -12,13 +12,13 @@ module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), protoDesc, desc
 	  , prop, protoProp, args, i, x = {};
 
-	protoDesc = db.Object.prototype.$get('foo');
-	desc = obj.$get('foo');
-	protoProp = protoDesc.$get('foo');
-	prop = desc.$get('foo');
+	protoDesc = db.Object.prototype.$getOwn('foo');
+	desc = obj.$getOwn('foo');
+	protoProp = protoDesc.$getOwn('foo');
+	prop = desc.$getOwn('foo');
 
 	a(getPrototypeOf(prop), protoProp, "Inheritance");
-	a(desc.$get('foo'), prop, "Return already created");
+	a(desc.$getOwn('foo'), prop, "Return already created");
 
 	a(desc._getCurrentDescriptor_('foo'), prop, "Get current");
 	defineProperty(desc, 'foo', d('bar'));
@@ -27,7 +27,7 @@ module.exports = function (a) {
 	a(isObservable(obj._getDpObservable_('foo')), true, "Observable");
 
 	a.h1("forEachOwnDescriptor");
-	db.Base.prototype.$get('foo').set('raz', 'dwa');
+	db.Base.prototype.$getOwn('foo').set('raz', 'dwa');
 	desc.set('miszka', 'raz');
 
 	args = primitiveSet('foo', 'miszka');

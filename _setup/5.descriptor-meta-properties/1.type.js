@@ -56,7 +56,7 @@ module.exports = function (db, descriptor) {
 
 	defineProperty(descriptor.__descriptorPrototype__, 'type', d('', Base));
 
-	property = defineProperties(descriptor.$get('type'), {
+	property = defineProperties(descriptor.$getOwn('type'), {
 		type: d('', Type),
 		_value_: d('w', Base)
 	});

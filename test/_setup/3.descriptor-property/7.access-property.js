@@ -6,7 +6,7 @@ var toArray    = require('es6-iterator/to-array')
 
 module.exports = function (a) {
 	var db = new Database(), obj = new db.Object()
-	  , args, x = {}, i, desc = obj.$get('test'), base = getBaseMap(desc);
+	  , args, x = {}, i, desc = obj.$getOwn('test'), base = getBaseMap(desc);
 
 	a.h1("Set");
 	a(desc.set('test', 'foo'), desc);

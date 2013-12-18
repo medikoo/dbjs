@@ -5,7 +5,7 @@ var Database = require('../../../');
 module.exports = function (a) {
 	var db = new Database(), Type1 = db.Object.extend("Object1")
 	  , Type2 = db.Object.extend("Object2"), obj1 = new Type1()
-	  , desc = Type1.prototype.$get('test'), obj2 = new Type2(), Type3
+	  , desc = Type1.prototype.$getOwn('test'), obj2 = new Type2(), Type3
 	  , event;
 
 	desc.type = Type2;

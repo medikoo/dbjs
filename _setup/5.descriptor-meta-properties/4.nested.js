@@ -11,7 +11,7 @@ var d              = require('d/d')
 module.exports = function (db, descriptor) {
 	var property;
 
-	property = defineProperties(descriptor.$get('nested'), {
+	property = defineProperties(descriptor.$getOwn('nested'), {
 		type: d('', db.Boolean),
 		_value_: d('w', false)
 	});

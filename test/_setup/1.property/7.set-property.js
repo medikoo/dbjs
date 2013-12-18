@@ -11,8 +11,8 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , desc, obj2, ownDesc;
 
-	desc = proto.$get('test');
-	ownDesc = obj.$get('test');
+	desc = proto.$getOwn('test');
+	ownDesc = obj.$getOwn('test');
 
 	a.h1("ACL");
 	defineProperty(desc, '_writable_', d('c', false));
@@ -37,7 +37,7 @@ module.exports = function (a) {
 
 	a.h1("Set properties");
 	a.h2("Invalid");
-	proto.$get('raz').type = db.Number;
+	proto.$getOwn('raz').type = db.Number;
 	a.throws(function () {
 		obj.setProperties({
 			raz: 'raz',

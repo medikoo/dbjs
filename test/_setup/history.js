@@ -4,7 +4,7 @@ var Database = require('../../')
   , Event    = require('../../_setup/event');
 
 module.exports = function (a) {
-	var db = new Database(), obj = new db.Object(), desc = obj.$get('test')
+	var db = new Database(), obj = new db.Object(), desc = obj.$getOwn('test')
 	  , event1, event2, event3, event5, dbEvents = [], objEvents = [];
 
 	db.objects.on('update', function (event) { dbEvents.push(event); });

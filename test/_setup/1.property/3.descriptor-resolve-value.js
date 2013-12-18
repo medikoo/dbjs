@@ -8,7 +8,7 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , desc, ownDesc, fn, event;
 
-	desc = proto.$get('test');
+	desc = proto.$getOwn('test');
 	ownDesc = obj.$test;
 
 	// Resolve value

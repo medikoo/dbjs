@@ -13,10 +13,10 @@ module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), protoDesc, desc, args
 	  , x = {}, i;
 
-	protoDesc = db.Object.prototype.$get('foo');
-	desc = obj.$get('foo');
+	protoDesc = db.Object.prototype.$getOwn('foo');
+	desc = obj.$getOwn('foo');
 	a(getPrototypeOf(desc), protoDesc, "Descriptor");
-	a(obj.$get('foo'), desc, "Return already created");
+	a(obj.$getOwn('foo'), desc, "Return already created");
 	a(obj._getCurrentDescriptor_(protoDesc._sKey_), desc, "Get current");
 	defineProperty(obj, 'foo', d('bar'));
 	a(obj._getCurrentDescriptor_(protoDesc._sKey_), null, "Native value");

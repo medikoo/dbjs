@@ -59,7 +59,7 @@ module.exports = function (object, descriptor, property) {
 			}
 			return property._create_(this, sKey);
 		}),
-		$get: d(function (key) {
+		$getOwn: d(function (key) {
 			var sKey = this._serialize_(key);
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid property name",

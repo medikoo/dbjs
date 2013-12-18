@@ -36,9 +36,9 @@ module.exports = function (a) {
 	a.h1("Kind");
 	a(obj1._kind_, 'object', "Object");
 	a(db.Object._kind_, 'object', "Type");
-	a(obj1.$get('foo')._kind_, 'descriptor', "Descriptor");
-	a(obj1.$get('foo').$get('bar')._kind_, 'sub-descriptor', "Sub Descriptor");
-	a(obj1._getMultiple_('bar').$get('bar')._kind_, 'item', "Multiple item");
+	a(obj1.$getOwn('foo')._kind_, 'descriptor', "Descriptor");
+	a(obj1.$getOwn('foo').$getOwn('bar')._kind_, 'sub-descriptor', "Sub Descriptor");
+	a(obj1._getMultiple_('bar').$getOwn('bar')._kind_, 'item', "Multiple item");
 
 	a.h1("Delete object");
 
@@ -56,10 +56,10 @@ module.exports = function (a) {
 	a(desc.$required.hasOwnProperty('_value_'), false, "Property descriptor");
 
 	a.h3("Multiple");
-	desc = obj2.$get('mordka');
+	desc = obj2.$getOwn('mordka');
 	desc.multiple = true;
 	obj2.mordka = ['foo', 'bar'];
-	item1 = obj2.mordka.$get('foo');
+	item1 = obj2.mordka.$getOwn('foo');
 	a.h4("Pre");
 	a(desc.$multiple._value_, true, "Property descriptor");
 	a(item1._value_, true, "Item");
@@ -79,7 +79,7 @@ module.exports = function (a) {
 	a(obj1.$raz._value_, 'dwa', "Property value");
 	a(obj1.$dwa.$multiple._value_, true, "Property descriptor #2");
 	a(obj1.$raz._value_, 'dwa', "Property value #2");
-	item1 = obj1.dwa.$get('foo');
+	item1 = obj1.dwa.$getOwn('foo');
 	a(item1._value_, true, "Item");
 	db.objects.delete(obj1);
 

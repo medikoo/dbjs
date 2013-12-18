@@ -6,7 +6,7 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , desc, obj2;
 
-	desc = proto.$get('test');
+	desc = proto.$getOwn('test');
 	a.h1("Delete");
 	a(obj.delete('test'), false, "Undefined");
 	obj.test = null;

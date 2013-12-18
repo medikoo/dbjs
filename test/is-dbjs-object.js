@@ -13,7 +13,7 @@ module.exports = function (t, a) {
 	a(t(new db.DateTime()), false, "Date out of database");
 	a(t({}), false, "Plain object");
 	a(t(obj), true, "Db object");
-	a(t(obj.$get('test')), true, "Db descriptor");
-	a(t(obj.$get('test').$get('raz')), true, "Db descriptor's descriptor");
-	a(t(obj._getMultiple_('test').$get('raz')), true, "Db item");
+	a(t(obj.$getOwn('test')), true, "Db descriptor");
+	a(t(obj.$getOwn('test').$getOwn('raz')), true, "Db descriptor's descriptor");
+	a(t(obj._getMultiple_('test').$getOwn('raz')), true, "Db item");
 };

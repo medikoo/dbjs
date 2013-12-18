@@ -8,7 +8,7 @@ module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), desc, observable
 	  , emitted = null, iterator, listener;
 
-	desc = obj.$get('test');
+	desc = obj.$getOwn('test');
 	observable = desc._get('test');
 	observable.on('change',
 		listener = function (event) { emitted = event.newValue; });

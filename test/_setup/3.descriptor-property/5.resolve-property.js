@@ -8,8 +8,8 @@ var d        = require('d/d')
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, desc, event, prop;
 
-	desc = proto.$get('test');
-	prop = desc.$get('foo');
+	desc = proto.$getOwn('test');
+	prop = desc.$getOwn('foo');
 
 	// Resolve value
 	a.h1("Undefined");

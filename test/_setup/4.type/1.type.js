@@ -106,7 +106,7 @@ module.exports = function (a) {
 					{ bar: { type: TestType1, multiple: true } })
 			  , item, obj1, obj2;
 			obj2 = new db.Object();
-			item = obj2._getMultiple_('bar').$get(new db.Object());
+			item = obj2._getMultiple_('bar').$getOwn(new db.Object());
 			item._setValue_(true);
 			obj2._setValue_(TestType2.prototype);
 			a.deep(toArray(obj2.bar), [], "Invalid cleared");
@@ -124,7 +124,7 @@ module.exports = function (a) {
 			obj2 = new TestType2();
 			obj2.bar.add(obj11);
 			obj2.bar.delete(obj11);
-			obj2.bar.$get(obj12);
+			obj2.bar.$getOwn(obj12);
 			obj2._setValue_();
 			a(obj2.$bar.multiple, false, "");
 		},

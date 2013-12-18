@@ -6,7 +6,7 @@ var toArray  = require('es6-iterator/to-array')
 module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), iterator, data;
 
-	db.Object.prototype.$get('test').multiple = true;
+	db.Object.prototype.$getOwn('test').multiple = true;
 
 	obj.test = ['raz', 2, 'trzy', 4];
 

@@ -67,7 +67,7 @@ Multiple.prototype = create(Set.prototype, assign({
 		return this.__object__._getMultipleSize_(this.__pKey__);
 	}),
 	values: d(function () { return new Iterator(this); }),
-	$get: d(function (key) {
+	$getOwn: d(function (key) {
 		key = this._validate_(key);
 		return this.__object__._getMultipleItem_(this.__pKey__,
 			key, this._serialize(key));

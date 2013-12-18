@@ -6,7 +6,7 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , event, observable, item;
 
-	proto.$get('test').multiple = true;
+	proto.$getOwn('test').multiple = true;
 	observable = obj.test._get('trzy');
 	a(observable.value, false, "Initial");
 	observable.on('change', function (e) { event = e; });
@@ -18,7 +18,7 @@ module.exports = function (a) {
 	a.deep(event, { type: 'change', newValue: true, oldValue: false,
 		dbjs: event.dbjs }, "Event");
 
-	item = obj.test.$get('trzy');
+	item = obj.test.$getOwn('trzy');
 	a(observable.lastModified, item.lastModified, "Last modified");
 
 	a.h1("Delete");

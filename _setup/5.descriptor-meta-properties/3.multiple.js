@@ -12,7 +12,7 @@ var d                 = require('d/d')
 module.exports = function (db, descriptor) {
 	var property;
 
-	property = defineProperties(descriptor.$get('multiple'), {
+	property = defineProperties(descriptor.$getOwn('multiple'), {
 		type: d('', db.Boolean),
 		_value_: d('w', false)
 	});

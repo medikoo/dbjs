@@ -9,10 +9,10 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , desc, ownDesc, prop, ownProp;
 
-	desc = proto.$get('test');
-	prop = desc.$get('test');
-	ownDesc = obj.$get('test');
-	ownProp = ownDesc.$get('test');
+	desc = proto.$getOwn('test');
+	prop = desc.$getOwn('test');
+	ownDesc = obj.$getOwn('test');
+	ownProp = ownDesc.$getOwn('test');
 
 	a.h1("ACL");
 	defineProperty(prop, '_writable_', d('c', false));

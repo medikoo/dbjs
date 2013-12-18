@@ -6,7 +6,7 @@ module.exports = function (a) {
 	var db = new Database(), Type1 = db.Object.extend("Type1")
 	  , Type2 = db.Object.extend("Type2")
 	  , Type3 = db.Object.extend("Type3")
-	  , desc1 = Type1.prototype.$get('foo')
+	  , desc1 = Type1.prototype.$getOwn('foo')
 	  , obj1, obj2, event;
 
 	desc1.type = Type2;

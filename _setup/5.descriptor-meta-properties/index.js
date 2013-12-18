@@ -24,12 +24,12 @@ module.exports = function (db, createObj, obj, desc, item, descDesc, ac) {
 
 	Base = db.Base;
 
-	defineProperty(obj.$get('_initialize_'), 'type', d('', db.Function));
-	defineProperty(obj.$get('toString'), 'type', d('', db.Function));
-	defineProperty(Base.$get('_validateExtendInitialize_'), 'type',
+	defineProperty(obj.$getOwn('_initialize_'), 'type', d('', db.Function));
+	defineProperty(obj.$getOwn('toString'), 'type', d('', db.Function));
+	defineProperty(Base.$getOwn('_validateExtendInitialize_'), 'type',
 		d('', db.Function));
-	defineProperty(Base.$get('is'), 'type', d('', db.Function));
-	defineProperty(Base.$get('normalize'), 'type', d('', db.Function));
-	defineProperty(Base.$get('validate'), 'type', d('', db.Function));
-	defineProperty(Base.$get('_validateCreate_'), 'type', d('', db.Function));
+	defineProperty(Base.$getOwn('is'), 'type', d('', db.Function));
+	defineProperty(Base.$getOwn('normalize'), 'type', d('', db.Function));
+	defineProperty(Base.$getOwn('validate'), 'type', d('', db.Function));
+	defineProperty(Base.$getOwn('_validateCreate_'), 'type', d('', db.Function));
 };

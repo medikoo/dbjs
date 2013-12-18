@@ -8,7 +8,7 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , desc, event, set;
 
-	desc = proto.$get('test');
+	desc = proto.$getOwn('test');
 	desc.multiple = true;
 
 	obj.set('raz', 1);

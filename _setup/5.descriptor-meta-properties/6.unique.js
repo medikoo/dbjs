@@ -47,7 +47,7 @@ notifyDescs = function (obj, sKey, nu, map, dbEvent, postponed) {
 module.exports = function (db, descriptor) {
 	var property, isObjectType = db.isObjectType;
 
-	property = defineProperties(descriptor.$get('unique'), {
+	property = defineProperties(descriptor.$getOwn('unique'), {
 		type: d('', db.Boolean),
 		_value_: d('w', false)
 	});

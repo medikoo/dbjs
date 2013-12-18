@@ -32,7 +32,7 @@ module.exports = function (a) {
 	obj.trzy = 5;
 	a(event, null, "Unreferenced, no trigger");
 
-	desc = proto.$get('test');
+	desc = proto.$getOwn('test');
 	desc.multiple = true;
 	proto.test = function () { return [this.raz, this.dwa, this.trzy]; };
 

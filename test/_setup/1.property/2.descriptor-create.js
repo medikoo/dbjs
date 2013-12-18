@@ -9,9 +9,9 @@ module.exports = function (a) {
 	  , obj = new Type(), protoProtoDesc, protoDesc, desc;
 
 	protoProtoDesc = Type.prototype._descriptorPrototype_;
-	desc = obj.$get('foo');
+	desc = obj.$getOwn('foo');
 	a(getPrototypeOf(desc), protoProtoDesc, "Descriptor out of proto");
-	protoDesc = db.Object.prototype.$get('foo');
+	protoDesc = db.Object.prototype.$getOwn('foo');
 	a(getPrototypeOf(desc), protoDesc, "Proto turn");
-	a(obj.$get('foo'), desc, "Return already created");
+	a(obj.$getOwn('foo'), desc, "Return already created");
 };

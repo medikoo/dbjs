@@ -4,7 +4,7 @@ var toArray  = require('es6-iterator/to-array')
   , Database = require('../../../');
 
 module.exports = function (a) {
-	var db = new Database(), obj = new db.Object(), desc = obj.$get('test')
+	var db = new Database(), obj = new db.Object(), desc = obj.$getOwn('test')
 	  , event, desc1, desc2;
 
 	a.throws(function () { desc.type = {}; }, 'INVALID_TYPE', "Type validation");
@@ -18,8 +18,8 @@ module.exports = function (a) {
 		dbjs: event.dbjs }, "Force udpate");
 
 	a.h1("Assignments");
-	desc1 = (new db.Object()).$get('test');
-	desc2 = (new db.Object()).$get('foo');
+	desc1 = (new db.Object()).$getOwn('test');
+	desc2 = (new db.Object()).$getOwn('foo');
 
 	a.deep(toArray(db.DateTime._typeAssignments_), [], "Initial");
 

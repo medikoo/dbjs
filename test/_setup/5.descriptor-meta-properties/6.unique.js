@@ -6,7 +6,7 @@ var toArray  = require('es6-iterator/to-array')
 module.exports = function (a) {
 	var db = new Database(), ObjType1 = db.Object.extend("Object1")
 	  , ObjType2 = db.Object.extend("Object2"), obj1 = new ObjType1()
-	  , desc = ObjType1.prototype.$get('test'), obj2 = new ObjType2(), event
+	  , desc = ObjType1.prototype.$getOwn('test'), obj2 = new ObjType2(), event
 	  , Type, obj11, obj12, obj13;
 
 	desc.type = ObjType2;

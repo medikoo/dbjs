@@ -14,10 +14,10 @@ module.exports = function (t, a) {
 		"Date out of database");
 	a.throws(function () { t({}); }, TypeError, "Plain object");
 	a(t(obj), obj, "Db object");
-	desc = obj.$get('test');
+	desc = obj.$getOwn('test');
 	a(t(desc), desc, "Db descriptor");
-	desc = desc.$get('raz');
+	desc = desc.$getOwn('raz');
 	a(t(desc), desc, "Db descriptor's descriptor");
-	item = obj._getMultiple_('test').$get('raz');
+	item = obj._getMultiple_('test').$getOwn('raz');
 	a(t(item), item, "Db item");
 };

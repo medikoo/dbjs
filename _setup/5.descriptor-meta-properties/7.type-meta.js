@@ -14,7 +14,7 @@ configure = function (name, descriptor, type, types, defValue) {
 	var property, baseEmitValue, notify, notifyDesc, notifyObjDescs
 	  , notifyNamedDescs;
 
-	property = defineProperties(descriptor.$get(name), {
+	property = defineProperties(descriptor.$getOwn(name), {
 		type: d('', type),
 		_value_: d('w', defValue)
 	});
@@ -80,7 +80,7 @@ configure = function (name, descriptor, type, types, defValue) {
 	types.forEach(function (Type) {
 		var baseEmitValue, desc;
 
-		desc = defineProperties(Type.$get(name), {
+		desc = defineProperties(Type.$getOwn(name), {
 			type: d('', type),
 			_value_: d('w', defValue)
 		});

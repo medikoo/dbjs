@@ -78,22 +78,22 @@ module.exports = function (a) {
 
 	a.h2("No Ident");
 	a.h3("Existing");
-	obj1.$get(858);
-	a(unserialize(obj1.__id__ + '/2858'), obj1.$get(858));
+	obj1.$getOwn(858);
+	a(unserialize(obj1.__id__ + '/2858'), obj1.$getOwn(858));
 	a.h3("Not existing");
 	prop = unserialize(obj1.__id__ + '/3"marko\\\"fa;l"');
-	a(prop, obj1.$get('marko"fa;l'));
+	a(prop, obj1.$getOwn('marko"fa;l'));
 
 	a.h3("Not existing object");
 	prop = unserialize('objNewreateTest499/3"kdkd\\nre"');
 	a.h4("Object");
 	a(prop.__object__.__id__, 'objNewreateTest499', "Id");
 	a(prop.__object__.constructor, ObjectType, "Type");
-	a(prop, prop.__object__.$get('kdkd\nre'), "Prop");
+	a(prop, prop.__object__.$getOwn('kdkd\nre'), "Prop");
 
 	// Nested Property
 	a.h1("Nested property");
-	desc = obj1.$get('nesti');
+	desc = obj1.$getOwn('nesti');
 	desc.nested = true;
 	objn = obj1.nesti;
 	a.h2("Ident");
@@ -117,11 +117,11 @@ module.exports = function (a) {
 
 	a.h2("No Ident");
 	a.h3("Existing");
-	objn.$get(858);
-	a(unserialize(objn.__id__ + '/2858'), objn.$get(858));
+	objn.$getOwn(858);
+	a(unserialize(objn.__id__ + '/2858'), objn.$getOwn(858));
 	a.h3("Not existing");
 	prop = unserialize(objn.__id__ + '/3"marko\\\"fa;l"');
-	a(prop, objn.$get('marko"fa;l'));
+	a(prop, objn.$getOwn('marko"fa;l'));
 
 	a.h3("Not existing object");
 	prop = unserialize('objNewreateTest49349/3"kdkd\\nre"/figura');
@@ -130,7 +130,7 @@ module.exports = function (a) {
 	a(unserialize('objNewreateTest49349')._getObject_('3"kdkd\\nre"'),
 		prop.__object__, "Owner");
 	a(prop.__object__.constructor, Base, "Type");
-	a(prop, prop.__object__.$get('figura'), "Prop");
+	a(prop, prop.__object__.$getOwn('figura'), "Prop");
 
 	// Descriptor property
 	a.h1("Descriptor property");
@@ -170,13 +170,13 @@ module.exports = function (a) {
 
 	a.h1("Multiple item");
 	a.h2("Existing");
-	item = obj1.bar.$get('trzy');
+	item = obj1.bar.$getOwn('trzy');
 	a(unserialize(item.__id__), item);
 
 	a.h2("Not existing");
 	a.h3("Item");
 	item = unserialize(obj1.__id__ + '/bar*marko');
-	a(item, obj1.bar.$get('marko'));
+	a(item, obj1.bar.$getOwn('marko'));
 
 	a.h3("Object");
 	item = unserialize('objNewreateTest6/makara*mafa');
@@ -186,7 +186,7 @@ module.exports = function (a) {
 	a.h3("Not ident");
 	a.h4("Item");
 	item = unserialize(obj1.__id__ + '/24343*2"898.34"');
-	a(item, obj1._getMultiple_('24343').$get(898.34));
+	a(item, obj1._getMultiple_('24343').$getOwn(898.34));
 
 	a.h4("Object");
 	item = unserialize('objNewreateTest63/242343*244898');

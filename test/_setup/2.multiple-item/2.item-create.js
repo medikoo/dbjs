@@ -8,13 +8,13 @@ module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
 	  , protoDesc, protoSet, set, item, protoItem;
 
-	protoDesc = proto.$get('foo');
+	protoDesc = proto.$getOwn('foo');
 	protoDesc.multiple = true;
 
 	set = obj.foo;
-	item = set.$get('foo');
+	item = set.$getOwn('foo');
 	protoSet = proto.foo;
-	protoItem = protoSet.$get('foo');
+	protoItem = protoSet.$getOwn('foo');
 
 	a(getPrototypeOf(item), protoItem, "Item prototype");
 	a(item._resolveValue_(), undefined, "Initial value");

@@ -45,7 +45,7 @@ module.exports = function (db, object, descriptor) {
 			return this.__descriptorPrototype__
 				._createDescriptor_(this, sKey, dbEvent);
 		}),
-		$get: d(function (key) {
+		$getOwn: d(function (key) {
 			var sKey = this._serialize_(key);
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
