@@ -32,6 +32,11 @@ module.exports = function (object, item) {
 			if (setData[sKey]) return setData[sKey]._create_(this, setData);
 			return item._create_(this, pKey, key, sKey, setData);
 		}),
+		_getMultipleItem_: d(function (pKey, sKey) {
+			var data = this.__mutliples__[pKey];
+			if (!data) return this.__itemPrototype__;
+			return data[sKey] || this.__itemPrototype__;
+		}),
 
 		// Observable
 		_getMultipleItemObservable_: d(function (pKey, sKey, key) {
