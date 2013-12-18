@@ -185,11 +185,11 @@ module.exports = function (a) {
 
 	a.h3("Not ident");
 	a.h4("Item");
-	item = unserialize(obj1.__id__ + '/24343*"2898"');
-	a(item, obj1._getMultiple_('24343').$get(898));
+	item = unserialize(obj1.__id__ + '/24343*2"898.34"');
+	a(item, obj1._getMultiple_('24343').$get(898.34));
 
 	a.h4("Object");
-	item = unserialize('objNewreateTest63/242343*"244898"');
+	item = unserialize('objNewreateTest63/242343*244898');
 	a(item.__object__.__id__, 'objNewreateTest63', "Object");
 	a(item._pKey_, '242343', "Property");
 };

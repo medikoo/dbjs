@@ -10,7 +10,7 @@ var pluck        = require('es5-ext/function/pluck')
   , DbjsError    = require('../error')
   , Event        = require('../event')
   , isGetter     = require('../utils/is-getter')
-  , serialize    = require('../serialize/value')
+  , serialize    = require('../serialize/key')
 
   , push = Array.prototype.push
   , keys = Object.keys, hasOwnProperty = Object.prototype.hasOwnProperty

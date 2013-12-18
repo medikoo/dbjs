@@ -44,8 +44,8 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 				item = data[iKey];
 				if (!item._value_) continue;
 				if (item._normalizeValue_() == null) continue;
-				this._addRef_(item._sKey_, item._key_, object, item._lastEvent_,
-					null, true);
+				this._addRef_(serialize(item._key_), item._key_, object,
+					item._lastEvent_, null, true);
 			}
 			return postponed;
 		}
@@ -73,7 +73,7 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 				item = data[iKey];
 				if (!item._value_) continue;
 				if (item._normalizeValue_() == null) continue;
-				this._deleteRef_(item._sKey_, object, null, postponed);
+				this._deleteRef_(serialize(item._key_), object, null, postponed);
 			}
 			return postponed;
 		}

@@ -2,7 +2,6 @@
 
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
-  , getIdent       = require('../utils/get-ident')
   , unserialize    = require('../unserialize/key')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
@@ -37,7 +36,8 @@ module.exports = function (db, item, createObj) {
 	var itemCreate;
 
 	itemCreate = function (obj, setData) {
-		var item = createObj(this, obj.__id__ + '/' + this._ident_, obj);
+		var item = createObj(this, obj.__id__ + '/' + this._pKey_ + '*' +
+			this._sKey_, obj);
 		setData[this._sKey_] = item;
 		return inject(obj, this._pKey_, this._sKey_, item, this);
 	};
@@ -47,16 +47,13 @@ module.exports = function (db, item, createObj) {
 		_key_: d('', undefined),
 		_value_: d('', undefined),
 		_sKey_: d('', ''),
-		_ident_: d('', '*'),
 		_create_: d(function (obj, pKey, key, sKey, setData) {
-			var ident, item;
+			var item;
 			if (!obj._keys_[pKey]) obj._serialize_(unserialize(pKey, db.objects));
-			ident = pKey + '*' + getIdent(key, sKey);
-			item = createObj(this, obj.__id__ + '/' + ident, obj);
+			item = createObj(this, obj.__id__ + '/' + pKey + '*' + sKey, obj);
 			setData[sKey] = item;
 			defineProperties(item, {
 				_pKey_: d('', pKey),
-				_ident_: d('', ident),
 				_key_: d('', key),
 				_sKey_: d('', sKey),
 				_create_: d(itemCreate)

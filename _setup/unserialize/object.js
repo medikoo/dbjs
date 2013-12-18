@@ -143,13 +143,8 @@ module.exports = function (db) {
 
 	$item = function () {
 		var sKey, key;
-		if (str[i + 1] === '"') {
-			sKey = parse(str.slice(i + 1));
-			key = unserialize(sKey, objects);
-		} else {
-			key = str.slice(i + 1);
-			sKey = serialize(key);
-		}
+		sKey = str.slice(i + 1);
+		key = unserializeKey(sKey, objects);
 		object = object._getMultipleItem_(pKey, key, sKey);
 	};
 

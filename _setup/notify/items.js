@@ -1,6 +1,7 @@
 'use strict';
 
 var gatherReverseMaps = require('../utils/gather-reverse-maps')
+  , serialize         = require('../serialize/value')
 
   , keys = Object.keys, hasOwnProperty = Object.prototype.hasOwnProperty
 
@@ -80,10 +81,11 @@ notify = function (obj, pKey, isMultiple, resolve, dbEvent, postponed) {
 		if (revs) {
 			for (i = 0; (revMap = revs[i]); ++i) {
 				if (value) {
-					postponed = revMap._addRef_(item._sKey_, item._key_, obj,
+					postponed = revMap._addRef_(serialize(item._key_), item._key_, obj,
 						dbEvent, postponed);
 				} else {
-					postponed = revMap._deleteRef_(item._sKey_, obj, dbEvent, postponed);
+					postponed = revMap._deleteRef_(serialize(item._key_), obj,
+						dbEvent, postponed);
 				}
 			}
 		}

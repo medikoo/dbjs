@@ -183,7 +183,6 @@ turnItems = function (object, pKey, proto, postponed, done) {
 		if (!nu._pKey_ && item._pKey_ && !item.hasOwnProperty('_pKey_')) {
 			defineProperties(item, {
 				_pKey_: d('', item._pKey_),
-				_ident_: d('', item._ident_),
 				_key_: d('', item._key_),
 				_sKey_: d('', item._sKey_),
 				_create_: d(item._create_)
