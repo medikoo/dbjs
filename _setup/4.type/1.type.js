@@ -165,6 +165,7 @@ module.exports = function (db, createObj, object) {
 			nested = this._create_(object.__id__ + '/' + sKey, object.master);
 			return defineProperties(nested, {
 				owner: d('', object),
+				key: d('', this._keys_[sKey]),
 				__sKey__: d('', sKey)
 			});
 		}),
