@@ -26,8 +26,7 @@ module.exports = function (db, descriptor) {
 			return this._getDescriptor_(key);
 		});
 		descs['_' + key] = d.gs('', function () {
-			return this.__object__
-				._getDescriptorPropertyObservable_(this._sKey_, key);
+			return this.__object__._getDpObservable_(this._sKey_, key);
 		});
 		defineProperties(descriptor, descs);
 		accessor.enumerable = accessor.configurable = true;

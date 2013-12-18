@@ -15,7 +15,7 @@ var assign          = require('es5-ext/object/assign')
 module.exports = function (object, descriptor, property) {
 	defineProperties(object, assign({
 		// Observable
-		_getDescriptorPropertyObservable_: d(function (pKey, sKey) {
+		_getDpObservable_: d(function (pKey, sKey) {
 			var observables = this._observableDescriptorProperties_;
 			if (observables[pKey]) observables = observables[pKey];
 			else observables = observables[pKey] = create(null);
@@ -71,7 +71,7 @@ module.exports = function (object, descriptor, property) {
 		// Observable
 		_getObservable_: d(function (sKey) {
 			return this.__object__
-				._getDescriptorPropertyObservable_(this._sKey_, sKey);
+				._getDpObservable_(this._sKey_, sKey);
 		}),
 		_get: d(function (key) {
 			var sKey = this._serialize(key);

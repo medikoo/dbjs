@@ -24,8 +24,7 @@ module.exports = function (a) {
 	defineProperty(desc, 'foo', d('bar'));
 	a(desc._getCurrentDescriptor_('foo'), null, "Native value");
 
-	a(isObservable(obj._getDescriptorPropertyObservable_('foo')), true,
-		"Observable");
+	a(isObservable(obj._getDpObservable_('foo')), true, "Observable");
 
 	a.h1("forEachOwnDescriptor");
 	db.Base.prototype.$get('foo').set('raz', 'dwa');
