@@ -48,16 +48,16 @@ module.exports = function (object, descriptor, property) {
 			if (this[key] !== this._get_(key)) return null;
 			return this.__descriptors__[key] || null;
 		}),
-		_getOwnDescriptor_: d(function (sKey) {
+		_getOwnDescriptor_: d(function (key) {
 			if (this.hasOwnProperty('__descriptors__')) {
-				if (hasOwnProperty.call(this.__descriptors__, sKey)) {
-					return this.__descriptors__[sKey];
+				if (hasOwnProperty.call(this.__descriptors__, key)) {
+					return this.__descriptors__[key];
 				}
 			}
-			if (this.__descriptors__[sKey]) {
-				return this.__descriptors__[sKey]._create_(this);
+			if (this.__descriptors__[key]) {
+				return this.__descriptors__[key]._create_(this);
 			}
-			return property._create_(this, sKey);
+			return property._create_(this, key);
 		}),
 		$getOwn: d(function (key) {
 			var sKey = this._serialize_(key);
@@ -66,6 +66,17 @@ module.exports = function (object, descriptor, property) {
 					'INVALID_PROPERTY_NAME');
 			}
 			return this._getOwnDescriptor_(sKey);
+		}),
+		_getDescriptor_: d(function (key) {
+			return this.__descriptors__[key] || this.__descriptorPrototype__;
+		}),
+		$get: d(function (key) {
+			var sKey = this._serialize_(key);
+			if (sKey == null) {
+				throw new DbjsError(key + " is invalid property name",
+					'INVALID_PROPERTY_NAME');
+			}
+			return this._getDescriptor_(sKey);
 		}),
 
 		// Observable
