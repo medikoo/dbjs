@@ -162,7 +162,7 @@ module.exports = function (db, createObj, object) {
 		_createNested_: d(function (object, sKey) {
 			var nested;
 			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
-			nested = this._create_(object.__id__ + '/' + sKey, object.__master__);
+			nested = this._create_(object.__id__ + '/' + sKey, object.master);
 			return defineProperties(nested, {
 				__parent__: d('', object),
 				__sKey__: d('', sKey)
