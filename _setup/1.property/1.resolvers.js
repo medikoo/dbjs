@@ -25,7 +25,7 @@ module.exports = function (db, object, descriptor) {
 			var key = this._keys_[sKey];
 			if (!(key in this)) return null;
 			if (this[key] !== this._get_(sKey)) return null;
-			return this.__descriptors__[sKey] || this.__descriptorPrototype__;
+			return this._getDescriptor_(sKey);
 		}),
 		_descriptorPrototype_: d.gs(function () {
 			if (this.hasOwnProperty('__descriptorPrototype__')) {
@@ -67,7 +67,7 @@ module.exports = function (db, object, descriptor) {
 		_getObject_: d(function (sKey) {
 			var objects = this._objects_, desc, Type;
 			if (objects[sKey]) return objects[sKey];
-			desc = this.__descriptors__[sKey] || this.__descriptorPrototype__;
+			desc = this._getDescriptor_(sKey);
 			Type = desc.type;
 			if ((Type !== db.Base) && !db.isObjectType(Type)) Type = db.Base;
 			return (objects[sKey] = Type._createNested_(this, sKey));

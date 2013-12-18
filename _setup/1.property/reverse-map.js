@@ -113,7 +113,7 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 		set.forEach(function (rObj) {
 			var desc;
 			if (ignore === rObj) return;
-			desc = rObj.__descriptors__[rKey] || rObj.__descriptorPrototype__;
+			desc = rObj._getDescriptor_(rKey);
 			if (desc.multiple) rObj._multipleDelete_(rKey, obj, sKey);
 			else rObj._delete_(rKey);
 		});
@@ -131,7 +131,7 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 		set.forEach(function (rObj) {
 			var desc;
 			if (ignore === rObj) return;
-			desc = rObj.__descriptors__[rKey] || rObj.__descriptorPrototype__;
+			desc = rObj._getDescriptor_(rKey);
 			if (desc.multiple) rObj._validateMultipleDelete_(rKey, obj);
 			else rObj._validateDelete_(rKey);
 		});

@@ -6,7 +6,7 @@ var notifyReverse = require('./reverse')
   , notify;
 
 notify = function (obj, pKey, sKey, key, value, res, dbEvent, postponed) {
-	var data, desc = obj.__descriptors__[pKey] || obj.__descriptorPrototype__;
+	var data, desc = obj._getDescriptor_(pKey);
 
 	// Iterators
 	if (obj.hasOwnProperty('__multipleIterators__')) {

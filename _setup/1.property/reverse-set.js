@@ -31,7 +31,7 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		desc = this.__descriptor__;
 		desc.__object__.constructor.validate(obj);
 		sKey = desc._sKey_;
-		rDesc = obj.__descriptors__[sKey] || obj.__descriptorPrototype__;
+		rDesc = obj._getDescriptor_(sKey);
 		if (rDesc.multiple) {
 			obj._multipleAdd_(sKey, obj._validateMultipleAdd_(sKey, this.__key__),
 				this.__sKey__);
@@ -47,7 +47,7 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		sKey = desc._sKey_;
 		reverse = this.__key__;
 		calls = this.__setData__.map(function (obj) {
-			var rDesc = obj.__descriptors__[sKey] || obj.__descriptorPrototype__;
+			var rDesc = obj._getDescriptor_(sKey);
 			if (rDesc.multiple) {
 				return obj._multipleDelete_.bind(obj, sKey,
 					obj._validateMultipleDelete_(sKey, reverse),  this.__sKey__);
@@ -64,7 +64,7 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		if (!this.has(obj)) return false;
 		desc = this.__descriptor__;
 		sKey = desc._sKey_;
-		rDesc = obj.__descriptors__[sKey] || obj.__descriptorPrototype__;
+		rDesc = obj._getDescriptor_(sKey);
 		if (rDesc.multiple) {
 			obj._multipleDelete_(sKey,
 				obj._validateMultipleDelete_(sKey, this.__key__),

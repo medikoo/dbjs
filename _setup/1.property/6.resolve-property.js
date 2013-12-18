@@ -9,16 +9,13 @@ module.exports = function (object, accessCollector) {
 
 	defineProperties(object, {
 		_resolve_: d(function (sKey) {
-			return (this.__descriptors__[sKey] ||
-				this.__descriptorPrototype__)._resolveValue_(this, sKey);
+			return this._getDescriptor_(sKey)._resolveValue_(this, sKey);
 		}),
 		_resolveGetter_: d(function (sKey) {
-			return (this.__descriptors__[sKey] ||
-				this.__descriptorPrototype__)._resolveValueGetter_(this, sKey);
+			return this._getDescriptor_(sKey)._resolveValueGetter_(this, sKey);
 		}),
 		_normalize_: d(function (sKey, value) {
-			return (this.__descriptors__[sKey] ||
-				this.__descriptorPrototype__)._normalizeValue_(value);
+			return this._getDescriptor_(sKey)._normalizeValue_(value);
 		}),
 		_get_: d(function (sKey) {
 			if (accessSniff) accessSniff.push([this, sKey]);
@@ -32,7 +29,7 @@ module.exports = function (object, accessCollector) {
 			data = this.__multiples__[sKey];
 			if (!data) return 0;
 			size = 0;
-			desc = this.__descriptors__[sKey] || this.__descriptorPrototype__;
+			desc = this._getDescriptor_(sKey);
 			for (iKey in data) {
 				item = data[iKey];
 				if (!item._value_) continue;

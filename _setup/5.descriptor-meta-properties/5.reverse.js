@@ -35,7 +35,7 @@ module.exports = function (db, descriptor) {
 					'PROTOTYPE_PROPERTY_REVERSE');
 			}
 			obj = this.__object__;
-			desc = obj.__descriptors__[this._pKey_] || obj.__descriptorPrototype__;
+			desc = obj._getDescriptor_(this._pKey_);
 			if (!isObjectType(desc.type)) {
 				throw new DbjsError("Cannot set reverse for non object type",
 					'NON_OBJECT_REVERSE');

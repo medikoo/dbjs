@@ -31,7 +31,7 @@ DynamicValue = module.exports = function (object, sKey) {
 		__object__: d('', object),
 		__sKey__: d('', sKey)
 	});
-	desc = object.__descriptors__[sKey] || object.__descriptorPrototype__;
+	desc = object._getDescriptor_(sKey);
 	value = desc._resolveValueGetter_();
 	if (!value) return;
 	this.__observer__ = resolveTriggers(this.__object__, value,
@@ -75,8 +75,7 @@ defineProperties(DynamicValue.prototype, assign({
 		this.__observer__ = null;
 	}),
 	_update_: d(function (value, dbEvent, other, postponed) {
-		var obj = this.__object__, desc = obj.__descriptors__[this.__sKey__] ||
-			obj.__descriptorPrototype__, old;
+		var obj = this.__object__, desc = obj._getDescriptor_(this.__sKey__), old;
 		if (value == null) value = null;
 		if (desc.multiple) {
 			if (this.value === undefined) {
@@ -113,8 +112,7 @@ defineProperties(DynamicValue.prototype, assign({
 			dbEvent, postponed);
 	}),
 	_triggerUpdate_: d(function () {
-		var desc = this.__object__.__descriptors__[this.__sKey__] ||
-			this.__object__.__descriptorPrototype__;
+		var desc = this.__object__._getDescriptor_(this.__sKey__);
 		this._updateObserver_(desc._resolveValueGetter_());
 	})
 }, autoBind({

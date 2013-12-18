@@ -94,8 +94,7 @@ Multiple.prototype = create(Set.prototype, assign({
 	_validateClear_: d(function () {
 		var desc, sKeys;
 		this.__object__._assertWritable_(this.__pKey__);
-		desc = this.__object__.__descriptors__[this.__pKey__] ||
-			this.__object__.__descriptorPrototype__;
+		desc = this.__object__._getDescriptor_(this.__pKey__);
 		sKeys = keys(this.__setData__);
 		if (desc.required && (this.size === 1) &&
 				sKeys.some(isTruthy, this.__setData__)) {

@@ -38,8 +38,7 @@ module.exports = function (db, object) {
 			throw new DbjsError("Property is read-only", 'NON_WRITABLE');
 		}),
 		_delete_: d(function (sKey) {
-			var desc = this.__descriptors__[sKey] || this.__descriptorPrototype__
-			  , has, result;
+			var desc = this._getDescriptor_(sKey), has, result;
 
 			db._postponed_ += 1;
 			if (desc._reverse_) {
@@ -57,7 +56,7 @@ module.exports = function (db, object) {
 			return has;
 		}),
 		_set_: d(function (sKey, value) {
-			var desc = this.__descriptors__[sKey] || this.__descriptorPrototype__;
+			var desc = this._getDescriptor_(sKey);
 
 			db._postponed_ += 1;
 			if (desc._reverse_) {
@@ -133,7 +132,7 @@ module.exports = function (db, object) {
 		_validateDelete_: d(function (sKey) {
 			var desc;
 			this._assertWritable_(sKey);
-			desc = this.__descriptors__[sKey] || this.__descriptorPrototype__;
+			desc = this._getDescriptor_(sKey);
 			if (!this.hasOwnProperty('__descriptors__') ||
 					!hasOwnProperty.call(this.__descriptors__, sKey)) {
 				desc = create(desc);
@@ -144,7 +143,7 @@ module.exports = function (db, object) {
 		_validateSet_: d(function (sKey, value) {
 			var desc;
 			this._assertWritable_(sKey);
-			desc = this.__descriptors__[sKey] || this.__descriptorPrototype__;
+			desc = this._getDescriptor_(sKey);
 			if (!this.hasOwnProperty('__descriptors__') ||
 					!hasOwnProperty.call(this.__descriptors__, sKey)) {
 				desc = create(desc);
@@ -182,7 +181,7 @@ module.exports = function (db, object) {
 				value = meta.value;
 				delete meta.value;
 			}
-			desc = create(this.__descriptors__[sKey] || this.__descriptorPrototype__);
+			desc = create(this._getDescriptor_(sKey));
 			mixin(desc, desc._validateSetProperties_(meta));
 			if (hasValue) meta.value = desc._validateSetValue_(this, sKey, value);
 			return meta;
@@ -217,7 +216,7 @@ module.exports = function (db, object) {
 			if (key == null) {
 				throw new DbjsError(key + " is not a value", 'ITEM_NULL_VALUE');
 			}
-			desc = this.__descriptors__[pKey] || this.__descriptorPrototype__;
+			desc = this._getDescriptor_(pKey);
 			key = desc._normalizeValue_(key);
 			if (key == null) {
 				throw new DbjsError(original + " is an invalid value", 'INVALID_VALUE');
@@ -229,7 +228,7 @@ module.exports = function (db, object) {
 			var desc, item, size, iKey, data;
 			this._assertWritable_(pKey);
 			if (key == null) return key;
-			desc = this.__descriptors__[pKey] || this.__descriptorPrototype__;
+			desc = this._getDescriptor_(pKey);
 			key = desc._normalizeValue_(key);
 			if (key == null) return key;
 			if (!desc.required) return key;

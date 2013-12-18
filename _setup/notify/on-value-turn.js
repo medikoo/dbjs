@@ -60,8 +60,7 @@ notifyItemDescendants = function (obj, item, nu, old, dbEvent, postponed) {
 };
 
 notifyTurnedItem = function (obj, item, nu, old, dbEvent, postponed) {
-	var desc = obj.__descriptors__[item._pKey_] || obj.__descriptorPrototype__
-	  , nuValid, oldValid;
+	var desc = obj._getDescriptor_(item._pKey_), nuValid, oldValid;
 
 	if (desc._reverse_) return postponed;
 	if (desc.nested) return postponed;

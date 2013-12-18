@@ -17,7 +17,7 @@ ObservableValue = module.exports = function (object, pKey, sKey) {
 		__sKey__: d('', sKey),
 		__dbId__: d('', object.__id__ + '$' + pKey + '/' + sKey)
 	});
-	desc = object.__descriptors__[pKey] || object.__descriptorPrototype__;
+	desc = object._getDescriptor_(pKey);
 	prop = desc.__descriptors__[sKey];
 	Observable.call(this, prop ? prop._resolveValue_() : undefined);
 };
@@ -32,8 +32,7 @@ ObservableValue.prototype = Object.create(proto, {
 	lastModified: d.gs(function () {
 		var desc, prop;
 		if (this.__lastModified__ == null) {
-			desc = this.__object__.__descriptors__[this.__pKey__] ||
-				this.__object__.__descriptorPrototype__;
+			desc = this.__object__._getDescriptor_(this.__pKey__);
 			prop = desc.__descriptors__[this.__sKey__];
 			this.__lastModified__ = prop ? prop.lastModified : 0;
 		}
@@ -43,6 +42,6 @@ ObservableValue.prototype = Object.create(proto, {
 		var data = this.__pKey__
 			? this.__object__.__descriptors__[this.__pKey__]
 			: this.__object__.__descriptorPrototype__;
-		return data.__descriptors__[this.__sKey__] || data.__descriptorPrototype__;
+		return data._getDescriptor_(this.__sKey__);
 	})
 });

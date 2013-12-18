@@ -32,7 +32,7 @@ Multiple = module.exports = function (object, sKey, getter) {
 	if (!getter) return;
 	value = getter.call(object, observePass);
 	if (value == null) return;
-	desc = object.__descriptors__[sKey] || object.__descriptorPrototype__;
+	desc = object._getDescriptor_(sKey);
 	iterate = function (value) {
 		if (value == null) return;
 		value = desc._normalizeValue_(value);

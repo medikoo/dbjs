@@ -27,8 +27,7 @@ resolve = function (desc, sKey, value, isGet) {
 };
 
 notify = function (obj, sKey, nu, old, nuGet, oldGet, dbEvent, postponed) {
-	var desc = obj.__descriptors__[sKey] || obj.__descriptorPrototype__
-	  , oldResolved, nuResolved, dynamicHandled;
+	var desc = obj._getDescriptor_(sKey), oldResolved, nuResolved, dynamicHandled;
 
 	if (desc._reverse_) return;
 	if (desc.nested) return;

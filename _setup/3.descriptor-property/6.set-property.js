@@ -67,7 +67,7 @@ module.exports = function (db, descriptor, property) {
 				throw new DbjsError("Cannot set value to undefined", 'SET_UNDEFINED');
 			}
 			if (value === null) return value;
-			desc = this.__descriptors__[key] || this.__descriptorPrototype__;
+			desc = this._getDescriptor_(key);
 			return desc.type.validate(value);
 		}),
 		_validateSetProperties_: d(function (props) {

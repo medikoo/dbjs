@@ -13,7 +13,7 @@ notify = function (obj, sKey, nu, map, isSingular, postponed) {
 	var value, desc, nuResolved, oldResolved, nuVal, oldVal, dynResolved
 	  , dbEvent;
 
-	desc = obj.__descriptors__[sKey] || obj.__descriptorPrototype__;
+	desc = obj._getDescriptor_(sKey);
 
 	value = desc.nested ? null : desc._resolveValueValue_();
 	dbEvent = map.getLastEvent(obj);
