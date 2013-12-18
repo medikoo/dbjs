@@ -28,8 +28,7 @@ module.exports = function (db) {
 					return null;
 				}
 			}
-			setPrototypeOf(value, this.prototype);
-			return value;
+			return setPrototypeOf(value, this.prototype);
 		}),
 		validate: d(function (value) {
 			if (!isRegExp(value)) {
@@ -40,8 +39,7 @@ module.exports = function (db) {
 						'INVALID_REGEXP');
 				}
 			}
-			setPrototypeOf(value, this.prototype);
-			return value;
+			return setPrototypeOf(value, this.prototype);
 		})
 	});
 
