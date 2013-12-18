@@ -19,32 +19,32 @@ module.exports = function (object, item) {
 		// Item
 		__itemPrototype__: d('', item),
 		__multiples__: d('', create(null)),
-		_getMultipleItems_: d(function (pKey) {
+		_getMultipleItems_: d(function (pSKey) {
 			var multiples = this._multiples_;
-			if (hasOwnProperty.call(multiples, pKey)) return multiples[pKey];
+			if (hasOwnProperty.call(multiples, pSKey)) return multiples[pSKey];
 			return injectPrimitiveNested(this,
-				multiples[pKey] = create(multiples[pKey] || null),
-				'__multiples__', pKey);
+				multiples[pSKey] = create(multiples[pSKey] || null),
+				'__multiples__', pSKey);
 		}),
-		_getOwnMultipleItem_: d(function (pKey, key, sKey) {
-			var setData = this._getMultipleItems_(pKey);
+		_getOwnMultipleItem_: d(function (pSKey, key, sKey) {
+			var setData = this._getMultipleItems_(pSKey);
 			if (hasOwnProperty.call(setData, sKey)) return setData[sKey];
 			if (setData[sKey]) return setData[sKey]._create_(this, setData);
-			return item._create_(this, pKey, key, sKey, setData);
+			return item._create_(this, pSKey, key, sKey, setData);
 		}),
-		_getMultipleItem_: d(function (pKey, sKey) {
-			var data = this.__mutliples__[pKey];
+		_getMultipleItem_: d(function (pSKey, sKey) {
+			var data = this.__mutliples__[pSKey];
 			if (!data) return this.__itemPrototype__;
 			return data[sKey] || this.__itemPrototype__;
 		}),
 
 		// Observable
-		_getMultipleItemObservable_: d(function (pKey, sKey, key) {
+		_getMultipleItemObservable_: d(function (pSKey, sKey, key) {
 			var observables = this._observableMultipleItems_;
-			if (observables[pKey]) observables = observables[pKey];
-			else observables = observables[pKey] = create(null);
+			if (observables[pSKey]) observables = observables[pSKey];
+			else observables = observables[pSKey] = create(null);
 			if (observables[sKey]) return observables[sKey];
-			return (observables[sKey] = new Observable(this, pKey, sKey, key));
+			return (observables[sKey] = new Observable(this, pSKey, sKey, key));
 		}),
 
 		// Multiple

@@ -65,16 +65,16 @@ module.exports = function (db, descriptor) {
 	baseEmitValue = property._emitValue_;
 
 	defineProperties(property, {
-		_sideNotify_: d(function (obj, pKey, key, nu, old, dbEvent, postponed) {
+		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {
 			var desc, data, value, nuValue, oldValue, rMap, rKey, nuProto;
 
-			if (!pKey) return postponed;
-			desc = obj.__descriptors__[pKey];
+			if (!pSKey) return postponed;
+			desc = obj.__descriptors__[pSKey];
 
 			// Reverse property
 			if ((desc.reverse !== undefined) && (obj.constructor.prototype === obj) &&
 					isObjectType(obj.constructor)) {
-				rMap = obj._getReverseMap_(pKey);
+				rMap = obj._getReverseMap_(pSKey);
 				rKey = obj._serialize_(desc.reverse);
 				if (isObjectType(old)) {
 					postponed = notifyReverse(old.prototype, rKey, false, rMap,
@@ -87,12 +87,12 @@ module.exports = function (db, descriptor) {
 			}
 
 			// Multiples
-			postponed = notifyItems(obj, pKey, desc.multiple,
+			postponed = notifyItems(obj, pSKey, desc.multiple,
 				confirmItem.bind(desc, nu, old), dbEvent, postponed);
 
 			// Nested
 			if (obj.hasOwnProperty('__objects__')) {
-				data = obj.__objects__[pKey];
+				data = obj.__objects__[pSKey];
 				if (data) {
 					nuProto = isObjectType(nu) ? nu.prototype : Base.prototype;
 					if (nuProto !== getPrototypeOf(data)) {
@@ -109,10 +109,10 @@ module.exports = function (db, descriptor) {
 			if (value == null) return postponed;
 
 			// Dynamics
-			if (isGetter(value)) return notifyDynamic(obj, pKey, dbEvent, postponed);
+			if (isGetter(value)) return notifyDynamic(obj, pSKey, dbEvent, postponed);
 			if (desc.multiple) return postponed;
 
-			return notifyProperty(obj, pKey, value, value, function () {
+			return notifyProperty(obj, pSKey, value, value, function () {
 				if (nuValue !== undefined) return nuValue;
 				return (nuValue = nu.normalize(value, desc));
 			}, function () {
@@ -124,7 +124,7 @@ module.exports = function (db, descriptor) {
 			var old = (this.hasOwnProperty('_value_') && this._value_) || undefined
 			  , desc;
 			if (nu === old) return;
-			if (this._pKey_) desc = this.object.__descriptors__[this._pKey_];
+			if (this._pSKey_) desc = this.object.__descriptors__[this._pSKey_];
 			else desc = this.object.__descriptorPrototype__;
 			if (old) old.__typeAssignments__._delete(desc);
 			if (nu) nu._typeAssignments_._add(desc);

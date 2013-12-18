@@ -224,16 +224,16 @@ emitItems = function (obj, sKey, nuSet, oldSet, dbEvent, postponed) {
 	return postponed;
 };
 
-emitDescDescs = function (obj, pKey, nuDesc, oldDesc, dbEvent, postponed) {
+emitDescDescs = function (obj, pSKey, nuDesc, oldDesc, dbEvent, postponed) {
 	var nuDescs = nuDesc && nuDesc.__descriptors__
 	  , oldDescs = oldDesc && oldDesc.__descriptors__, ownDescs, nuDescDesc
 	  , done, nu, old, oldDescDesc, sKey;
 	if (nuDescs === oldDescs) return postponed;
-	if (pKey) {
+	if (pSKey) {
 		if (obj.hasOwnProperty('__descriptors__') &&
-				hasOwnProperty.call(obj.__descriptors__, pKey) &&
-				obj.__descriptors__[pKey].hasOwnProperty('__descriptors__')) {
-			ownDescs = obj.__descriptors__[pKey].__descriptors__;
+				hasOwnProperty.call(obj.__descriptors__, pSKey) &&
+				obj.__descriptors__[pSKey].hasOwnProperty('__descriptors__')) {
+			ownDescs = obj.__descriptors__[pSKey].__descriptors__;
 		}
 	} else if (obj.hasOwnProperty('__descriptorPrototype__') &&
 			obj.__descriptorPrototype__.hasOwnProperty('__descriptors__')) {

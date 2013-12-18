@@ -10,7 +10,7 @@ module.exports = function (db) {
 	var objects = db.objects, Base = db.Base, ObjectType = db.Object
 	  , proto = Base.prototype, isObjectType = db.isObjectType
 	  , data = objects.__setData__
-	  , object, char, str, i, pKey, resolveObject, reject
+	  , object, char, str, i, pSKey, resolveObject, reject
 	  , $object, $descriptor, $property
 	  , $descriptorProperty, $item, proposedProto;
 
@@ -95,7 +95,7 @@ module.exports = function (db) {
 			return $descriptor;
 		}
 		if (char === '*') {
-			pKey = sKey;
+			pSKey = sKey;
 			return $item;
 		}
 		reject();
@@ -142,7 +142,7 @@ module.exports = function (db) {
 		var sKey, key;
 		sKey = str.slice(i + 1);
 		key = unserializeKey(sKey, objects);
-		object = object._getOwnMultipleItem_(pKey, key, sKey);
+		object = object._getOwnMultipleItem_(pSKey, key, sKey);
 	};
 
 	return function (input, proto) {

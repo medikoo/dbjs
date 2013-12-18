@@ -227,8 +227,8 @@ module.exports = function (db, createObj, object) {
 				keys(this.__descriptors__).forEach(destroy, this.__descriptors__);
 			}
 			if (this.hasOwnProperty('__multiples__')) {
-				keys(this.__multiples__).forEach(function (pKey) {
-					keys(this[pKey]).forEach(destroy, this[pKey]);
+				keys(this.__multiples__).forEach(function (pSKey) {
+					keys(this[pSKey]).forEach(destroy, this[pSKey]);
 				}, this.__multiples__);
 			}
 			if (this.constructor.prototype === this) return;

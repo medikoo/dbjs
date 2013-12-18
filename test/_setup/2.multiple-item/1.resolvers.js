@@ -27,7 +27,7 @@ module.exports = function (a) {
 	args = primitiveSet('foo.foo', 'raz.dwa', 'trzy.trzy');
 	i = 0;
 	obj._forEachOwnItem_(function (item, key) {
-		var argKey = item._pKey_ + '.' + item._sKey_;
+		var argKey = item._pSKey_ + '.' + item._sKey_;
 		if (!args[argKey]) {
 			a.never();
 			return;

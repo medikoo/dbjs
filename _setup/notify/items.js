@@ -7,13 +7,13 @@ var gatherReverseMaps = require('../utils/gather-reverse-maps')
 
   , notify;
 
-notify = function (obj, pKey, isMultiple, resolve, dbEvent, postponed) {
+notify = function (obj, pSKey, isMultiple, resolve, dbEvent, postponed) {
 	var data, sData, sKey, item, value, isPostponed, revMap, set, revs, i;
 
 	// Multiple iterators
 	if (obj.hasOwnProperty('__multipleIterators__')) {
-		if (obj.__multipleIterators__[pKey]) {
-			obj.__multipleIterators__[pKey].forEach(function (iterator) {
+		if (obj.__multipleIterators__[pSKey]) {
+			obj.__multipleIterators__[pSKey].forEach(function (iterator) {
 				iterator.__list__.slice(0, iterator.__nextIndex__)
 					.forEach(function (sKey) {
 						var item = this[sKey];
@@ -27,11 +27,11 @@ notify = function (obj, pKey, isMultiple, resolve, dbEvent, postponed) {
 
 	// Observable item
 	if (obj.hasOwnProperty('__observableMultipleItems__')) {
-		data = obj.__observableMultipleItems__[pKey];
+		data = obj.__observableMultipleItems__[pSKey];
 		if (data) {
 			keys(data).forEach(function (sKey) {
 				var item, iData, value, observable;
-				iData = obj.__multiples__[pKey];
+				iData = obj.__multiples__[pSKey];
 				if (!iData) return;
 				item = iData[sKey];
 				if (!item) return;
@@ -49,16 +49,16 @@ notify = function (obj, pKey, isMultiple, resolve, dbEvent, postponed) {
 	// Observable set
 	if (obj.hasOwnProperty('__sets__')) {
 		data = obj.__sets__;
-		if (hasOwnProperty.call(data, pKey)) {
-			data = data[pKey];
+		if (hasOwnProperty.call(data, pSKey)) {
+			data = data[pSKey];
 			if (data.__isObservable__) set = data;
 		}
 	}
 
-	if (isMultiple) revs = gatherReverseMaps(obj, pKey);
+	if (isMultiple) revs = gatherReverseMaps(obj, pSKey);
 
 	if (!set && !revs) return postponed;
-	sData = obj.__multiples__[pKey];
+	sData = obj.__multiples__[pSKey];
 	if (!sData) return postponed;
 
 	for (sKey in sData) {

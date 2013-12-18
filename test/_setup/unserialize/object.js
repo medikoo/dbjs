@@ -147,7 +147,7 @@ module.exports = function (a) {
 	a.h3("Object");
 	prop = unserialize('objNewreateTest5$elsef/mafa');
 	a(prop.object.__id__, 'objNewreateTest5', "Object");
-	a(prop._pKey_, 'elsef', "Property");
+	a(prop._pSKey_, 'elsef', "Property");
 	a(prop.object.constructor, ObjectType, "Object type");
 
 	// Descriptor prototype property
@@ -165,7 +165,7 @@ module.exports = function (a) {
 	a.h3("Object");
 	prop = unserialize('objNewreateTest787$/mafa');
 	a(prop.object.__id__, 'objNewreateTest787', "Object");
-	a(prop._pKey_, '', "Property");
+	a(prop._pSKey_, '', "Property");
 	a(prop.object.constructor, ObjectType, "Object type");
 
 	a.h1("Multiple item");
@@ -181,7 +181,7 @@ module.exports = function (a) {
 	a.h3("Object");
 	item = unserialize('objNewreateTest6/makara*mafa');
 	a(item.object.__id__, 'objNewreateTest6', "Object");
-	a(item._pKey_, 'makara', "Property");
+	a(item._pSKey_, 'makara', "Property");
 
 	a.h3("Not ident");
 	a.h4("Item");
@@ -191,5 +191,5 @@ module.exports = function (a) {
 	a.h4("Object");
 	item = unserialize('objNewreateTest63/242343*244898');
 	a(item.object.__id__, 'objNewreateTest63', "Object");
-	a(item._pKey_, '242343', "Property");
+	a(item._pSKey_, '242343', "Property");
 };

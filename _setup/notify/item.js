@@ -5,13 +5,13 @@ var notifyReverse = require('./reverse')
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , notify;
 
-notify = function (obj, pKey, sKey, key, value, res, dbEvent, postponed) {
-	var data, desc = obj._getDescriptor_(pKey);
+notify = function (obj, pSKey, sKey, key, value, res, dbEvent, postponed) {
+	var data, desc = obj._getDescriptor_(pSKey);
 
 	// Iterators
 	if (obj.hasOwnProperty('__multipleIterators__')) {
-		if (obj.__multipleIterators__[pKey]) {
-			obj.__multipleIterators__[pKey].forEach(function (iterator) {
+		if (obj.__multipleIterators__[pSKey]) {
+			obj.__multipleIterators__[pSKey].forEach(function (iterator) {
 				if (!value) iterator._onDelete(sKey);
 				else iterator._onAdd(sKey);
 			});
@@ -20,13 +20,13 @@ notify = function (obj, pKey, sKey, key, value, res, dbEvent, postponed) {
 
 	// Reverse
 	if (desc.multiple) {
-		postponed = notifyReverse(obj, pKey, value ? key : null, value ? null : key,
+		postponed = notifyReverse(obj, pSKey, value ? key : null, value ? null : key,
 			null, null, undefined, undefined, dbEvent, postponed);
 	}
 
 	// Observable item
 	if (obj.hasOwnProperty('__observableMultipleItems__')) {
-		data = obj.__observableMultipleItems__[pKey];
+		data = obj.__observableMultipleItems__[pSKey];
 		if (data) {
 			data = data[sKey];
 			if (data) {
@@ -41,8 +41,8 @@ notify = function (obj, pKey, sKey, key, value, res, dbEvent, postponed) {
 	// Observable set
 	if (!obj.hasOwnProperty('__sets__')) return postponed;
 	data = obj.__sets__;
-	if (!hasOwnProperty.call(data, pKey)) return postponed;
-	data = data[pKey];
+	if (!hasOwnProperty.call(data, pSKey)) return postponed;
+	data = data[pSKey];
 	if (!data.__isObservable__) return postponed;
 	data._postponed_ += 1;
 	if (!postponed) postponed = [data];

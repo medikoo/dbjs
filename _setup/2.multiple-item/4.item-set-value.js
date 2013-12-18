@@ -9,25 +9,25 @@ var d          = require('d/d')
   , defineProperty = Object.defineProperty
   , notify, notifyDescendants;
 
-notify = function (obj, pKey, sKey, key, value, dbEvent, postponed) {
-	if (obj._normalize_(pKey, key) == null) return postponed;
-	return notifyItem(obj, pKey, sKey, key, value, null, dbEvent, postponed);
+notify = function (obj, pSKey, sKey, key, value, dbEvent, postponed) {
+	if (obj._normalize_(pSKey, key) == null) return postponed;
+	return notifyItem(obj, pSKey, sKey, key, value, null, dbEvent, postponed);
 };
 
-notifyDescendants = function (obj, pKey, sKey, key, value, dbEvent, postponed) {
+notifyDescendants = function (obj, pSKey, sKey, key, value, dbEv, postponed) {
 	if (!obj.hasOwnProperty('__descendants__')) return postponed;
 	obj.__descendants__._plainForEach_(function (obj) {
 		var data;
 		if (obj.hasOwnProperty('__multiples__')) {
-			if (hasOwnProperty.call(obj.__multiples__, pKey)) {
-				data = obj.__multiples__[pKey];
+			if (hasOwnProperty.call(obj.__multiples__, pSKey)) {
+				data = obj.__multiples__[pSKey];
 				if (hasOwnProperty.call(data, sKey)) {
 					if (data[sKey].hasOwnProperty('_value_')) return;
 				}
 			}
 		}
-		postponed = notify(obj, pKey, sKey, key, value, dbEvent, postponed);
-		postponed = notifyDescendants(obj, pKey, sKey, key, value, dbEvent,
+		postponed = notify(obj, pSKey, sKey, key, value, dbEv, postponed);
+		postponed = notifyDescendants(obj, pSKey, sKey, key, value, dbEv,
 			postponed);
 	});
 	return postponed;
@@ -62,9 +62,9 @@ module.exports = function (db, item) {
 				dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
-			postponed = notify(obj, this._pKey_, this._sKey_, this.key,
+			postponed = notify(obj, this._pSKey_, this._sKey_, this.key,
 				nu, dbEvent, postponed);
-			return notifyDescendants(obj, this._pKey_, this._sKey_,
+			return notifyDescendants(obj, this._pSKey_, this._sKey_,
 				this.key, nu, dbEvent, postponed);
 		})
 	});

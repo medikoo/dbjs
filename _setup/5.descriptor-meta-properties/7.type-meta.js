@@ -58,16 +58,16 @@ configure = function (name, descriptor, type, types, defValue) {
 	};
 
 	defineProperties(property, {
-		_sideNotify_: d(function (obj, pKey, key, nu, old, dbEvent, postponed) {
+		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {
 			var desc, oldDesc;
 
-			if (!pKey) return postponed;
-			desc = obj.__descriptors__[pKey];
+			if (!pSKey) return postponed;
+			desc = obj.__descriptors__[pSKey];
 			oldDesc = { min: desc.max, max: desc.max, step: desc.step,
 				pattern: desc.pattern };
 			oldDesc[name] = old;
 
-			return notify(obj, pKey, desc.type, desc.type, desc, oldDesc,
+			return notify(obj, pSKey, desc.type, desc.type, desc, oldDesc,
 				dbEvent, postponed);
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {

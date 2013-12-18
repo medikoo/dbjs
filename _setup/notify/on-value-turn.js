@@ -47,8 +47,8 @@ notifyItemDescendants = function (obj, item, nu, old, dbEvent, postponed) {
 	if (!obj.hasOwnProperty('__descendants__')) return postponed;
 	obj.__descendants__._plainForEach_(function (obj) {
 		if (obj.hasOwnProperty('__multiples__')) {
-			if (hasOwnProperty.call(obj.__multiples__, item._pKey_)) {
-				if (hasOwnProperty.call(obj.__multiples__[item._pKey_], item._sKey_)) {
+			if (hasOwnProperty.call(obj.__multiples__, item._pSKey_)) {
+				if (hasOwnProperty.call(obj.__multiples__[item._pSKey_], item._sKey_)) {
 					return;
 				}
 			}
@@ -60,7 +60,7 @@ notifyItemDescendants = function (obj, item, nu, old, dbEvent, postponed) {
 };
 
 notifyTurnedItem = function (obj, item, nu, old, dbEvent, postponed) {
-	var desc = obj._getDescriptor_(item._pKey_), nuValid, oldValid;
+	var desc = obj._getDescriptor_(item._pSKey_), nuValid, oldValid;
 
 	if (desc._reverse_) return postponed;
 	if (desc.nested) return postponed;
@@ -72,7 +72,7 @@ notifyTurnedItem = function (obj, item, nu, old, dbEvent, postponed) {
 	else if (desc.type.isPrototypeOf(old)) oldValid = true;
 
 	if (nuValid === oldValid) return postponed;
-	return notifyMultiple(obj, item._pKey_, item._sKey_, item.key, nuValid,
+	return notifyMultiple(obj, item._pSKey_, item._sKey_, item.key, nuValid,
 		null, dbEvent, postponed);
 };
 

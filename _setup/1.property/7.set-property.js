@@ -120,11 +120,11 @@ module.exports = function (db, object) {
 			db._postponed_ -= 1;
 			return this;
 		}),
-		_multipleAdd_: d(function (pKey, key, sKey) {
-			new Event(this._getOwnMultipleItem_(pKey, key, sKey), true); //jslint: skip
+		_multipleAdd_: d(function (pSKey, key, sKey) {
+			new Event(this._getOwnMultipleItem_(pSKey, key, sKey), true); //jslint: skip
 		}),
-		_multipleDelete_: d(function (pKey, key, sKey) {
-			var item = this._getOwnMultipleItem_(pKey, key, sKey)
+		_multipleDelete_: d(function (pSKey, key, sKey) {
+			var item = this._getOwnMultipleItem_(pSKey, key, sKey)
 			  , has = item.hasOwnProperty('_value_') && Boolean(item._value_);
 			new Event(item); //jslint: skip
 			return has;
@@ -210,32 +210,32 @@ module.exports = function (db, object) {
 				errors.map(getMessage).join('\t\n'), 'DEFINE_PROPERTIES_ERROR',
 				{ errors: errors });
 		}),
-		_validateMultipleAdd_: d(function (pKey, key) {
+		_validateMultipleAdd_: d(function (pSKey, key) {
 			var desc, original = key;
-			this._assertWritable_(pKey);
+			this._assertWritable_(pSKey);
 			if (key == null) {
 				throw new DbjsError(key + " is not a value", 'ITEM_NULL_VALUE');
 			}
-			desc = this._getDescriptor_(pKey);
+			desc = this._getDescriptor_(pSKey);
 			key = desc._normalizeValue_(key);
 			if (key == null) {
 				throw new DbjsError(original + " is an invalid value", 'INVALID_VALUE');
 			}
-			if (desc.unique) desc._validateUnique_(this, pKey, key);
+			if (desc.unique) desc._validateUnique_(this, pSKey, key);
 			return key;
 		}),
-		_validateMultipleDelete_: d(function (pKey, key) {
+		_validateMultipleDelete_: d(function (pSKey, key) {
 			var desc, item, size, iKey, data;
-			this._assertWritable_(pKey);
+			this._assertWritable_(pSKey);
 			if (key == null) return key;
-			desc = this._getDescriptor_(pKey);
+			desc = this._getDescriptor_(pSKey);
 			key = desc._normalizeValue_(key);
 			if (key == null) return key;
 			if (!desc.required) return key;
-			size = this._getMultipleSize_(pKey);
+			size = this._getMultipleSize_(pSKey);
 			if (size > 1) return key;
 			iKey = this._serialize_(key);
-			data = this.__multiples__[pKey];
+			data = this.__multiples__[pSKey];
 			if (hasOwnProperty.call(data, iKey)) {
 				item = data[iKey];
 				if (item.hasOwnProperty('_value_') && item._value_) {

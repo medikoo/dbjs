@@ -28,13 +28,13 @@ module.exports = exports = function (types) {
 		return Type.isPrototypeOf(this);
 	};
 
-	return function (obj, pKey, nt, ot, nd, od, dbEvent, postponed) {
+	return function (obj, pSKey, nt, ot, nd, od, dbEvent, postponed) {
 		var value, nuValue, oldValue;
 
 		if (!types.some(isType, nt)) return postponed;
 
 		// Multiples
-		postponed = notifyItems(obj, pKey, nd.multiple,
+		postponed = notifyItems(obj, pSKey, nd.multiple,
 			confirmItem.bind(nt, ot, nd, od), dbEvent, postponed);
 
 		if (nd._reverse_) return postponed;
@@ -45,10 +45,10 @@ module.exports = exports = function (types) {
 		if (value == null) return postponed;
 
 		// Dynamics
-		if (isGetter(value)) return notifyDynamic(obj, pKey, dbEvent, postponed);
+		if (isGetter(value)) return notifyDynamic(obj, pSKey, dbEvent, postponed);
 		if (nd.multiple) return postponed;
 
-		return notifyProperty(obj, pKey, value, value, function () {
+		return notifyProperty(obj, pSKey, value, value, function () {
 			if (nuValue !== undefined) return nuValue;
 			return (nuValue = nt.normalize(value, nd));
 		}, function () {

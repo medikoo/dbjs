@@ -58,12 +58,12 @@ turnDescProperties = function (desc, proto, postponed, done) {
 		if (!nu.key && property.key && !property.hasOwnProperty('key')) {
 			defineProperties(property, {
 				key: d('', property.key),
-				_pKey_: d('', property._pKey_),
+				_pSKey_: d('', property._pSKey_),
 				_create_: d(property._create_)
 			});
-		} else if (!nu._pKey_ && property._pKey_ &&
-				!property.hasOwnProperty('_pKey_')) {
-			defineProperty(property, '_pKey_', d('', property._pKey_));
+		} else if (!nu._pSKey_ && property._pSKey_ &&
+				!property.hasOwnProperty('_pSKey_')) {
+			defineProperty(property, '_pSKey_', d('', property._pSKey_));
 		}
 		postponed = turn(property, nu, old, postponed);
 	}, desc.__descriptors__);
@@ -171,8 +171,8 @@ turnMultiple = function (object, proto, postponed, done) {
 	return postponed;
 };
 
-turnItems = function (object, pKey, proto, postponed, done) {
-	keys(object.__multiples__[pKey]).forEach(function (sKey) {
+turnItems = function (object, pSKey, proto, postponed, done) {
+	keys(object.__multiples__[pSKey]).forEach(function (sKey) {
 		var item = this[sKey], old, nu;
 		if (!done) create(null);
 		else if (done[sKey]) return;
@@ -180,21 +180,21 @@ turnItems = function (object, pKey, proto, postponed, done) {
 		nu = proto[sKey] || object.__itemPrototype__;
 		done[sKey] = true;
 		if (old === nu) return;
-		if (!nu._pKey_ && item._pKey_ && !item.hasOwnProperty('_pKey_')) {
+		if (!nu._pSKey_ && item._pSKey_ && !item.hasOwnProperty('_pSKey_')) {
 			defineProperties(item, {
 				key: d('', item.key),
-				_pKey_: d('', item._pKey_),
+				_pSKey_: d('', item._pSKey_),
 				_sKey_: d('', item._sKey_),
 				_create_: d(item._create_)
 			});
 		}
 		postponed = turn(item, nu, old, postponed);
-	}, object.__multiples__[pKey]);
+	}, object.__multiples__[pSKey]);
 	if (!object.hasOwnProperty('__descendants__')) return postponed;
 	object.__descendants__._plainForEach_(function self(object) {
 		if (object.hasOwnProperty('__multiples__')) {
-			if (hasOwnProperty.call(object.__multiples__, pKey)) {
-				postponed = turnItems(object, pKey, proto, postponed,
+			if (hasOwnProperty.call(object.__multiples__, pSKey)) {
+				postponed = turnItems(object, pSKey, proto, postponed,
 					done && create(done));
 				return;
 			}

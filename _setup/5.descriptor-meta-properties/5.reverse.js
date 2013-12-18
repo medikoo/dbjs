@@ -30,12 +30,12 @@ module.exports = function (db, descriptor) {
 				throw new DbjsError("Cannot set value to undefined", 'SET_UNDEFINED');
 			}
 			Base.validate(value);
-			if (!this._pKey_) {
+			if (!this._pSKey_) {
 				throw new DbjsError("Cannot set reverse on descriptor prototype",
 					'PROTOTYPE_PROPERTY_REVERSE');
 			}
 			obj = this.object;
-			desc = obj._getDescriptor_(this._pKey_);
+			desc = obj._getDescriptor_(this._pSKey_);
 			if (!isObjectType(desc.type)) {
 				throw new DbjsError("Cannot set reverse for non object type",
 					'NON_OBJECT_REVERSE');
@@ -57,23 +57,23 @@ module.exports = function (db, descriptor) {
 			if (nu === undefined) delete this._value_;
 			else if (has) this._value_ = nu;
 			else defineProperty(this, '_value_', d('cw', nu));
-			postponed = baseNotify(this.object, this._pKey_, this.key,
+			postponed = baseNotify(this.object, this._pSKey_, this.key,
 				nu, old, dbEvent);
-			db._release_(this._sideNotify_(this.object, this._pKey_,
+			db._release_(this._sideNotify_(this.object, this._pSKey_,
 				nu, old, dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
 			throw new TypeError("Reverse property doesn't leak through prototypes");
 		}),
-		_sideNotify_: d(function (obj, pKey, nu, old, dbEvent, postponed) {
+		_sideNotify_: d(function (obj, pSKey, nu, old, dbEvent, postponed) {
 			var desc, map;
-			if (!pKey) return postponed;
-			desc = obj.__descriptors__[pKey];
+			if (!pSKey) return postponed;
+			desc = obj.__descriptors__[pSKey];
 			if (!isObjectType(desc.type)) return postponed;
 			if (obj.constructor.prototype !== obj) return postponed;
 			if (!isObjectType(obj.constructor)) return postponed;
 
-			map = obj._getReverseMap_(pKey);
+			map = obj._getReverseMap_(pSKey);
 			if (old !== undefined) {
 				// Clear old
 				postponed = notifyReverse(desc.type.prototype, obj._serialize_(old),

@@ -20,11 +20,11 @@ isTruthy = function (sKey) {
 	return item._value_;
 };
 
-module.exports = Multiple = function (obj, pKey) {
+module.exports = Multiple = function (obj, pSKey) {
 	defineProperties(this, {
 		object: d('', obj),
-		__pKey__: d('', pKey),
-		__setData__: d('', obj._getMultipleItems_(pKey))
+		__pSKey__: d('', pSKey),
+		__setData__: d('', obj._getMultipleItems_(pSKey))
 	});
 };
 
@@ -33,8 +33,8 @@ Multiple.prototype = create(Set.prototype, assign({
 	_serialize: d(serialize),
 	add: d(function (key) {
 		var obj = this.object;
-		key = obj._validateMultipleAdd_(this.__pKey__, key);
-		obj._multipleAdd_(this.__pKey__, key, serialize(key));
+		key = obj._validateMultipleAdd_(this.__pSKey__, key);
+		obj._multipleAdd_(this.__pSKey__, key, serialize(key));
 		return this;
 	}),
 	clear: d(function () {
@@ -48,15 +48,15 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	delete: d(function (key) {
 		var obj = this.object;
-		key = obj._validateMultipleDelete_(this.__pKey__, key);
+		key = obj._validateMultipleDelete_(this.__pSKey__, key);
 		if (key == null) return false;
-		return obj._multipleDelete_(this.__pKey__, key, serialize(key));
+		return obj._multipleDelete_(this.__pSKey__, key, serialize(key));
 	}),
 	entries: d(function () { return new Iterator(this, 'key+value'); }),
 	has: d(function (key) {
 		var item;
 		if (key == null) return false;
-		key = this.object._normalize_(this.__pKey__, key);
+		key = this.object._normalize_(this.__pSKey__, key);
 		if (key == null) return false;
 		item = this.__setData__[this._serialize(key)];
 		if (!item) return false;
@@ -64,28 +64,28 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	size: d.gs(function () {
 		if (this.hasOwnProperty('__size__')) return this.__size__;
-		return this.object._getMultipleSize_(this.__pKey__);
+		return this.object._getMultipleSize_(this.__pSKey__);
 	}),
 	values: d(function () { return new Iterator(this); }),
 	$getOwn: d(function (key) {
 		key = this._validate_(key);
-		return this.object._getOwnMultipleItem_(this.__pKey__,
+		return this.object._getOwnMultipleItem_(this.__pSKey__,
 			key, this._serialize(key));
 	}),
 	$get: d(function (key) {
 		key = this._validate_(key);
-		return this.object._getMultipleItem_(this.__pKey__,
+		return this.object._getMultipleItem_(this.__pSKey__,
 			this._serialize(key));
 	}),
 	_get: d(function (key) {
 		key = this._validate_(key);
-		return this.object._getMultipleItemObservable_(this.__pKey__,
+		return this.object._getMultipleItemObservable_(this.__pSKey__,
 			this._serialize(key), key);
 	}),
 	getLastModifiedByValue: d(function (key) {
 		var item;
 		if (key == null) return null;
-		key = this.object._normalize_(this.__pKey__, key);
+		key = this.object._normalize_(this.__pSKey__, key);
 		if (key == null) return null;
 		item = this.__setData__[key];
 		if (!item) return 0;
@@ -93,8 +93,8 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	_validateClear_: d(function () {
 		var desc, sKeys;
-		this.object._assertWritable_(this.__pKey__);
-		desc = this.object._getDescriptor_(this.__pKey__);
+		this.object._assertWritable_(this.__pSKey__);
+		desc = this.object._getDescriptor_(this.__pSKey__);
 		sKeys = keys(this.__setData__);
 		if (desc.required && (this.size === 1) &&
 				sKeys.some(isTruthy, this.__setData__)) {
@@ -108,7 +108,7 @@ Multiple.prototype = create(Set.prototype, assign({
 		if (key == null) {
 			throw new DbjsError(key + " is not a value", 'ITEM_NULL_VALUE');
 		}
-		key = this.object._normalize_(this.__pKey__, key);
+		key = this.object._normalize_(this.__pSKey__, key);
 		if (key == null) {
 			throw new DbjsError(original + " is an invalid value", 'INVALID_VALUE');
 		}

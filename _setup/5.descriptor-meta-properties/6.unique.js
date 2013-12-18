@@ -53,11 +53,11 @@ module.exports = function (db, descriptor) {
 	});
 
 	defineProperties(property, {
-		_sideNotify_: d(function (obj, pKey, key, nu, old, dbEvent, postponed) {
+		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {
 			var desc, map, rKey;
 
-			if (!pKey) return postponed;
-			desc = obj.__descriptors__[pKey];
+			if (!pSKey) return postponed;
+			desc = obj.__descriptors__[pSKey];
 
 			// Process reverse if applicable
 			if (desc.reverse === undefined) return postponed;
@@ -65,7 +65,7 @@ module.exports = function (db, descriptor) {
 			if (obj.constructor.prototype !== obj) return postponed;
 			if (!isObjectType(obj.constructor)) return postponed;
 
-			if (!map) map = obj._getReverseMap_(pKey);
+			if (!map) map = obj._getReverseMap_(pSKey);
 			rKey = obj._serialize_(desc.reverse);
 			postponed = notify(desc.type.prototype, rKey, nu, map,
 				dbEvent, postponed);
