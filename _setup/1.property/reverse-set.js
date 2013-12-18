@@ -29,7 +29,7 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		var desc, sKey, rDesc;
 		this._assertReverse_();
 		desc = this.__descriptor__;
-		desc.__object__.constructor.validate(obj);
+		desc.object.constructor.validate(obj);
 		sKey = desc._sKey_;
 		rDesc = obj._getDescriptor_(sKey);
 		if (rDesc.multiple) {

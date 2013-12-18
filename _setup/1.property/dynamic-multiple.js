@@ -26,7 +26,7 @@ Multiple = module.exports = function (object, sKey, getter) {
 	if (!(this instanceof Multiple)) return new Multiple(object, sKey);
 	Set.call(this);
 	defineProperties(this, {
-		__object__: d('', object),
+		object: d('', object),
 		__sKey__: d('', sKey)
 	});
 	if (!getter) return;
@@ -103,8 +103,8 @@ Multiple.prototype = create(Set.prototype, assign({
 			return;
 		}
 		setData = this.__setData__;
-		desc = this.__object__.__descriptors__[this.sKey] ||
-			this.__object__.__descriptorPrototype__;
+		desc = this.object.__descriptors__[this.sKey] ||
+			this.object.__descriptorPrototype__;
 		index = 0;
 		l = setData.length;
 		isObservable = this.__isObservable__;
@@ -154,17 +154,17 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	_updateGetter_: d(function (getter) {
 		if (this.__isObservable__) return;
-		this._update_(getter ? getter.call(this.__object__, observePass) : null);
+		this._update_(getter ? getter.call(this.object, observePass) : null);
 	}),
 	_triggerObservable_: d(function () {
 		var dynamicValue, desc;
-		dynamicValue = this.__object__._getDynamicValue_(this.__sKey__);
+		dynamicValue = this.object._getDynamicValue_(this.__sKey__);
 		if (dynamicValue.value === null) {
 			this._update_(null);
 			return;
 		}
-		desc = this.__object__.__descriptors__[this.__sKey__] ||
-			this.__object__.__descriptorPrototype__;
+		desc = this.object.__descriptors__[this.__sKey__] ||
+			this.object.__descriptorPrototype__;
 		if (!desc.multiple) return;
 		this._update_(dynamicValue.value);
 	})

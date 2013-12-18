@@ -31,7 +31,7 @@ MultiplePropertyIterator = module.exports = function (set, kind) {
 		__kind__: d('', kind),
 		__set__: d('w', set)
 	});
-	set.__object__._getMultipleIterators_(set.__pKey__).push(this);
+	set.object._getMultipleIterators_(set.__pKey__).push(this);
 };
 if (setPrototypeOf) setPrototypeOf(MultiplePropertyIterator, Iterator);
 
@@ -39,7 +39,7 @@ MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 	constructor: d(MultiplePropertyIterator),
 	_confirm: d(function (i) {
 		var set = this.__set__;
-		if (set.__object__._normalize_(set.__pKey__,
+		if (set.object._normalize_(set.__pKey__,
 				set.__setData__[this.__list__[i]]._key_) == null) {
 			return this._next();
 		}
@@ -58,7 +58,7 @@ MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 	}),
 	_unBind: d(function () {
 		if (!this.__set__) return;
-		remove.call(this.__set__.__object__
+		remove.call(this.__set__.object
 			._getMultipleIterators_(this.__set__.__pKey__), this);
 		this.__set__ = null;
 		unBind.call(this);

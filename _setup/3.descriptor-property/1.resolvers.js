@@ -81,8 +81,7 @@ module.exports = function (object, descriptor, property) {
 
 		// Observable
 		_getObservable_: d(function (sKey) {
-			return this.__object__
-				._getDpObservable_(this._sKey_, sKey);
+			return this.object._getDpObservable_(this._sKey_, sKey);
 		}),
 		_get: d(function (key) {
 			var sKey = this._serialize(key);

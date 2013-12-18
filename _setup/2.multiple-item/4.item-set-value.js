@@ -58,7 +58,7 @@ module.exports = function (db, item) {
 			else defineProperty(this, '_value_', d('cw', nu));
 			nu = Boolean(this._value_);
 			if (nu === old) return;
-			db._release_(this._emitValue_(this.__object__, nu, old,
+			db._release_(this._emitValue_(this.object, nu, old,
 				dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {

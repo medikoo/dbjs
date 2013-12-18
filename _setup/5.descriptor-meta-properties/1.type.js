@@ -124,8 +124,8 @@ module.exports = function (db, descriptor) {
 			var old = (this.hasOwnProperty('_value_') && this._value_) || undefined
 			  , desc;
 			if (nu === old) return;
-			if (this._pKey_) desc = this.__object__.__descriptors__[this._pKey_];
-			else desc = this.__object__.__descriptorPrototype__;
+			if (this._pKey_) desc = this.object.__descriptors__[this._pKey_];
+			else desc = this.object.__descriptorPrototype__;
 			if (old) old.__typeAssignments__._delete(desc);
 			if (nu) nu._typeAssignments_._add(desc);
 			baseSetValue.call(this, nu, dbEvent);

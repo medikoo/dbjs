@@ -12,9 +12,9 @@ module.exports = function (descriptor, accessCollector) {
 		_value_: d('', undefined),
 		_resolveInner_: d(function () {
 			if (!this._sKey_) return;
-			if (this._reverse_) return this._reverse_.get(this.__object__);
+			if (this._reverse_) return this._reverse_.get(this.object);
 			if (this.nested) {
-				return this.__object__._getObject_(this._sKey_);
+				return this.object._getObject_(this._sKey_);
 			}
 			return this.hasOwnProperty('_value_') ? this._value_ :
 					getPrototypeOf(this)._resolveInner_();
@@ -106,7 +106,7 @@ module.exports = function (descriptor, accessCollector) {
 			if (this._reverse_) return this._reverse_.has(obj);
 			if (this.nested) return true;
 			if (this.multiple) return true;
-			if (this.__object__ !== obj) return false;
+			if (this.object !== obj) return false;
 			return this.hasOwnProperty('_value_');
 		}),
 		_normalizeValue_: d(function (value) {

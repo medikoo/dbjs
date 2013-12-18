@@ -30,7 +30,7 @@ DescriptorIterator = module.exports = function (map, kind) {
 		__kind__: d('', kind),
 		__map__: d('w', map)
 	});
-	map.__object__._getDescriptorIterators_(map._sKey_).push(this);
+	map.object._getDescriptorIterators_(map._sKey_).push(this);
 };
 if (setPrototypeOf) setPrototypeOf(DescriptorIterator, Iterator);
 
@@ -43,7 +43,7 @@ DescriptorIterator.prototype = Object.create(Iterator.prototype, assign({
 	}),
 	_unBind: d(function () {
 		if (!this.__map__) return;
-		remove.call(this.__map__.__object__
+		remove.call(this.__map__.object
 			._getDescriptorIterators_(this.__map__._sKey_), this);
 		this.__map__ = null;
 		unBind.call(this);

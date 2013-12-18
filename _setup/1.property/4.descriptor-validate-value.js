@@ -69,7 +69,7 @@ module.exports = function (descriptor) {
 			if (!desc) return value;
 			desc = desc.__descriptors__.unique;
 			while (!desc.hasOwnProperty('_value_')) desc = getPrototypeOf(desc);
-			mapData = desc.__object__._getReverseMap_(sKey).__mapValuesData__;
+			mapData = desc.object._getReverseMap_(sKey).__mapValuesData__;
 			if (!mapData[vKey]) return value;
 			mapData = mapData[vKey].__setData__;
 			l = mapData.length;

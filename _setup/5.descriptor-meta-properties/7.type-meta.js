@@ -43,9 +43,9 @@ configure = function (name, descriptor, type, types, defValue) {
 	};
 
 	notifyDesc = function (desc, nt, ot, dbEvent, postponed) {
-		postponed = notify(desc.__object__, desc._sKey_, nt, ot, desc, desc,
+		postponed = notify(desc.object, desc._sKey_, nt, ot, desc, desc,
 			dbEvent, postponed);
-		return notifyObjDescs(desc.__object__, desc, nt, ot, dbEvent, postponed);
+		return notifyObjDescs(desc.object, desc, nt, ot, dbEvent, postponed);
 	};
 
 	notifyNamedDescs = function (desc, nt, ot, dbEvent, postponed) {

@@ -37,9 +37,9 @@ notifyTurnedProperty = function (obj, desc, nu, old, dbEvent, postponed) {
 };
 
 notifyDesc = function (desc, nu, old, dbEvent, postponed) {
-	postponed = notifyTurnedProperty(desc.__object__, desc, nu, old,
+	postponed = notifyTurnedProperty(desc.object, desc, nu, old,
 		dbEvent, postponed);
-	return notifyDescDescendants(desc.__object__, desc, nu, old,
+	return notifyDescDescendants(desc.object, desc, nu, old,
 		dbEvent, postponed);
 };
 
@@ -77,9 +77,9 @@ notifyTurnedItem = function (obj, item, nu, old, dbEvent, postponed) {
 };
 
 notifyItem = function (item, nu, old, dbEvent, postponed) {
-	postponed = notifyTurnedItem(item.__object__, item, nu, old,
+	postponed = notifyTurnedItem(item.object, item, nu, old,
 		dbEvent, postponed);
-	return notifyItemDescendants(item.__object__, item, nu, old,
+	return notifyItemDescendants(item.object, item, nu, old,
 		dbEvent, postponed);
 };
 

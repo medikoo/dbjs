@@ -12,7 +12,7 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
 ObservableValue = module.exports = function (object, pKey, sKey, key) {
 	var data, value;
 	defineProperties(this, {
-		__object__: d('', object),
+		object: d('', object),
 		__pKey__: d('', pKey),
 		__sKey__: d('', sKey),
 		__key__: d('', key),
@@ -29,22 +29,22 @@ setPrototypeOf(ObservableValue, Observable);
 ObservableValue.prototype = Object.create(proto, {
 	constructor: d(ObservableValue),
 	value: d.gs('', valueDesc.get, function (value) {
-		var set = this.__object__._getMultiple_(this.__pKey__);
+		var set = this.object._getMultiple_(this.__pKey__);
 		if (value) set.add(this._key_);
 		else set.delete(this._key_);
 	}),
 	lastModified: d.gs(function () {
 		var data, item;
 		if (this.__lastModified__ == null) {
-			data = this.__object__.__multiples__[this.__pKey__];
+			data = this.object.__multiples__[this.__pKey__];
 			if (data) item = data[this.__sKey__];
 			this.__lastModified__ = item ? item.lastModified : 0;
 		}
 		return this.__lastModified__;
 	}),
 	getDescriptor: d(function () {
-		var data = this.__object__.__multiples__[this.__pKey__];
-		if (!data) return this.__object__.__itemPrototype__;
-		return data[this.__sKey__] || this.__object__.__itemPrototype__;
+		var data = this.object.__multiples__[this.__pKey__];
+		if (!data) return this.object.__itemPrototype__;
+		return data[this.__sKey__] || this.object.__itemPrototype__;
 	})
 });

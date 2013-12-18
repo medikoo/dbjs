@@ -34,7 +34,7 @@ module.exports = function (db, descriptor) {
 				throw new DbjsError("Cannot set reverse on descriptor prototype",
 					'PROTOTYPE_PROPERTY_REVERSE');
 			}
-			obj = this.__object__;
+			obj = this.object;
 			desc = obj._getDescriptor_(this._pKey_);
 			if (!isObjectType(desc.type)) {
 				throw new DbjsError("Cannot set reverse for non object type",
@@ -57,9 +57,9 @@ module.exports = function (db, descriptor) {
 			if (nu === undefined) delete this._value_;
 			else if (has) this._value_ = nu;
 			else defineProperty(this, '_value_', d('cw', nu));
-			postponed = baseNotify(this.__object__, this._pKey_, this._sKey_,
+			postponed = baseNotify(this.object, this._pKey_, this._sKey_,
 				nu, old, dbEvent);
-			db._release_(this._sideNotify_(this.__object__, this._pKey_,
+			db._release_(this._sideNotify_(this.object, this._pKey_,
 				nu, old, dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {

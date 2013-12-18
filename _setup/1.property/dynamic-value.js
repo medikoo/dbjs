@@ -28,13 +28,13 @@ DynamicValue = module.exports = function (object, sKey) {
 	var desc, value;
 	if (!(this instanceof DynamicValue)) return new DynamicValue(object, sKey);
 	defineProperties(this, {
-		__object__: d('', object),
+		object: d('', object),
 		__sKey__: d('', sKey)
 	});
 	desc = object._getDescriptor_(sKey);
 	value = desc._resolveValueGetter_();
 	if (!value) return;
-	this.__observer__ = resolveTriggers(this.__object__, value,
+	this.__observer__ = resolveTriggers(this.object, value,
 		this.__triggerObserverUpdate__);
 	value = this.__observer__.getter.call(object);
 	if (value == null) value = null;
@@ -55,18 +55,18 @@ defineProperties(DynamicValue.prototype, assign({
 			this._clearObserver_();
 		}
 		if (!getter) {
-			postponed = notify(this.__object__, this.__sKey__, other,
+			postponed = notify(this.object, this.__sKey__, other,
 				this.resolvedValue, null, null, dbEvent, postponed);
 			if (this.multiple) {
-				postponed = notifyMultiple(this.__object__, this.__sKey__, undefined,
+				postponed = notifyMultiple(this.object, this.__sKey__, undefined,
 					dbEvent, postponed);
 			}
 			this.value = this.resolvedValue = this.multiple = undefined;
 			return postponed;
 		}
-		this.__observer__ = resolveTriggers(this.__object__, getter,
+		this.__observer__ = resolveTriggers(this.object, getter,
 			this.__triggerObserverUpdate__);
-		return this._update_(this.__observer__.getter.call(this.__object__),
+		return this._update_(this.__observer__.getter.call(this.object),
 			dbEvent, other, postponed);
 	}),
 	_clearObserver_: d(function () {
@@ -75,7 +75,7 @@ defineProperties(DynamicValue.prototype, assign({
 		this.__observer__ = null;
 	}),
 	_update_: d(function (value, dbEvent, other, postponed) {
-		var obj = this.__object__, desc = obj._getDescriptor_(this.__sKey__), old;
+		var obj = this.object, desc = obj._getDescriptor_(this.__sKey__), old;
 		if (value == null) value = null;
 		if (desc.multiple) {
 			if (this.value === undefined) {
@@ -112,12 +112,12 @@ defineProperties(DynamicValue.prototype, assign({
 			dbEvent, postponed);
 	}),
 	_triggerUpdate_: d(function () {
-		var desc = this.__object__._getDescriptor_(this.__sKey__);
+		var desc = this.object._getDescriptor_(this.__sKey__);
 		this._updateObserver_(desc._resolveValueGetter_());
 	})
 }, autoBind({
 	__triggerObserverUpdate__: d(function (event, postponed) {
-		return this._update_(this.__observer__.getter.call(this.__object__),
+		return this._update_(this.__observer__.getter.call(this.object),
 			event, undefined, postponed);
 	})
 }), lazy({

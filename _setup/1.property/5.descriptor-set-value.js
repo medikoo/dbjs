@@ -95,7 +95,7 @@ module.exports = function (db, descriptor) {
 				keys(this.__descriptors__).forEach(destroy, this.__descriptors__);
 			}
 			if (!this._sKey_) return;
-			data = this.__object__;
+			data = this.object;
 			if (data.hasOwnProperty('__multiples__')) {
 				data = data.__multiples__;
 				if (hasOwnProperty.call(data, this._sKey_)) {
@@ -112,7 +112,7 @@ module.exports = function (db, descriptor) {
 			if (nu === old) return;
 			if (!this._reverse_ && !this.nested && !this.multiple &&
 					((old === undefined) || (nu === undefined))) {
-				updateEnum(this.__object__, this._sKey_, (nu !== undefined));
+				updateEnum(this.object, this._sKey_, (nu !== undefined));
 			}
 			if (old && old.__id__ && (old._kind_ === 'object')) {
 				assignments = old._assignments_;
@@ -133,7 +133,7 @@ module.exports = function (db, descriptor) {
 			else defineProperty(this, '_value_', d('cw', nu));
 			nu = this._resolveValueValue_();
 			if (nu === old) return;
-			db._release_(this._emitValue_(this.__object__, nu, old,
+			db._release_(this._emitValue_(this.object, nu, old,
 				dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {

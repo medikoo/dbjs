@@ -12,7 +12,7 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
 module.exports = ObservableProperty = function (object, sKey) {
 	var getter = object._resolveGetter_(sKey);
 	defineProperties(this, {
-		__object__: d('', object),
+		object: d('', object),
 		__sKey__: d('', sKey),
 		__dbId__: d('', object.__id__ + '/' + sKey)
 	});
@@ -25,17 +25,17 @@ setPrototypeOf(ObservableProperty, Observable);
 ObservableProperty.prototype = Object.create(proto, {
 	constructor: d(ObservableProperty),
 	value: d.gs('', valueDesc.get, function (value) {
-		var object = this.__object__, sKey = this.__sKey__;
+		var object = this.object, sKey = this.__sKey__;
 		object._set_(sKey, object._validateSet_(sKey, value));
 	}),
 	lastModified: d.gs(function () {
 		if (this.__lastModified__ == null) {
 			this.__lastModified__ =
-				this.__object__._getPropertyLastModified_(this.__sKey__);
+				this.object._getPropertyLastModified_(this.__sKey__);
 		}
 		return this.__lastModified__;
 	}),
 	getDescriptor: d(function () {
-		return this.__object__._getDescriptor_(this.__sKey__);
+		return this.object._getDescriptor_(this.__sKey__);
 	})
 });

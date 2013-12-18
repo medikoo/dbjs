@@ -248,17 +248,17 @@ module.exports = function (a) {
 		"Nested": function () {
 			var obj = new db.Object(), obj1, obj2;
 			a.h1("Base object");
-			a(obj.__object__, obj, "__object__");
+			a(obj.object, obj, "object");
 			a(obj.master, obj, "master");
 			a(obj.owner, undefined, "owner");
 			a(obj.__sKey__, undefined, "__sKey__");
 			obj1 = obj._getObject_('foo');
-			a(obj1.__object__, obj1, "__object__");
+			a(obj1.object, obj1, "object");
 			a(obj1.master, obj, "master");
 			a(obj1.owner, obj, "owner");
 			a(obj1.__sKey__, 'foo', "__sKey__");
 			obj2 = obj1._getObject_('foor');
-			a(obj2.__object__, obj2, "__object__");
+			a(obj2.object, obj2, "object");
 			a(obj2.master, obj, "master");
 			a(obj2.owner, obj1, "owner");
 			a(obj2.__sKey__, 'foor', "__sKey__");
