@@ -2,11 +2,8 @@
 
 var last           = require('es5-ext/string/#/last')
   , DbjsError      = require('../error')
-  , serialize      = require('../serialize/value')
-  , unserialize    = require('./value')
   , unserializeKey = require('./key')
 
-  , parse = JSON.parse
   , isTypeId = RegExp.prototype.test.bind(/^[A-Z]/);
 
 module.exports = function (db) {

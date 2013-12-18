@@ -9,7 +9,7 @@ module.exports = function (a) {
 	  , TypeCustom = Type.extend('Datetest',
 			{ min: { value: new Date(2000, 0, 1)  },
 				max: { value: new Date(2077, 0, 3) },
-				step: { value: 1000 * 60 * 60 * 24 } }), date;
+				step: { value: 1000 * 60 * 60 * 24 } });
 
 	a(isDate(Type()), true, "No arguments");
 	a.throws(function () { Type(undefined); }, 'INVALID_DATETIME', "Undefined");
@@ -85,4 +85,3 @@ module.exports = function (a) {
 		}
 	};
 };
-
