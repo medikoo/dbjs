@@ -22,9 +22,9 @@ module.exports = function (a) {
 	a(isObservable(set._get('foo')), true, "Observable");
 
 	a.h1("forEachOwnItem");
-	obj._getMultipleItem_('3raz', 'dwa', '3dwa');
-	obj._getMultipleItem_('3trzy', 'trzy', '3trzy');
-	args = primitiveSet('3foo.3foo', '3raz.3dwa', '3trzy.3trzy');
+	obj._getMultipleItem_('raz', 'dwa', '3dwa');
+	obj._getMultipleItem_('trzy', 'trzy', '3trzy');
+	args = primitiveSet('foo.3foo', 'raz.3dwa', 'trzy.3trzy');
 	i = 0;
 	obj._forEachOwnItem_(function (item, key) {
 		var argKey = item._pKey_ + '.' + item._sKey_;

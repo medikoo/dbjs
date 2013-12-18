@@ -29,7 +29,7 @@ module.exports = function (a) {
 	db.Object.prototype.set('raz', 'dwa');
 	obj.set('miszka', 'raz');
 
-	args = primitiveSet('3foo', '3miszka');
+	args = primitiveSet('foo', 'miszka');
 	i = 0;
 	obj._forEachOwnDescriptor_(function (desc, key) {
 		if (!args[key]) {
@@ -44,11 +44,11 @@ module.exports = function (a) {
 	a(keys(args).length, 0, "All processed");
 
 	a.h1("forEachOwnNestedObjects");
-	db.Object.prototype._getObject_('3raz');
-	obj._getObject_('3dwa');
-	obj._getObject_('3trzy');
+	db.Object.prototype._getObject_('raz');
+	obj._getObject_('dwa');
+	obj._getObject_('trzy');
 
-	args = primitiveSet('3foo', '3dwa', '3trzy');
+	args = primitiveSet('foo', 'dwa', 'trzy');
 	i = 0;
 	obj._forEachOwnNestedObject_(function (nObj, key) {
 		if (!args[key]) {

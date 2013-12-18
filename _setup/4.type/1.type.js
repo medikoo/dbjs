@@ -10,12 +10,11 @@ var i              = require('es5-ext/function/i')
   , DbjsError      = require('../error')
   , Event          = require('../event')
   , ObjectsSet     = require('../objects-set')
-  , getIdent       = require('../utils/get-ident')
   , turnPrototype  = require('../utils/propagate-prototype-turn').object
   , serialize      = require('../serialize/value')
   , getMessage     = require('../utils/get-sub-error-message')
   , updateEnum     = require('../utils/update-enumerability')
-  , unserialize    = require('../unserialize/value')
+  , unserialize    = require('../unserialize/key')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
   , create = Object.create, defineProperties = Object.defineProperties
@@ -161,14 +160,12 @@ module.exports = function (db, createObj, object) {
 				this._validateCreate_.apply(this, arguments));
 		}),
 		_createNested_: d(function (object, sKey) {
-			var nested, ident;
+			var nested;
 			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
-			ident = getIdent(this._keys_[sKey], sKey);
-			nested = this._create_(object.__id__ + '/' + ident, object.__master__);
+			nested = this._create_(object.__id__ + '/' + sKey, object.__master__);
 			return defineProperties(nested, {
 				__parent__: d('', object),
-				__sKey__: d('', sKey),
-				__ident__: d('', ident)
+				__sKey__: d('', sKey)
 			});
 		}),
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),

@@ -106,7 +106,7 @@ module.exports = function (a) {
 					{ bar: { type: TestType1, multiple: true } })
 			  , item, obj1, obj2;
 			obj2 = new db.Object();
-			item = obj2._getMultiple_('3bar').$get(new db.Object());
+			item = obj2._getMultiple_('bar').$get(new db.Object());
 			item._setValue_(true);
 			obj2._setValue_(TestType2.prototype);
 			a.deep(toArray(obj2.bar), [], "Invalid cleared");
@@ -252,16 +252,16 @@ module.exports = function (a) {
 			a(obj.__master__, obj, "__master__");
 			a(obj.__parent__, undefined, "__parent__");
 			a(obj.__sKey__, undefined, "__sKey__");
-			obj1 = obj._getObject_('3foo');
+			obj1 = obj._getObject_('foo');
 			a(obj1.__object__, obj1, "__object__");
 			a(obj1.__master__, obj, "__master__");
 			a(obj1.__parent__, obj, "__parent__");
-			a(obj1.__sKey__, '3foo', "__sKey__");
-			obj2 = obj1._getObject_('3foor');
+			a(obj1.__sKey__, 'foo', "__sKey__");
+			obj2 = obj1._getObject_('foor');
 			a(obj2.__object__, obj2, "__object__");
 			a(obj2.__master__, obj, "__master__");
 			a(obj2.__parent__, obj1, "__parent__");
-			a(obj2.__sKey__, '3foor', "__sKey__");
+			a(obj2.__sKey__, 'foor', "__sKey__");
 		}
 	};
 };

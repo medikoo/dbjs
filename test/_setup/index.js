@@ -38,7 +38,7 @@ module.exports = function (a) {
 	a(db.Object._kind_, 'object', "Type");
 	a(obj1.$get('foo')._kind_, 'descriptor', "Descriptor");
 	a(obj1.$get('foo').$get('bar')._kind_, 'sub-descriptor', "Sub Descriptor");
-	a(obj1._getMultiple_('3bar').$get('bar')._kind_, 'item', "Multiple item");
+	a(obj1._getMultiple_('bar').$get('bar')._kind_, 'item', "Multiple item");
 
 	a.h1("Delete object");
 

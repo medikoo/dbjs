@@ -79,13 +79,13 @@ module.exports = function (a) {
 	a.h2("No Ident");
 	a.h3("Existing");
 	obj1.$get(858);
-	a(unserialize(obj1.__id__ + '/"2858"'), obj1.$get(858));
+	a(unserialize(obj1.__id__ + '/2858'), obj1.$get(858));
 	a.h3("Not existing");
-	prop = unserialize(obj1.__id__ + '/"3marko\\\\\\"fa;l"');
+	prop = unserialize(obj1.__id__ + '/3"marko\\\"fa;l"');
 	a(prop, obj1.$get('marko"fa;l'));
 
 	a.h3("Not existing object");
-	prop = unserialize('objNewreateTest499/"3kdkd\\\\nre"');
+	prop = unserialize('objNewreateTest499/3"kdkd\\nre"');
 	a.h4("Object");
 	a(prop.__object__.__id__, 'objNewreateTest499', "Id");
 	a(prop.__object__.constructor, ObjectType, "Type");
@@ -107,7 +107,7 @@ module.exports = function (a) {
 	prop = unserialize('objNewreateTest222/miszka/elka');
 	a.h4("Object");
 	a(prop.__object__.__id__, 'objNewreateTest222/miszka', "Id");
-	a(unserialize('objNewreateTest222')._getObject_('3miszka'), prop.__object__,
+	a(unserialize('objNewreateTest222')._getObject_('miszka'), prop.__object__,
 		"Owner");
 	a(prop.__object__.constructor, Base, "Type");
 	a(prop, prop.__object__.$elka, "Prop");
@@ -118,16 +118,16 @@ module.exports = function (a) {
 	a.h2("No Ident");
 	a.h3("Existing");
 	objn.$get(858);
-	a(unserialize(objn.__id__ + '/"2858"'), objn.$get(858));
+	a(unserialize(objn.__id__ + '/2858'), objn.$get(858));
 	a.h3("Not existing");
-	prop = unserialize(objn.__id__ + '/"3marko\\\\\\"fa;l"');
+	prop = unserialize(objn.__id__ + '/3"marko\\\"fa;l"');
 	a(prop, objn.$get('marko"fa;l'));
 
 	a.h3("Not existing object");
-	prop = unserialize('objNewreateTest49349/"3kdkd\\\\nre"/figura');
+	prop = unserialize('objNewreateTest49349/3"kdkd\\nre"/figura');
 	a.h4("Object");
-	a(prop.__object__.__id__, 'objNewreateTest49349/"3kdkd\\\\nre"', "Id");
-	a(unserialize('objNewreateTest49349')._getObject_('3kdkd\\nre'),
+	a(prop.__object__.__id__, 'objNewreateTest49349/3"kdkd\\nre"', "Id");
+	a(unserialize('objNewreateTest49349')._getObject_('3"kdkd\\nre"'),
 		prop.__object__, "Owner");
 	a(prop.__object__.constructor, Base, "Type");
 	a(prop, prop.__object__.$get('figura'), "Prop");
@@ -147,7 +147,7 @@ module.exports = function (a) {
 	a.h3("Object");
 	prop = unserialize('objNewreateTest5$elsef/mafa');
 	a(prop.__object__.__id__, 'objNewreateTest5', "Object");
-	a(prop._pKey_, '3elsef', "Property");
+	a(prop._pKey_, 'elsef', "Property");
 	a(prop.__object__.constructor, ObjectType, "Object type");
 
 	// Descriptor prototype property
@@ -181,15 +181,15 @@ module.exports = function (a) {
 	a.h3("Object");
 	item = unserialize('objNewreateTest6/makara*mafa');
 	a(item.__object__.__id__, 'objNewreateTest6', "Object");
-	a(item._pKey_, '3makara', "Property");
+	a(item._pKey_, 'makara', "Property");
 
 	a.h3("Not ident");
 	a.h4("Item");
-	item = unserialize(obj1.__id__ + '/"24343"*"2898"');
+	item = unserialize(obj1.__id__ + '/24343*"2898"');
 	a(item, obj1._getMultiple_('24343').$get(898));
 
 	a.h4("Object");
-	item = unserialize('objNewreateTest63/"242343"*"244898"');
+	item = unserialize('objNewreateTest63/242343*"244898"');
 	a(item.__object__.__id__, 'objNewreateTest63', "Object");
 	a(item._pKey_, '242343', "Property");
 };

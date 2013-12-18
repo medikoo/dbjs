@@ -39,10 +39,10 @@ module.exports = function (a) {
 			a(CustomType(obj), obj, "Created object");
 
 			CustomType = Type.extend('Otest2',
-				function (value) { this._set_('3foo', value); },
+				function (value) { this._set_('foo', value); },
 				{ foo: { type: db.String } },
 				{ _validateCreate_: { value: function (value) {
-					return [this._validateSet_('3foo', value)];
+					return [this._validateSet_('foo', value)];
 				} } });
 
 			obj = CustomType('whatever');

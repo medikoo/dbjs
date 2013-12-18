@@ -2,7 +2,6 @@
 
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
-  , getIdent       = require('../utils/get-ident')
   , propagateProto = require('../utils/propagate-prototype-turn').descriptor
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
@@ -79,7 +78,7 @@ module.exports = function (db, createObj, descriptor) {
 	var descriptorCreate;
 
 	descriptorCreate = function (obj) {
-		var descriptor = createObj(this, obj.__id__ + '$' + this._ident_, obj);
+		var descriptor = createObj(this, obj.__id__ + '$' + this._sKey_, obj);
 		if (!this._writable_ && this._extensible_) {
 			defineProperty(obj, '_writable_', d('c', true));
 		}
@@ -91,7 +90,7 @@ module.exports = function (db, createObj, descriptor) {
 
 	defineProperties(descriptor, {
 		_sKey_: d('', ''),
-		_ident_: d('', ''),
+		_key_: d('', undefined),
 		_writable_: d('', false),
 		_extensible_: d('c', true),
 		_create_: d(function (obj) {
@@ -100,13 +99,12 @@ module.exports = function (db, createObj, descriptor) {
 			return injectProto(obj, descriptorProto, this);
 		}),
 		_createDescriptor_: d(function (obj, sKey, dbEvent) {
-			var ident = sKey ? getIdent(obj._keys_[sKey], sKey) : ''
-			  , descriptor = createObj(this, obj.__id__ + '$' + ident, obj)
+			var descriptor = createObj(this, obj.__id__ + '$' + sKey, obj)
 			  , postponed, props;
 			obj._descriptors_[sKey] = descriptor;
 			props = {
 				_sKey_: d('', sKey),
-				_ident_: d('', ident),
+				_key_: d('', obj._keys_[sKey]),
 				_create_: d(descriptorCreate),
 				_value_: d('cw', undefined)
 			};

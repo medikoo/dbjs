@@ -22,7 +22,7 @@ module.exports = function (a) {
 
 	a(desc._getCurrentDescriptor_('foo'), prop, "Get current");
 	defineProperty(desc, 'foo', d('bar'));
-	a(obj._getCurrentDescriptor_('foo'), null, "Native value");
+	a(desc._getCurrentDescriptor_('foo'), null, "Native value");
 
 	a(isObservable(obj._getDescriptorPropertyObservable_('foo')), true,
 		"Observable");

@@ -58,7 +58,6 @@ turnDescProperties = function (desc, proto, postponed, done) {
 		if (!nu._sKey_ && property._sKey_ && !property.hasOwnProperty('_sKey_')) {
 			defineProperties(property, {
 				_pKey_: d('', property._pKey_),
-				_pIdent_: d('', property._pIdent_),
 				_sKey_: d('', property._sKey_),
 				_create_: d(property._create_)
 			});
@@ -111,7 +110,6 @@ turnDescs = function (obj, proto, postponed, done) {
 				!descriptor.hasOwnProperty('_sKey_')) {
 			defineProperties(descriptor, {
 				_sKey_: d('', descriptor._sKey_),
-				_ident_: d('', descriptor._ident_),
 				_create_: d(descriptor._create_)
 			});
 		}
@@ -184,7 +182,6 @@ turnItems = function (object, pKey, proto, postponed, done) {
 		if (!nu._pKey_ && item._pKey_ && !item.hasOwnProperty('_pKey_')) {
 			defineProperties(item, {
 				_pKey_: d('', item._pKey_),
-				_pIdent_: d('', item._pIdent_),
 				_ident_: d('', item._ident_),
 				_key_: d('', item._key_),
 				_sKey_: d('', item._sKey_),

@@ -3,7 +3,7 @@
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
   , getIdent       = require('../utils/get-ident')
-  , unserialize    = require('../unserialize/value')
+  , unserialize    = require('../unserialize/key')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , getPrototypeOf = Object.getPrototypeOf
@@ -44,21 +44,18 @@ module.exports = function (db, item, createObj) {
 
 	item = defineProperties(item, {
 		_pKey_: d('', ''),
-		_pIdent_: d('', ''),
 		_key_: d('', undefined),
 		_value_: d('', undefined),
 		_sKey_: d('', ''),
 		_ident_: d('', '*'),
 		_create_: d(function (obj, pKey, key, sKey, setData) {
-			var pIdent, ident, item;
+			var ident, item;
 			if (!obj._keys_[pKey]) obj._serialize_(unserialize(pKey, db.objects));
-			pIdent = getIdent(obj._keys_[pKey], pKey);
-			ident = pIdent + '*' + getIdent(key, sKey);
+			ident = pKey + '*' + getIdent(key, sKey);
 			item = createObj(this, obj.__id__ + '/' + ident, obj);
 			setData[sKey] = item;
 			defineProperties(item, {
 				_pKey_: d('', pKey),
-				_pIdent_: d('', pIdent),
 				_ident_: d('', ident),
 				_key_: d('', key),
 				_sKey_: d('', sKey),

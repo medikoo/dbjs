@@ -15,5 +15,5 @@ module.exports = function (t, a) {
 	a(t(obj), true, "Db object");
 	a(t(obj.$get('test')), true, "Db descriptor");
 	a(t(obj.$get('test').$get('raz')), true, "Db descriptor's descriptor");
-	a(t(obj._getMultiple_('3test').$get('raz')), true, "Db item");
+	a(t(obj._getMultiple_('test').$get('raz')), true, "Db item");
 };

@@ -1,9 +1,10 @@
 'use strict';
 
-var last        = require('es5-ext/string/#/last')
-  , DbjsError   = require('../error')
-  , serialize   = require('../serialize/value')
-  , unserialize = require('./value')
+var last           = require('es5-ext/string/#/last')
+  , DbjsError      = require('../error')
+  , serialize      = require('../serialize/value')
+  , unserialize    = require('./value')
+  , unserializeKey = require('./key')
 
   , parse = JSON.parse
   , isTypeId = RegExp.prototype.test.bind(/^[A-Z]/);
@@ -61,8 +62,9 @@ module.exports = function (db) {
 
 	$property = function () {
 		var start, sKey;
-		if (str[i + 1] === '"') {
+		if (str[i + 2] === '"') {
 			start = ++i;
+			++i;
 			while ((char = str[++i])) {
 				if (char === '\\') {
 					char = str[++i];
@@ -71,10 +73,8 @@ module.exports = function (db) {
 				if (char === '"') break;
 			}
 			char = str[++i];
-			sKey = parse(str.slice(start, i));
-			if ((sKey[0] === '3') && !proto._keys_[sKey]) {
-				proto._serialize_(unserialize(sKey, objects));
-			}
+			sKey = str.slice(start, i);
+			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
 		} else {
 			start = i + 1;
 			while ((char = str[++i])) {
@@ -83,7 +83,7 @@ module.exports = function (db) {
 			}
 			sKey = str.slice(start, i);
 			if (sKey === '') reject();
-			sKey = proto._serialize_(sKey);
+			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
 		}
 		if (!char) {
 			object = object._getDescriptor_(sKey);
@@ -106,8 +106,9 @@ module.exports = function (db) {
 
 	$descriptor = function () {
 		var start, sKey;
-		if (str[i + 1] === '"') {
+		if (str[i + 2] === '"') {
 			start = ++i;
+			++i;
 			while ((char = str[++i])) {
 				if (char === '\\') {
 					char = str[++i];
@@ -116,17 +117,17 @@ module.exports = function (db) {
 				if (char === '"') break;
 			}
 			char = str[++i];
-			sKey = parse(str.slice(start, i));
-			if ((sKey[0] === '3') && !proto._keys_[sKey]) {
-				proto._serialize_(unserialize(sKey, objects));
-			}
+			sKey = str.slice(start, i);
+			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
 		} else {
 			start = i + 1;
 			while ((char = str[++i])) {
 				if (char === '/') break;
 			}
 			sKey = str.slice(start, i);
-			if (sKey) sKey = proto._serialize_(sKey);
+			if (sKey && !proto._keys_[sKey]) {
+				proto._serialize_(unserializeKey(sKey, objects));
+			}
 		}
 		if (char !== '/') reject();
 		if (!sKey) object = object._descriptorPrototype_;
