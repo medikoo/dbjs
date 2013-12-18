@@ -57,7 +57,7 @@ module.exports = function (db, descriptor) {
 			if (nu === undefined) delete this._value_;
 			else if (has) this._value_ = nu;
 			else defineProperty(this, '_value_', d('cw', nu));
-			postponed = baseNotify(this.object, this._pKey_, this._sKey_,
+			postponed = baseNotify(this.object, this._pKey_, this.key,
 				nu, old, dbEvent);
 			db._release_(this._sideNotify_(this.object, this._pKey_,
 				nu, old, dbEvent, postponed));

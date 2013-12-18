@@ -55,10 +55,10 @@ turnDescProperties = function (desc, proto, postponed, done) {
 		nu = proto[name] || desc.__descriptorPrototype__;
 		done[name] = true;
 		if (old === nu) return;
-		if (!nu._sKey_ && property._sKey_ && !property.hasOwnProperty('_sKey_')) {
+		if (!nu.key && property.key && !property.hasOwnProperty('key')) {
 			defineProperties(property, {
+				key: d('', property.key),
 				_pKey_: d('', property._pKey_),
-				_sKey_: d('', property._sKey_),
 				_create_: d(property._create_)
 			});
 		} else if (!nu._pKey_ && property._pKey_ &&

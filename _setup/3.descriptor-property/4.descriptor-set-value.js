@@ -84,9 +84,9 @@ module.exports = function (db, property) {
 					if (hasOwnProperty.call(obj, this._pKey_)) {
 						obj = obj[this._pKey_];
 						if (nu === undefined) {
-							if (obj.hasOwnProperty(this._sKey_)) delete obj[this._sKey_];
-						} else if (!obj.hasOwnProperty(this._sKey_)) {
-							defineProperty(obj, this._sKey_, obj._accessors_[this._sKey_]);
+							if (obj.hasOwnProperty(this.key)) delete obj[this.key];
+						} else if (!obj.hasOwnProperty(this.key)) {
+							defineProperty(obj, this.key, obj._accessors_[this.key]);
 						}
 					}
 				}
@@ -102,16 +102,16 @@ module.exports = function (db, property) {
 			db._release_(this._emitValue_(this.object, nu, old, dbEvent));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
-			postponed = notify(obj, this._pKey_, this._sKey_, nu, old, dbEvent,
+			postponed = notify(obj, this._pKey_, this.key, nu, old, dbEvent,
 				postponed);
 			if (this._sideNotify_) {
-				postponed = this._sideNotify_(obj, this._pKey_, this._sKey_, nu, old,
+				postponed = this._sideNotify_(obj, this._pKey_, this.key, nu, old,
 					dbEvent, postponed);
 			}
-			postponed = notifyDescs(obj, this._pKey_, this._sKey_, nu, old, dbEvent,
+			postponed = notifyDescs(obj, this._pKey_, this.key, nu, old, dbEvent,
 				this._sideNotify_, postponed);
 			if (this._pKey_) return postponed;
-			return notifyNamedDescsObj(obj, this._sKey_, nu, old, dbEvent,
+			return notifyNamedDescsObj(obj, this.key, nu, old, dbEvent,
 				this._sideNotify_, postponed);
 		})
 	});

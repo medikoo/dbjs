@@ -12,7 +12,7 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
 inject = function (obj, proto, base) {
 	var sKey;
 	if (!obj.hasOwnProperty('__descendants__')) return proto;
-	sKey = proto._sKey_;
+	sKey = proto.key;
 	obj.__descendants__._plainForEach_(function (obj) {
 		var desc, oldProto;
 		if (obj.hasOwnProperty('__descriptors__') &&
@@ -33,7 +33,7 @@ module.exports = function (property, createObj) {
 	var propertyCreate;
 
 	propertyCreate = function (descriptor) {
-		var property = createObj(this, descriptor.__id__ + '/' + this._sKey_,
+		var property = createObj(this, descriptor.__id__ + '/' + this.key,
 			descriptor.object), props;
 		if (descriptor._sKey_ !== property._pKey_) {
 			props = { _pKey_: d('', descriptor._sKey_) };
@@ -43,13 +43,13 @@ module.exports = function (property, createObj) {
 			props._writable_ = d('c', true);
 		}
 		if (props) defineProperties(property, props);
-		descriptor._descriptors_[this._sKey_] = property;
+		descriptor._descriptors_[this.key] = property;
 		return inject(descriptor, property, this);
 	};
 
 	defineProperties(property, {
+		key: d('', undefined),
 		_pKey_: d('', ''),
-		_sKey_: d('', ''),
 		_writable_: d('', false),
 		_extensible_: d('c', true),
 		_value_: d('', undefined),
@@ -58,8 +58,8 @@ module.exports = function (property, createObj) {
 				descriptor.object), props;
 			descriptor._descriptors_[key] = property;
 			props = {
+				key: d('', key),
 				_pKey_: d('', descriptor._sKey_),
-				_sKey_: d('', key),
 				_create_: d(propertyCreate)
 			};
 			if (!this._writable_ && this._extensible_) {

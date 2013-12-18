@@ -39,7 +39,7 @@ module.exports = function (a) {
 		}
 		delete args[key];
 		++i;
-		a(desc._sKey_, key, "Descriptor #" + i);
+		a(desc.key, key, "Descriptor #" + i);
 		a(this, x, "Context #" + i);
 	}, x);
 	a(keys(args).length, 0, "All processed");
