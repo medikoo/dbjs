@@ -30,8 +30,8 @@ ObservableValue.prototype = Object.create(proto, {
 	constructor: d(ObservableValue),
 	value: d.gs('', valueDesc.get, function (value) {
 		var set = this.object._getMultiple_(this.__pKey__);
-		if (value) set.add(this._key_);
-		else set.delete(this._key_);
+		if (value) set.add(this.__key__);
+		else set.delete(this.__key__);
 	}),
 	lastModified: d.gs(function () {
 		var data, item;
