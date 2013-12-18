@@ -1,7 +1,7 @@
 'use strict';
 
 var Database  = require('../../../')
-  , serialize = require('../../../_setup/utils/serialize')
+  , serialize = require('../../../_setup/serialize/value')
 
   , stringify = JSON.stringify;
 

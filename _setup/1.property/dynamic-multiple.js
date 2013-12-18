@@ -15,7 +15,7 @@ var assign           = require('es5-ext/object/assign')
 )
   , defineObservable = require('../utils/define-set-observable')
   , observePass      = require('../utils/observe-pass-through')
-  , serialize        = require('../utils/serialize')
+  , serialize        = require('../serialize/value')
 
   , forEach = Array.prototype.forEach
   , create = Object.create, defineProperties = Object.defineProperties

@@ -3,7 +3,7 @@
 var callable   = require('es5-ext/object/valid-callable')
   , d          = require('d/d')
   , DbjsError  = require('../error')
-  , serialize  = require('../utils/serialize')
+  , serialize  = require('../serialize/value')
   , Iterator   = require('./iterator')
   , getMessage = require('../utils/get-sub-error-message')
 

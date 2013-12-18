@@ -8,7 +8,7 @@ var isFunction = require('es5-ext/function/is-function')
   , MultiSet   = require('observable-multi-set')
   , DbjsError  = require('../error')
   , Event      = require('../event')
-  , serialize  = require('../utils/serialize-object')
+  , serialize  = require('../serialize/object')
 
   , slice = Array.prototype.slice
   , create = Object.create, defineProperties = Object.defineProperties

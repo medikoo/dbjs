@@ -1,6 +1,6 @@
 'use strict';
 
-var serialize = require('../utils/serialize')
+var serialize = require('../serialize/value')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , getPrototypeOf = Object.getPrototypeOf

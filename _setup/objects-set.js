@@ -5,7 +5,7 @@ var setPrototypeOf  = require('es5-ext/Object/set-prototype-of')
   , PrimitiveSet    = require('observable-set/create-read-only')(
 	require('observable-set/primitive')
 )
-  , serializeObject = require('./utils/serialize-object')
+  , serializeObject = require('./serialize/object')
 
   , keys = Object.keys
   , ObjectsSet;

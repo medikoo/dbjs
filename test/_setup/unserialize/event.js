@@ -1,7 +1,7 @@
 'use strict';
 
 var Database  = require('../../../')
-  , serialize = require('../../../_setup/utils/serialize');
+  , serialize = require('../../../_setup/serialize/value');
 
 module.exports = function (t, a) {
 	var db = new Database(), obj = new db.Object(), stamp = '123123123131'

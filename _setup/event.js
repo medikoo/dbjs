@@ -3,7 +3,7 @@
 var d         = require('d/d')
   , nextTick  = require('next-tick')
   , now       = require('time-uuid/lib/time')
-  , serialize = require('./utils/serialize')
+  , serialize = require('./serialize/value')
 
   , ongoing, clear = function () { ongoing = null; }
   , increment = now.increment

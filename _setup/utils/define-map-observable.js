@@ -10,7 +10,7 @@ var assign             = require('es5-ext/object/assign')
   , ReadOnlyMap        = require('observable-map/create-read-only')(
 	require('es6-map/primitive')
 )
-  , serialize          = require('./serialize')
+  , serialize          = require('../serialize/value')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties

@@ -4,7 +4,7 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
   , Map            = require('es6-map/primitive')
   , isGetter       = require('../utils/is-getter')
-  , serialize      = require('../utils/serialize')
+  , serialize      = require('../serialize/value')
   , DbjsError      = require('../error')
   , Set            = require('./reverse-set')
 

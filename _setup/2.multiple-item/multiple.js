@@ -6,7 +6,7 @@ var assign           = require('es5-ext/object/assign')
   , Set              = require('es6-set/polyfill')
   , DbjsError        = require('../error')
   , Event            = require('../event')
-  , serialize        = require('../utils/serialize')
+  , serialize        = require('../serialize/value')
   , defineObservable = require('../utils/define-set-observable')
   , Iterator         = require('./iterator')
 

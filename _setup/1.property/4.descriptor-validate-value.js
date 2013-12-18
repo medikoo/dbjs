@@ -8,7 +8,7 @@ var arrayLikeToArray = require('es5-ext/array/to-array')
   , iterableToArray  = require('es6-iterator/to-array')
   , DbjsError        = require('../error')
   , isGetter         = require('../utils/is-getter')
-  , serialize        = require('../utils/serialize')
+  , serialize        = require('../serialize/value')
 
   , getPrototypeOf = Object.getPrototypeOf
   , defineProperties = Object.defineProperties

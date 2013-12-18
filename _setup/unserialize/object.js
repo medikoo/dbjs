@@ -2,7 +2,7 @@
 
 var last        = require('es5-ext/string/#/last')
   , DbjsError   = require('../error')
-  , serialize   = require('../utils/serialize')
+  , serialize   = require('../serialize/value')
   , unserialize = require('./value')
 
   , parse = JSON.parse
