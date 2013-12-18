@@ -38,13 +38,13 @@ Multiple.prototype = create(Set.prototype, assign({
 		return this;
 	}),
 	clear: d(function () {
-		this.__object__._db_._postponed += 1;
+		this.__object__.database._postponed += 1;
 		this._validateClear_().forEach(function (sKey) {
 			var item = this.__setData__[sKey];
 			if (!item.hasOwnProperty('_value_')) return;
 			new Event(item, undefined); //jslint: skip
 		}, this);
-		this.__object__._db_._postponed -= 1;
+		this.__object__.database._postponed -= 1;
 	}),
 	delete: d(function (key) {
 		var obj = this.__object__;

@@ -54,9 +54,9 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 			}
 			return obj._delete_.bind(obj, obj._validateDelete_(sKey));
 		});
-		desc._db_._postponed_ += 1;
+		desc.database._postponed_ += 1;
 		calls.forEach(function (fn) { fn(); });
-		desc._db_._postponed_ -= 1;
+		desc.database._postponed_ -= 1;
 	}),
 	delete: d(function (obj) {
 		var desc, sKey, rDesc;

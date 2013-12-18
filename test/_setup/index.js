@@ -17,7 +17,7 @@ module.exports = function (a) {
 	a.deep(toArray(db.Object.prototype.__descendants__).sort(),
 		[obj1, obj2].sort(), "Descendants");
 
-	a(obj1._db_, db, "Database reference");
+	a(obj1.database, db, "Database reference");
 
 	desc = db.Object.prototype.__descriptorPrototype__;
 	a(desc.__id__, '$', "Descriptor prototype");
@@ -37,7 +37,8 @@ module.exports = function (a) {
 	a(obj1._kind_, 'object', "Object");
 	a(db.Object._kind_, 'object', "Type");
 	a(obj1.$getOwn('foo')._kind_, 'descriptor', "Descriptor");
-	a(obj1.$getOwn('foo').$getOwn('bar')._kind_, 'sub-descriptor', "Sub Descriptor");
+	a(obj1.$getOwn('foo').$getOwn('bar')._kind_, 'sub-descriptor',
+		"Sub Descriptor");
 	a(obj1._getMultiple_('bar').$getOwn('bar')._kind_, 'item', "Multiple item");
 
 	a.h1("Delete object");

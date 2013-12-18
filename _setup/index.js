@@ -44,9 +44,9 @@ deleteObject = function (obj) {
 				'DELETE_PROTOTYPE');
 		}
 	}
-	obj._db_._postponed_ += 1;
+	obj.database._postponed_ += 1;
 	obj._destroy_();
-	obj._db_._postponed_ -= 1;
+	obj.database._postponed_ -= 1;
 };
 
 Constructor = function (id, object, master) {
@@ -110,7 +110,7 @@ module.exports = function (db) {
 			master: d('', object),
 			__object__: d('', object),
 			_kind_: d('', kind),
-			_db_: d('', db),
+			database: d('', db),
 			toString: d('c', function () { return '[dbjs ' + this.__id__ + ']'; })
 		}, protoProperties));
 	};

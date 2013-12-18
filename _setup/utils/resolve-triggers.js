@@ -46,7 +46,7 @@ module.exports = function (obj, getter, update) {
 		});
 	});
 	if (isDynamic) {
-		result = resolveDynamic(obj._db_, getter, update);
+		result = resolveDynamic(obj.database, getter, update);
 		getter = result.getter;
 		clear.push(result.clear);
 	}

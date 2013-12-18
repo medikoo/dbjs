@@ -111,7 +111,7 @@ notifyReverses = function (obj, nu, postponed) {
 	var isObjectType;
 	if (obj.constructor.prototype !== obj) return postponed;
 	if (obj.hasOwnProperty('__reverseMaps__')) {
-		isObjectType = obj._db_.isObjectType;
+		isObjectType = obj.database.isObjectType;
 		keys(obj.__reverseMaps__).forEach(function (sKey) {
 			var map = this[sKey], desc = obj.__descriptors__[sKey];
 			if (desc.reverse === undefined) return;
@@ -131,7 +131,7 @@ switchReverse = function (obj, nu, old, postponed) {
 	var maps, objProto, nuOt, oldOt, processMap;
 
 	// Own and descendants reverse maps
-	objProto = nu._db_.Object.prototype;
+	objProto = nu.database.Object.prototype;
 	if (obj === objProto) nuOt = oldOt = true;
 	else if (nu === objProto) nuOt = true;
 	else if (objProto.isPrototypeOf(nu)) nuOt = true;
