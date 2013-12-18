@@ -1,35 +1,17 @@
 'use strict';
 
-var assign          = require('es5-ext/object/assign')
-  , callable        = require('es5-ext/object/valid-callable')
-  , setPrototypeOf  = require('es5-ext/object/set-prototype-of')
-  , d               = require('d/d')
-  , lazy            = require('d/lazy')
-  , injectPrimitive = require('../utils/inject-primitive')
-  , Observable      = require('./observable')
-  , Multiple        = require('./multiple')
+var assign                = require('es5-ext/object/assign')
+  , callable              = require('es5-ext/object/valid-callable')
+  , d                     = require('d/d')
+  , lazy                  = require('d/lazy')
+  , injectPrimitive       = require('../utils/inject-primitive')
+  , injectPrimitiveNested = require('../utils/inject-primitive-nested')
+  , Observable            = require('./observable')
+  , Multiple              = require('./multiple')
 
   , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty, create = Object.create
-  , keys = Object.keys, defineProperties = Object.defineProperties
-
-  , injectPrimitiveNested;
-
-injectPrimitiveNested = function (obj, proto, name, key) {
-	if (!obj.hasOwnProperty('__descendants__')) return proto;
-	obj.__descendants__._plainForEach_(function (obj) {
-		var target;
-		if (obj.hasOwnProperty(name)) {
-			if (hasOwnProperty.call(obj[name], key)) {
-				target = obj[name][key];
-				setPrototypeOf(target, proto);
-				return;
-			}
-		}
-		injectPrimitiveNested(obj, proto, name, key);
-	});
-	return proto;
-};
+  , keys = Object.keys, defineProperties = Object.defineProperties;
 
 module.exports = function (object, item) {
 	defineProperties(object, assign({
