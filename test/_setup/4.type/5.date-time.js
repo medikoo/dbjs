@@ -12,6 +12,7 @@ module.exports = function (a) {
 				step: { value: 1000 * 60 * 60 * 24 } });
 
 	a(isDate(Type()), true, "No arguments");
+	a(Type.is(Type()), true, "DateTume type: No arguments");
 	a.throws(function () { Type(undefined); }, 'INVALID_DATETIME', "Undefined");
 	a(Type(null).getTime(), 0, "Null");
 	a(Type(false).getTime(), 0, "Boolean");

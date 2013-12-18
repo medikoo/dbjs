@@ -60,14 +60,13 @@ module.exports = function (db) {
 			step = (descriptor && !isNaN(descriptor.step))
 				? max(descriptor.step, this.step)
 				: this.step;
-			setPrototypeOf(value, this.prototype);
-			if (!step) return value;
+			if (!step) return setPrototypeOf(value, this.prototype);
 			trail = value % step;
-			if (!trail) return value;
+			if (!trail) return setPrototypeOf(value, this.prototype);
 			sign = (value >= 0) ? 1 : -1;
 			if (!copied) value = copy.call(value);
 			value.setTime(sign * floor(abs(value) * (1 / step)) * step);
-			return value;
+			return setPrototypeOf(value, this.prototype);
 		}),
 		validate: d(function (value/*, descriptor*/) {
 			var minv, maxv, step, trail, sign, descriptor = arguments[1]
@@ -94,14 +93,13 @@ module.exports = function (db) {
 			step = (descriptor && !isNaN(descriptor.step))
 				? max(descriptor.step, this.step)
 				: this.step;
-			setPrototypeOf(value, this.prototype);
-			if (!step) return value;
+			if (!step) return setPrototypeOf(value, this.prototype);
 			trail = value % step;
-			if (!trail) return value;
+			if (!trail) return setPrototypeOf(value, this.prototype);
 			sign = (value >= 0) ? 1 : -1;
 			if (!copied) value = copy.call(value);
 			value.setTime(sign * floor(abs(value) * (1 / step)) * step);
-			return value;
+			return setPrototypeOf(value, this.prototype);
 		}),
 		_validateCreate_: d(function (value/*[, mth[, d[, h[, mn[, s[, ms]]]]]]*/) {
 			var l = arguments.length;
