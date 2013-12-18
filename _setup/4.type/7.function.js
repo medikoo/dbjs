@@ -25,8 +25,7 @@ module.exports = function (db) {
 		normalize: d(function (value) {
 			if (!isFunction(value)) return null;
 			if (isGetter(value)) return null;
-			setPrototypeOf(value, this.prototype);
-			return value;
+			return setPrototypeOf(value, this.prototype);
 		}),
 		validate: d(function (value) {
 			if (!isFunction(value)) {
@@ -37,8 +36,7 @@ module.exports = function (db) {
 				throw new DbjsError(value + " is getter type of function",
 					'FUNCTION_GETTER');
 			}
-			setPrototypeOf(value, this.prototype);
-			return value;
+			return setPrototypeOf(value, this.prototype);
 		})
 	});
 
