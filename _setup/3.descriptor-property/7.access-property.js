@@ -23,7 +23,7 @@ module.exports = function (db, descriptor) {
 		});
 
 		descs['$' + key] = d.gs('', function () {
-			return this._getDescriptor_(key);
+			return this._getOwnDescriptor_(key);
 		});
 		descs['_' + key] = d.gs('', function () {
 			return this.__object__._getDpObservable_(this._sKey_, key);

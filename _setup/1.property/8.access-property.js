@@ -23,7 +23,7 @@ module.exports = function (object) {
 		});
 
 		descs['$' + key] = d.gs('c', function () {
-			return this._getDescriptor_(sKey);
+			return this._getOwnDescriptor_(sKey);
 		});
 		descs['_' + key] = d.gs('c', function () {
 			return this._getObservable_(sKey);

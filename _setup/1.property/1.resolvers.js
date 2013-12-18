@@ -33,7 +33,7 @@ module.exports = function (db, object, descriptor) {
 			}
 			return this.__descriptorPrototype__._create_(this);
 		}),
-		_getDescriptor_: d(function (sKey, dbEvent) {
+		_getOwnDescriptor_: d(function (sKey, dbEvent) {
 			if (this.hasOwnProperty('__descriptors__')) {
 				if (hasOwnProperty.call(this.__descriptors__, sKey)) {
 					return this.__descriptors__[sKey];
@@ -50,7 +50,7 @@ module.exports = function (db, object, descriptor) {
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			}
-			return this._getDescriptor_(sKey);
+			return this._getOwnDescriptor_(sKey);
 		}),
 
 		// Nested object

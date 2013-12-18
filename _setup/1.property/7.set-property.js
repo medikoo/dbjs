@@ -47,7 +47,7 @@ module.exports = function (db, object) {
 				db._postponed_ -= 1;
 				return result;
 			}
-			desc = this._getDescriptor_(sKey);
+			desc = this._getOwnDescriptor_(sKey);
 			has = desc.hasOwnProperty('_value_');
 			new Event(desc); //jslint: skip
 			if (desc.hasOwnProperty('__descriptors__')) {
@@ -67,7 +67,7 @@ module.exports = function (db, object) {
 			}
 
 			if (!desc.multiple || isGetter(value)) {
-				new Event(this._getDescriptor_(sKey), value); //jslint: skip
+				new Event(this._getOwnDescriptor_(sKey), value); //jslint: skip
 				db._postponed_ -= 1;
 				return this;
 			}
@@ -103,7 +103,7 @@ module.exports = function (db, object) {
 		_define_: d(function (sKey, meta) {
 			var desc, value;
 			db._postponed += 1;
-			desc = this._getDescriptor_(sKey);
+			desc = this._getOwnDescriptor_(sKey);
 			if (meta.value !== undefined) {
 				value = meta.value;
 				delete meta.value;

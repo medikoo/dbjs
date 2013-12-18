@@ -83,7 +83,7 @@ module.exports = function (db) {
 			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
 		}
 		if (!char) {
-			object = object._getDescriptor_(sKey);
+			object = object._getOwnDescriptor_(sKey);
 			return;
 		}
 		if (char === '/') {
@@ -128,14 +128,14 @@ module.exports = function (db) {
 		}
 		if (char !== '/') reject();
 		if (!sKey) object = object._descriptorPrototype_;
-		else object = object._getDescriptor_(sKey);
+		else object = object._getOwnDescriptor_(sKey);
 		return $descriptorProperty;
 	};
 
 	$descriptorProperty = function () {
 		var key = str.slice(i + 1);
 		object._serialize_(key);
-		object = object._getDescriptor_(key);
+		object = object._getOwnDescriptor_(key);
 	};
 
 	$item = function () {

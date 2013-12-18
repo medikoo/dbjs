@@ -26,7 +26,7 @@ setPrototypeOf(ObservableValue, Observable);
 ObservableValue.prototype = Object.create(proto, {
 	constructor: d(ObservableValue),
 	value: d.gs('', valueDesc.get, function (value) {
-		var desc = this.__object__._getDescriptor_(this.__pKey__);
+		var desc = this.__object__._getOwnDescriptor_(this.__pKey__);
 		desc._set_(this.__sKey__, desc._validateSet_(this.__sKey__, value));
 	}),
 	lastModified: d.gs(function () {

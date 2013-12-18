@@ -82,7 +82,7 @@ notifyDescs = function (obj, sKey, nu, map, isSingular, dbEvent, postponed) {
 };
 
 module.exports = function (proto, rKey, nu, map, isSinglr, dbEvent, postponed) {
-	var desc = proto._getDescriptor_(rKey);
+	var desc = proto._getOwnDescriptor_(rKey);
 	if (nu) defineProperty(desc, '_reverse_', d('c', map));
 	else delete desc._reverse_;
 	postponed = notify(proto, rKey, nu, map, isSinglr, dbEvent, postponed);

@@ -48,7 +48,7 @@ module.exports = function (object, descriptor, property) {
 			if (this[key] !== this._get_(key)) return null;
 			return this.__descriptors__[key] || null;
 		}),
-		_getDescriptor_: d(function (sKey) {
+		_getOwnDescriptor_: d(function (sKey) {
 			if (this.hasOwnProperty('__descriptors__')) {
 				if (hasOwnProperty.call(this.__descriptors__, sKey)) {
 					return this.__descriptors__[sKey];
@@ -65,7 +65,7 @@ module.exports = function (object, descriptor, property) {
 				throw new DbjsError(key + " is invalid property name",
 					'INVALID_PROPERTY_NAME');
 			}
-			return this._getDescriptor_(sKey);
+			return this._getOwnDescriptor_(sKey);
 		}),
 
 		// Observable

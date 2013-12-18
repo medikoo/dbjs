@@ -15,7 +15,7 @@ ReverseMap = module.exports = function (obj, sKey) {
 	var desc;
 	Map.call(this);
 	defineProperty(this, '__descriptor__', d('',
-		desc = obj._getDescriptor_(sKey)));
+		desc = obj._getOwnDescriptor_(sKey)));
 	desc = desc.__descriptors__.reverse;
 	if (!desc && (desc._value_ !== undefined)) obj._serialize_(desc._value_);
 	this._includeObjBranch_(obj, sKey, null, true);
