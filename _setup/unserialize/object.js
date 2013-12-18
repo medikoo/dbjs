@@ -142,7 +142,7 @@ module.exports = function (db) {
 		var sKey, key;
 		sKey = str.slice(i + 1);
 		key = unserializeKey(sKey, objects);
-		object = object._getMultipleItem_(pKey, key, sKey);
+		object = object._getOwnMultipleItem_(pKey, key, sKey);
 	};
 
 	return function (input, proto) {

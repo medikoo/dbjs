@@ -82,7 +82,7 @@ module.exports = function (db, object) {
 				current = primitiveSet.apply(null, keys(this.__multiples__[sKey]));
 			}
 			value.forEach(function (value) {
-				var item = this._getMultipleItem_(sKey, value, serialize(value));
+				var item = this._getOwnMultipleItem_(sKey, value, serialize(value));
 				if (current) delete current[item._sKey_];
 				new Event(item, true); //jslint: skip
 			}, this);
@@ -122,10 +122,10 @@ module.exports = function (db, object) {
 			return this;
 		}),
 		_multipleAdd_: d(function (pKey, key, sKey) {
-			new Event(this._getMultipleItem_(pKey, key, sKey), true); //jslint: skip
+			new Event(this._getOwnMultipleItem_(pKey, key, sKey), true); //jslint: skip
 		}),
 		_multipleDelete_: d(function (pKey, key, sKey) {
-			var item = this._getMultipleItem_(pKey, key, sKey)
+			var item = this._getOwnMultipleItem_(pKey, key, sKey)
 			  , has = item.hasOwnProperty('_value_') && Boolean(item._value_);
 			new Event(item); //jslint: skip
 			return has;

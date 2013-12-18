@@ -26,7 +26,7 @@ module.exports = function (object, item) {
 				multiples[pKey] = create(multiples[pKey] || null),
 				'__multiples__', pKey);
 		}),
-		_getMultipleItem_: d(function (pKey, key, sKey) {
+		_getOwnMultipleItem_: d(function (pKey, key, sKey) {
 			var setData = this._getMultipleItems_(pKey);
 			if (hasOwnProperty.call(setData, sKey)) return setData[sKey];
 			if (setData[sKey]) return setData[sKey]._create_(this, setData);

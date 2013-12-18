@@ -15,7 +15,7 @@ module.exports = function (t, a) {
 	}, "#1");
 
 	subObj = obj._getObject_('miszka')
-		._getMultipleItem_('elleo', 'wiadro', 'wiadro');
+		._getOwnMultipleItem_('elleo', 'wiadro', 'wiadro');
 	value = '11';
 	a.deep(t([stamp, subObj.__id__, value].join('.')), {
 		stamp: Number(stamp),
@@ -24,7 +24,7 @@ module.exports = function (t, a) {
 	}, "#2");
 
 	subObj = obj._getObject_(serialize('matoł". .. \n\n\n""""\'raz""dwa\n\r\r'))
-		._getMultipleItem_(serialize('ell" ""\n\':eo'), 'wia\n ::""..dro.',
+		._getOwnMultipleItem_(serialize('ell" ""\n\':eo'), 'wia\n ::""..dro.',
 			serialize('wia\n ::""..dro.'));
 	value = '11';
 	a.deep(t([stamp, subObj.__id__, value].join('.')), {

@@ -22,8 +22,8 @@ module.exports = function (a) {
 	a(isObservable(set._get('foo')), true, "Observable");
 
 	a.h1("forEachOwnItem");
-	obj._getMultipleItem_('raz', 'dwa', 'dwa');
-	obj._getMultipleItem_('trzy', 'trzy', 'trzy');
+	obj._getOwnMultipleItem_('raz', 'dwa', 'dwa');
+	obj._getOwnMultipleItem_('trzy', 'trzy', 'trzy');
 	args = primitiveSet('foo.foo', 'raz.dwa', 'trzy.trzy');
 	i = 0;
 	obj._forEachOwnItem_(function (item, key) {
