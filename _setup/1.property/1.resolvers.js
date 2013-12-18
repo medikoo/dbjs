@@ -52,6 +52,16 @@ module.exports = function (db, object, descriptor) {
 			}
 			return this._getOwnDescriptor_(sKey);
 		}),
+		_getDescriptor_: d(function (sKey) {
+			return this.__descriptors__[sKey] || this.__descriptorPrototype__;
+		}),
+		$get: d(function (key) {
+			var sKey = this._serialize_(key);
+			if (sKey == null) {
+				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
+			}
+			return this._getDescriptor_(sKey);
+		}),
 
 		// Nested object
 		_getObject_: d(function (sKey) {
