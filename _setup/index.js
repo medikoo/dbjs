@@ -107,9 +107,9 @@ module.exports = function (db) {
 		if (!object) object = proto;
 		return defineProperties(proto, assign({
 			__id__: d('', id),
+			_kind_: d('', kind),
 			master: d('', object),
 			object: d('', object),
-			_kind_: d('', kind),
 			database: d('', db),
 			toString: d('c', function () { return '[dbjs ' + this.__id__ + ']'; })
 		}, protoProperties));
