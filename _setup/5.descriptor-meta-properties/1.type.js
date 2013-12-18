@@ -16,7 +16,7 @@ var d              = require('d/d')
   , nuCache, oldCache, confirmItem;
 
 confirmItem = function (nu, old, item) {
-	var oldStatus, nuStatus, sKey = item._sKey_, key = item._key_;
+	var oldStatus, nuStatus, sKey = item._sKey_, key = item.key;
 	if (!oldCache) oldCache = create(null);
 	if (oldCache[sKey] != null) oldStatus = oldCache[sKey];
 	else oldStatus = oldCache[sKey] = (old.normalize(key, this) != null);

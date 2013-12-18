@@ -68,7 +68,7 @@ module.exports = function (db, descriptor) {
 				if (item._resolveValue_() == null) continue;
 				for (i = 0; (revMap = revs[i]); ++i) {
 					postponed = nu
-						? revMap._addRef_(item._sKey_, item._key_, obj, dbEvent, postponed)
+						? revMap._addRef_(item._sKey_, item.key, obj, dbEvent, postponed)
 						: revMap._deleteRef_(item._sKey_, obj, dbEvent, postponed);
 				}
 			}

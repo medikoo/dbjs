@@ -92,7 +92,7 @@ module.exports = function (descriptor) {
 					if (set) {
 						for (iKey in set) {
 							if (!set[iKey]._value_) continue;
-							if (obj._normalize_(set[iKey]._key_) == null) continue;
+							if (obj._normalize_(set[iKey].key) == null) continue;
 							return value; //jslint: skip
 						}
 					}

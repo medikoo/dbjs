@@ -40,7 +40,7 @@ MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 	_confirm: d(function (i) {
 		var set = this.__set__;
 		if (set.object._normalize_(set.__pKey__,
-				set.__setData__[this.__list__[i]]._key_) == null) {
+				set.__setData__[this.__list__[i]].key) == null) {
 			return this._next();
 		}
 		return i;
@@ -53,7 +53,7 @@ MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 		this._unBind();
 	}),
 	_resolve: d(function (i) {
-		var value = this.__set__.__setData__[this.__list__[i]]._key_;
+		var value = this.__set__.__setData__[this.__list__[i]].key;
 		return (this.__kind__ === 'value') ? value : [value, value];
 	}),
 	_unBind: d(function () {

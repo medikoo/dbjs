@@ -33,7 +33,7 @@ module.exports = function (object, accessCollector) {
 			for (iKey in data) {
 				item = data[iKey];
 				if (!item._value_) continue;
-				if (desc._normalizeValue_(item._key_) == null) continue;
+				if (desc._normalizeValue_(item.key) == null) continue;
 				++size;
 			}
 			return size;

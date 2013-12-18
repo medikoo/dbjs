@@ -72,7 +72,7 @@ notifyTurnedItem = function (obj, item, nu, old, dbEvent, postponed) {
 	else if (desc.type.isPrototypeOf(old)) oldValid = true;
 
 	if (nuValid === oldValid) return postponed;
-	return notifyMultiple(obj, item._pKey_, item._sKey_, item._key_, nuValid,
+	return notifyMultiple(obj, item._pKey_, item._sKey_, item.key, nuValid,
 		null, dbEvent, postponed);
 };
 

@@ -75,16 +75,16 @@ notify = function (obj, pKey, isMultiple, resolve, dbEvent, postponed) {
 			isPostponed = true;
 		}
 		if (set) {
-			if (value) set._emitAdd_(item._key_, dbEvent);
-			else set._emitDelete_(item._key_, dbEvent);
+			if (value) set._emitAdd_(item.key, dbEvent);
+			else set._emitDelete_(item.key, dbEvent);
 		}
 		if (revs) {
 			for (i = 0; (revMap = revs[i]); ++i) {
 				if (value) {
-					postponed = revMap._addRef_(serialize(item._key_), item._key_, obj,
+					postponed = revMap._addRef_(serialize(item.key), item.key, obj,
 						dbEvent, postponed);
 				} else {
-					postponed = revMap._deleteRef_(serialize(item._key_), obj,
+					postponed = revMap._deleteRef_(serialize(item.key), obj,
 						dbEvent, postponed);
 				}
 			}

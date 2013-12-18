@@ -43,8 +43,8 @@ module.exports = function (db, item, createObj) {
 	};
 
 	item = defineProperties(item, {
+		key: d('', undefined),
 		_pKey_: d('', ''),
-		_key_: d('', undefined),
 		_value_: d('', undefined),
 		_sKey_: d('', ''),
 		_create_: d(function (obj, pKey, key, sKey, setData) {
@@ -53,8 +53,8 @@ module.exports = function (db, item, createObj) {
 			item = createObj(this, obj.__id__ + '/' + pKey + '*' + sKey, obj);
 			setData[sKey] = item;
 			defineProperties(item, {
+				key: d('', key),
 				_pKey_: d('', pKey),
-				_key_: d('', key),
 				_sKey_: d('', sKey),
 				_create_: d(itemCreate)
 			});

@@ -43,13 +43,13 @@ module.exports = function (db, item) {
 			var old, has = this.hasOwnProperty('_value_'), postponed, assignments;
 			old = has ? this._value_ : undefined;
 			if (nu === old) return;
-			if (this._key_.__id__ && (this._key_._kind_ === 'object')) {
+			if (this.key.__id__ && (this.key._kind_ === 'object')) {
 				if (old || nu) {
-					assignments = this._key_._assignments_;
+					assignments = this.key._assignments_;
 					assignments._postponed_ += 1;
 					postponed = [assignments];
 					if (old) assignments._delete(this);
-					else if (nu) this._key_._assignments_._add(this);
+					else if (nu) this.key._assignments_._add(this);
 				}
 			}
 			old = Boolean(this._value_);
@@ -62,10 +62,10 @@ module.exports = function (db, item) {
 				dbEvent, postponed));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
-			postponed = notify(obj, this._pKey_, this._sKey_, this._key_,
+			postponed = notify(obj, this._pKey_, this._sKey_, this.key,
 				nu, dbEvent, postponed);
 			return notifyDescendants(obj, this._pKey_, this._sKey_,
-				this._key_, nu, dbEvent, postponed);
+				this.key, nu, dbEvent, postponed);
 		})
 	});
 };

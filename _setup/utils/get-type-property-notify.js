@@ -9,7 +9,7 @@ var isGetter       = require('../utils/is-getter')
   , nuCache, oldCache, confirmItem;
 
 confirmItem = function (oldType, nuDesc, oldDesc, item) {
-	var oldStatus, nuStatus, sKey = item._sKey_, key = item._key_;
+	var oldStatus, nuStatus, sKey = item._sKey_, key = item.key;
 	if (!oldCache) oldCache = create(null);
 	if (oldCache[sKey] != null) oldStatus = oldCache[sKey];
 	else oldStatus = oldCache[sKey] = (oldType.normalize(key, oldDesc) != null);
