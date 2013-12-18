@@ -109,6 +109,7 @@ turnDescs = function (obj, proto, postponed, done) {
 		if (!nu._sKey_ && descriptor._sKey_ &&
 				!descriptor.hasOwnProperty('_sKey_')) {
 			defineProperties(descriptor, {
+				_key_: d('', descriptor._key_),
 				_sKey_: d('', descriptor._sKey_),
 				_create_: d(descriptor._create_)
 			});
