@@ -1,11 +1,14 @@
 'use strict';
 
-var setPrototypeOf = require('es5-ext/object/set-prototype-of')
+var assign         = require('es5-ext/object/assign')
+  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
+  , lazy           = require('d/lazy')
   , Observable     = require('observable-value/value')
   , proto          = require('../_observable')
 
   , defineProperties = Object.defineProperties
+  , defineProperty = Object.defineProperty
   , valueDesc = Object.getOwnPropertyDescriptor(Observable.prototype, 'value')
   , ObservableValue;
 
@@ -26,7 +29,7 @@ ObservableValue = module.exports = function (object, pKey, sKey, key) {
 };
 setPrototypeOf(ObservableValue, Observable);
 
-ObservableValue.prototype = Object.create(proto, {
+ObservableValue.prototype = Object.create(proto, assign({
 	constructor: d(ObservableValue),
 	value: d.gs('', valueDesc.get, function (value) {
 		var set = this.object._getMultiple_(this.__pKey__);
@@ -42,9 +45,14 @@ ObservableValue.prototype = Object.create(proto, {
 		}
 		return this.__lastModified__;
 	}),
-	getDescriptor: d(function () {
-		var data = this.object.__multiples__[this.__pKey__];
-		if (!data) return this.object.__itemPrototype__;
-		return data[this.__sKey__] || this.object.__itemPrototype__;
+	descriptor: d.gs(function () {
+		return this.object._getMultipleItem_(this.__pKey__, this.__sKey__);
 	})
-});
+}, lazy({
+	ownDescriptor: d(function () {
+		var desc = this.object._getOwnMultipleItem_(this.__pKey__, this.key,
+			this.__sKey__);
+		defineProperty(this, 'descriptor', d('', desc));
+		return desc;
+	}, { desc: '' })
+})));

@@ -1,10 +1,13 @@
 'use strict';
 
-var setPrototypeOf = require('es5-ext/object/set-prototype-of')
+var assign         = require('es5-ext/object/assign')
+  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
+  , lazy           = require('d/lazy')
   , Observable     = require('observable-value/value')
   , proto          = require('../_observable')
 
+  , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
   , valueDesc = Object.getOwnPropertyDescriptor(Observable.prototype, 'value')
   , ObservableProperty;
@@ -22,7 +25,7 @@ module.exports = ObservableProperty = function (object, sKey) {
 };
 setPrototypeOf(ObservableProperty, Observable);
 
-ObservableProperty.prototype = Object.create(proto, {
+ObservableProperty.prototype = Object.create(proto, assign({
 	constructor: d(ObservableProperty),
 	value: d.gs('', valueDesc.get, function (value) {
 		var object = this.object, sKey = this.__sKey__;
@@ -35,7 +38,13 @@ ObservableProperty.prototype = Object.create(proto, {
 		}
 		return this.__lastModified__;
 	}),
-	getDescriptor: d(function () {
+	descriptor: d.gs(function () {
 		return this.object._getDescriptor_(this.__sKey__);
 	})
-});
+}, lazy({
+	ownDescriptor: d(function () {
+		var desc = this.object._getOwnDescriptor_(this.__sKey__);
+		defineProperty(this, 'descriptor', d('', desc));
+		return desc;
+	}, { desc: '' })
+})));
