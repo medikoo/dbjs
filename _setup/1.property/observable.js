@@ -3,7 +3,6 @@
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
   , Observable     = require('observable-value/value')
-  , getIdent       = require('../utils/get-ident')
   , proto          = require('../_observable')
 
   , defineProperties = Object.defineProperties
@@ -15,7 +14,7 @@ module.exports = ObservableProperty = function (object, sKey) {
 	defineProperties(this, {
 		__object__: d('', object),
 		__sKey__: d('', sKey),
-		__dbId__: d('', object.__id__ + '/' + getIdent(object._keys_[sKey], sKey))
+		__dbId__: d('', object.__id__ + '/' + sKey)
 	});
 	Observable.call(this, getter ? object._getDynamicValue_(sKey).value :
 			object._resolve_(sKey));

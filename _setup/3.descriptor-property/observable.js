@@ -3,7 +3,6 @@
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
   , Observable     = require('observable-value/value')
-  , getIdent       = require('../utils/get-ident')
   , proto          = require('../_observable')
 
   , defineProperties = Object.defineProperties
@@ -16,8 +15,7 @@ ObservableValue = module.exports = function (object, pKey, sKey) {
 		__object__: d('', object),
 		__pKey__: d('', pKey),
 		__sKey__: d('', sKey),
-		__dbId__: d('', object.__id__ + '$' + getIdent(object._keys_[pKey], pKey) +
-			'/' + sKey)
+		__dbId__: d('', object.__id__ + '$' + pKey + '/' + sKey)
 	});
 	desc = object.__descriptors__[pKey] || object.__descriptorPrototype__;
 	prop = desc.__descriptors__[sKey];
