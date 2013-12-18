@@ -89,8 +89,8 @@ module.exports = function (db, createObj, descriptor) {
 	};
 
 	defineProperties(descriptor, {
+		key: d('', undefined),
 		_sKey_: d('', ''),
-		_key_: d('', undefined),
 		_writable_: d('', false),
 		_extensible_: d('c', true),
 		_create_: d(function (obj) {
@@ -103,8 +103,8 @@ module.exports = function (db, createObj, descriptor) {
 			  , postponed, props;
 			obj._descriptors_[sKey] = descriptor;
 			props = {
+				key: d('', obj._keys_[sKey]),
 				_sKey_: d('', sKey),
-				_key_: d('', obj._keys_[sKey]),
 				_create_: d(descriptorCreate),
 				_value_: d('cw', undefined)
 			};
