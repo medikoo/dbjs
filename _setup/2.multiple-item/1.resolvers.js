@@ -73,7 +73,7 @@ module.exports = function (object, item) {
 		_multiples_: d(function () {
 			return injectPrimitive(this, create(this.__multiples__),
 				'__multiples__');
-		},  { cacheName: '__multiples__', desc: '' }),
+		}, { cacheName: '__multiples__', desc: '' }),
 
 		// Observable
 		_observableMultipleItems_: d(function () { return create(null); },
