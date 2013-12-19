@@ -1,6 +1,6 @@
 'use strict';
 
-var setPrototypeOf  = require('es5-ext/Object/set-prototype-of')
+var setPrototypeOf  = require('es5-ext/object/set-prototype-of')
   , d               = require('d/d')
   , PrimitiveSet    = require('observable-set/create-read-only')(
 	require('observable-set/primitive')
