@@ -16,6 +16,7 @@ module.exports = ObservableProperty = function (object, sKey) {
 	var getter = object._resolveGetter_(sKey);
 	defineProperties(this, {
 		object: d('', object),
+		key: d('', object._keys_[sKey]),
 		__sKey__: d('', sKey),
 		__dbId__: d('', object.__id__ + '/' + sKey)
 	});
