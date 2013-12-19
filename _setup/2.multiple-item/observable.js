@@ -17,9 +17,9 @@ ObservableValue = module.exports = function (object, pSKey, sKey, key) {
 	defineProperties(this, {
 		object: d('', object),
 		key: d('', key),
+		dbId: d('', object.__id__ + '/' + pSKey + '*' + sKey),
 		__pSKey__: d('', pSKey),
-		__sKey__: d('', sKey),
-		__dbId__: d('', object.__id__ + '/' + pSKey + '*' + sKey)
+		__sKey__: d('', sKey)
 	});
 	data = object.__multiples__[pSKey];
 	if (data) data = data[sKey];

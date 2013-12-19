@@ -17,8 +17,8 @@ ObservableValue = module.exports = function (object, pSKey, key) {
 	defineProperties(this, {
 		object: d('', object),
 		key: d('', key),
-		__pSKey__: d('', pSKey),
-		__dbId__: d('', object.__id__ + '$' + pSKey + '/' + key)
+		dbId: d('', object.__id__ + '$' + pSKey + '/' + key),
+		__pSKey__: d('', pSKey)
 	});
 	desc = object._getDescriptor_(pSKey);
 	prop = desc.__descriptors__[key];
