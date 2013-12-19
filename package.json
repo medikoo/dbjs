@@ -24,7 +24,7 @@
   "dependencies": {
     "d": "git://github.com/medikoo/d.git",
     "error-create": "git://github.com/medikoo/error-create.git",
-    "es5-ext": "git://github.com/medikoo/d.git",
+    "es5-ext": "git://github.com/medikoo/es5-ext.git",
     "es6-iterator": "git://github.com/medikoo/es6-iterator.git",
     "es6-map": "git://github.com/medikoo/es6-map.git",
     "es6-set": "git://github.com/medikoo/es6-set.git",
