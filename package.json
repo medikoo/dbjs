@@ -3,13 +3,6 @@
   "version": "0.0.1",
   "description": "Database engine",
   "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:medikoo/dbjs.git"
-  },
-  "scripts": {
-    "test": "node node_modules/tad/bin/tad"
-  },
   "keywords": [
     "database",
     "db",
@@ -21,6 +14,13 @@
     "mysql",
     "nosql"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:medikoo/dbjs.git"
+  },
+  "scripts": {
+    "test": "node node_modules/tad/bin/tad"
+  },
   "dependencies": {
     "d": "git://github.com/medikoo/d.git",
     "error-create": "git://github.com/medikoo/error-create.git",
