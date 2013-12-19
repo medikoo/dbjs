@@ -3,6 +3,7 @@
 var i              = require('es5-ext/function/i')
   , isFunction     = require('es5-ext/function/is-function')
   , assign         = require('es5-ext/object/assign')
+  , create         = require('es5-ext/object/create')
   , mixin          = require('es5-ext/object/mixin')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
@@ -17,7 +18,7 @@ var i              = require('es5-ext/function/i')
   , unserialize    = require('../unserialize/key')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
-  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty, keys = Object.keys
   , getPrototypeOf = Object.getPrototypeOf
   , isValidTypeName = RegExp.prototype.test.bind(/^[A-Z][0-9a-zA-Z]*$/)

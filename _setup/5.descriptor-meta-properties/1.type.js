@@ -1,6 +1,7 @@
 'use strict';
 
-var d              = require('d/d')
+var create         = require('es5-ext/object/create')
+  , d              = require('d/d')
   , DbjsError      = require('../error')
   , isGetter       = require('../utils/is-getter')
   , turnPrototype  = require('../utils/propagate-prototype-turn').object
@@ -9,7 +10,7 @@ var d              = require('d/d')
   , notifyProperty = require('../notify/property')
   , notifyReverse  = require('../notify/reverse-all')
 
-  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
   , getPrototypeOf = Object.getPrototypeOf
 

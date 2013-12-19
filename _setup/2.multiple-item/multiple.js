@@ -1,6 +1,7 @@
 'use strict';
 
 var assign           = require('es5-ext/object/assign')
+  , create           = require('es5-ext/object/create')
   , d                = require('d/d')
   , lazy             = require('d/lazy')
   , Set              = require('es6-set/polyfill')
@@ -10,8 +11,7 @@ var assign           = require('es5-ext/object/assign')
   , defineObservable = require('../utils/define-set-observable')
   , Iterator         = require('./iterator')
 
-  , create = Object.create, keys = Object.keys
-  , defineProperties = Object.defineProperties
+  , keys = Object.keys, defineProperties = Object.defineProperties
   , isTruthy, Multiple;
 
 isTruthy = function (sKey) {

@@ -2,6 +2,7 @@
 
 var remove         = require('es5-ext/array/#/remove')
   , assign         = require('es5-ext/object/assign')
+  , create         = require('es5-ext/object/create')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
   , autoBind       = require('d/auto-bind')
@@ -9,7 +10,7 @@ var remove         = require('es5-ext/array/#/remove')
   , kinds          = require('es6-map/_iterator-kinds')
 
   , push = Array.prototype.push, hasOwnProperty = Object.hasOwnProperty
-  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties
   , unBind = Iterator.prototype._unBind
   , ObjectIterator, getCompareByLastModified;
 

@@ -2,6 +2,7 @@
 
 var pluck        = require('es5-ext/function/pluck')
   , copy         = require('es5-ext/object/copy')
+  , create       = require('es5-ext/object/create')
   , forEach      = require('es5-ext/object/for-each')
   , mixin        = require('es5-ext/object/mixin')
   , primitiveSet = require('es5-ext/object/primitive-set')
@@ -14,7 +15,7 @@ var pluck        = require('es5-ext/function/pluck')
 
   , push = Array.prototype.push
   , keys = Object.keys, hasOwnProperty = Object.prototype.hasOwnProperty
-  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties
   , getPrototypeOf = Object.getPrototypeOf
   , getMessage = pluck('message');
 

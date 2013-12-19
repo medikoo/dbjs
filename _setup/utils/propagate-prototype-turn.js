@@ -1,11 +1,12 @@
 'use strict';
 
-var notifyReverse = require('../notify/reverse-all')
+var create        = require('es5-ext/object/create')
+  , notifyReverse = require('../notify/reverse-all')
   , onValueTurn   = require('../notify/on-value-turn')
   , turn          = require('./turn-prototype')
 
   , hasOwnProperty = Object.hasOwnProperty, keys = Object.keys
-  , create = Object.create, getPrototypeOf = Object.getPrototypeOf
+  , getPrototypeOf = Object.getPrototypeOf
   , isObjectId = RegExp.prototype.test.bind(/^[0-9a-z][A-Za-z0-9]*$/)
 
   , snapshotObservableObj, snapshotObservableObjKey, switchReverse

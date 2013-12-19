@@ -1,11 +1,11 @@
 'use strict';
 
-var isGetter       = require('../utils/is-getter')
+var create         = require('es5-ext/object/create')
+  , isGetter       = require('../utils/is-getter')
   , notifyDynamic  = require('../notify/dynamic')
   , notifyItems    = require('../notify/items')
   , notifyProperty = require('../notify/property')
 
-  , create = Object.create
   , nuCache, oldCache, confirmItem;
 
 confirmItem = function (oldType, nuDesc, oldDesc, item) {

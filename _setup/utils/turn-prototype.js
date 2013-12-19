@@ -1,12 +1,13 @@
 'use strict';
 
-var d              = require('d/d')
+var create         = require('es5-ext/object/create')
+  , d              = require('d/d')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
 
   , hasOwnProperty = Object.hasOwnProperty
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
-  , create = Object.create, getPrototypeOf = Object.getPrototypeOf
+  , getPrototypeOf = Object.getPrototypeOf
   , keys = Object.keys
 
   , turnDescProto, turnDescMaps, turnDescs

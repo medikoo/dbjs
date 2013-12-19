@@ -1,6 +1,7 @@
 'use strict';
 
 var assign            = require('es5-ext/object/assign')
+  , create            = require('es5-ext/object/create')
   , primitiveSet      = require('es5-ext/object/primitive-set')
   , d                 = require('d/d')
   , lazy              = require('d/lazy')
@@ -18,7 +19,7 @@ var assign            = require('es5-ext/object/assign')
   , setupDescMeta     = require('./5.descriptor-meta-properties')
   , validDbjsObject   = require('../valid-dbjs-object')
 
-  , create = Object.create, defineProperty = Object.defineProperty
+  , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
   , getPrototypeOf = Object.getPrototypeOf
   , idDesc = d('', undefined)

@@ -1,13 +1,14 @@
 'use strict';
 
-var callable   = require('es5-ext/object/valid-callable')
+var create     = require('es5-ext/object/create')
+  , callable   = require('es5-ext/object/valid-callable')
   , d          = require('d/d')
   , DbjsError  = require('../error')
   , serialize  = require('../serialize/key')
   , Iterator   = require('./iterator')
   , getMessage = require('../utils/get-sub-error-message')
 
-  , call = Function.prototype.call, create = Object.create
+  , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties, keys = Object.keys;
 

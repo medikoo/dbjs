@@ -1,6 +1,7 @@
 'use strict';
 
 var assign          = require('es5-ext/object/assign')
+  , create          = require('es5-ext/object/create')
   , callable        = require('es5-ext/object/valid-callable')
   , d               = require('d/d')
   , lazy            = require('d/lazy')
@@ -10,7 +11,7 @@ var assign          = require('es5-ext/object/assign')
 
   , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty, keys = Object.keys
-  , create = Object.create, defineProperties = Object.defineProperties;
+  , defineProperties = Object.defineProperties;
 
 module.exports = function (object, descriptor, property) {
 	defineProperties(object, assign({

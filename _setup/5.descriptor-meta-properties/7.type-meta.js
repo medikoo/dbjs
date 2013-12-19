@@ -1,11 +1,12 @@
 'use strict';
 
-var d                     = require('d/d')
+var create                = require('es5-ext/object/create')
+  , d                     = require('d/d')
   , getTypePropertyNotify = require('../utils/get-type-property-notify')
   , resolveValue          = require('../utils/resolve-value')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
-  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
 
   , configure;

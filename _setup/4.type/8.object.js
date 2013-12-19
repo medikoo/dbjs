@@ -2,6 +2,7 @@
 
 var isFunction = require('es5-ext/function/is-function')
   , assign     = require('es5-ext/object/assign')
+  , create     = require('es5-ext/object/create')
   , d          = require('d/d')
   , lazy       = require('d/lazy')
   , uuid       = require('time-uuid')
@@ -11,7 +12,7 @@ var isFunction = require('es5-ext/function/is-function')
   , serialize  = require('../serialize/object')
 
   , slice = Array.prototype.slice
-  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
   , isValidObjectName = RegExp.prototype.test.bind(/^[a-z][0-9a-zA-Z]*$/)
   , filter = function (obj) { return obj.constructor.prototype !== obj; };

@@ -1,13 +1,14 @@
 'use strict';
 
-var setPrototypeOf   = require('es5-ext/object/set-prototype-of')
+var create           = require('es5-ext/object/create')
+  , setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , d                = require('d/d')
   , Set              = require('es6-set/polyfill')
   , notifyProperty   = require('../notify/property')
   , DbjsError        = require('../error')
   , defineObservable = require('../utils/define-set-observable')
 
-  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties
   , ReverseSet;
 
 ReverseSet = module.exports = function (key, sKey, descriptor) {
