@@ -58,4 +58,6 @@ module.exports = function (a) {
 	}), ownDesc);
 	a(ownDesc.raz, 23, "Value");
 	a(ownDesc.dwa, 2, "Value #2");
+	a.throws(function () { ownDesc.setProperties({ 0: 'raz' }); },
+		'SET_PROPERTIES_ERROR', "Invalid property name");
 };

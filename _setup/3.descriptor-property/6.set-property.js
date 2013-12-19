@@ -76,7 +76,7 @@ module.exports = function (db, descriptor, property) {
 			result = {};
 			forEach(props, function (value, key) {
 				var sKey = this._serialize_(key), error;
-				if (key == null) {
+				if (sKey == null) {
 					error = new DbjsError(key + " is invalid property name",
 						'INVALID_PROPERTY_NAME');
 					if (!errors) errors = [];
