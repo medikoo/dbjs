@@ -9,7 +9,7 @@ var d         = require('d/d')
   , increment = now.increment
   , count = 0, Event;
 
-Event = module.exports = function (obj, value, stamp) {
+Event = module.exports = function (obj, value, stamp, sourceId) {
 	this.object = obj;
 	this.value = value;
 	this.index = ++count;
@@ -23,6 +23,7 @@ Event = module.exports = function (obj, value, stamp) {
 		}
 	}
 	this.stamp = stamp;
+	if (sourceId != null) this.sourceId = sourceId;
 	this.status = 1;
 	obj._history_._add_(this);
 	this.status = 2;
