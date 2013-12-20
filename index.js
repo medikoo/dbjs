@@ -12,6 +12,7 @@ var assign           = require('es5-ext/object/assign')
   , push = Array.prototype.push
   , defineProperties = Object.defineProperties
   , release = function (obj) { obj._postponed_ -= 1; }
+  , byIndex = function (a, b) { return a.index - b.index; }
   , Database, notifyDynamic;
 
 notifyDynamic = function (postponed, obj) {
@@ -36,6 +37,14 @@ ee(defineProperties(Database.prototype, assign({
 		var data = unserializeEvent(str);
 		new Event(this.objects.unserialize(data.id),
 			unserializeValue(data.value, this.objects), data.stamp); //jslint: skip
+	}),
+	getSnapshot: d(function (/*options*/) {
+		var result = [];
+		this.objects._plainForEach_(function (obj) {
+			var event = obj._lastOwnEvent_;
+			if (event && (event.value !== undefined)) result.push(event);
+		});
+		return result.sort(byIndex);
 	}),
 	_postponed_: d.gs(function () {
 		return this.__postponed__;
