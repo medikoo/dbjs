@@ -1,21 +1,37 @@
 'use strict';
 
-var isFunction = require('es5-ext/function/is-function')
-  , assign     = require('es5-ext/object/assign')
-  , create     = require('es5-ext/object/create')
-  , d          = require('d/d')
-  , lazy       = require('d/lazy')
-  , uuid       = require('time-uuid')
-  , MultiSet   = require('observable-multi-set')
-  , DbjsError  = require('../error')
-  , Event      = require('../event')
-  , serialize  = require('../serialize/object')
+var identity    = require('es5-ext/function/i')
+  , isFunction  = require('es5-ext/function/is-function')
+  , assign      = require('es5-ext/object/assign-multiple')
+  , create      = require('es5-ext/object/create')
+  , Set         = require('es6-set')
+  , memoize     = require('memoizee/lib/regular')
+  , memoizeDesc = require('memoizee/lib/d')(memoize)
+  , d           = require('d/d')
+  , lazy        = require('d/lazy')
+  , uuid        = require('time-uuid')
+  , MultiSet    = require('observable-multi-set/primitive')
+  , DbjsError   = require('../error')
+  , Event       = require('../event')
+  , serialize   = require('../serialize/object')
 
   , slice = Array.prototype.slice
   , defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
   , isValidObjectName = RegExp.prototype.test.bind(/^[a-z][0-9a-zA-Z]*$/)
-  , filter = function (obj) { return obj.constructor.prototype !== obj; };
+  , filter = function (obj) { return obj.constructor.prototype !== obj; }
+  , filterValue = function (value) { return value == null; }
+  , filterNull = function (value) { return value != null; }
+  , resolveFilter;
+
+require('memoizee/lib/ext/resolvers');
+
+resolveFilter = memoize(function (filter) {
+	if (filter === undefined) return filterNull;
+	if (filter === null) return filterValue;
+	if (typeof filter === 'function') return filter;
+	return function (value) { return value === filter; };
+});
 
 module.exports = function (db) {
 	var ObjectType = db.Base._extend_('Object')
@@ -75,7 +91,31 @@ module.exports = function (db) {
 			obj._initialize_.apply(obj, args);
 			return obj;
 		})
-	}, lazy({
+	}, memoizeDesc({
+		filterByKey: d(function (key, filter) {
+			var sKey = this._serialize_(key), set;
+			if (sKey == null) {
+				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
+			}
+			set = this.instances.filter(function (obj) {
+				var observable, current;
+				observable = obj._getObservable_(sKey);
+				observable.on('change', function (event) {
+					var value = event.newValue;
+					value = Boolean(filter(value, obj));
+					if (value === current) return;
+					set.refresh(obj);
+				});
+				(current = Boolean(filter(observable.value, obj)));
+				return current;
+			});
+			return set;
+		}, {
+			resolvers: [identity, resolveFilter],
+			cacheName: '__filterByKey__',
+			desc: ''
+		})
+	}), lazy({
 		instances: d(function () {
 			var sets = new Set(), onAdd, onDelete, onChange, multi;
 			onAdd = function (Constructor) {
