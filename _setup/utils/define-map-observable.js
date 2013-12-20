@@ -142,15 +142,6 @@ module.exports = function (prototype, onInit) {
 		});
 	});
 
-	// Observable triggers:
-	['filter', 'map', 'subset', 'toSet'].forEach(function (name) {
-		var method = prototype[name];
-		properties[name] = d(function (arg) {
-			this._makeObservable_();
-			return method.apply(this, arguments);
-		});
-	});
-
 	defineProperties(prototype, properties);
 
 	return prototype;

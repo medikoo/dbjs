@@ -121,14 +121,5 @@ module.exports = function (prototype, onInit) {
 		});
 	});
 
-	// Observable triggers:
-	['filter', 'map', 'and', 'or', 'not', 'toArray'].forEach(function (name) {
-		var method = prototype[name];
-		properties[name] = d(function (arg) {
-			this._makeObservable_();
-			return method.apply(this, arguments);
-		});
-	});
-
 	return defineProperties(prototype, properties);
 };
