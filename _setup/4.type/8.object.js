@@ -16,13 +16,13 @@ var identity    = require('es5-ext/function/i')
   , serialize   = require('../serialize/object')
 
   , slice = Array.prototype.slice
-  , defineProperties = Object.defineProperties
+  , keys = Object.keys, defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
   , isValidObjectName = RegExp.prototype.test.bind(/^[a-z][0-9a-zA-Z]*$/)
   , filter = function (obj) { return obj.constructor.prototype !== obj; }
   , filterValue = function (value) { return value == null; }
   , filterNull = function (value) { return value != null; }
-  , resolveFilter;
+  , getById, resolveFilter;
 
 require('memoizee/lib/ext/resolvers');
 
@@ -32,6 +32,17 @@ resolveFilter = memoize(function (filter) {
 	if (typeof filter === 'function') return filter;
 	return function (value) { return value === filter; };
 });
+
+getById = function (proto, id) {
+	var obj;
+	if (!proto.hasOwnProperty('__descendants__')) return null;
+	obj = proto.__descendants__.__setData__[id];
+	if (obj) return obj;
+	keys(proto.__descendants__.__setData__).some(function (key) {
+		return (obj = getById(this[key], id));
+	}, proto.__descendants__.__setData__);
+	return obj;
+};
 
 module.exports = function (db) {
 	var ObjectType = db.Base._extend_('Object')
@@ -90,7 +101,8 @@ module.exports = function (db) {
 			new Event(obj, this.prototype); //jslint: skip
 			obj._initialize_.apply(obj, args);
 			return obj;
-		})
+		}),
+		getById: d(function (id) { return getById(this.prototype, id); })
 	}, memoizeDesc({
 		filterByKey: d(function (key, filter) {
 			var sKey = this._serialize_(key), set;

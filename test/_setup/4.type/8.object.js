@@ -158,6 +158,18 @@ module.exports = function (a) {
 
 			obj2.foo = 'bwa';
 			a.deep(toArray(set), [obj1, obj2, obj3], "Update same property twice");
+		},
+		"Get by Id": function (a) {
+			var db = new Database(), Type = db.Object.extend('ObjectType')
+			  , obj1, obj2;
+
+			obj1 = new db.Object();
+			obj2 = new Type();
+
+			a(db.Object.getById(obj1.__id__), obj1, "Direct instance");
+			a(db.Object.getById(obj2.__id__), obj2, "Extension instance");
+			a(Type.getById(obj1.__id__), null, "Not found");
+			a(Type.getById(obj2.__id__), obj2, "Extension search");
 		}
 	};
 };
