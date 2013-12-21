@@ -23,6 +23,7 @@ isTruthy = function (sKey) {
 module.exports = Multiple = function (obj, pSKey) {
 	defineProperties(this, {
 		object: d('', obj),
+		dbId: d('', obj.__id__ + '/' + pSKey),
 		__pSKey__: d('', pSKey),
 		__setData__: d('', obj._getMultipleItems_(pSKey))
 	});
