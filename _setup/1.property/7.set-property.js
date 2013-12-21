@@ -1,7 +1,6 @@
 'use strict';
 
-var pluck        = require('es5-ext/function/pluck')
-  , copy         = require('es5-ext/object/copy')
+var copy         = require('es5-ext/object/copy')
   , create       = require('es5-ext/object/create')
   , forEach      = require('es5-ext/object/for-each')
   , mixin        = require('es5-ext/object/mixin')
@@ -11,13 +10,13 @@ var pluck        = require('es5-ext/function/pluck')
   , DbjsError    = require('../error')
   , Event        = require('../event')
   , isGetter     = require('../utils/is-getter')
+  , getMessage   = require('../utils/get-sub-error-message')
   , serialize    = require('../serialize/key')
 
   , push = Array.prototype.push
   , keys = Object.keys, hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties
-  , getPrototypeOf = Object.getPrototypeOf
-  , getMessage = pluck('message');
+  , getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (db, object) {
 	defineProperties(object, {
