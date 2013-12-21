@@ -12,4 +12,7 @@ module.exports = function (a) {
 
 	db.unserializeEvent(String(getUid()) + '.' + obj1.__id__ + '/test.3bar');
 	a(obj1.test, 'bar', "Unserialize event");
+
+	db._update_(obj1.__id__ + '/test', 'marko');
+	a(obj1.test, 'marko', "_update_");
 };

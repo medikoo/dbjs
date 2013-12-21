@@ -8,6 +8,7 @@ var assign           = require('es5-ext/object/assign')
   , unserializeEvent = require('./_setup/unserialize/event')
   , unserializeValue = require('./_setup/unserialize/value')
   , setup            = require('./_setup')
+  , validValue       = require('./valid-dbjs-value')
 
   , push = Array.prototype.push
   , defineProperties = Object.defineProperties
@@ -46,6 +47,12 @@ ee(defineProperties(Database.prototype, assign({
 			if (event && (event.value !== undefined)) result.push(event);
 		});
 		return result.sort(byIndex);
+	}),
+	_update_: d(function (id, value) {
+		var obj;
+		validValue(value);
+		obj = this.objects.unserialize(id, value);
+		new Event(obj, value); //jslint: skip
 	}),
 	_postponed_: d.gs(function () {
 		return this.__postponed__;
