@@ -85,7 +85,8 @@ module.exports = function (db) {
 			if (!trail) return value;
 			sign = (value >= 0) ? 1 : -1;
 			return sign * floor(abs(value) * (1 / step)) * step;
-		})
+		}),
+		compare: d(function (a, b) { return Number(a) - Number(b); })
 	});
 
 	mixin(NumberType.prototype, Number.prototype);

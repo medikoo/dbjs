@@ -1,11 +1,13 @@
 'use strict';
 
-var i              = require('es5-ext/function/i')
+var isDate         = require('es5-ext/date/is-date')
+  , i              = require('es5-ext/function/i')
   , isFunction     = require('es5-ext/function/is-function')
   , assign         = require('es5-ext/object/assign')
   , create         = require('es5-ext/object/create')
   , mixin          = require('es5-ext/object/mixin')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
+  , isRegExp     = require('es5-ext/reg-exp/is-reg-exp')
   , d              = require('d/d')
   , lazy           = require('d/lazy')
   , DbjsError      = require('../error')
@@ -22,6 +24,8 @@ var i              = require('es5-ext/function/i')
   , defineProperty = Object.defineProperty, keys = Object.keys
   , getPrototypeOf = Object.getPrototypeOf
   , isValidTypeName = RegExp.prototype.test.bind(/^[A-Z][0-9a-zA-Z]*$/)
+  , typeMap = { boolean: 1, number: 2, string: 3, function: 4,  object: 4 }
+  , getObjectType
   , destroy = function (sKey) { this[sKey]._destroy_(); }
   , updateObjEnum;
 
@@ -33,6 +37,13 @@ updateObjEnum = function (obj) {
 		if (desc.nested || desc.multiple) updateEnum(obj, sKey, true);
 	}
 	return obj;
+};
+
+getObjectType = function (value) {
+	if (isDate(value)) return 4;
+	if (isRegExp(value)) return 5;
+	if (typeof value === 'function') return 6;
+	return 7;
 };
 
 module.exports = function (db, createObj, object) {
@@ -122,6 +133,25 @@ module.exports = function (db, createObj, object) {
 					'NOT_SUPPORTED_VALUE');
 			}
 			return value;
+		}),
+		compare: d(function (a, b) {
+			var aType, bType;
+			if (a == null) {
+				if (b == null) return 0;
+				return -Infinity;
+			}
+			if (b == null) return Infinity;
+			aType = typeMap[typeof a];
+			bType = typeMap[typeof b];
+			if (aType !== bType) return aType - bType;
+			if ((aType === 1) || (aType === 2)) return a - b;
+			if (aType === 3) return String(a).localeCompare(b);
+			aType = getObjectType(a);
+			bType = getObjectType(b);
+			if (aType !== bType) return aType - bType;
+			if (aType === 4) return a - b;
+			if ((aType === 5) || (aType === 6)) return String(a).localeCompare(b);
+			return String(a.__id__).localeCompare(b.__id__);
 		}),
 		_extend_: d(function (name) {
 			var constructor = function Self(value) {

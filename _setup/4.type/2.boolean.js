@@ -16,6 +16,7 @@ module.exports = function (db) {
 		is: d(function (value) { return typeof value === 'boolean'; }),
 		normalize: d(Boolean),
 		validate: d(Boolean),
+		compare: d(function (a, b) { return Boolean(a) - Boolean(b); }),
 		trueLabel: d('True'),
 		falseLabel: d('False')
 	});

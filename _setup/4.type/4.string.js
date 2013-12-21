@@ -77,7 +77,8 @@ module.exports = function (db) {
 				throw new DbjsError("String too long", 'STRING_TOO_LONG');
 			}
 			return value;
-		})
+		}),
+		compare: d(function (a, b) { return String(a).localeCompare(b); })
 	});
 
 	mixin(StringType.prototype, String.prototype);

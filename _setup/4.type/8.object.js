@@ -75,6 +75,9 @@ module.exports = function (db) {
 			throw new DbjsError(value + " is not a " + this.__id__,
 				'INVALID_OBJECT_TYPE');
 		}),
+		compare: d(function (a, b) {
+			return String(a.__id__).localeCompare(b.__id__);
+		}),
 		_createAndInitialize_: d(function (props) {
 			var obj = this._create_(uuid());
 			new Event(obj, this.prototype); //jslint: skip

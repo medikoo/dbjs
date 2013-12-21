@@ -37,7 +37,8 @@ module.exports = function (db) {
 					'FUNCTION_GETTER');
 			}
 			return setPrototypeOf(value, this.prototype);
-		})
+		}),
+		compare: d(function (a, b) { return String(a).localeCompare(b); })
 	});
 
 	mixin(FunctionType.prototype, Function.prototype);

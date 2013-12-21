@@ -101,6 +101,7 @@ module.exports = function (db) {
 			value.setTime(sign * floor(abs(value) * (1 / step)) * step);
 			return setPrototypeOf(value, this.prototype);
 		}),
+		compare: d(function (a, b) { return a - b; }),
 		_validateCreate_: d(function (value/*[, mth[, d[, h[, mn[, s[, ms]]]]]]*/) {
 			var l = arguments.length;
 			if (!l) {

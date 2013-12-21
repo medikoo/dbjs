@@ -40,7 +40,8 @@ module.exports = function (db) {
 				}
 			}
 			return setPrototypeOf(value, this.prototype);
-		})
+		}),
+		compare: d(function (a, b) { return String(a).localeCompare(b); })
 	});
 
 	mixin(RegExpType.prototype, RegExp.prototype);
