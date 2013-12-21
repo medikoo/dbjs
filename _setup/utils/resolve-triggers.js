@@ -1,9 +1,12 @@
 'use strict';
 
 var remove         = require('es5-ext/array/#/remove')
+  , primitiveSet   = require('es5-ext/object/primitive-set')
   , isObservable   = require('observable-value/is-observable')
   , resolveStatic  = require('./resolve-static-triggers')
-  , resolveDynamic = require('./resolve-dynamic-triggers');
+  , resolveDynamic = require('./resolve-dynamic-triggers')
+
+  , ignored = primitiveSet('database', 'master', 'object', 'key');
 
 module.exports = function (obj, getter, update) {
 	var result, clear = [], origin = getter
@@ -12,6 +15,7 @@ module.exports = function (obj, getter, update) {
 	resolveStatic(getter).forEach(function (name) {
 		var observable, current, listener, value, listeners;
 		if (name[0] === '_') return;
+		if (ignored[name]) return;
 		observable = obj._get(name);
 		observable._dynamicListeners_.push(listener = function (event, held) {
 			var listeners, nu = observable.value;
