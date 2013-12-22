@@ -6,6 +6,7 @@ var create           = require('es5-ext/object/create')
   , Set              = require('es6-set/polyfill')
   , notifyProperty   = require('../notify/property')
   , DbjsError        = require('../error')
+  , ObjectsSet       = require('../objects-set')
   , defineObservable = require('../utils/define-set-observable')
 
   , defineProperties = Object.defineProperties
@@ -135,4 +136,6 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 	})
 });
 
+ReverseSet.prototype.constructor = ObjectsSet;
 defineObservable(ReverseSet.prototype);
+ReverseSet.prototype.constructor = ReverseSet;
