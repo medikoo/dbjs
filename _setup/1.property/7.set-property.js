@@ -196,7 +196,14 @@ module.exports = function (db, object) {
 					result[sKey] = this._validateDefine_(sKey, value);
 				} catch (e) {
 					if (e.name !== 'DbjsError') throw e;
-					if (!e.errors) e.key = key;
+					if (!e.errors) {
+						e.key = key;
+					} else {
+						e.errors.forEach(function (error) {
+							if (error.key) error.key = key + '/' + error.key;
+							else error.key = key;
+						});
+					}
 					if (errors) {
 						if (e.errors) push.apply(errors, e.errors);
 						else errors.push(e);
