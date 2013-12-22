@@ -1,17 +1,17 @@
 'use strict';
 
-var setPrototypeOf  = require('es5-ext/object/set-prototype-of')
-  , d               = require('d/d')
-  , PrimitiveSet    = require('observable-set/create-read-only')(
-	require('observable-set/primitive')
-)
-  , serializeObject = require('./serialize/object')
-  , defFilterByKey  = require('./utils/define-filter-by-key')
+var setPrototypeOf   = require('es5-ext/object/set-prototype-of')
+  , d                = require('d/d')
+  , PrimitiveSet     = require('es6-set/primitive')
+  , createReadOnly   = require('observable-set/create-read-only')
+  , createObservable = require('observable-set/create-complete')
+  , serializeObject  = require('./serialize/object')
+  , defFilterByKey   = require('./utils/define-filter-by-key')
 
   , keys = Object.keys
   , ObjectsSet;
 
-ObjectsSet = module.exports = function () { PrimitiveSet.call(this); };
+ObjectsSet = function () { PrimitiveSet.call(this); };
 setPrototypeOf(ObjectsSet, PrimitiveSet);
 
 ObjectsSet.prototype = Object.create(PrimitiveSet.prototype, {
@@ -27,3 +27,5 @@ ObjectsSet.prototype = Object.create(PrimitiveSet.prototype, {
 });
 
 defFilterByKey(ObjectsSet.prototype);
+
+module.exports = createReadOnly(createObservable(ObjectsSet));
