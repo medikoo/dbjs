@@ -1,7 +1,7 @@
 'use strict';
 
 var assign           = require('es5-ext/object/assign')
-  , create            = require('es5-ext/object/create')
+  , create           = require('es5-ext/object/create')
   , eq               = require('es5-ext/object/eq')
   , setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , forOf            = require('es6-iterator/for-of')
