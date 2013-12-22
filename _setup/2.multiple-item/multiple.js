@@ -6,6 +6,8 @@ var assign           = require('es5-ext/object/assign')
   , lazy             = require('d/lazy')
   , Set              = require('es6-set/polyfill')
   , setCopy          = require('es6-set/ext/copy')
+  , setEvery         = require('es6-set/ext/every')
+  , setSome          = require('es6-set/ext/some')
   , DbjsError        = require('../error')
   , Event            = require('../event')
   , serialize        = require('../serialize/key')
@@ -70,6 +72,8 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	values: d(function () { return new Iterator(this); }),
 	copy: d(setCopy),
+	every: d(setEvery),
+	some: d(setSome),
 	$getOwn: d(function (key) {
 		key = this._validate_(key);
 		return this.object._getOwnMultipleItem_(this.__pSKey__,
