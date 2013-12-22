@@ -6,6 +6,7 @@ var assign           = require('es5-ext/object/assign')
   , setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , forOf            = require('es6-iterator/for-of')
   , isIterable       = require('es6-iterator/is-iterable')
+  , setCopy          = require('es6-set/ext/copy')
   , d                = require('d/d')
   , lazy             = require('d/lazy')
   , Set              = require('observable-set/create-read-only')(
@@ -48,6 +49,7 @@ setPrototypeOf(Multiple, Set);
 
 Multiple.prototype = create(Set.prototype, assign({
 	constructor: d(Multiple),
+	copy: d(setCopy),
 	_doClear_: d(function (dbEvent) {
 		var event;
 		if (!this.__isObservable__) {
