@@ -6,7 +6,8 @@ var remove         = require('es5-ext/array/#/remove')
   , resolveStatic  = require('./resolve-static-triggers')
   , resolveDynamic = require('./resolve-dynamic-triggers')
 
-  , ignored = primitiveSet('database', 'master', 'object', 'key');
+  , ignored = primitiveSet('constructor', 'database', 'master', 'object',
+		'key');
 
 module.exports = function (obj, getter, update) {
 	var result, clear = [], origin = getter
