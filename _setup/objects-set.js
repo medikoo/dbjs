@@ -6,6 +6,7 @@ var setPrototypeOf  = require('es5-ext/object/set-prototype-of')
 	require('observable-set/primitive')
 )
   , serializeObject = require('./serialize/object')
+  , defFilterByKey  = require('./utils/define-filter-by-key')
 
   , keys = Object.keys
   , ObjectsSet;
@@ -24,3 +25,5 @@ ObjectsSet.prototype = Object.create(PrimitiveSet.prototype, {
 		}, this.__setData__);
 	})
 });
+
+defFilterByKey(ObjectsSet.prototype);
