@@ -10,13 +10,22 @@ var create     = require('es5-ext/object/create')
 
   , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty
+  , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties, keys = Object.keys;
 
 module.exports = function (object) {
-	var defineAccessors, accessors = create(null);
+	var defineAccessors, accessors = create(null)
+	  , v8FixStep = 1000, v8FixInsertCount = 1, v8PropsCount = 0;
 
 	defineAccessors = function (key, sKey) {
 		var descs = {}, accessor;
+		if (v8PropsCount > (v8FixStep * v8FixInsertCount)) {
+			// Workaround for weird v8 bug
+			defineProperty(object, '___v8PropsFix___', d(null));
+			delete object.___v8PropsFix___;
+			++v8FixInsertCount;
+		}
+		v8PropsCount += 3;
 		descs[key] = accessor = d.gs('c', function () {
 			return this._get_(sKey);
 		}, function (value) {
