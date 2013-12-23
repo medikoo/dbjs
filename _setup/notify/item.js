@@ -20,8 +20,8 @@ notify = function (obj, pSKey, sKey, key, value, res, dbEvent, postponed) {
 
 	// Reverse
 	if (desc.multiple) {
-		postponed = notifyReverse(obj, pSKey, value ? key : null, value ? null : key,
-			null, null, undefined, undefined, dbEvent, postponed);
+		postponed = notifyReverse(obj, pSKey, value ? key : null,
+			value ? null : key, null, null, undefined, undefined, dbEvent, postponed);
 	}
 
 	// Observable item
