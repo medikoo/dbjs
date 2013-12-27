@@ -13,6 +13,7 @@ module.exports = function (T, a) {
 	a(event.value, 'foo', "Value");
 	a(event.stamp, 1000, "Stamp");
 	a(event.status, 2, "Status");
+	a(String(event), '1000.' + obj.__id__ + '/test.3foo', "toString");
 
 	event = new T(desc, 'bar');
 	event2 = new T(desc, 'mirek');

@@ -33,6 +33,10 @@ Object.defineProperties(Event.prototype, {
 	sourceId: d('0'),
 	status: d(0),
 	toString: d(function () {
-		return this.stamp + '.' + this.obj.__id__ + '.' + serialize(this.value);
+		var obj = this.object, id;
+		id = ((obj._kind_ === 'descriptor') && obj._sKey_)
+			? obj.object.__id__ + '/' + obj._sKey_
+			: obj.__id__;
+		return this.stamp + '.' + id + '.' + serialize(this.value);
 	})
 });
