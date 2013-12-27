@@ -3,6 +3,7 @@
 var isDate         = require('es5-ext/date/is-date')
   , i              = require('es5-ext/function/i')
   , isFunction     = require('es5-ext/function/is-function')
+  , validFunction  = require('es5-ext/function/valid-function')
   , assign         = require('es5-ext/object/assign')
   , create         = require('es5-ext/object/create')
   , mixin          = require('es5-ext/object/mixin')
@@ -18,6 +19,7 @@ var isDate         = require('es5-ext/date/is-date')
   , getMessage     = require('../utils/get-sub-error-message')
   , updateEnum     = require('../utils/update-enumerability')
   , unserialize    = require('../unserialize/key')
+  , validDbValue   = require('../../valid-dbjs-value')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
   , defineProperties = Object.defineProperties
@@ -181,6 +183,7 @@ module.exports = function (db, createObj, object) {
 		_setValue_: d(function (nu, dbEvent) {
 			var old = getPrototypeOf(this), postponed;
 			if (!nu) nu = Base;
+			else validDbValue(validFunction(nu));
 			if (old === nu) return;
 			postponed = turnPrototype(this, nu, dbEvent);
 			db._release_(turnPrototype(this.prototype, nu.prototype,
@@ -273,7 +276,15 @@ module.exports = function (db, createObj, object) {
 					'PROTOTYPE_TURN');
 			}
 			old = getPrototypeOf(this);
-			if (!nu) nu = object;
+			if (!nu) {
+				nu = object;
+			} else {
+				validDbValue(nu);
+				if (nu._kind_ !== 'object') {
+					throw new DbjsError("Prototype must be object kind",
+						'NON_OBJECT_PROTOTYPE');
+				}
+			}
 			if (old === nu) return;
 			db._release_(turnPrototype(this, nu, dbEvent));
 		})
