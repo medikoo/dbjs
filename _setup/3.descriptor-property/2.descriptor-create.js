@@ -33,8 +33,8 @@ module.exports = function (property, createObj) {
 	var propertyCreate;
 
 	propertyCreate = function (descriptor) {
-		var property = createObj(this, descriptor.__id__ + '/' + this.key,
-			descriptor.object), props;
+		var id = descriptor.__id__ + '/' + this.key
+		  , property = createObj(this, id, id, descriptor.object), props;
 		if (descriptor._sKey_ !== property._pSKey_) {
 			props = { _pSKey_: d('', descriptor._sKey_) };
 		}
@@ -54,8 +54,8 @@ module.exports = function (property, createObj) {
 		_extensible_: d('c', true),
 		_value_: d('', undefined),
 		_create_: d(function (descriptor, key) {
-			var property = createObj(this, descriptor.__id__ + '/' + key,
-				descriptor.object), props;
+			var id = descriptor.__id__ + '/' + key
+			  , property = createObj(this, id, id, descriptor.object), props;
 			descriptor._descriptors_[key] = property;
 			props = {
 				key: d('', key),

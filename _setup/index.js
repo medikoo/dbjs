@@ -8,7 +8,7 @@ var assign            = require('es5-ext/object/assign')
   , Map               = require('es6-map/primitive')
   , ee                = require('event-emitter/lib/core')
   , ObjectsSet        = require('./objects-set')
-  , DbjsError             = require('./error')
+  , DbjsError         = require('./error')
   , History           = require('./history')
   , unserializeObject = require('./unserialize/object')
 
@@ -23,9 +23,11 @@ var assign            = require('es5-ext/object/assign')
   , defineProperties = Object.defineProperties
   , getPrototypeOf = Object.getPrototypeOf
   , idDesc = d('', undefined)
+  , valueIdDesc = d('', undefined)
   , objDesc = d('', undefined)
   , masterDesc = d('', undefined)
-  , initDesc = { __id__: idDesc, object: objDesc, master: masterDesc }
+  , initDesc = { __id__: idDesc, __valueId__: valueIdDesc, object: objDesc,
+	master: masterDesc }
   , accessCollector = ee()
   , nativeTypes = primitiveSet('Base', 'Boolean', 'Number', 'String',
 	'DateTime', 'RegExp', 'Function', 'Object')
@@ -50,7 +52,7 @@ deleteObject = function (obj) {
 	obj.database._postponed_ -= 1;
 };
 
-Constructor = function (id, object, master) {
+Constructor = function (id, valueId, object, master) {
 	if (!object) {
 		object = this;
 		if (!master) master = this;
@@ -58,6 +60,7 @@ Constructor = function (id, object, master) {
 		master = object.master;
 	}
 	idDesc.value = id;
+	valueIdDesc.value = valueId;
 	objDesc.value = object;
 	masterDesc.value = master;
 	defineProperties(this, initDesc);
@@ -108,6 +111,7 @@ module.exports = function (db) {
 		if (!object) object = proto;
 		return defineProperties(proto, assign({
 			__id__: d('', id),
+			__valueId__: d('', id),
 			_kind_: d('', kind),
 			master: d('', object),
 			object: d('', object),
@@ -117,10 +121,10 @@ module.exports = function (db) {
 	};
 
 	// 2. Value constructor
-	createObj = function (proto, id, object, master) {
+	createObj = function (proto, id, valueId, object, master) {
 		var obj;
 		Constructor.prototype = proto;
-		obj = new Constructor(id, object, master);
+		obj = new Constructor(id, valueId, object, master);
 		objects._add(obj);
 		proto._descendants_._add(obj);
 		return obj;

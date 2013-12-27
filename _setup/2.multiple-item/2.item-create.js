@@ -36,8 +36,8 @@ module.exports = function (db, item, createObj) {
 	var itemCreate;
 
 	itemCreate = function (obj, setData) {
-		var item = createObj(this, obj.__id__ + '/' + this._pSKey_ + '*' +
-			this._sKey_, obj);
+		var id = obj.__id__ + '/' + this._pSKey_ + '*' + this._sKey_
+		  , item = createObj(this, id, id, obj);
 		setData[this._sKey_] = item;
 		return inject(obj, this._pSKey_, this._sKey_, item, this);
 	};
@@ -48,9 +48,9 @@ module.exports = function (db, item, createObj) {
 		_value_: d('', undefined),
 		_sKey_: d('', ''),
 		_create_: d(function (obj, pSKey, key, sKey, setData) {
-			var item;
+			var item, id = obj.__id__ + '/' + pSKey + '*' + sKey;
 			if (!obj._keys_[pSKey]) obj._serialize_(unserialize(pSKey, db.objects));
-			item = createObj(this, obj.__id__ + '/' + pSKey + '*' + sKey, obj);
+			item = createObj(this, id, id, obj);
 			setData[sKey] = item;
 			defineProperties(item, {
 				key: d('', key),

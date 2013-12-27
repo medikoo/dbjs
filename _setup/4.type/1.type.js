@@ -206,7 +206,7 @@ module.exports = function (db, createObj, object) {
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(i),
 		_create_: d(function (id, master) {
-			return updateObjEnum(createObj(this.prototype, id, null, master));
+			return updateObjEnum(createObj(this.prototype, id, id, null, master));
 		}),
 		find: d(function (key, value) {
 			var sKey = this._serialize_(key), sValue;

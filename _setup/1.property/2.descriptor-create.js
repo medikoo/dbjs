@@ -78,7 +78,8 @@ module.exports = function (db, createObj, descriptor) {
 	var descriptorCreate;
 
 	descriptorCreate = function (obj) {
-		var descriptor = createObj(this, obj.__id__ + '$' + this._sKey_, obj);
+		var descriptor = createObj(this, obj.__id__ + '$' + this._sKey_,
+			obj.__id__ + '/' + this._sKey_, obj);
 		if (!this._writable_ && this._extensible_) {
 			defineProperty(obj, '_writable_', d('c', true));
 		}
@@ -94,13 +95,14 @@ module.exports = function (db, createObj, descriptor) {
 		_writable_: d('', false),
 		_extensible_: d('c', true),
 		_create_: d(function (obj) {
-			var descriptorProto = createObj(this, obj.__id__ + '$', obj);
+			var id = obj.__id__ + '$', descriptorProto = createObj(this, id, id, obj);
 			defineProperty(obj, '__descriptorPrototype__', d('', descriptorProto));
 			return injectProto(obj, descriptorProto, this);
 		}),
 		_createDescriptor_: d(function (obj, sKey, dbEvent) {
-			var descriptor = createObj(this, obj.__id__ + '$' + sKey, obj)
-			  , postponed, props;
+			var descriptor, postponed, props;
+			descriptor = createObj(this, obj.__id__ + '$' + sKey,
+				obj.__id__ + '/' + sKey, obj);
 			obj._descriptors_[sKey] = descriptor;
 			props = {
 				key: d('', obj._keys_[sKey]),
