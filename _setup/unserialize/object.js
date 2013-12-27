@@ -114,6 +114,7 @@ module.exports = function (db) {
 				if (char === '"') break;
 			}
 			char = str[++i];
+			if (char !== '/') reject();
 			sKey = str.slice(start, i);
 			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
 		} else {
@@ -126,7 +127,6 @@ module.exports = function (db) {
 				proto._serialize_(unserializeKey(sKey, objects));
 			}
 		}
-		if (char !== '/') reject();
 		if (!sKey) object = object._descriptorPrototype_;
 		else object = object._getOwnDescriptor_(sKey);
 		return $descriptorProperty;
