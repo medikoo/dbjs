@@ -57,6 +57,14 @@ module.exports = function (a) {
 			TestType1 = Base.extend('Test3', {});
 			a(db.Test3, TestType1, "Set on Base");
 			a(TestType1.__id__, 'Test3', "Id");
+
+			a.h1("Master");
+			a(TestType1.master, TestType1, "Constructor");
+			a(TestType1.prototype.master, TestType1.prototype, "Prototype");
+			a.h1("Value id");
+			a(TestType1.__valueId__, TestType1.__id__, "Constructor");
+			a(TestType1.prototype.__valueId__, TestType1.prototype.__id__,
+				"Prototype");
 		},
 		"Proto change": function (a) {
 			var TestType1 = db.Object.extend('Prototest1')

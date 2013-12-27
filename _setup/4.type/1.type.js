@@ -23,8 +23,7 @@ var isDate         = require('es5-ext/date/is-date')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
   , defineProperties = Object.defineProperties
-  , defineProperty = Object.defineProperty, keys = Object.keys
-  , getPrototypeOf = Object.getPrototypeOf
+  , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf
   , isValidTypeName = RegExp.prototype.test.bind(/^[A-Z][0-9a-zA-Z]*$/)
   , typeMap = { boolean: 1, number: 2, string: 3, function: 4,  object: 4 }
   , getObjectType
@@ -163,14 +162,19 @@ module.exports = function (db, createObj, object) {
 			setPrototypeOf(constructor, this);
 			defineProperties(constructor, {
 				__id__: d('', name),
-				object: d('', constructor)
+				__valueId__: d('', name),
+				object: d('', constructor),
+				master: d('', constructor)
 			});
 			constructor.prototype = create(this.prototype, {
 				constructor: d(constructor),
-				__id__: d('', name + '#')
+				__id__: d('', name + '#'),
+				__valueId__: d('', name + '#')
 			});
-			defineProperty(constructor.prototype, 'object', d('',
-				constructor.prototype));
+			defineProperties(constructor.prototype, {
+				master: d('', constructor.prototype),
+				object: d('', constructor.prototype)
+			});
 			db.objects._add(constructor);
 			db.objects._add(constructor.prototype);
 			this._descendants_._add(constructor);
