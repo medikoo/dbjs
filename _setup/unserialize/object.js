@@ -16,7 +16,7 @@ module.exports = function (db) {
 
 	reject = function () {
 		throw new DbjsError(str + ' is not valid object id',
-			'INVALID_EVENT_STRING');
+			'INVALID_OBJECT_ADDRESS');
 	};
 
 	resolveObject = function () {
