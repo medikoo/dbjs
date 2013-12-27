@@ -129,6 +129,10 @@ module.exports = function (db) {
 		}
 		if (!sKey) object = object._descriptorPrototype_;
 		else object = object._getOwnDescriptor_(sKey);
+		if (!char) {
+			if (!sKey) return;
+			reject();
+		}
 		return $descriptorProperty;
 	};
 

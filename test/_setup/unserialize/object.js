@@ -91,6 +91,19 @@ module.exports = function (a) {
 	a(prop.object.constructor, ObjectType, "Type");
 	a(prop, prop.object.$getOwn('kdkd\nre'), "Prop");
 
+	// Descriptor prototype
+	a.h1("Descriptor prototype");
+	a.h3("Existing");
+	a(prop = unserialize(obj1._descriptorPrototype_.__id__),
+		obj1._descriptorPrototype_);
+
+	a.h3("Not existing object");
+	prop = unserialize('objNewreateTest42423$');
+	a.h4("Object");
+	a(prop.object.__id__, 'objNewreateTest42423', "Id");
+	a(prop.object.constructor, ObjectType, "Type");
+	a(prop, prop.object._descriptorPrototype_, "Descriptor prototype");
+
 	// Nested Property
 	a.h1("Nested property");
 	desc = obj1.$getOwn('nesti');
