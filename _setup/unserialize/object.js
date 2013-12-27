@@ -153,7 +153,7 @@ module.exports = function (db) {
 	return function (input, proto) {
 		var state;
 		str = String(input);
-		if (data[str]) return data[str];
+		if (data[str] && (data[str].__valueId__ === str)) return data[str];
 		proposedProto = proto;
 		state = $object;
 		i = -1;

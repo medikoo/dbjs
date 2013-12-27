@@ -226,4 +226,13 @@ module.exports = function (a) {
 	item = unserialize('objNewreateTest63/242343*244898');
 	a(item.object.__id__, 'objNewreateTest63', "Object");
 	a(item._pSKey_, '242343', "Property");
+
+	a.h1("Descriptor object id");
+	a.throws(function () {
+		unserialize('blafoo$marko');
+	}, "Not existing");
+
+	a.throws(function () {
+		unserialize(obj1.$foo.__id__);
+	}, "Existing");
 };
