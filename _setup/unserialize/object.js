@@ -79,7 +79,7 @@ module.exports = function (db) {
 				if (char === '*') break;
 			}
 			sKey = str.slice(start, i);
-			if (sKey === '') reject();
+			if ((sKey === '') || (sKey === '$')) reject();
 			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
 		}
 		if (!char) {
