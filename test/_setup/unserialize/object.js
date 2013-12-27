@@ -145,6 +145,27 @@ module.exports = function (a) {
 	a(prop.object.constructor, Base, "Type");
 	a(prop, prop.object.$getOwn('figura'), "Prop");
 
+	// Nested Object desriptor prototype
+	a.h2("Descriptor prototype");
+	a.h3("Ident");
+	prop = unserialize('objNewreateTest222/miszka$');
+	a.h4("Object");
+	a(prop.object.__id__, 'objNewreateTest222/miszka', "Id");
+	a(unserialize('objNewreateTest222')._getObject_('miszka'), prop.object,
+		"Owner");
+	a(prop.object.constructor, Base, "Type");
+	a(prop, prop.object._descriptorPrototype_, "Descriptor");
+	a(prop.master, unserialize('objNewreateTest222'), "Master");
+
+	a.h3("No ident");
+	prop = unserialize('objNewreateTest49349/3"kdkd\\nre"$');
+	a.h4("Object");
+	a(prop.object.__id__, 'objNewreateTest49349/3"kdkd\\nre"', "Id");
+	a(unserialize('objNewreateTest49349')._getObject_('3"kdkd\\nre"'),
+		prop.object, "Owner");
+	a(prop.object.constructor, Base, "Type");
+	a(prop, prop.object._descriptorPrototype_, "Descriptor prototype");
+
 	// Descriptor property
 	a.h1("Descriptor property");
 	a.h2("Existing");

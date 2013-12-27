@@ -77,6 +77,7 @@ module.exports = function (db) {
 			while ((char = str[++i])) {
 				if (char === '/') break;
 				if (char === '*') break;
+				if (char === '$') break;
 			}
 			sKey = str.slice(start, i);
 			if ((sKey === '') || (sKey === '$')) reject();
