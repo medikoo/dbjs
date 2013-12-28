@@ -25,4 +25,7 @@ module.exports = function (a) {
 
 	obj2.foo = 'bwa';
 	a.deep(toArray(set), [obj1, obj2, obj3], "Update same property twice");
+
+	obj2.set('bar', 'marko');
+	a.deep(toArray(set.filterByKey('bar', 'marko')), [obj2], "Deep filterByKey");
 };

@@ -3,10 +3,12 @@
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d/d')
   , Set            = require('es6-set')
-  , MultiSet       = require('observable-multi-set/primitive')
+  , PrimitiveMap   = require('es6-map/primitive')
+  , createMultiSet = require('observable-multi-set/_create')
   , serialize      = require('../serialize/object')
-  , defFilterByKey = require('../utils/define-filter-by-key')
+  , ObjectsSet     = require('../objects-set')
 
+  , MultiSet = createMultiSet(ObjectsSet, PrimitiveMap)
   , filter = function (obj) { return obj.constructor.prototype !== obj; }
   , Instances;
 
@@ -44,5 +46,3 @@ setPrototypeOf(Instances, MultiSet);
 Instances.prototype = Object.create(MultiSet.prototype, {
 	constructor: d(Instances)
 });
-
-defFilterByKey(Instances.prototype);
