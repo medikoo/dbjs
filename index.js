@@ -5,6 +5,7 @@ var assign           = require('es5-ext/object/assign')
   , lazy             = require('d/lazy')
   , ee               = require('event-emitter/lib/core')
   , Event            = require('./_setup/event')
+  , Error            = require('./_setup/error')
   , unserializeEvent = require('./_setup/unserialize/event')
   , unserializeValue = require('./_setup/unserialize/value')
   , setup            = require('./_setup')
@@ -48,6 +49,7 @@ ee(defineProperties(Database.prototype, assign({
 		});
 		return result.sort(byIndex);
 	}),
+	Error: d(Error),
 	_update_: d(function (id, value) {
 		var obj;
 		validValue(value);
