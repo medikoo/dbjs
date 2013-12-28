@@ -120,6 +120,14 @@ Multiple.prototype = create(Set.prototype, assign({
 			throw new DbjsError(original + " is an invalid value", 'INVALID_VALUE');
 		}
 		return key;
+	}),
+	toString: d(function (/*separator*/) {
+		var data = [], sep = arguments[0];
+		if (sep === undefined) sep = ", ";
+		this.forEach(function (value) {
+			data.push(String(value));
+		});
+		return data.join(sep);
 	})
 }, lazy({
 	_dynamicListeners_: d(function () { return []; },
