@@ -270,6 +270,12 @@ module.exports = function (a) {
 			a(obj2.master, obj, "master");
 			a(obj2.owner, obj1, "owner");
 			a(obj2.__sKey__, 'foor', "__sKey__");
+		},
+		"Delete": function () {
+			var obj1 = new db.Object(), obj2 = new db.Object();
+			obj1.set('foo', obj2);
+			db.objects.delete(obj2);
+			a(obj1.foo, undefined);
 		}
 	};
 };

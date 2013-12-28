@@ -255,7 +255,7 @@ module.exports = function (db, createObj, object) {
 			}
 			if (this.hasOwnProperty('__assignments__')) {
 				this.__assignments__._plainForEach_(function (obj) {
-					new Event(this); //jslint: skip
+					new Event(obj); //jslint: skip
 				});
 			}
 			if (this.hasOwnProperty('__objects__')) {
