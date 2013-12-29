@@ -95,8 +95,8 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 		return set._add_(value, dbEvent, postponed, init);
 	}),
 	_deleteRef_: d(function (sKey, value, dbEvent, postponed) {
-		var set;
-		set = this.__mapValuesData__[sKey];
+		var set = this.__mapValuesData__[sKey];
+		if (!set) return postponed;
 		if (set.__isObservable__) {
 			set._postponed_ += 1;
 			if (!postponed) postponed = [set];

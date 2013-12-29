@@ -89,9 +89,18 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 	}),
 	_add_: d(function (obj, dbEvent, postponed, init) {
 		var lmData = this.__lastModifiedMap__, data = this.__setData__
-		  , l = data.length, i = l, lm = dbEvent ? dbEvent.stamp : 0, old;
+		  , l = data.length, i = l, lm = dbEvent ? dbEvent.stamp : 0, old
+		  , existing = (lmData[obj.__id__] != null);
+
+		if (existing && (lmData[obj.__id__] === lm)) return postponed;
 		lmData[obj.__id__] = lm;
 		if (dbEvent) this.__lastEventMap__[obj.__id__] = dbEvent;
+		if (existing) {
+			i = data.indexOf(obj);
+			data.splice(i, 1);
+			this.emit('_delete', i, obj);
+			i = l = data.length;
+		}
 		while (i) {
 			if (lmData[data[i - 1].__id__] <= lm) break;
 			--i;
@@ -100,6 +109,7 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		else this.__setData__.splice(i, 0, obj);
 		if (init) return postponed;
 		this.emit('_add', i, obj);
+		if (existing) return postponed;
 		if (this.__isObjectKey__ && (this.__descriptor__.reverse !== undefined) &&
 				this.__descriptor__.unique && (i === l)) {
 			old = (i === 0) ? undefined : data[i - 1];
@@ -113,7 +123,10 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 	}),
 	_delete_: d(function (obj, dbEvent, postponed) {
 		var i = this.__setData__.indexOf(obj), nu;
+		if (i === -1) return postponed;
 		this.__setData__.splice(i, 1);
+		delete this.__lastModifiedMap__[obj.__id__];
+		delete this.__lastEventMap__[obj.__id__];
 		this.emit('_delete', i, obj);
 		if (this.__isObjectKey__ && (this.__descriptor__.reverse !== undefined) &&
 				this.__descriptor__.unique && (i === this.__setData__.length)) {
