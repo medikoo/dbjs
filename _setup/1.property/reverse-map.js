@@ -34,7 +34,7 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 		return postponed;
 	}),
 	_includeObj_: d(function (object, sKey, postponed, init) {
-		var desc = object.__descriptors__[sKey], value, data, iKey, item;
+		var desc = object._getDescriptor_(sKey), value, data, iKey, item;
 		if (!desc._reverse_ && !desc.nested && desc.multiple) {
 			value = desc._resolveValueValue_();
 			if (isGetter(value)) return postponed;
@@ -63,7 +63,7 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 		return postponed;
 	}),
 	_excludeObj_: d(function (object, sKey, postponed) {
-		var desc = object.__descriptors__[sKey], value, data, iKey, item;
+		var desc = object._getDescriptor_(sKey), value, data, iKey, item;
 		if (!desc._reverse_ && !desc.nested && desc.multiple) {
 			value = desc._resolveValueValue_();
 			if (isGetter(value)) return postponed;
