@@ -12,7 +12,22 @@ module.exports = function (db) {
 	  , data = objects.__setData__
 	  , object, char, str, i, pSKey, resolveObject, reject
 	  , $object, $descriptor, $property
-	  , $descriptorProperty, $item, proposedProto;
+	  , $descriptorProperty, $item, proposedProto
+	  , save, restore;
+
+	save = function () {
+		return { object: object, char: char, str: str, i: i, pSKey: pSKey,
+			proposedProto: proposedProto };
+	};
+
+	restore = function (data) {
+		object = data.object;
+		char = data.char;
+		str = data.str;
+		i = data.i;
+		pSKey = data.pSKey;
+		proposedProto = data.proposedProto;
+	};
 
 	reject = function () {
 		throw new DbjsError(str + ' is not valid object id',
@@ -58,7 +73,7 @@ module.exports = function (db) {
 	};
 
 	$property = function () {
-		var start, sKey;
+		var start, sKey, data;
 		if (str[i + 2] === '"') {
 			start = ++i;
 			++i;
@@ -71,7 +86,11 @@ module.exports = function (db) {
 			}
 			char = str[++i];
 			sKey = str.slice(start, i);
-			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
+			if (!proto._keys_[sKey]) {
+				data = save();
+				proto._serialize_(unserializeKey(sKey, objects));
+				restore(data);
+			}
 		} else {
 			start = i + 1;
 			while ((char = str[++i])) {
@@ -81,7 +100,11 @@ module.exports = function (db) {
 			}
 			sKey = str.slice(start, i);
 			if ((sKey === '') || (sKey === '$')) reject();
-			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
+			if (!proto._keys_[sKey]) {
+				data = save();
+				proto._serialize_(unserializeKey(sKey, objects));
+				restore(data);
+			}
 		}
 		if (!char) {
 			object = object._getOwnDescriptor_(sKey);
@@ -103,7 +126,7 @@ module.exports = function (db) {
 	};
 
 	$descriptor = function () {
-		var start, sKey;
+		var start, sKey, data;
 		if (str[i + 2] === '"') {
 			start = ++i;
 			++i;
@@ -117,7 +140,11 @@ module.exports = function (db) {
 			char = str[++i];
 			if (char !== '/') reject();
 			sKey = str.slice(start, i);
-			if (!proto._keys_[sKey]) proto._serialize_(unserializeKey(sKey, objects));
+			if (!proto._keys_[sKey]) {
+				data = save();
+				proto._serialize_(unserializeKey(sKey, objects));
+				restore(data);
+			}
 		} else {
 			start = i + 1;
 			while ((char = str[++i])) {
@@ -125,7 +152,9 @@ module.exports = function (db) {
 			}
 			sKey = str.slice(start, i);
 			if (sKey && !proto._keys_[sKey]) {
+				data = save();
 				proto._serialize_(unserializeKey(sKey, objects));
+				restore(data);
 			}
 		}
 		if (!sKey) object = object._descriptorPrototype_;
@@ -144,9 +173,11 @@ module.exports = function (db) {
 	};
 
 	$item = function () {
-		var sKey, key;
+		var sKey, key, data;
 		sKey = str.slice(i + 1);
+		data = save();
 		key = unserializeKey(sKey, objects);
+		restore(data);
 		object = object._getOwnMultipleItem_(pSKey, key, sKey);
 	};
 

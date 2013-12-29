@@ -214,6 +214,7 @@ module.exports = function (a) {
 
 	a.h3("Object");
 	item = unserialize('objNewreateTest6/makara*mafa');
+	a(item.__id__, 'objNewreateTest6/makara*mafa', "Item id");
 	a(item.object.__id__, 'objNewreateTest6', "Object");
 	a(item._pSKey_, 'makara', "Property");
 
@@ -235,4 +236,8 @@ module.exports = function (a) {
 	a.throws(function () {
 		unserialize(obj1.$foo.__id__);
 	}, "Existing");
+
+	a.h1();
+	a(unserialize('29yfwfds2l5/files*70a0h4lijgqp').__id__,
+		'29yfwfds2l5/files*70a0h4lijgqp', "Recurrent unserialize");
 };
