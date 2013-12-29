@@ -4,10 +4,13 @@ var toArray  = require('es6-iterator/to-array')
   , Database = require('../../../');
 
 module.exports = function (a) {
-	var db = new Database(), ObjType1 = db.Object.extend("Object1")
-	  , ObjType2 = db.Object.extend("Object2"), obj1 = new ObjType1()
-	  , desc = ObjType1.prototype.$getOwn('test'), obj2 = new ObjType2(), event
-	  , Type, obj11, obj12, obj13;
+	var db = new Database()
+	  , ObjType1 = db.Object.extend("Object1")
+	  , ObjType2 = db.Object.extend("Object2")
+	  , obj1 = new ObjType1()
+	  , desc = ObjType1.prototype.$getOwn('test')
+	  , obj2 = new ObjType2()
+	  , event, Type, obj11, obj12, obj13;
 
 	desc.type = ObjType2;
 	desc.unique = true;
@@ -41,12 +44,15 @@ module.exports = function (a) {
 	obj13 = new Type({ foo: 'dwa' });
 	obj11.foo = 'cztery';
 
-	obj12.foo = 'zero'; // we're cool
+	a.throws(function () {
+		obj12.foo = 'zero';
+	}, 'VALUE_NOT_UNIQUE', "Unique via inherited #1");
+
 	obj12.delete('foo');
 
 	a.throws(function () {
 		obj13.foo = 'zero';
-	}, 'VALUE_NOT_UNIQUE', "Unique via inherited");
+	}, 'VALUE_NOT_UNIQUE', "Unique via inherited #2");
 
 	a.deep(toArray(Type.find('foo', 'cztery')), [obj11], "Find");
 
