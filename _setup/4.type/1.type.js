@@ -8,7 +8,7 @@ var isDate         = require('es5-ext/date/is-date')
   , create         = require('es5-ext/object/create')
   , mixin          = require('es5-ext/object/mixin')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , isRegExp     = require('es5-ext/reg-exp/is-reg-exp')
+  , isRegExp       = require('es5-ext/reg-exp/is-reg-exp')
   , d              = require('d/d')
   , lazy           = require('d/lazy')
   , DbjsError      = require('../error')
@@ -16,9 +16,11 @@ var isDate         = require('es5-ext/date/is-date')
   , ObjectsSet     = require('../objects-set')
   , turnPrototype  = require('../utils/propagate-prototype-turn').object
   , serialize      = require('../serialize/value')
+  , isGetter       = require('../utils/is-getter')
   , getMessage     = require('../utils/get-sub-error-message')
   , updateEnum     = require('../utils/update-enumerability')
   , unserialize    = require('../unserialize/key')
+  , notifyReverse  = require('../notify/reverse')
   , validDbValue   = require('../../valid-dbjs-value')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
@@ -28,16 +30,40 @@ var isDate         = require('es5-ext/date/is-date')
   , typeMap = { boolean: 1, number: 2, string: 3, function: 4,  object: 4 }
   , getObjectType
   , destroy = function (sKey) { this[sKey]._destroy_(); }
-  , updateObjEnum;
+  , initializeObject;
 
-updateObjEnum = function (obj) {
-	var sKey, descs = obj.__descriptors__, desc;
+initializeObject = function (obj, postponed) {
+	var sKey, descs = obj.__descriptors__, desc, set, iSKey, item, value
+	  , resolve = function () { return desc._normalizeValue_(value); };
 	for (sKey in descs) {
 		desc = descs[sKey];
 		if (desc._reverse_) continue;
 		if (desc.nested || desc.multiple) updateEnum(obj, sKey, true);
+		if (desc.nested) continue;
+		if (isGetter(desc._value_)) continue;
+		if (desc.multiple) {
+			set = obj.__multiples__[sKey];
+			if (!set) continue;
+			for (iSKey in set) {
+				item = set[iSKey];
+				if (typeof item === 'number') {
+					value = unserialize(iSKey);
+				} else {
+					value = item.key;
+					if (!item._value_) continue;
+					if (obj._normalize_(sKey, value) == null) continue;
+				}
+				postponed = notifyReverse(obj, sKey, value, null, null, null, iSKey,
+					null, null, postponed);
+			}
+			continue;
+		}
+		value = desc._value_;
+		if (value == null) continue;
+		postponed = notifyReverse(obj, sKey, value, null, resolve, null, undefined,
+			null, null, postponed);
 	}
-	return obj;
+	return postponed;
 };
 
 getObjectType = function (value) {
@@ -155,7 +181,7 @@ module.exports = function (db, createObj, object) {
 			return String(a.__id__).localeCompare(b.__id__);
 		}),
 		_extend_: d(function (name) {
-			var constructor = function Self(value) {
+			var postponed, constructor = function Self(value) {
 				if (Self.is(value)) return value;
 				return Self.create.apply(Self, arguments);
 			};
@@ -180,8 +206,8 @@ module.exports = function (db, createObj, object) {
 			this._descendants_._add(constructor);
 			this.prototype._descendants_._add(constructor.prototype);
 			if (!(name in db)) db[name] = constructor;
-			updateObjEnum(constructor);
-			updateObjEnum(constructor.prototype);
+			postponed = initializeObject(constructor);
+			db._release_(initializeObject(constructor.prototype, postponed));
 			return constructor;
 		}),
 		_setValue_: d(function (nu, dbEvent) {
@@ -210,7 +236,9 @@ module.exports = function (db, createObj, object) {
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(i),
 		_create_: d(function (id, master) {
-			return updateObjEnum(createObj(this.prototype, id, id, null, master));
+			var object = createObj(this.prototype, id, id, null, master);
+			db._release_(initializeObject(object));
+			return object;
 		}),
 		find: d(function (key, value) {
 			var sKey = this._serialize_(key), sValue;
