@@ -1,5 +1,9 @@
 'use strict';
 
 module.exports = function (a, b) {
-	return this[a].lastModified - this[b].lastModified;
+	var item = this[a];
+	a = (typeof item === 'number') ? item : item.lastModified;
+	item = this[b];
+	b = (typeof item === 'number') ? item : item.lastModified;
+	return a - b;
 };

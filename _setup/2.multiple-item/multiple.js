@@ -63,7 +63,8 @@ Multiple.prototype = create(Set.prototype, assign({
 		key = this.object._normalize_(this.__pSKey__, key);
 		if (key == null) return false;
 		item = this.__setData__[this._serialize(key)];
-		if (!item) return false;
+		if (item == null) return false;
+		if (typeof item === 'number') return true;
 		return Boolean(item._value_);
 	}),
 	size: d.gs(function () {
@@ -96,6 +97,7 @@ Multiple.prototype = create(Set.prototype, assign({
 		if (key == null) return null;
 		item = this.__setData__[key];
 		if (!item) return 0;
+		if (typeof item === 'number') return item;
 		return item.lastModified;
 	}),
 	_validateClear_: d(function () {

@@ -29,14 +29,21 @@ module.exports = function (object, item) {
 		}),
 		_getOwnMultipleItem_: d(function (pSKey, key, sKey) {
 			var setData = this._getMultipleItems_(pSKey);
-			if (hasOwnProperty.call(setData, sKey)) return setData[sKey];
-			if (setData[sKey]) return setData[sKey]._create_(this, setData);
+			if (hasOwnProperty.call(setData, sKey)) {
+				return setData[sKey].__id__ ? setData[sKey] : null;
+			}
+			if (setData[sKey]) {
+				if (!setData[sKey].__id__) return null;
+				return setData[sKey]._create_(this, setData);
+			}
 			return item._create_(this, pSKey, key, sKey, setData);
 		}),
 		_getMultipleItem_: d(function (pSKey, sKey) {
 			var data = this.__mutliples__[pSKey];
 			if (!data) return this.__itemPrototype__;
-			return data[sKey] || this.__itemPrototype__;
+			if (!data[sKey]) return this.__itemPrototype__;
+			if (!data[sKey].__id__) return null;
+			return data[sKey];
 		}),
 
 		// Observable
@@ -68,6 +75,7 @@ module.exports = function (object, item) {
 			if (!this.hasOwnProperty('__multiples__')) return;
 			keys(this.__multiples__).forEach(function (sKey) {
 				keys(this[sKey]).forEach(function (sKey) {
+					if (!this[sKey].__id__) return;
 					call.call(cb, thisArg, this[sKey], sKey);
 				}, this[sKey]);
 			}, this.__multiples__);

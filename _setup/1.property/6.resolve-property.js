@@ -32,6 +32,10 @@ module.exports = function (object, accessCollector) {
 			desc = this._getDescriptor_(sKey);
 			for (iKey in data) {
 				item = data[iKey];
+				if (typeof item === 'number') {
+					++size;
+					continue;
+				}
 				if (!item._value_) continue;
 				if (desc._normalizeValue_(item.key) == null) continue;
 				++size;

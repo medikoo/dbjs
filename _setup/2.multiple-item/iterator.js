@@ -8,6 +8,7 @@ var remove         = require('es5-ext/array/#/remove')
   , autoBind       = require('d/auto-bind')
   , Iterator       = require('es6-iterator')
   , byLastModified = require('../utils/compare-by-last-modified')
+  , unserialize    = require('../unserialize/key')
 
   , push = Array.prototype.push
   , defineProperties = Object.defineProperties
@@ -22,7 +23,7 @@ MultiplePropertyIterator = module.exports = function (set, kind) {
 	sKeys = [];
 	data = set.__setData__;
 	for (sKey in data) {
-		if (!data[sKey]._value_) continue;
+		if ((typeof data[sKey] !== 'number') && !data[sKey]._value_) continue;
 		sKeys.push(sKey);
 	}
 	Iterator.call(this, sKeys.sort(byLastModified.bind(data)));
@@ -53,7 +54,9 @@ MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 		this._unBind();
 	}),
 	_resolve: d(function (i) {
-		var value = this.__set__.__setData__[this.__list__[i]].key;
+		var sKey = this.__list__[i], value = this.__set__.__setData__[sKey];
+		if (typeof value === 'number') value = unserialize(sKey);
+		else value = value.key;
 		return (this.__kind__ === 'value') ? value : [value, value];
 	}),
 	_unBind: d(function () {
