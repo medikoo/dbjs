@@ -1,19 +1,19 @@
 'use strict';
 
-var isFunction  = require('es5-ext/function/is-function')
-  , assign      = require('es5-ext/object/assign-multiple')
-  , create      = require('es5-ext/object/create')
-  , d           = require('d/d')
-  , lazy        = require('d/lazy')
-  , uuid        = require('time-uuid')
-  , DbjsError   = require('../error')
-  , Event       = require('../event')
-  , Instances   = require('./instances')
+var isFunction   = require('es5-ext/function/is-function')
+  , assign       = require('es5-ext/object/assign-multiple')
+  , create       = require('es5-ext/object/create')
+  , d            = require('d/d')
+  , lazy         = require('d/lazy')
+  , uuid         = require('time-uuid')
+  , DbjsError    = require('../error')
+  , Event        = require('../event')
+  , Instances    = require('./instances')
+  , isObjectName = require('../utils/is-object-name')
 
   , slice = Array.prototype.slice
   , keys = Object.keys, defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
-  , isValidObjectName = RegExp.prototype.test.bind(/^[a-z][0-9a-zA-Z]*$/)
   , getById;
 
 require('memoizee/lib/ext/resolvers');
@@ -75,7 +75,7 @@ module.exports = function (db) {
 		}),
 		newNamed: d(function (name) {
 			var args, obj;
-			if (!isValidObjectName(name)) {
+			if (!isObjectName(name)) {
 				throw new DbjsError(name + " is not valid object name",
 					'INVALID_OBJECT_NAME');
 			}
