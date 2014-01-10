@@ -88,6 +88,7 @@ module.exports = function (db) {
 			obj = this._create_(name);
 			new Event(obj, this.prototype); //jslint: skip
 			obj._initialize_.apply(obj, args);
+			if (!db.hasOwnProperty(name)) defineProperty(db, name, d(obj));
 			return obj;
 		}),
 		getById: d(function (id) { return getById(this.prototype, id); }),

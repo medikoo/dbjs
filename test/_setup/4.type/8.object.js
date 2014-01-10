@@ -60,6 +60,7 @@ module.exports = function (a) {
 			a(typeof obj, 'object', "Type");
 			a(obj.constructor, CustomType, "Namespace");
 			a(obj.__id__, 'namedobjtest', "Id");
+			a(db.namedobjtest, obj, "Exposed on database");
 			a.throws(function () {
 				CustomType.newNamed('raz dwa#');
 			}, 'INVALID_OBJECT_NAME', "Name validation");
