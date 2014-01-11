@@ -6,7 +6,8 @@ module.exports = function (t, a) {
 	var db = new Database(), obj = new db.Object(), count = 0
 	  , event = null;
 
-	obj.set('test', function (_observe) {
+	obj.set('test', function (_observe
+/**/) {
 		var value;
 		++count;
 		if (this.allow) value = _observe(this._foo);
