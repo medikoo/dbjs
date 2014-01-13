@@ -67,14 +67,14 @@ module.exports = function (db) {
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value < minv) {
-				throw new DbjsError("Value cannot be less than " + min,
+				throw new DbjsError("Value cannot be less than " + minv,
 					'NUMBER_TOO_SMALL');
 			}
 			maxv = (descriptor && !isNaN(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value > maxv) {
-				throw new DbjsError("Value cannot be greater than " + max,
+				throw new DbjsError("Value cannot be greater than " + maxv,
 					'NUMBER_TOO_LARGE');
 			}
 			step = (descriptor && !isNaN(descriptor.step))
