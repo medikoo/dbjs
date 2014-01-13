@@ -1,15 +1,19 @@
 'use strict';
 
-var Database = require('../../../');
+var d        = require('d/d')
+  , Database = require('../../../')
+
+  , defineProperty = Object.defineProperty;
 
 module.exports = function (t, a) {
 	var db = new Database(), obj = new db.Object(), count = 0
 	  , event = null;
 
+	defineProperty(obj, 'miszka', d(true));
 	obj.set('test', function (_observe) {
 		var value;
 		++count;
-		if (this.allow) value = _observe(this._foo);
+		if (this.allow && this.miszka) value = _observe(this._foo);
 		else value = _observe(this._bar);
 
 		value += this.all;

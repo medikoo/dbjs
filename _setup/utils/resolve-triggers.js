@@ -18,6 +18,7 @@ module.exports = function (obj, getter, update) {
 		if (name[0] === '_') return;
 		if (ignored[name]) return;
 		observable = obj._get(name);
+		if (!isObservable(observable)) return;
 		observable._dynamicListeners_.push(listener = function (event, held) {
 			var listeners, nu = observable.value;
 			if (current) {
