@@ -11,7 +11,7 @@ var primitiveSet = require('es5-ext/object/primitive-set')
 
 module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), protoDesc, desc, args
-	  , x = {}, i;
+	  , x = {}, i, Type = db.Object.extend('CustomType');
 
 	protoDesc = db.Object.prototype.$getOwn('foo');
 	desc = obj.$getOwn('foo');
@@ -61,4 +61,10 @@ module.exports = function (a) {
 		a(this, x, "Context #" + i);
 	}, x);
 	a(keys(args).length, 0, "All processed");
+
+	a.h1("Constant override");
+	defineProperty(Type.prototype, 'foo', d(true));
+	obj = new Type();
+	a(obj._get('foo'), true);
+	a(obj._foo, true, "Accessor");
 };

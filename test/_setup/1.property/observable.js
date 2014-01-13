@@ -1,7 +1,10 @@
 'use strict';
 
-var isObservableValue = require('observable-value/is-observable-value')
-  , Database          = require('../../../');
+var d                 = require('d/d')
+  , isObservableValue = require('observable-value/is-observable-value')
+  , Database          = require('../../../')
+
+  , defineProperty = Object.defineProperty;
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()

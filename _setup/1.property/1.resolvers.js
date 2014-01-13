@@ -90,7 +90,9 @@ module.exports = function (db, object, descriptor) {
 			return (observables[sKey] = new Observable(this, sKey));
 		}),
 		_get: d(function (key) {
-			var sKey = this._serialize_(key);
+			var sKey;
+			if (this.isKeyStatic(key)) return this[key];
+			sKey = this._serialize_(key);
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			}

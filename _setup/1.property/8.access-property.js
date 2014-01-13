@@ -37,6 +37,7 @@ module.exports = function (object) {
 			return this._getOwnDescriptor_(sKey);
 		});
 		descs['_' + key] = d.gs('c', function () {
+			if (this.isKeyStatic(key)) return this[key];
 			return this._getObservable_(sKey);
 		});
 		if (!object.hasOwnProperty(key)) defineProperties(object, descs);
