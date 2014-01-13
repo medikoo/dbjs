@@ -15,6 +15,8 @@ var assign          = require('es5-ext/object/assign')
 
   , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty, keys = Object.keys
+  , getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor
+  , getPrototypeOf = Object.getPrototypeOf
   , defineProperties = Object.defineProperties;
 
 module.exports = function (db, object, descriptor) {
@@ -22,11 +24,17 @@ module.exports = function (db, object, descriptor) {
 		// Descriptor
 		__descriptorPrototype__: d('', descriptor),
 		__descriptors__: d('', create(null)),
+		isKeyStatic: d(function (key) {
+			var obj;
+			if (typeof key !== 'string') return false;
+			if (!(key in this)) return false;
+			obj = this;
+			while (!obj.hasOwnProperty(key)) obj = getPrototypeOf(obj);
+			return getOwnPropertyDescriptor(obj, key).hasOwnProperty('value');
+		}),
 		_getCurrentDescriptor_: d(function (sKey) {
 			var key = this._keys_[sKey];
-			if (typeof key !== 'string') return this._getDescriptor_(sKey);
-			if (!(key in this)) return null;
-			if (this[key] !== this._get_(sKey)) return null;
+			if (this.isKeyStatic(key)) return null;
 			return this._getDescriptor_(sKey);
 		}),
 		_descriptorPrototype_: d.gs(function () {
