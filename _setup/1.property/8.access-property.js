@@ -20,7 +20,8 @@ module.exports = function (object) {
 	defineAccessors = function (key, sKey) {
 		var descs = {}, accessor;
 		if (v8PropsCount > (v8FixStep * v8FixInsertCount)) {
-			// Workaround for weird v8 bug
+			// Workaround for v8 bug which affects v0.10 node branch
+			// https://github.com/joyent/node/issues/6839
 			defineProperty(object, '___v8PropsFix___', d(null));
 			delete object.___v8PropsFix___;
 			++v8FixInsertCount;
