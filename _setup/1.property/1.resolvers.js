@@ -24,6 +24,7 @@ module.exports = function (db, object, descriptor) {
 		__descriptors__: d('', create(null)),
 		_getCurrentDescriptor_: d(function (sKey) {
 			var key = this._keys_[sKey];
+			if (typeof key !== 'string') return this._getDescriptor_(sKey);
 			if (!(key in this)) return null;
 			if (this[key] !== this._get_(sKey)) return null;
 			return this._getDescriptor_(sKey);
