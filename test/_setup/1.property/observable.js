@@ -1,6 +1,7 @@
 'use strict';
 
-var Database = require('../../../');
+var isObservableValue = require('observable-value/is-observable-value')
+  , Database          = require('../../../');
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
@@ -10,6 +11,7 @@ module.exports = function (a) {
 
 	observable = obj._raz;
 	a(observable.value, 1, "Observable");
+	a(isObservableValue(observable), true, "Observable value");
 
 	a(observable.lastModified, obj._getPropertyLastModified_(proto.$raz._sKey_),
 		"Initial last modified");
