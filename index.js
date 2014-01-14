@@ -37,9 +37,9 @@ Database = module.exports = function () {
 ee(defineProperties(Database.prototype, assign({
 	unserializeEvent: d(function (str, sourceId) {
 		var data = unserializeEvent(str);
-		new Event(this.objects.unserialize(data.id),
+		return new Event(this.objects.unserialize(data.id),
 			unserializeValue(data.value, this.objects), data.stamp,
-			sourceId); //jslint: skip
+			sourceId);
 	}),
 	getSnapshot: d(function (/*options*/) {
 		var result = [];
