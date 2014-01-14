@@ -48,3 +48,9 @@ module.exports = function (setProto) {
 		})
 	}));
 };
+
+// Temporary hack
+// (until we solve mixed configuration of observable and read only sets)
+module.exports(require('observable-set/create-read-only')(
+	require('observable-set')
+).prototype);
