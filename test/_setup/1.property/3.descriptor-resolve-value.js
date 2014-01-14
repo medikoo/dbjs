@@ -77,4 +77,14 @@ module.exports = function (a) {
 
 	desc.type = db.String;
 	a(desc._normalizeValue_(23), '23', "Normalize");
+
+	obj.defineProperties({
+		foo: { type: db.String, multiple: true },
+		elo: { type: db.Number },
+		bar: { type: db.Number, value: function () {
+			return this.elo + this.foo.size;
+		} }
+	});
+	obj.elo = 3;
+	a(obj.$bar._resolveLastEvent_(obj).object, obj.$elo, "Last event (getter)");
 };

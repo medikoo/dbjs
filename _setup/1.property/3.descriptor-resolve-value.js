@@ -78,7 +78,7 @@ module.exports = function (descriptor, accessCollector) {
 			value = current._value_;
 			if (!isGetter(value)) return current._lastOwnEvent_;
 			accessCollector.emit('register', accessed = []);
-			value.call(this, observePass);
+			value.call(obj, observePass);
 			accessCollector.emit('unregister');
 			if (!accessed.length) return current._lastOwnEvent_;
 			return accessed.reduce(function (event, accessed) {
@@ -86,6 +86,7 @@ module.exports = function (descriptor, accessCollector) {
 				next = obj._getCurrentDescriptor_(accessed[1]);
 				if (!next) return event;
 				next = next._lastEvent_;
+				if (!next) return event;
 				if (!event) return next;
 				return (next.stamp > event.stamp) ? next : event;
 			}, null);
