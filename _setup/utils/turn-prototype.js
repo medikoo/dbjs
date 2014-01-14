@@ -150,7 +150,7 @@ turnMultiples = function (object, proto, postponed) {
 turnMultiple = function (object, proto, postponed, done) {
 	keys(object.__multiples__).forEach(function (sKey) {
 		var setData = this[sKey], old, nu;
-		if (!done) create(null);
+		if (!done) done = create(null);
 		else if (done[sKey]) return;
 		old = getPrototypeOf(setData);
 		nu = proto[sKey] || null;
@@ -175,10 +175,10 @@ turnMultiple = function (object, proto, postponed, done) {
 turnItems = function (object, pSKey, proto, postponed, done) {
 	keys(object.__multiples__[pSKey]).forEach(function (sKey) {
 		var item = this[sKey], old, nu;
-		if (!done) create(null);
+		if (!done) done = create(null);
 		else if (done[sKey]) return;
 		old = getPrototypeOf(item);
-		nu = proto[sKey] || object.__itemPrototype__;
+		nu = (proto && proto[sKey]) || object.__itemPrototype__;
 		done[sKey] = true;
 		if (old === nu) return;
 		if (!nu._pSKey_ && item._pSKey_ && !item.hasOwnProperty('_pSKey_')) {

@@ -1,7 +1,9 @@
 'use strict';
 
 var toArray  = require('es6-iterator/to-array')
-  , Database = require('../../../');
+  , Database = require('../../../')
+
+  , getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (a) {
 	var db = new Database(), Type1 = db.Object.extend("Type1")
@@ -24,4 +26,10 @@ module.exports = function (a) {
 	a.deep(toArray(event.deleted), [['foo', obj._getMultiple_('foo')]],
 		"Deleted");
 	a.deep(toArray(event.set), [['bar', 'elo']], "Set");
+
+	Type3.prototype.$getOwn('marko').multiple = true;
+	Type3.prototype.marko.add('foo');
+	obj.marko.add('foo');
+	obj._setValue_(Type2.prototype);
+	a(getPrototypeOf(obj), Type2.prototype, "Multiple turn");
 };
