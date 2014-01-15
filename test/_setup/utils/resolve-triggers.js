@@ -1,7 +1,9 @@
 'use strict';
 
-var d        = require('d/d')
-  , Database = require('../../../')
+var d               = require('d/d')
+  , toArray         = require('es6-iterator/to-array')
+  , isObservableSet = require('observable-set/is-observable-set')
+  , Database        = require('../../../')
 
   , defineProperty = Object.defineProperty;
 
@@ -64,4 +66,33 @@ module.exports = function (t, a) {
 	a(count, 5, "Count");
 	a.deep(event, { type: 'change', newValue: 33, oldValue: 35,
 		dbjs: event.dbjs }, "Event");
+
+	obj.defineProperties({
+		elo: {
+			type: db.Boolean
+		},
+		multiTest: {
+			type: db.String,
+			multiple: true,
+			value: function () {
+				return this.elo ? ['raz', 'dwa'] : ['trzy', 'cztery'];
+			}
+		},
+		multiTest2: {
+			type: db.String,
+			multiple: true,
+			value: function () {
+				var data = [];
+				this.multiTest.forEach(function (item) { data.push(item); });
+				return data;
+			}
+		}
+	});
+
+	a.h1("Multiple dynamic");
+	a(isObservableSet(obj._multiTest2.value), true, "Type");
+	a.deep(toArray(obj._multiTest2.value), ['trzy', 'cztery'], "Content");
+	obj._multiTest2.value.on('change', function () {});
+	obj.elo = true;
+	a.deep(toArray(obj._multiTest2.value), ['raz', 'dwa'], "Related update");
 };

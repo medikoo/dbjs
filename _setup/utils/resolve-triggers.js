@@ -37,6 +37,7 @@ module.exports = function (obj, getter, update) {
 		});
 		value = observable.value;
 		if (isObservable(value)) {
+			if (value._makeObservable_) value._makeObservable_();
 			listeners = value._dynamicListeners_;
 			if (listeners) listeners.push(update);
 			else value.on('change', update);
