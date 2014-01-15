@@ -20,7 +20,7 @@ module.exports = ObservableProperty = function (object, sKey) {
 		dbId: d('', object.__id__ + '/' + sKey),
 		__sKey__: d('', sKey)
 	});
-	Observable.call(this, getter ? object._getDynamicValue_(sKey).value :
+	Observable.call(this, getter ? object._getDynamicValue_(sKey).resolvedValue :
 			object._resolve_(sKey));
 	object._observableProperties_[sKey] = this;
 };

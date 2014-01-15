@@ -1,6 +1,8 @@
 'use strict';
 
-var Database = require('../../../');
+var toArray         = require('es6-iterator/to-array')
+  , isObservableSet = require('observable-set/is-observable-set')
+  , Database        = require('../../../');
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
@@ -29,4 +31,14 @@ module.exports = function (a) {
 
 	obj.trzy = 5;
 	a(event, null, "Unreferenced, no trigger");
+
+	obj.define('multiTest', {
+		type: db.String,
+		multiple: true,
+		value: function () { return ['raz', 'dwa']; }
+	});
+
+	a.h1("Multiple dynamic");
+	a(isObservableSet(obj._multiTest.value), true, "Type");
+	a.deep(toArray(obj._multiTest.value), ['raz', 'dwa'], "Content");
 };

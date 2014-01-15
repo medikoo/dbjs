@@ -25,16 +25,14 @@ var assign           = require('es5-ext/object/assign')
   , defineProperties = Object.defineProperties
   , Multiple;
 
-Multiple = module.exports = function (object, sKey, getter) {
-	var iterate, desc, value;
+Multiple = module.exports = function (object, sKey, value) {
+	var iterate, desc;
 	if (!(this instanceof Multiple)) return new Multiple(object, sKey);
 	Set.call(this);
 	defineProperties(this, {
 		object: d('', object),
 		__sKey__: d('', sKey)
 	});
-	if (!getter) return;
-	value = getter.call(object, observePass);
 	if (value == null) return;
 	desc = object._getDescriptor_(sKey);
 	iterate = function (value) {

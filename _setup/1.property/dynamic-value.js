@@ -44,7 +44,7 @@ DynamicValue = module.exports = function (object, sKey) {
 		if (value !== null) value = desc._normalizeValue_(value);
 		this.resolvedValue = value;
 	} else {
-		this.resolvedValue = object._getDynamicMultiple_(sKey);
+		this.resolvedValue = object._getDynamicMultiple_(sKey, value);
 	}
 };
 

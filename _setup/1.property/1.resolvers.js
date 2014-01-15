@@ -6,6 +6,7 @@ var assign          = require('es5-ext/object/assign')
   , d               = require('d/d')
   , lazy            = require('d/lazy')
   , injectPrimitive = require('../utils/inject-primitive')
+  , observePass     = require('../utils/observe-pass-through')
   , DbjsError       = require('../error')
   , ObjectsSet      = require('../objects-set')
   , Observable      = require('./observable')
@@ -107,16 +108,20 @@ module.exports = function (db, object, descriptor) {
 		}),
 
 		// Dynamic multiple
-		_getDynamicMultiple_: d(function (sKey) {
+		_getDynamicMultiple_: d(function (sKey, value) {
 			var data = this._dynamicMultiples_;
 			if (data[sKey]) return data[sKey];
-			data[sKey] = new DynamicMultiple(this, sKey);
+			data[sKey] = new DynamicMultiple(this, sKey, value);
 			return data[sKey];
 		}),
 		_resolveDynamicMultiple_: d(function (sKey, getter) {
-			var data = this._dynamicMultiples_;
-			if (data[sKey]) data[sKey]._updateGetter_(getter);
-			else data[sKey] = new DynamicMultiple(this, sKey, getter);
+			var data = this._dynamicMultiples_, value;
+			if (data[sKey]) {
+				data[sKey]._updateGetter_(getter);
+			} else {
+				if (getter) value = getter.call(this, observePass);
+				data[sKey] = new DynamicMultiple(this, sKey, value);
+			}
 			return data[sKey];
 		}),
 
