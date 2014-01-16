@@ -39,9 +39,9 @@ if (setPrototypeOf) setPrototypeOf(MultiplePropertyIterator, Iterator);
 MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 	constructor: d(MultiplePropertyIterator),
 	_confirm: d(function (i) {
-		var set = this.__set__;
-		if (set.object._normalize_(set.__pSKey__,
-				set.__setData__[this.__list__[i]].key) == null) {
+		var set = this.__set__, item = set.__setData__[this.__list__[i]];
+		if (typeof item === 'number') return i;
+		if (set.object._normalize_(set.__pSKey__, item.key) == null) {
 			return this._next();
 		}
 		return i;
