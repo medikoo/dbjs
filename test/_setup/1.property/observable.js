@@ -24,4 +24,10 @@ module.exports = function (a) {
 
 	a(observable.lastModified, event.dbjs.stamp, "Evented last modified");
 	a(obj.raz, 13, "Value");
+
+	a(observable._lastModified.value, event.dbjs.stamp,
+		"Last modified observable");
+	obj.raz = 14;
+	a(observable._lastModified.value, obj.$raz._lastOwnEvent_.stamp,
+		"Last modified observable: Update");
 };

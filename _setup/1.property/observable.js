@@ -5,6 +5,7 @@ var assign         = require('es5-ext/object/assign')
   , d              = require('d/d')
   , lazy           = require('d/lazy')
   , Observable     = require('observable-value/value')
+  , ReadOnly       = require('observable-value/create-read-only')(Observable)
   , proto          = require('../_observable')
 
   , defineProperty = Object.defineProperty
@@ -47,5 +48,12 @@ ObservableProperty.prototype = Object.create(proto, assign({
 		var desc = this.object._getOwnDescriptor_(this.__sKey__);
 		defineProperty(this, 'descriptor', d('', desc));
 		return desc;
-	}, { desc: '' })
+	}, { desc: '' }),
+	_lastModified: d(function () {
+		var observable = new ReadOnly(this.lastModified);
+		this.on('change', function () {
+			observable._setValue(this.__lastModified__);
+		});
+		return observable;
+	})
 })));
