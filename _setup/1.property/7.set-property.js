@@ -161,6 +161,7 @@ module.exports = function (db, object) {
 				} catch (e) {
 					if (e.name !== 'DbjsError') throw e;
 					if (!errors) errors = [];
+					e.key = key;
 					errors.push(e);
 				}
 			}, this);
