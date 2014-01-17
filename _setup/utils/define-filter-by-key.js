@@ -3,13 +3,16 @@
 var identity    = require('es5-ext/function/i')
   , d           = require('d/d')
   , memoize     = require('memoizee/lib/regular')
+  , memoizePrim = require('memoizee/lib/primitive')
   , memoizeDesc = require('memoizee/lib/d')(memoize)
+  , map         = require('observable-value/map')
   , DbjsError   = require('../error')
   , serialize   = require('../serialize/key')
 
   , defineProperties = Object.defineProperties
   , filterValue = function (value) { return value == null; }
   , filterNull = function (value) { return value != null; }
+  , byObjId = function (obj) { return obj.__id__; }
   , resolveFilter;
 
 require('memoizee/lib/ext/resolvers');
@@ -24,22 +27,16 @@ resolveFilter = memoize(function (filter) {
 module.exports = function (setProto) {
 	return defineProperties(setProto, memoizeDesc({
 		filterByKey: d(function (key, filter) {
-			var sKey = serialize(key), set;
+			var sKey = serialize(key), set, observe;
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			}
-			set = this.filter(function (obj) {
-				var observable, current;
-				observable = obj._getObservable_(sKey);
-				observable.on('change', function (event) {
-					var value = event.newValue;
-					value = Boolean(filter(value, obj));
-					if (value === current) return;
-					set.refresh(obj);
-				});
-				(current = Boolean(filter(observable.value, obj)));
-				return current;
-			});
+			observe = memoizePrim(function (obj) {
+				return map(obj._getObservable_(sKey), function (value) {
+					return Boolean(filter(value, obj));
+				}).on('change', function (event) { set.refresh(obj); });
+			}, { serialize: byObjId });
+			set = this.filter(function (obj) { return observe(obj).value; });
 			return set;
 		}, {
 			resolvers: [identity, resolveFilter],
