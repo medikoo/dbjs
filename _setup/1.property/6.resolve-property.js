@@ -1,7 +1,9 @@
 'use strict';
 
-var d = require('d/d')
+var some = require('es5-ext/object/some')
+  , d    = require('d/d')
 
+  , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties;
 
 module.exports = function (object, accessCollector) {
@@ -41,6 +43,14 @@ module.exports = function (object, accessCollector) {
 				++size;
 			}
 			return size;
+		}),
+		_hasOwnMultiple_: d(function (sKey) {
+			if (!this.hasOwnProperty('__multiples__')) return false;
+			if (!hasOwnProperty.call(this.__multiples__, sKey)) return false;
+			return some(this.__multiples__[sKey], function (item) {
+				if (typeof item === 'number') return true;
+				return item._lastOwnEvent_;
+			});
 		}),
 		_getPropertyLastEvent_: d(function (sKey) {
 			var desc;
