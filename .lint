@@ -19,3 +19,6 @@ bitwise
 
 ./test/_setup/4.type
 newcap
+
+./_setup/utils/resolve-static-triggers.js
+evil
