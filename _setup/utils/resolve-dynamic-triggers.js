@@ -1,6 +1,7 @@
 'use strict';
 
-var diff              = require('es5-ext/array/#/diff')
+var contains          = require('es5-ext/array/#/contains')
+  , diff              = require('es5-ext/array/#/diff')
   , remove            = require('es5-ext/array/#/remove')
   , isObservable      = require('observable-value/is-observable')
   , isObservableValue = require('observable-value/is-observable-value')
@@ -28,13 +29,15 @@ module.exports = function (db, getter, update) {
 	  , add = on.bind(update, onChange), remove = off.bind(update, onChange);
 
 	wrap = function (arg) {
-		var nu, result;
+		var nu, result, dupe;
 		result = getter.call(this, function (obj) {
 			if (!isObservable(obj)) return obj;
 			if (!nu) nu = [];
-			nu.push(obj);
+			else if (contains.call(nu, obj)) dupe = true;
+			if (!dupe) nu.push(obj);
 			if (!isObservableValue(obj)) return obj;
 			obj = obj.value;
+			if (dupe) return obj;
 			if (isObservable(obj)) nu.push(obj);
 			return obj;
 		}, arg);
