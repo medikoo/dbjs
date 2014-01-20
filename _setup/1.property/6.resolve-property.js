@@ -21,8 +21,10 @@ module.exports = function (object, accessCollector) {
 		}),
 		_get_: d(function (sKey) {
 			if (accessSniff) accessSniff.push([this, sKey]);
-			if (this.hasOwnProperty('__observables__')) {
-				if (this.__observables__[sKey]) return this.__observables__[sKey].value;
+			if (this.hasOwnProperty('__observableProperties__')) {
+				if (this.__observableProperties__[sKey]) {
+					return this.__observableProperties__[sKey].value;
+				}
 			}
 			return this._resolve_(sKey);
 		}),
@@ -54,9 +56,9 @@ module.exports = function (object, accessCollector) {
 		}),
 		_getPropertyLastEvent_: d(function (sKey) {
 			var desc;
-			if (this.hasOwnProperty('__observables__')) {
-				if (this.__observables__[sKey]) {
-					return this.__observables__[sKey]._lastEvent_;
+			if (this.hasOwnProperty('__observableProperties__')) {
+				if (this.__observableProperties__[sKey]) {
+					return this.__observableProperties__[sKey]._lastEvent_;
 				}
 			}
 			desc = this._getCurrentDescriptor_(sKey);
