@@ -29,8 +29,9 @@ module.exports = function (db, getter, update) {
 	  , add = on.bind(update, onChange), remove = off.bind(update, onChange);
 
 	wrap = function (arg) {
-		var nu, result, dupe;
+		var nu, result;
 		result = getter.call(this, function (obj) {
+			var dupe;
 			if (!isObservable(obj)) return obj;
 			if (!nu) nu = [];
 			else if (contains.call(nu, obj)) dupe = true;

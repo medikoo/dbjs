@@ -12,6 +12,7 @@ module.exports = function (t, a) {
 		if (this.allow) value = _observe(this._foo);
 		else value = _observe(this._bar);
 
+		if (this.allow) value += 1;
 		value += this.all;
 		return value;
 	});
@@ -24,7 +25,7 @@ module.exports = function (t, a) {
 	a(obj.count, 0, "Init");
 
 	a.h1("Not observable");
-	a(obj.test, 15);
+	a(obj.test, 16);
 	a(obj.count, 1, "Count");
 
 	a.h1("Observable");
@@ -39,14 +40,14 @@ module.exports = function (t, a) {
 	a.h1("Change effective");
 	obj.foo = 12;
 	a(obj.count, 3, "Count");
-	a.deep(event, { type: 'change', newValue: 17, oldValue: 15,
+	a.deep(event, { type: 'change', newValue: 18, oldValue: 16,
 		dbjs: event.dbjs }, "Event");
 	event = null;
 
 	a.h1("Change observables");
 	obj.allow = false;
 	a(obj.count, 4, "Count");
-	a.deep(event, { type: 'change', newValue: 35, oldValue: 17,
+	a.deep(event, { type: 'change', newValue: 35, oldValue: 18,
 		dbjs: event.dbjs }, "Event");
 	event = null;
 
@@ -59,5 +60,11 @@ module.exports = function (t, a) {
 	obj.bar = 28;
 	a(obj.count, 5, "Count");
 	a.deep(event, { type: 'change', newValue: 33, oldValue: 35,
+		dbjs: event.dbjs }, "Event");
+
+	a.h1("Dupe double proof");
+	obj.all = 10;
+	a(obj.count, 6, "Count");
+	a.deep(event, { type: 'change', newValue: 38, oldValue: 33,
 		dbjs: event.dbjs }, "Event");
 };
