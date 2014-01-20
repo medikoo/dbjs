@@ -8,7 +8,7 @@ notify = function (obj, sKey, getter, val, rVal, isMulti, dbEvent, postponed) {
 		data = obj.__dynamicValues__[sKey];
 		if (data) {
 			if (rVal) val = rVal();
-			return data._updateObserver_(getter, dbEvent, val, postponed);
+			postponed = data._updateObserver_(getter, dbEvent, val, postponed);
 		}
 	}
 	if (!isMulti) return postponed;
