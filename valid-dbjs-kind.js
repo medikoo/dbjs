@@ -1,8 +1,8 @@
 'use strict';
 
-var isDbjsObject = require('./is-dbjs-object');
+var isDbjsKind = require('./is-dbjs-kind');
 
 module.exports = function (value) {
-	if (isDbjsObject(value)) return value;
+	if (isDbjsKind(value)) return value;
 	throw new TypeError(value + " is not dbjs object");
 };

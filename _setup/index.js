@@ -17,7 +17,7 @@ var assign            = require('es5-ext/object/assign')
   , setupDescProp     = require('./3.descriptor-property')
   , setupType         = require('./4.type')
   , setupDescMeta     = require('./5.descriptor-meta-properties')
-  , validDbjsObject   = require('../valid-dbjs-object')
+  , validDbjsKind     = require('../valid-dbjs-kind')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -34,7 +34,7 @@ var assign            = require('es5-ext/object/assign')
   , deleteObject, Constructor, protoProperties;
 
 deleteObject = function (obj) {
-	validDbjsObject(obj);
+	validDbjsKind(obj);
 	if (obj._kind_ === 'object') {
 		if (typeof obj === 'function') {
 			// Type
