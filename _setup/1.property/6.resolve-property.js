@@ -71,13 +71,27 @@ module.exports = function (object, accessCollector) {
 		}),
 		_has_: d(function (sKey) {
 			var desc = this.__descriptors__[sKey];
-			if (!desc) return false;
-			return desc._hasValue_(this);
+			if (desc) return desc._hasValue_(this);
+			desc = this.__descriptorPrototype__;
+			if (desc.nested) {
+				if (!this.__objects__) return false;
+				return Boolean(this.__objects__[sKey]);
+			}
+			if (!desc.multiple) return false;
+			if (!this.__sets__) return false;
+			return Boolean(this.__sets__[sKey]);
 		}),
 		_hasOwn_: d(function (sKey) {
 			var desc = this.__descriptors__[sKey];
-			if (!desc) return false;
-			return desc._hasOwnValue_(this);
+			if (desc) return desc._hasOwnValue_(this);
+			desc = this.__descriptorPrototype__;
+			if (desc.nested) {
+				if (!this.hasOwnProperty('__objects__')) return false;
+				return hasOwnProperty.call(this.__objects__, sKey);
+			}
+			if (!desc.multiple) return false;
+			if (!this.hasOwnProperty('__sets__')) return false;
+			return hasOwnProperty.call(this.__sets__, sKey);
 		}),
 		_lastEvent_: d.gs(function () { return this._lastOwnEvent_; })
 	});

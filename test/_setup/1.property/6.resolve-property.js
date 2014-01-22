@@ -6,7 +6,7 @@ var isSet    = require('es6-set/is-set')
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
-	  , desc, ownDesc, fn, event;
+	  , desc, ownDesc, fn, event, pDesc, obj2;
 
 	desc = proto.$getOwn('test');
 	ownDesc = obj.$test;
@@ -29,6 +29,15 @@ module.exports = function (a) {
 	event = obj._getPropertyLastEvent_(desc._sKey_);
 	a(event && event.object, desc.$nested, "Event");
 	a(obj._has_(desc._sKey_), true, "Has value");
+
+	a.h1("Nested By Proto");
+	obj2 = new db.Object();
+	pDesc = obj2._descriptorPrototype_;
+	pDesc.nested = true;
+	pDesc.type = db.Object;
+	a(obj2.get('foo').__id__, obj2.__id__ + '/foo', "Value");
+	a(obj2._hasOwn_('foo'), true, "Has own");
+	a(obj2._has_('foo'), true, "Has value");
 
 	a.h1("Getter");
 	desc.nested = false;
