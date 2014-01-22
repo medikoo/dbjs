@@ -34,8 +34,13 @@ Instances = module.exports = function (Type) {
 			onDelete(event.value);
 			return;
 		}
-		// Must not happen, left for eventual awareness
-		throw new Error("Unsupported event");
+		if (event.type === 'batch') {
+			if (event.added) event.added.forEach(onAdd);
+			if (event.deleted) event.deleted.forEach(onDelete);
+			return;
+		}
+		console.log("Errorneous event:", event);
+		throw new Error("Unsupported event: " + event.type);
 	};
 	onAdd(Type);
 	MultiSet.call(this, sets, serialize);
