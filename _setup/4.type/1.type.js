@@ -22,6 +22,7 @@ var isDate         = require('es5-ext/date/is-date')
   , unserialize    = require('../unserialize/key')
   , notifyReverse  = require('../notify/reverse')
   , validDbValue   = require('../../valid-dbjs-value')
+  , Extensions     = require('./extensions')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
   , defineProperties = Object.defineProperties
@@ -266,7 +267,10 @@ module.exports = function (db, createObj, object) {
 		})
 	}, lazy({
 		_typeAssignments_: d(function () { return new ObjectsSet(); },
-			{ cacheName: '__typeAssignments__', desc: '' })
+			{ cacheName: '__typeAssignments__', desc: '' }),
+		extensions: d(function () {
+			return new Extensions(this);
+		}, { cacheName: '__extensions__', desc: '' })
 	})));
 
 	db.objects._add(Base);
