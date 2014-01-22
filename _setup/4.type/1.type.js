@@ -302,6 +302,7 @@ module.exports = function (db, createObj, object) {
 				}, this.__multiples__);
 			}
 			if (this.constructor.prototype === this) return;
+			if (this.__sKey__) return;
 			new Event(this); //jslint: skip
 		}),
 		_setValue_: d(function (nu, dbEvent) {
