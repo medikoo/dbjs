@@ -39,7 +39,7 @@ module.exports = function (object, item) {
 			return item._create_(this, pSKey, key, sKey, setData);
 		}),
 		_getMultipleItem_: d(function (pSKey, sKey) {
-			var data = this.__mutliples__[pSKey];
+			var data = this.__multiples__[pSKey];
 			if (!data) return this.__itemPrototype__;
 			if (!data[sKey]) return this.__itemPrototype__;
 			if (!data[sKey].__id__) return null;

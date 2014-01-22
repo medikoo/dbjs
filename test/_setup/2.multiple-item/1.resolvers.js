@@ -37,5 +37,7 @@ module.exports = function (a) {
 		a(item._sKey_, key, "Item #" + i);
 		a(this, x, "Context #" + i);
 	}, x);
+	a(obj._getOwnMultipleItem_('raz', 'dwa', 'dwa'),
+		obj._getMultipleItem_('raz', 'dwa'), "Get");
 	a(keys(args).length, 0, "All processed");
 };
