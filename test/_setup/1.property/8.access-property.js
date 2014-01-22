@@ -6,7 +6,7 @@ var toArray  = require('es6-iterator/to-array')
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
-	  , args, x = {}, i;
+	  , args, x = {}, i, desc;
 
 	a.h1("Set");
 	a(obj.set('test', 'foo'), obj);
@@ -90,4 +90,11 @@ module.exports = function (a) {
 	obj.clear();
 	a(obj.size, 2);
 
+	a.h1("Nested By Proto");
+	obj = new db.Object();
+	desc = obj._descriptorPrototype_;
+	desc.nested = true;
+	desc.type = db.Object;
+	a(obj.get('foo').__id__, obj.__id__ + '/foo', "Value");
+	a(obj.size, 3, "Size");
 };

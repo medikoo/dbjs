@@ -114,12 +114,22 @@ module.exports = function (object) {
 			return this._set_(sKey, this._validateSet_(sKey, value));
 		}),
 		size: d.gs(function () {
-			var size, data, sKey;
+			var size, data, sKey, desc;
 			if (this.hasOwnProperty('__size__')) return this.__size__;
 			size = 0;
 			data = this.__descriptors__;
 			for (sKey in data) {
 				if (data[sKey]._hasValue_(this)) ++size;
+			}
+			desc = this.__descriptorPrototype__;
+			if (desc.nested) {
+				for (sKey in this.__objects__) {
+					if (!data[sKey]) ++size;
+				}
+			} else if (desc.multiple) {
+				for (sKey in this.__sets__) {
+					if (!data[sKey]) ++size;
+				}
 			}
 			return size;
 		}),
