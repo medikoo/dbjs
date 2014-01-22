@@ -7,7 +7,7 @@ var validObject = require('../../valid-dbjs-object')
   , snapshotDescriptor, snapshotItem;
 
 snapshotDescriptor = function (obj, events) {
-	var event = obj._lastEvent_;
+	var event = obj._lastOwnEvent_;
 	if (event) events.push(event);
 	if (obj.hasOwnProperty('__descriptors__')) {
 		keys(obj.__descriptors__).forEach(function (sKey) {
@@ -17,7 +17,7 @@ snapshotDescriptor = function (obj, events) {
 };
 
 snapshotItem = function (obj, events) {
-	var event = obj._lastEvent_;
+	var event = obj._lastOwnEvent_;
 	if (event) events.push(event);
 };
 
@@ -25,7 +25,7 @@ module.exports = function self(obj) {
 	var events, event;
 	validObject(obj);
 	events = [];
-	event = obj._lastEvent_;
+	event = obj._lastOwnEvent_;
 	if (event) events.push(event);
 	if (obj.hasOwnProperty('__objects__')) {
 		keys(obj.__objects__).forEach(function (sKey) {
