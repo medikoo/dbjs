@@ -25,12 +25,22 @@ getCompareByLastModified = function (object, modifiedMap) {
 };
 
 ObjectIterator = module.exports = function (map, kind) {
-	var sKey, sKeys, data, modifiedMap;
+	var sKey, sKeys, data, modifiedMap, desc;
 	if (!(this instanceof ObjectIterator)) return new ObjectIterator(map, kind);
 	sKeys = [];
 	data = map.__descriptors__;
 	for (sKey in data) {
 		if (data[sKey]._hasValue_(map)) sKeys.push(sKey);
+	}
+	desc = map.__descriptorPrototype__;
+	if (desc.nested) {
+		for (sKey in map.__objects__) {
+			if (!data[sKey]) sKeys.push(sKey);
+		}
+	} else if (desc.multiple) {
+		for (sKey in map.__sets__) {
+			if (!data[sKey]) sKeys.push(sKey);
+		}
 	}
 	Iterator.call(this, sKeys);
 	if (!kind || !kinds[kind]) kind = 'key+value';
