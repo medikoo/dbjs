@@ -55,8 +55,11 @@ MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 	}),
 	_resolve: d(function (i) {
 		var sKey = this.__list__[i], value = this.__set__.__setData__[sKey];
-		if (typeof value === 'number') value = unserialize(sKey);
-		else value = value.key;
+		if (typeof value === 'number') {
+			value = unserialize(sKey, this.__set__.object.database.objects);
+		} else {
+			value = value.key;
+		}
 		return (this.__kind__ === 'value') ? value : [value, value];
 	}),
 	_unBind: d(function () {
