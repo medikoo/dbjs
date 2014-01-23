@@ -225,9 +225,11 @@ module.exports = function (db, createObj, object) {
 				this._validateCreate_.apply(this, arguments));
 		}),
 		_createNested_: d(function (object, sKey) {
-			var nested;
+			var nested, desc;
 			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
 			nested = this._create_(object.__id__ + '/' + sKey, object.master);
+			desc = object._getDescriptor_(sKey);
+			if (!desc._reverse_ && desc.nested) updateEnum(object, sKey, true);
 			return defineProperties(nested, {
 				owner: d('', object),
 				key: d('', this._keys_[sKey]),
