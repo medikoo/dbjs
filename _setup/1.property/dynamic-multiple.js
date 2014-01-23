@@ -1,6 +1,7 @@
 'use strict';
 
-var assign           = require('es5-ext/object/assign')
+var eIndexOf         = require('es5-ext/array/#/e-index-of')
+  , assign           = require('es5-ext/object/assign')
   , create           = require('es5-ext/object/create')
   , eq               = require('es5-ext/object/eq')
   , setPrototypeOf   = require('es5-ext/object/set-prototype-of')
@@ -39,7 +40,7 @@ Multiple = module.exports = function (object, sKey, value) {
 		if (value == null) return;
 		value = desc._normalizeValue_(value);
 		if (value == null) return;
-		if (this.eIndexOf(value) !== -1) return;
+		if (eIndexOf.call(this, value) !== -1) return;
 		this.push(value);
 	};
 	if (isIterable(value)) forOf(value, iterate, this.__setData__);
@@ -123,7 +124,7 @@ Multiple.prototype = create(Set.prototype, assign({
 				++index;
 				return;
 			}
-			i = setData.eIndexOf(value);
+			i = eIndexOf.call(setData, value);
 			if (i === -1) {
 				if (index === setData.length) setData.push(value);
 				else setData.splice(index, 0, value);
