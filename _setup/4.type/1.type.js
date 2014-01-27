@@ -78,7 +78,7 @@ module.exports = function (db, createObj, object) {
 	var Base, existingIds = db.objects.__setData__;
 
 	Base = module.exports = function Self(value) {
-		if (Self.is(value)) return value;
+		if ((arguments.length === 1) && Self.is(value)) return value;
 		return Self.create.apply(Self, arguments);
 	};
 	setPrototypeOf(Base, object);
@@ -183,7 +183,7 @@ module.exports = function (db, createObj, object) {
 		}),
 		_extend_: d(function (name) {
 			var postponed, constructor = function Self(value) {
-				if (Self.is(value)) return value;
+				if ((arguments.length === 1) && Self.is(value)) return value;
 				return Self.create.apply(Self, arguments);
 			};
 			setPrototypeOf(constructor, this);
