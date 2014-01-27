@@ -183,8 +183,15 @@ module.exports = function (db, createObj, object) {
 		}),
 		_extend_: d(function (name) {
 			var postponed, constructor = function Self(value) {
-				if ((arguments.length === 1) && Self.is(value)) return value;
-				return Self.create.apply(Self, arguments);
+				var result;
+				if ((arguments.length === 1) && Self.is(value)) result = value;
+				else result = Self.create.apply(Self, arguments);
+				if (!Self.NativePrimitive) return result;
+				if (typeof result === 'object') return result;
+				if (typeof result === 'function') return result;
+				if (!(this instanceof Self)) return result;
+				result = new Self.NativePrimitive(result);
+				return setPrototypeOf(result, Self.prototype);
 			};
 			setPrototypeOf(constructor, this);
 			defineProperties(constructor, {

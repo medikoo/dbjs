@@ -15,6 +15,7 @@ module.exports = function (db) {
 	try { mixin(NumberType, Number); } catch (ignore) {}
 
 	defineProperties(NumberType, {
+		NativePrimitive: d(Number),
 		min: d(-Infinity),
 		max: d(Infinity),
 		step: d(0),

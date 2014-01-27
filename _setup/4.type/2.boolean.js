@@ -13,6 +13,7 @@ module.exports = function (db) {
 	try { mixin(BooleanType, Boolean); } catch (ignore) {}
 
 	defineProperties(BooleanType, {
+		NativePrimitive: d(Boolean),
 		is: d(function (value) { return typeof value === 'boolean'; }),
 		normalize: d(Boolean),
 		validate: d(Boolean),

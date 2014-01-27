@@ -16,6 +16,7 @@ module.exports = function (db) {
 	try { mixin(StringType, String); } catch (ignore) {}
 
 	defineProperties(StringType, {
+		NativePrimitive: d(String),
 		min: d(0),
 		max: d(Infinity),
 		is: d(function (value/*, descriptor*/) {
