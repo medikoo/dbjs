@@ -182,9 +182,13 @@ module.exports = function (db) {
 	};
 
 	return function (input, proto) {
-		var state;
+		var state, obj;
 		str = String(input);
-		if (data[str] && (data[str].__valueId__ === str)) return data[str];
+		obj = data[str];
+		if (obj) {
+			if (obj._kind_ === 'item') return obj;
+			if ((obj._kind_ === 'object') && !obj.owner) return obj;
+		}
 		proposedProto = proto;
 		state = $object;
 		i = -1;
