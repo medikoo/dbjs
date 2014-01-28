@@ -56,11 +56,6 @@ module.exports = function (object, accessCollector) {
 		}),
 		_getPropertyLastEvent_: d(function (sKey) {
 			var desc;
-			if (this.hasOwnProperty('__observableProperties__')) {
-				if (this.__observableProperties__[sKey]) {
-					return this.__observableProperties__[sKey]._lastEvent_;
-				}
-			}
 			desc = this._getCurrentDescriptor_(sKey);
 			if (desc == null) return null;
 			return desc._resolveLastEvent_(this, sKey);
