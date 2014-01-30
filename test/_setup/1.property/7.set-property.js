@@ -129,4 +129,11 @@ module.exports = function (a) {
 	a.throws(function () {
 		obj.test.delete(45);
 	}, 'MULTIPLE_REQUIRED', "Required");
+
+	a.h1("Clear nested");
+	obj = new db.Object();
+	obj.$getOwn('foo').nested = true;
+	obj.foo.set('marko', 'raz');
+	obj._clearNested_('foo');
+	a(obj.foo.marko, undefined);
 };

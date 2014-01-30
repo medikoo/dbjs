@@ -129,6 +129,16 @@ module.exports = function (db, object) {
 			new Event(item); //jslint: skip
 			return has;
 		}),
+		_clearNested_: d(function (sKey) {
+			var obj;
+			if (!this.hasOwnProperty('__objects__')) return;
+			obj = this.__objects__[sKey];
+			if (!obj) return;
+			if (!obj.hasOwnProperty('__descriptors__')) return;
+			keys(obj.__descriptors__).forEach(function (sKey) {
+				obj._delete_(sKey);
+			});
+		}),
 		_validateDelete_: d(function (sKey) {
 			var desc;
 			this._assertWritable_(sKey);
