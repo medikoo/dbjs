@@ -7,7 +7,7 @@ var endsWith = require('es5-ext/string/#/ends-with')
 		'\\(([\\0-\\(\\*-\\uffff]*)\\)\\s*\\{([\\0-\\uffff]*)\\}\\s*$');
 
 module.exports = function (value, objects) {
-	var type, flags, data;
+	var type, flags, data, obj;
 	if (!value) return undefined;
 	type = value[0];
 	value = value.slice(1);
@@ -27,6 +27,12 @@ module.exports = function (value, objects) {
 		if (endsWith.call(data[1], '\n')) data[1] = data[1].slice(0, -1);
 		return Function.apply(null, data);
 	}
-	if (type === '7') return objects.unserialize(value);
+	if (type === '7') {
+		obj = objects.unserialize(value);
+		if ((obj._kind_ === 'descriptor') && (obj.__id__ !== value)) {
+			return obj.object._getObject_(obj._sKey_);
+		}
+		return obj;
+	}
 	throw new TypeError('Incorrect value');
 };

@@ -18,4 +18,7 @@ module.exports = function (t, a) {
 	a(t('5/foo$/g', db.objects).test('foo'), true, "RegExp");
 	a(t('7DateTime', db.objects), db.DateTime, "Namespace");
 	a.throws(function () { t('923', db.objects); }, TypeError, "Invalid value");
+	x = new db.Object();
+	x.$getOwn('foo').nested = true;
+	a(t('7' + x.foo.__id__, db.objects), x.foo, "Nested object");
 };
