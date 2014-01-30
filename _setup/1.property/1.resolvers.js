@@ -158,7 +158,7 @@ module.exports = function (db, object, descriptor) {
 				'__descriptors__');
 		}, { cacheName: '__descriptors__', desc: '' }),
 
-		// Neste objects
+		// Nested objects
 		_objects_: d(function () { return create(null); },
 			{ cacheName: '__objects__', desc: '' }),
 
