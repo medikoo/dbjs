@@ -1,7 +1,7 @@
 'use strict';
 
 var isDate         = require('es5-ext/date/is-date')
-  , i              = require('es5-ext/function/i')
+  , identity       = require('es5-ext/function/identity')
   , isFunction     = require('es5-ext/function/is-function')
   , validFunction  = require('es5-ext/function/valid-function')
   , assign         = require('es5-ext/object/assign')
@@ -244,7 +244,7 @@ module.exports = function (db, createObj, object) {
 			});
 		}),
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
-		_createAndInitialize_: d(i),
+		_createAndInitialize_: d(identity),
 		_create_: d(function (id, master) {
 			var object = createObj(this.prototype, id, id, null, master);
 			db._release_(initializeObject(object));

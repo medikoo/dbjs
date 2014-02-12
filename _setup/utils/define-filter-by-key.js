@@ -1,6 +1,6 @@
 'use strict';
 
-var identity    = require('es5-ext/function/i')
+var identity    = require('es5-ext/function/identity')
   , d           = require('d/d')
   , memoize     = require('memoizee/lib/regular')
   , memoizePrim = require('memoizee/lib/primitive')
