@@ -246,8 +246,12 @@ module.exports = function (db, createObj, object) {
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(identity),
 		_create_: d(function (id, master) {
-			var object = createObj(this.prototype, id, id, null, master);
-			db._release_(initializeObject(object));
+			var object, postponed, descs;
+			descs = this.prototype._descendants_;
+			descs._postponed_ += 1;
+			postponed = [descs];
+			object = createObj(this.prototype, id, id, null, master);
+			db._release_(initializeObject(object, postponed));
 			return object;
 		}),
 		find: d(function (key, value) {

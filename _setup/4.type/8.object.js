@@ -64,9 +64,12 @@ module.exports = function (db) {
 			return String(a.__id__).localeCompare(b.__id__);
 		}),
 		_createAndInitialize_: d(function (props) {
-			var obj = this._create_(uuid());
+			var obj;
+			db._postponed_ += 1;
+			obj = this._create_(uuid());
 			new Event(obj, this.prototype); //jslint: skip
 			obj._initialize_.apply(obj, arguments);
+			db._postponed_ -= 1;
 			return obj;
 		}),
 		_validateCreate_: d(function (props) {
