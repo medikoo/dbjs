@@ -6,12 +6,11 @@ var create     = require('es5-ext/object/create')
   , DbjsError  = require('../error')
   , serialize  = require('../serialize/key')
   , Iterator   = require('./iterator')
-  , getMessage = require('../utils/get-sub-error-message')
 
   , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperty = Object.defineProperty
-  , defineProperties = Object.defineProperties, keys = Object.keys;
+  , defineProperties = Object.defineProperties;
 
 module.exports = function (object) {
 	var defineAccessors, accessors = create(null)
@@ -58,30 +57,8 @@ module.exports = function (object) {
 		}),
 
 		clear: d(function () {
-			var sKeys, errors;
-			if (!this.hasOwnProperty('__descriptors__')) return;
-			sKeys = keys(this.__descriptors__);
-			sKeys.forEach(function (sKey) {
-				try {
-					this._validateDelete_(sKey);
-				} catch (e) {
-					if (e.name !== 'DbjsError') throw e;
-					if (!errors) errors = [];
-					e.key = this._keys_[sKey];
-					errors.push(e);
-				}
-			}, this);
-			if (errors) {
-				throw new DbjsError("Cannot clear properties \n\t" +
-					errors.map(getMessage).join('\t\n'), 'CLEAR_ERROR',
-					{ errors: errors });
-			}
-			sKeys.forEach(this._delete_, this);
-		}),
-		clearNested: d(function (key) {
-			var sKey = this._serialize_(key);
-			if (sKey == null) return;
-			return this._clearNested_(sKey);
+			this._validateClear_();
+			this._clear_();
 		}),
 		delete: d(function (key) {
 			var sKey = this._serialize_(key);

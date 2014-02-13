@@ -37,6 +37,10 @@ module.exports = function (db, object) {
 			}
 			throw new DbjsError("Property is read-only", 'NON_WRITABLE');
 		}),
+		_clear_: d(function () {
+			if (!this.hasOwnProperty('__descriptors__')) return;
+			keys(this.__descriptors__).forEach(this._delete_, this);
+		}),
 		_delete_: d(function (sKey) {
 			var desc = this._getDescriptor_(sKey), has, result;
 
@@ -129,15 +133,25 @@ module.exports = function (db, object) {
 			new Event(item); //jslint: skip
 			return has;
 		}),
-		_clearNested_: d(function (sKey) {
-			var obj;
-			if (!this.hasOwnProperty('__objects__')) return;
-			obj = this.__objects__[sKey];
-			if (!obj) return;
-			if (!obj.hasOwnProperty('__descriptors__')) return;
-			keys(obj.__descriptors__).forEach(function (sKey) {
-				obj._delete_(sKey);
-			});
+		_validateClear_: d(function () {
+			var sKeys, errors;
+			if (!this.hasOwnProperty('__descriptors__')) return;
+			sKeys = keys(this.__descriptors__);
+			sKeys.forEach(function (sKey) {
+				try {
+					this._validateDelete_(sKey);
+				} catch (e) {
+					if (e.name !== 'DbjsError') throw e;
+					if (!errors) errors = [];
+					e.key = this._keys_[sKey];
+					errors.push(e);
+				}
+			}, this);
+			if (errors) {
+				throw new DbjsError("Cannot clear properties \n\t" +
+					errors.map(getMessage).join('\t\n'), 'CLEAR_ERROR',
+					{ errors: errors });
+			}
 		}),
 		_validateDelete_: d(function (sKey) {
 			var desc;

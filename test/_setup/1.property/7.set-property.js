@@ -134,6 +134,6 @@ module.exports = function (a) {
 	obj = new db.Object();
 	obj.$getOwn('foo').nested = true;
 	obj.foo.set('marko', 'raz');
-	obj._clearNested_('foo');
+	obj.foo._clear_();
 	a(obj.foo.marko, undefined);
 };
