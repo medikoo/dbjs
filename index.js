@@ -10,6 +10,7 @@ var assign           = require('es5-ext/object/assign')
   , unserializeValue = require('./_setup/unserialize/value')
   , setup            = require('./_setup')
   , validValue       = require('./valid-dbjs-value')
+  , observePassthru  = require('./_setup/utils/observe-pass-through')
 
   , push = Array.prototype.push
   , defineProperties = Object.defineProperties
@@ -50,6 +51,7 @@ ee(defineProperties(Database.prototype, assign({
 		return result.sort(byIndex);
 	}),
 	Error: d(Error),
+	observePassthru: d(observePassthru),
 	_update_: d(function (id, value) {
 		var obj;
 		validValue(value);
