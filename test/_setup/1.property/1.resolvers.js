@@ -67,4 +67,16 @@ module.exports = function (a) {
 	obj = new Type();
 	a(obj._get('foo'), true);
 	a(obj._foo, true, "Accessor");
+
+	a.h1("Nested inheritance");
+	Type.prototype.define('nTest', {
+		nested: true,
+		type: db.Object
+	});
+	Type.prototype.nTest.define('foo', {
+		type: db.Number,
+		value: 12
+	});
+	obj = new Type();
+	a(obj.nTest.foo, 12);
 };

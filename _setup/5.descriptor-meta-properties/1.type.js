@@ -67,7 +67,7 @@ module.exports = function (db, descriptor) {
 
 	defineProperties(property, {
 		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {
-			var desc, data, value, nuValue, oldValue, rMap, rKey, nuProto;
+			var desc, data, value, nuValue, oldValue, rMap, rKey, nuProto, oldProto;
 
 			if (!pSKey) return postponed;
 			desc = obj.__descriptors__[pSKey];
@@ -96,7 +96,9 @@ module.exports = function (db, descriptor) {
 				data = obj.__objects__[pSKey];
 				if (data) {
 					nuProto = isObjectType(nu) ? nu.prototype : Base.prototype;
-					if (nuProto !== getPrototypeOf(data)) {
+					oldProto = getPrototypeOf(data);
+					if ((nuProto !== getPrototypeOf(data)) &&
+							(oldProto.constructor.prototype === oldProto)) {
 						postponed = turnPrototype(data, nu.prototype, dbEvent, postponed);
 					}
 				}

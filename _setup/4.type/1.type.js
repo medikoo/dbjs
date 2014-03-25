@@ -26,7 +26,8 @@ var isDate         = require('es5-ext/date/is-date')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
   , defineProperties = Object.defineProperties
-  , keys = Object.keys, getPrototypeOf = Object.getPrototypeOf
+  , hasOwnProperty = Object.prototype.hasOwnProperty, keys = Object.keys
+  , getPrototypeOf = Object.getPrototypeOf
   , isValidTypeName = RegExp.prototype.test.bind(/^[A-Z][0-9a-zA-Z]*$/)
   , typeMap = { boolean: 1, number: 2, string: 3, function: 4,  object: 4 }
   , getObjectType
@@ -75,7 +76,7 @@ getObjectType = function (value) {
 };
 
 module.exports = function (db, createObj, object) {
-	var Base, existingIds = db.objects.__setData__, extendNested;
+	var Base, existingIds = db.objects.__setData__, extendNested, injectNested;
 
 	Base = module.exports = function Self(value) {
 		if ((arguments.length === 1) && Self.is(value)) return value;
@@ -282,20 +283,52 @@ module.exports = function (db, createObj, object) {
 		});
 	};
 
+	injectNested = function (obj, proto) {
+		var sKey;
+		if (!obj.hasOwnProperty('__descendants__')) return;
+		sKey = proto.__sKey__;
+		obj.__descendants__._plainForEach_(function (obj) {
+			var desc, oldProto, nested;
+			if (obj.hasOwnProperty('__descriptors__') &&
+					hasOwnProperty.call(obj.__descriptors__, sKey)) {
+				desc = obj.__descriptors__[sKey];
+				if (desc.hasOwnProperty('__descriptors__') &&
+						hasOwnProperty.call(desc.__descriptors__, 'type')) {
+					if (desc.__descriptors__.type.hasOwnProperty('_value_')) {
+						return;
+					}
+				}
+			}
+			if (obj.hasOwnProperty('__objects__') && obj.__objects__[sKey]) {
+				nested = obj.__objects__[sKey];
+				oldProto = getPrototypeOf(nested);
+				setPrototypeOf(nested, proto);
+				oldProto.__descendants__._delete(nested);
+				proto._descendants_._add(nested);
+				return;
+			}
+			injectNested(obj, proto);
+		});
+	};
+
 	defineProperties(object, {
 		constructor: d(Base),
 		_extendNested_: d(function (object, sKey) {
 			var nested, desc;
 			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
+			++db._postponed_;
 			nested = this._extend_(object.__id__ + '/' + sKey, object.master);
 			desc = object._getDescriptor_(sKey);
 			if (!desc._reverse_ && desc.nested) updateEnum(object, sKey, true);
-			return defineProperties(nested, {
+			defineProperties(nested, {
 				owner: d('', object),
 				key: d('', this._keys_[sKey]),
 				__sKey__: d('', sKey),
 				_extendNested_: d(extendNested)
 			});
+			injectNested(object, nested);
+			--db._postponed_;
+			return nested;
 		}),
 		_extend_: d(function (id, master) {
 			var object, postponed, descs;

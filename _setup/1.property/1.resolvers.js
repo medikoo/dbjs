@@ -76,9 +76,26 @@ module.exports = function (db, object, descriptor) {
 
 		// Nested object
 		_getObject_: d(function (sKey) {
-			var objects = this._objects_, desc, Type;
+			var objects = this._objects_, desc, descDesc, Type, proto;
 			if (objects[sKey]) return objects[sKey];
-			desc = this._getDescriptor_(sKey);
+			descDesc = this._getDescriptor_(sKey).__descriptors__.type;
+			while (!descDesc.hasOwnProperty('_value_')) {
+				descDesc = getPrototypeOf(descDesc);
+			}
+			desc = descDesc._pSKey_
+				? descDesc.object.__descriptors__[descDesc._pSKey_]
+				: descDesc.object.__descriptorPrototype__;
+			if (desc.object !== this) {
+				proto = getPrototypeOf(this);
+				while (true) {
+					if (proto.hasOwnProperty('__objects__') && proto.__objects__[sKey]) {
+						return (objects[sKey] =
+							proto.__objects__[sKey]._extendNested_(this));
+					}
+					if (desc.object === proto) break;
+					proto = getPrototypeOf(proto);
+				}
+			}
 			Type = desc.type;
 			if ((Type !== db.Base) && !db.isObjectType(Type)) Type = db.Base;
 			return (objects[sKey] = Type.prototype._extendNested_(this, sKey));
