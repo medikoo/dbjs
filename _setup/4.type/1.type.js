@@ -231,18 +231,6 @@ module.exports = function (db, createObj, object) {
 			return this._createAndInitialize_.apply(this,
 				this._validateCreate_.apply(this, arguments));
 		}),
-		_createNested_: d(function (object, sKey) {
-			var nested, desc;
-			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
-			nested = this._create_(object.__id__ + '/' + sKey, object.master);
-			desc = object._getDescriptor_(sKey);
-			if (!desc._reverse_ && desc.nested) updateEnum(object, sKey, true);
-			return defineProperties(nested, {
-				owner: d('', object),
-				key: d('', this._keys_[sKey]),
-				__sKey__: d('', sKey)
-			});
-		}),
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(identity),
 		_create_: d(function (id, master) {
@@ -286,6 +274,18 @@ module.exports = function (db, createObj, object) {
 
 	defineProperties(object, {
 		constructor: d(Base),
+		_extendNested_: d(function (object, sKey) {
+			var nested, desc;
+			if (!this._keys_[sKey]) this._serialize_(unserialize(sKey, db.objects));
+			nested = this._extend_(object.__id__ + '/' + sKey, object.master);
+			desc = object._getDescriptor_(sKey);
+			if (!desc._reverse_ && desc.nested) updateEnum(object, sKey, true);
+			return defineProperties(nested, {
+				owner: d('', object),
+				key: d('', this._keys_[sKey]),
+				__sKey__: d('', sKey)
+			});
+		}),
 		_extend_: d(function (id, master) {
 			var object, postponed, descs;
 			descs = this._descendants_;
