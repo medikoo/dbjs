@@ -75,7 +75,7 @@ getObjectType = function (value) {
 };
 
 module.exports = function (db, createObj, object) {
-	var Base, existingIds = db.objects.__setData__;
+	var Base, existingIds = db.objects.__setData__, extendNested;
 
 	Base = module.exports = function Self(value) {
 		if ((arguments.length === 1) && Self.is(value)) return value;
@@ -272,6 +272,16 @@ module.exports = function (db, createObj, object) {
 	db.Base = Base;
 	Base.prototype = object;
 
+	extendNested = function (object) {
+		var nested, desc, sKey = this.__sKey__;
+		nested = this._extend_(object.__id__ + '/' + sKey, object.master);
+		desc = object._getDescriptor_(sKey);
+		if (!desc._reverse_ && desc.nested) updateEnum(object, sKey, true);
+		return defineProperties(nested, {
+			owner: d('', object)
+		});
+	};
+
 	defineProperties(object, {
 		constructor: d(Base),
 		_extendNested_: d(function (object, sKey) {
@@ -283,7 +293,8 @@ module.exports = function (db, createObj, object) {
 			return defineProperties(nested, {
 				owner: d('', object),
 				key: d('', this._keys_[sKey]),
-				__sKey__: d('', sKey)
+				__sKey__: d('', sKey),
+				_extendNested_: d(extendNested)
 			});
 		}),
 		_extend_: d(function (id, master) {
