@@ -246,13 +246,7 @@ module.exports = function (db, createObj, object) {
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(identity),
 		_create_: d(function (id, master) {
-			var object, postponed, descs;
-			descs = this.prototype._descendants_;
-			descs._postponed_ += 1;
-			postponed = [descs];
-			object = createObj(this.prototype, id, id, null, master);
-			db._release_(initializeObject(object, postponed));
-			return object;
+			return this.prototype._extend_(id, master);
 		}),
 		find: d(function (key, value) {
 			var sKey = this._serialize_(key), sValue;
@@ -292,6 +286,15 @@ module.exports = function (db, createObj, object) {
 
 	defineProperties(object, {
 		constructor: d(Base),
+		_extend_: d(function (id, master) {
+			var object, postponed, descs;
+			descs = this._descendants_;
+			descs._postponed_ += 1;
+			postponed = [descs];
+			object = createObj(this, id, id, null, master);
+			db._release_(initializeObject(object, postponed));
+			return object;
+		}),
 		_destroy_: d(function () {
 			if (this.hasOwnProperty('__descendants__')) {
 				this.__descendants__._plainForEach_(function (obj) {
