@@ -76,15 +76,10 @@ module.exports = function (db, object, descriptor) {
 
 		// Nested object
 		_getObject_: d(function (sKey) {
-			var objects = this._objects_, desc, descDesc, Type, proto;
+			var objects = this._objects_, desc, Type, proto;
 			if (objects[sKey]) return objects[sKey];
-			descDesc = this._getDescriptor_(sKey).__descriptors__.type;
-			while (!descDesc.hasOwnProperty('_value_')) {
-				descDesc = getPrototypeOf(descDesc);
-			}
-			desc = descDesc._pSKey_
-				? descDesc.object.__descriptors__[descDesc._pSKey_]
-				: descDesc.object.__descriptorPrototype__;
+			desc = this._getDescriptor_(sKey);
+			while (!desc.hasOwnProperty('type')) desc = getPrototypeOf(desc);
 			if (desc.object !== this) {
 				proto = getPrototypeOf(this);
 				while (true) {

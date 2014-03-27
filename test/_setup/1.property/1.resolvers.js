@@ -79,4 +79,11 @@ module.exports = function (a) {
 	});
 	obj = new Type();
 	a(obj.nTest.foo, 12);
+
+	Type.prototype.define('n2Test', {
+		nested: true
+	});
+	Object.defineProperty(Type.prototype.$n2Test, 'type', d(db.Object));
+	obj = new Type();
+	a(getPrototypeOf(obj.n2Test), db.Object.prototype, "Constant type");
 };
