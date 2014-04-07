@@ -16,8 +16,7 @@ configure = function (name, descriptor, type, types, defValue) {
 	  , notifyNamedDescs;
 
 	property = defineProperties(descriptor.$getOwn(name), {
-		type: d('', type),
-		_value_: d('w', defValue)
+		type: d('', type)
 	});
 
 	baseEmitValue = property._emitValue_;

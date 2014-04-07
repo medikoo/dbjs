@@ -17,7 +17,7 @@ module.exports = function (a) {
 	iterator = desc.entries();
 	desc.set('marko', 'elo');
 	desc.delete('raz');
-	a.deep(toArray(iterator).slice(8),
+	a.deep(toArray(iterator).slice(5),
 		data = [['test', 'foo'], [ 'dwa', 2 ], ['marko', 'elo']], "Modified");
-	a.deep(toArray(desc).slice(8), data, "Default iterator");
+	a.deep(toArray(desc).slice(5), data, "Default iterator");
 };

@@ -47,7 +47,7 @@ module.exports = function (a) {
 		});
 	}, 'SET_PROPERTIES_ERROR', '');
 
-	a(ownDesc.min, -Infinity, "Not affected");
+	a(ownDesc.min, undefined, "Not affected");
 	a(ownDesc.dwa, undefined, "Not affected #2");
 	a(ownDesc.test, 'foo', "Not affected #3");
 

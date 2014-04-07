@@ -11,7 +11,6 @@ module.exports = function (a) {
 	a(desc.nested, false, "Nested");
 	a(desc.reverse, undefined, "Reverse");
 	a(desc.unique, false, "Unique");
-	a(desc.min, -Infinity, "Type meta");
 
 	a.throws(function () { obj.set('_initialize_', 'foo'); }, 'INVALID_FUNCTION',
 		"Function properties");
