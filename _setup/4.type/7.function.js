@@ -12,10 +12,15 @@ var isFunction     = require('es5-ext/function/is-function')
   , getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (db) {
-	var FunctionType = db.Base._extend_('Function');
+	var FunctionType = db.Base._extend_('Function')
+	  , prototype = FunctionType.prototype;
 
-	defineProperty(FunctionType, 'prototype', d('', FunctionType.prototype));
+	defineProperty(FunctionType, 'prototype', d('', prototype));
 	try { mixin(FunctionType, Function); } catch (ignore) {}
+	if (FunctionType.prototype !== prototype) {
+		// Happens in some engines (e.g. Safari 5.10)
+		defineProperty(FunctionType, 'prototype', d('', prototype));
+	}
 
 	defineProperties(FunctionType, {
 		is: d(function (value) {

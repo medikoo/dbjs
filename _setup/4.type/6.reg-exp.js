@@ -11,10 +11,15 @@ var isRegExp       = require('es5-ext/reg-exp/is-reg-exp')
   , getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (db) {
-	var RegExpType = db.Base._extend_('RegExp');
+	var RegExpType = db.Base._extend_('RegExp')
+	  , prototype = RegExp.prototype;
 
-	defineProperty(RegExpType, 'prototype', d('', RegExpType.prototype));
+	defineProperty(RegExpType, 'prototype', d('', prototype));
 	try { mixin(RegExpType, RegExp); } catch (ignore) {}
+	if (RegExpType.prototype !== prototype) {
+		// Happens in some engines (e.g. Safari 5.10)
+		defineProperty(RegExpType, 'prototype', d('', prototype));
+	}
 
 	defineProperties(RegExpType, {
 		is: d(function (value) {

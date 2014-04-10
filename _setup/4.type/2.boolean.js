@@ -7,10 +7,15 @@ var mixin = require('es5-ext/object/mixin')
   , defineProperties = Object.defineProperties;
 
 module.exports = function (db) {
-	var BooleanType = db.Base._extend_('Boolean');
+	var BooleanType = db.Base._extend_('Boolean')
+	  , prototype = BooleanType.prototype;
 
-	defineProperty(BooleanType, 'prototype', d('', BooleanType.prototype));
+	defineProperty(BooleanType, 'prototype', d('', prototype));
 	try { mixin(BooleanType, Boolean); } catch (ignore) {}
+	if (BooleanType.prototype !== prototype) {
+		// Happens in some engines (e.g. Safari 5.10)
+		defineProperty(BooleanType, 'prototype', d('', prototype));
+	}
 
 	defineProperties(BooleanType, {
 		NativePrimitive: d(Boolean),

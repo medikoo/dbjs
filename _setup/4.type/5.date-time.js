@@ -13,10 +13,15 @@ var isDate         = require('es5-ext/date/is-date')
   , abs = Math.abs, floor = Math.floor, max = Math.max, min = Math.min;
 
 module.exports = function (db) {
-	var DateTime = db.Base._extend_('DateTime');
+	var DateTime = db.Base._extend_('DateTime')
+	  , prototype = DateTime.prototype;
 
-	defineProperty(DateTime, 'prototype', d('', DateTime.prototype));
+	defineProperty(DateTime, 'prototype', d('', prototype));
 	try { mixin(DateTime, Date); } catch (ignore) {}
+	if (DateTime.prototype !== prototype) {
+		// Happens in some engines (e.g. Safari 5.10)
+		defineProperty(DateTime, 'prototype', d('', prototype));
+	}
 
 	defineProperties(DateTime, {
 		min: d(-Infinity),

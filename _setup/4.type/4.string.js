@@ -10,10 +10,15 @@ var mixin     = require('es5-ext/object/mixin')
   , min = Math.min, max = Math.max;
 
 module.exports = function (db) {
-	var StringType = db.Base._extend_('String');
+	var StringType = db.Base._extend_('String')
+	  , prototype = StringType.prototype;
 
-	defineProperty(StringType, 'prototype', d('', StringType.prototype));
+	defineProperty(StringType, 'prototype', d('', prototype));
 	try { mixin(StringType, String); } catch (ignore) {}
+	if (StringType.prototype !== prototype) {
+		// Happens in some engines (e.g. Safari 5.10)
+		defineProperty(StringType, 'prototype', d('', prototype));
+	}
 
 	defineProperties(StringType, {
 		NativePrimitive: d(String),
