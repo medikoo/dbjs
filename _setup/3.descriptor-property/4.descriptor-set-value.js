@@ -1,71 +1,12 @@
 'use strict';
 
-var d      = require('d/d')
-  , notify = require('../notify/desc-property')
-  , Event  = require('../event')
+var d         = require('d/d')
+  , emitValue = require('../utils/emit-desc-desc-value')
+  , Event     = require('../event')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties
-  , defineProperty = Object.defineProperty
-  , notifyDescs, notifyNamedDescs, notifyNamedDescsObj;
-
-notifyDescs = function (obj, pSKey, key, nu, old, dbEvent, sideNotify,
-	postponed) {
-	if (!obj.hasOwnProperty('__descendants__')) return postponed;
-	obj.__descendants__._plainForEach_(function (obj) {
-		var desc;
-		if (obj.hasOwnProperty('__descriptors__')) {
-			if (hasOwnProperty.call(obj.__descriptors__, pSKey)) {
-				desc = obj.__descriptors__[pSKey];
-				if (desc.hasOwnProperty('__descriptors__')) {
-					if (hasOwnProperty.call(desc.__descriptors__, key)) {
-						if (desc.__descriptors__[key].hasOwnProperty('_value_')) return;
-					}
-				}
-			}
-		}
-		postponed = notify(obj, pSKey, key, nu, old, dbEvent, postponed);
-		if (sideNotify) {
-			postponed = sideNotify(obj, pSKey, key, nu, old, dbEvent, postponed);
-		}
-		postponed = notifyDescs(obj, pSKey, key, nu, old, dbEvent,
-			sideNotify, postponed);
-	});
-	return postponed;
-};
-
-notifyNamedDescsObj = function (obj, key, nu, old, dbEvent, sidNfy, postponed) {
-	if (obj.hasOwnProperty('__descriptorPrototype__')) {
-		return notifyNamedDescs(obj.__descriptorPrototype__, key, nu, old, dbEvent,
-			sidNfy, postponed);
-	}
-	if (!obj.hasOwnProperty('__descendants__')) return postponed;
-	obj.__descendants__._plainForEach_(function (obj) {
-		postponed = notifyNamedDescsObj(obj, key, nu, old, dbEvent, sidNfy,
-			postponed);
-	});
-	return postponed;
-};
-
-notifyNamedDescs = function (descP, key, nu, old, dbEvent, sidNfy, postponed) {
-	if (!descP.hasOwnProperty('__descendants__')) return postponed;
-	descP.__descendants__._plainForEach_(function (desc) {
-		var obj;
-		if (!desc._sKey_) {
-			postponed = notifyNamedDescs(desc, key, nu, old, dbEvent,
-				sidNfy, postponed);
-			return;
-		}
-		obj = desc.object;
-		postponed = notify(obj, desc._sKey_, key, nu, old, dbEvent, postponed);
-		if (sidNfy) {
-			postponed = sidNfy(obj, desc._sKey_, key, nu, old, dbEvent, postponed);
-		}
-		postponed = notifyDescs(obj, desc._sKey_, key, nu, old, dbEvent,
-			sidNfy, postponed);
-	});
-	return postponed;
-};
+  , defineProperty = Object.defineProperty;
 
 module.exports = function (db, property) {
 	defineProperties(property, {
@@ -102,20 +43,8 @@ module.exports = function (db, property) {
 			db._release_(this._emitValue_(this.object, nu, old, dbEvent));
 		}),
 		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
-			postponed = notify(obj, this._pSKey_, this.key, nu, old, dbEvent,
-				postponed);
-			if (this._sideNotify_) {
-				postponed = this._sideNotify_(obj, this._pSKey_, this.key, nu, old,
-					dbEvent, postponed);
-			}
-			postponed = notifyDescs(obj, this._pSKey_, this.key, nu, old, dbEvent,
-				this._sideNotify_, postponed);
-			if (!this._pSKey_) {
-				postponed = notifyNamedDescsObj(obj, this.key, nu, old, dbEvent,
-					this._sideNotify_, postponed);
-			}
-			if (this._postNotify_) this._postNotify_();
-			return postponed;
+			return emitValue(obj, nu, old, this._pSKey_, this.key, this._sideNotify_,
+				this._postNotify_, dbEvent, postponed);
 		})
 	});
 };
