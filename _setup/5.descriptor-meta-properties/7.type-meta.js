@@ -12,14 +12,12 @@ var create                = require('es5-ext/object/create')
   , configure;
 
 configure = function (name, descriptor, type, types, defValue) {
-	var property, baseEmitValue, notify, notifyDesc, notifyObjDescs
-	  , notifyNamedDescs;
+	var property, notify, notifyDesc, notifyObjDescs, notifyNamedDescs;
 
 	property = defineProperties(descriptor.$getOwn(name), {
 		type: d('', type)
 	});
 
-	baseEmitValue = property._emitValue_;
 	notify = getTypePropertyNotify(types);
 
 	notifyObjDescs = function (obj, desc, nt, ot, dbEvent, postponed) {
@@ -70,22 +68,16 @@ configure = function (name, descriptor, type, types, defValue) {
 			return notify(obj, pSKey, desc.type, desc.type, desc, oldDesc,
 				dbEvent, postponed);
 		}),
-		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
-			postponed = baseEmitValue.call(this, obj, nu, old, dbEvent, postponed);
-			getTypePropertyNotify.clear();
-			return postponed;
-		})
+		_postNotify_: d(function () { getTypePropertyNotify.clear(); })
 	});
 
 	types.forEach(function (Type) {
-		var baseEmitValue, desc;
+		var desc;
 
 		desc = defineProperties(Type.$getOwn(name), {
 			type: d('', type),
 			_value_: d('w', defValue)
 		});
-
-		baseEmitValue = desc._emitValue_;
 
 		defineProperties(desc, {
 			_sideNotify_: d(function (obj, sKey, nu, old, nuGet, oldGet, dbEvent,
@@ -107,11 +99,7 @@ configure = function (name, descriptor, type, types, defValue) {
 				});
 				return postponed;
 			}),
-			_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
-				postponed = baseEmitValue.call(this, obj, nu, old, dbEvent, postponed);
-				getTypePropertyNotify.clear();
-				return postponed;
-			})
+			_postNotify_: d(function () { getTypePropertyNotify.clear(); })
 		});
 	});
 };

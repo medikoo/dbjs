@@ -110,9 +110,12 @@ module.exports = function (db, property) {
 			}
 			postponed = notifyDescs(obj, this._pSKey_, this.key, nu, old, dbEvent,
 				this._sideNotify_, postponed);
-			if (this._pSKey_) return postponed;
-			return notifyNamedDescsObj(obj, this.key, nu, old, dbEvent,
-				this._sideNotify_, postponed);
+			if (!this._pSKey_) {
+				postponed = notifyNamedDescsObj(obj, this.key, nu, old, dbEvent,
+					this._sideNotify_, postponed);
+			}
+			if (this._postNotify_) this._postNotify_();
+			return postponed;
 		})
 	});
 };

@@ -29,7 +29,7 @@ confirmItem = function (nu, old, item) {
 };
 
 module.exports = function (db, descriptor) {
-	var Base = db.Base, property, Type, baseEmitValue, baseSetValue
+	var Base = db.Base, property, Type, baseSetValue
 	  , isObjectType = db.isObjectType;
 
 	Type = defineProperties(function (value) {
@@ -63,7 +63,6 @@ module.exports = function (db, descriptor) {
 	});
 
 	baseSetValue = property._setValue_;
-	baseEmitValue = property._emitValue_;
 
 	defineProperties(property, {
 		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {
@@ -123,6 +122,7 @@ module.exports = function (db, descriptor) {
 				return (oldValue = old.normalize(value, desc));
 			}, dbEvent, postponed);
 		}),
+		_postNotify_: d(function () { nuCache = oldCache = null; }),
 		_setValue_: d(function (nu, dbEvent) {
 			var old = (this.hasOwnProperty('_value_') && this._value_) || undefined
 			  , desc;
@@ -132,11 +132,6 @@ module.exports = function (db, descriptor) {
 			if (old) old.__typeAssignments__._delete(desc);
 			if (nu) nu._typeAssignments_._add(desc);
 			baseSetValue.call(this, nu, dbEvent);
-		}),
-		_emitValue_: d(function (obj, nu, old, dbEvent, postponed) {
-			postponed = baseEmitValue.call(this, obj, nu, old, dbEvent, postponed);
-			nuCache = oldCache = null;
-			return postponed;
 		})
 	});
 };
