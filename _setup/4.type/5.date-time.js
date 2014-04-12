@@ -24,9 +24,9 @@ module.exports = function (db) {
 	}
 
 	defineProperties(DateTime, {
-		min: d(-Infinity),
-		max: d(Infinity),
-		step: d(0),
+		min: d('cew', -Infinity),
+		max: d('cew', Infinity),
+		step: d('cew', 0),
 		is: d(function (value/*, descriptor*/) {
 			var minv, maxv, step, descriptor = arguments[1];
 			if (!isDate(value)) return false;

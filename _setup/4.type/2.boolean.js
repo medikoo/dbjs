@@ -23,8 +23,8 @@ module.exports = function (db) {
 		normalize: d(Boolean),
 		validate: d(Boolean),
 		compare: d(function (a, b) { return Boolean(a) - Boolean(b); }),
-		trueLabel: d('True'),
-		falseLabel: d('False')
+		trueLabel: d('cew', 'True'),
+		falseLabel: d('cew', 'False')
 	});
 
 	defineProperties(mixin(BooleanType.prototype, Boolean.prototype), {

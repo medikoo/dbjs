@@ -22,8 +22,8 @@ module.exports = function (db) {
 
 	defineProperties(StringType, {
 		NativePrimitive: d(String),
-		min: d(0),
-		max: d(Infinity),
+		min: d('cew', 0),
+		max: d('cew', Infinity),
 		is: d(function (value/*, descriptor*/) {
 			var minv, maxv, descriptor = arguments[1];
 			if (typeof value !== 'string') return false;
