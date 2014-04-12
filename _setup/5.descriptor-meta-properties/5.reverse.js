@@ -14,7 +14,7 @@ module.exports = function (db, descriptor) {
 	property = descriptor.$getOwn('reverse');
 
 	defineProperties(property, {
-		type: d('', db.Base),
+		type: d('e', db.Base),
 		_resolveValue_: d(function () {
 			if (!this.hasOwnProperty('_value_')) return;
 			return this._value_;

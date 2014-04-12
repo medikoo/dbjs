@@ -15,7 +15,7 @@ configure = function (name, descriptor, type, types, defValue) {
 	var property, notify, notifyDesc, notifyObjDescs, notifyNamedDescs;
 
 	property = defineProperties(descriptor.$getOwn(name), {
-		type: d('', type)
+		type: d('e', type)
 	});
 
 	notify = getTypePropertyNotify(types);
@@ -75,7 +75,7 @@ configure = function (name, descriptor, type, types, defValue) {
 		var desc;
 
 		desc = defineProperties(Type.$getOwn(name), {
-			type: d('', type),
+			type: d('e', type),
 			_value_: d('w', defValue)
 		});
 

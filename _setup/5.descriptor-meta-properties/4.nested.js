@@ -6,15 +6,17 @@ var d              = require('d/d')
   , notifyGetter   = require('../notify/getter')
   , notifyProperty = require('../notify/property')
 
-  , defineProperties = Object.defineProperties;
+  , defineProperties = Object.defineProperties
+  , defineProperty = Object.defineProperty;
 
 module.exports = function (db, descriptor) {
 	var property;
 
 	property = defineProperties(descriptor.$getOwn('nested'), {
-		type: d('', db.Boolean),
+		type: d('e', db.Boolean),
 		_value_: d('w', false)
 	});
+	defineProperty(descriptor, 'nested', descriptor._accessors_.nested);
 
 	defineProperties(property, {
 		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {

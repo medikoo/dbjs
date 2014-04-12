@@ -17,7 +17,7 @@ module.exports = function (db, descriptor) {
 	defineAccessors = function (key) {
 		var descs, accessor;
 		descs = {};
-		descs[key] = accessor = d.gs('', function () {
+		descs[key] = accessor = d.gs('c', function () {
 			return this._get_(key);
 		}, function (value) {
 			this._set_(key, this._validateSet_(key, value));
@@ -30,7 +30,7 @@ module.exports = function (db, descriptor) {
 			return this.object._getDpObservable_(this._sKey_, key);
 		});
 		defineProperties(descriptor, descs);
-		accessor.enumerable = accessor.configurable = true;
+		accessor.enumerable = true;
 		accessors[key] = accessor;
 		return key;
 	};

@@ -55,12 +55,13 @@ module.exports = function (db, descriptor) {
 		})
 	});
 
-	defineProperty(descriptor.__descriptorPrototype__, 'type', d('', Base));
+	defineProperty(descriptor.__descriptorPrototype__, 'type', d('e', Base));
 
 	property = defineProperties(descriptor.$getOwn('type'), {
-		type: d('', Type),
+		type: d('e', Type),
 		_value_: d('w', Base)
 	});
+	defineProperty(descriptor, 'type', descriptor._accessors_.type);
 
 	baseSetValue = property._setValue_;
 

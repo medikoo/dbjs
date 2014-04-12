@@ -5,6 +5,7 @@ var d              = require('d/d')
   , notifyProperty = require('../notify/property')
 
   , defineProperties = Object.defineProperties
+  , defineProperty = Object.defineProperty
   , notify, notifyDescs;
 
 notify = function (obj, sKey, nu, map, dbEvent, postponed) {
@@ -48,9 +49,10 @@ module.exports = function (db, descriptor) {
 	var property, isObjectType = db.isObjectType;
 
 	property = defineProperties(descriptor.$getOwn('unique'), {
-		type: d('', db.Boolean),
+		type: d('e', db.Boolean),
 		_value_: d('w', false)
 	});
+	defineProperty(descriptor, 'unique', descriptor._accessors_.unique);
 
 	defineProperties(property, {
 		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {

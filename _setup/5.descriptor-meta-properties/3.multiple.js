@@ -7,15 +7,17 @@ var d                 = require('d/d')
   , notifyProperty    = require('../notify/property')
   , gatherReverseMaps = require('../utils/gather-reverse-maps')
 
-  , defineProperties = Object.defineProperties;
+  , defineProperties = Object.defineProperties
+  , defineProperty = Object.defineProperty;
 
 module.exports = function (db, descriptor) {
 	var property;
 
 	property = defineProperties(descriptor.$getOwn('multiple'), {
-		type: d('', db.Boolean),
+		type: d('e', db.Boolean),
 		_value_: d('w', false)
 	});
+	defineProperty(descriptor, 'multiple', descriptor._accessors_.multiple);
 
 	defineProperties(property, {
 		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {
@@ -24,6 +26,7 @@ module.exports = function (db, descriptor) {
 
 			if (!pSKey) return postponed;
 			desc = obj.__descriptors__[pSKey];
+			if (!desc) desc = obj.__descriptorPrototype__;
 
 			if (desc._reverse_) return postponed;
 			if (desc.nested) return postponed;
