@@ -227,52 +227,45 @@ emitItems = function (obj, sKey, nuSet, oldSet, dbEvent, postponed) {
 };
 
 emitDescDescs = function (obj, pSKey, nuDesc, oldDesc, dbEvent, postponed) {
-	var nuDescs = nuDesc && nuDesc.__descriptors__
-	  , oldDescs = oldDesc && oldDesc.__descriptors__
-	  , descProto = obj.database.Base.prototype.__descriptorPrototype__
-	  , ownDescs, nuDescDesc
-	  , done, nu, old, oldDescDesc, sKey;
-	if (nuDescs === oldDescs) return postponed;
+	var descProto = obj.database.Base.prototype.__descriptorPrototype__
+	  , nuDescDesc, done, nu, old, oldDescDesc, key, ownDesc;
+
 	if (pSKey) {
 		if (obj.hasOwnProperty('__descriptors__') &&
-				hasOwnProperty.call(obj.__descriptors__, pSKey) &&
-				obj.__descriptors__[pSKey].hasOwnProperty('__descriptors__')) {
-			ownDescs = obj.__descriptors__[pSKey].__descriptors__;
+				hasOwnProperty.call(obj.__descriptors__, pSKey)) {
+			ownDesc = obj.__descriptors__[pSKey];
 		}
-	} else if (obj.hasOwnProperty('__descriptorPrototype__') &&
-			obj.__descriptorPrototype__.hasOwnProperty('__descriptors__')) {
-		ownDescs = obj.__descriptorPrototype__.__descriptors__;
+	} else if (obj.hasOwnProperty('__descriptorPrototype__')) {
+		ownDesc = obj.__descriptorPrototype__;
 	}
-	if (nuDescs) {
+	if (nuDesc) {
 		done = create(null);
-		for (sKey in nuDescs) {
-			if (sKey === 'reverse') continue;
-			done[sKey] = true;
-			if (ownDescs && hasOwnProperty.call(ownDescs, sKey) &&
-					ownDescs[sKey].hasOwnProperty('_value_')) {
-				continue;
-			}
-			nuDescDesc = nuDescs[sKey];
-			nu = nuDescDesc._resolveValue_();
-			oldDescDesc = oldDescs && oldDescs[sKey];
-			old = oldDescDesc ? oldDescDesc._resolveValue_() : descProto[sKey];
+		for (key in nuDesc) {
+			if (key === 'reverse') continue;
+			done[key] = true;
+			if (ownDesc && ownDesc.hasOwnProperty(key)) continue;
+			nu = nuDesc[key];
+			old = oldDesc ? oldDesc[key] : descProto[key];
 			if (nu === old) continue;
-			postponed = nuDescDesc._emitValue_(obj, nu, old, dbEvent, postponed);
+			nuDescDesc = nuDesc.__descriptors__[key];
+			postponed = emitDescDescValue(obj, nu, old, pSKey, key,
+				nuDescDesc && nuDescDesc._sideNotify_,
+				nuDescDesc && nuDescDesc._postNotify_, dbEvent, postponed);
 		}
-		if (!oldDescs) return postponed;
 	}
-	for (sKey in oldDescs) {
-		if (sKey === 'reverse') continue;
-		if (done && done[sKey]) continue;
-		if (ownDescs && hasOwnProperty.call(ownDescs, sKey) &&
-				ownDescs[sKey].hasOwnProperty('_value_')) {
-			continue;
+
+	if (oldDesc) {
+		for (key in oldDesc) {
+			if (key === 'reverse') continue;
+			if (done && done[key]) continue;
+			if (ownDesc && ownDesc.hasOwnProperty(key)) continue;
+			old = oldDesc[key];
+			if (old === descProto[key]) continue;
+			oldDescDesc = oldDesc.__descriptors__[key];
+			postponed = emitDescDescValue(obj, undefined, old, pSKey, key,
+				oldDescDesc && oldDescDesc._sideNotify_,
+				oldDescDesc && oldDescDesc._postNotify_, dbEvent, postponed);
 		}
-		oldDescDesc = oldDescs[sKey];
-		old = oldDescDesc._resolveValue_();
-		if (old === descProto[sKey]) continue;
-		postponed = oldDescDesc._emitValue_(obj, undefined, old,
-			dbEvent, postponed);
 	}
 	return postponed;
 };

@@ -1,7 +1,10 @@
 'use strict';
 
-var toArray  = require('es6-iterator/to-array')
-  , Database = require('../../../');
+var d        = require('d/d')
+  , toArray  = require('es6-iterator/to-array')
+  , Database = require('../../../')
+
+  , getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (a) {
 	var db = new Database(), Type1 = db.Object.extend("Type1")
@@ -9,7 +12,7 @@ module.exports = function (a) {
 	  , Type3 = db.Object.extend("Type3")
 	  , desc1 = Type1.prototype.$getOwn('foo')
 	  , desc3 = Type3.prototype.$getOwn('nesti')
-	  , event, obj, obj2;
+	  , event, obj, obj2, nested;
 
 	desc1.multiple = true;
 	Type2.prototype.set('bar', 'elo');
@@ -35,4 +38,17 @@ module.exports = function (a) {
 	obj2 = new Type1();
 	obj.marko = obj2;
 	a(obj2.hilo, obj, "Reverse fix");
+
+	// Nested case
+	Type2.prototype.define('raz', {
+		nested: true
+	});
+	Object.defineProperty(Type2.prototype.$getOwn('raz'), 'type',
+		d(Type3));
+
+	obj = db.Object.newNamed('marko');
+	nested = obj._getObject_('raz');
+	obj._setValue_(Type2.prototype);
+	a(getPrototypeOf(nested).__id__, Type3.prototype.__id__,
+		"Switch proto using constant types");
 };

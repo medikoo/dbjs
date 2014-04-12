@@ -69,6 +69,7 @@ module.exports = function (db, descriptor) {
 			var desc, map;
 			if (!pSKey) return postponed;
 			desc = obj.__descriptors__[pSKey];
+			if (!desc) desc = obj.__descriptorPrototype__;
 			if (!isObjectType(desc.type)) return postponed;
 			if (obj.constructor.prototype !== obj) return postponed;
 			if (!isObjectType(obj.constructor)) return postponed;

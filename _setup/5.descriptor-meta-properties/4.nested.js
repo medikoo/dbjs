@@ -24,6 +24,7 @@ module.exports = function (db, descriptor) {
 
 			if (!pSKey) return postponed;
 			desc = obj.__descriptors__[pSKey];
+			if (!desc) desc = obj.__descriptorPrototype__;
 
 			if (desc._reverse_) return postponed;
 			value = desc._resolveValueValue_();

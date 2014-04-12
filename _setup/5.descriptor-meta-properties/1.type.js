@@ -71,6 +71,7 @@ module.exports = function (db, descriptor) {
 
 			if (!pSKey) return postponed;
 			desc = obj.__descriptors__[pSKey];
+			if (!desc) desc = obj.__descriptorPrototype__;
 
 			// Reverse property
 			if ((desc.reverse !== undefined) && (obj.constructor.prototype === obj) &&

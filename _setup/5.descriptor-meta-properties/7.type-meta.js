@@ -61,6 +61,8 @@ configure = function (name, descriptor, type, types, defValue) {
 
 			if (!pSKey) return postponed;
 			desc = obj.__descriptors__[pSKey];
+			if (!desc) desc = obj.__descriptorPrototype__;
+
 			oldDesc = { min: desc.max, max: desc.max, step: desc.step,
 				pattern: desc.pattern };
 			oldDesc[name] = old;
@@ -83,6 +85,7 @@ configure = function (name, descriptor, type, types, defValue) {
 			_sideNotify_: d(function (obj, sKey, nu, old, nuGet, oldGet, dbEvent,
 				postponed) {
 				var desc = obj.__descriptors__[sKey], ot;
+				if (!desc) desc = obj.__descriptorPrototype__;
 
 				if (desc.multiple) return postponed;
 				if (nuGet) nu = resolveValue(obj, nu, true, desc.type, desc);
