@@ -1,9 +1,10 @@
 'use strict';
 
-var create        = require('es5-ext/object/create')
-  , notifyReverse = require('../notify/reverse-all')
-  , onValueTurn   = require('../notify/on-value-turn')
-  , turn          = require('./turn-prototype')
+var create            = require('es5-ext/object/create')
+  , notifyReverse     = require('../notify/reverse-all')
+  , onValueTurn       = require('../notify/on-value-turn')
+  , emitDescDescValue = require('../utils/emit-desc-desc-value')
+  , turn              = require('./turn-prototype')
 
   , hasOwnProperty = Object.hasOwnProperty, keys = Object.keys
   , getPrototypeOf = Object.getPrototypeOf
@@ -227,7 +228,9 @@ emitItems = function (obj, sKey, nuSet, oldSet, dbEvent, postponed) {
 
 emitDescDescs = function (obj, pSKey, nuDesc, oldDesc, dbEvent, postponed) {
 	var nuDescs = nuDesc && nuDesc.__descriptors__
-	  , oldDescs = oldDesc && oldDesc.__descriptors__, ownDescs, nuDescDesc
+	  , oldDescs = oldDesc && oldDesc.__descriptors__
+	  , descProto = obj.database.Base.prototype.__descriptorPrototype__
+	  , ownDescs, nuDescDesc
 	  , done, nu, old, oldDescDesc, sKey;
 	if (nuDescs === oldDescs) return postponed;
 	if (pSKey) {
@@ -252,7 +255,7 @@ emitDescDescs = function (obj, pSKey, nuDesc, oldDesc, dbEvent, postponed) {
 			nuDescDesc = nuDescs[sKey];
 			nu = nuDescDesc._resolveValue_();
 			oldDescDesc = oldDescs && oldDescs[sKey];
-			old = oldDescDesc ? oldDescDesc._resolveValue_() : undefined;
+			old = oldDescDesc ? oldDescDesc._resolveValue_() : descProto[sKey];
 			if (nu === old) continue;
 			postponed = nuDescDesc._emitValue_(obj, nu, old, dbEvent, postponed);
 		}
@@ -267,7 +270,7 @@ emitDescDescs = function (obj, pSKey, nuDesc, oldDesc, dbEvent, postponed) {
 		}
 		oldDescDesc = oldDescs[sKey];
 		old = oldDescDesc._resolveValue_();
-		if (old === undefined) continue;
+		if (old === descProto[sKey]) continue;
 		postponed = oldDescDesc._emitValue_(obj, undefined, old,
 			dbEvent, postponed);
 	}
