@@ -1,6 +1,6 @@
 'use strict';
 
-var assign          = require('es5-ext/object/assign-multiple')
+var assign          = require('es5-ext/object/assign')
   , d               = require('d/d')
   , autoBind        = require('d/auto-bind')
   , lazy            = require('d/lazy')

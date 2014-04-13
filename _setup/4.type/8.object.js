@@ -1,7 +1,7 @@
 'use strict';
 
 var isFunction   = require('es5-ext/function/is-function')
-  , assign       = require('es5-ext/object/assign-multiple')
+  , assign       = require('es5-ext/object/assign')
   , create       = require('es5-ext/object/create')
   , d            = require('d/d')
   , lazy         = require('d/lazy')
