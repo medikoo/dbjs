@@ -8,7 +8,8 @@ var primitiveSet   = require('es5-ext/object/primitive-set')
 	'(_observe[\\/*\\s]*)?\\)\\s*\\{([\\0-\\uffff]*)\\}\\s*$')
   , ignored = primitiveSet('constructor', 'clear', 'database', 'delete',
 		'entries', 'forEach', 'has', 'key', 'keys', 'master', 'object', 'set',
-		'size', 'values');
+		'size', 'values')
+  , isFn = RegExp.prototype.test.bind(/^\s*\(/);
 
 module.exports = memoize(function (fn) {
 	var body = String(fn).match(re)[2], shift = 0;
@@ -16,6 +17,7 @@ module.exports = memoize(function (fn) {
 		var name = data.name, start;
 		if (name[0] === '_') return;
 		if (ignored[name]) return;
+		if (isFn(body.slice(data.end + shift))) return;
 		start = data.start - 5 + shift;
 		body = body.slice(0, start) + '_observe(this._get(\'' + name + '\'))' +
 			body.slice(data.end + shift);
