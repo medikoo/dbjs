@@ -90,7 +90,7 @@ Multiple.prototype = create(Set.prototype, assign({
 		return this.object._getMultipleItemObservable_(this.__pSKey__,
 			this._serialize(key), key);
 	}),
-	getLastModifiedByValue: d(function (key) {
+	getLastModified: d(function (key) {
 		var item;
 		if (key == null) return null;
 		key = this.object._normalize_(this.__pSKey__, key);
