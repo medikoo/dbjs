@@ -3,7 +3,7 @@
 var assign           = require('es5-ext/object/assign')
   , d                = require('d/d')
   , lazy             = require('d/lazy')
-  , ee               = require('event-emitter/lib/core')
+  , ee               = require('event-emitter')
   , Event            = require('./_setup/event')
   , Error            = require('./_setup/error')
   , unserializeEvent = require('./_setup/unserialize/event')
