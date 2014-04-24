@@ -4,7 +4,7 @@ var isDate         = require('es5-ext/date/is-date')
   , copy           = require('es5-ext/date/#/copy')
   , mixin          = require('es5-ext/object/mixin')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d/d')
+  , d              = require('d')
   , DbjsError      = require('../error')
 
   , defineProperty = Object.defineProperty

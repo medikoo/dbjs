@@ -1,7 +1,7 @@
 'use strict';
 
 var assign             = require('es5-ext/object/assign')
-  , d                  = require('d/d')
+  , d                  = require('d')
   , lazy               = require('d/lazy')
   , isObservableSymbol = require('observable-value/symbol-is-observable')
   , setFilterMap       = require('observable-set/filter-map')

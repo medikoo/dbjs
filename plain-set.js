@@ -1,6 +1,6 @@
 'use strict';
 
-var d              = require('d/d')
+var d              = require('d')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , Set            = require('es6-set/polyfill')
 

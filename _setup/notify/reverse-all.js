@@ -1,6 +1,6 @@
 'use strict';
 
-var d              = require('d/d')
+var d              = require('d')
   , isGetter       = require('../utils/is-getter')
   , updateEnum     = require('../utils/update-enumerability')
   , notifyGetter   = require('../notify/getter')

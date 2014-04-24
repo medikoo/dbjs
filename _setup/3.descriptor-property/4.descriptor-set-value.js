@@ -1,6 +1,6 @@
 'use strict';
 
-var d         = require('d/d')
+var d         = require('d')
   , emitValue = require('../utils/emit-desc-desc-value')
   , Event     = require('../event')
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var mixin = require('es5-ext/object/mixin')
-  , d     = require('d/d')
+  , d     = require('d')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties;

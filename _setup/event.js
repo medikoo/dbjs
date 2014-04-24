@@ -1,6 +1,6 @@
 'use strict';
 
-var d         = require('d/d')
+var d         = require('d')
   , nextTick  = require('next-tick')
   , now       = require('time-uuid/lib/time')
   , serialize = require('./serialize/value')

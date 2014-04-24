@@ -1,6 +1,6 @@
 'use strict';
 
-var d             = require('d/d')
+var d             = require('d')
   , DbjsError     = require('../error')
   , notifyReverse = require('../notify/reverse-all')
   , baseNotify    = require('../notify/desc-property')

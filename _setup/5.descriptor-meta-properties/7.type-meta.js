@@ -1,7 +1,7 @@
 'use strict';
 
 var create                = require('es5-ext/object/create')
-  , d                     = require('d/d')
+  , d                     = require('d')
   , getTypePropertyNotify = require('../utils/get-type-property-notify')
   , resolveValue          = require('../utils/resolve-value')
 

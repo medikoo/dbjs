@@ -2,7 +2,7 @@
 
 var assign             = require('es5-ext/object/assign')
   , eq                 = require('es5-ext/object/eq')
-  , d                  = require('d/d')
+  , d                  = require('d')
   , lazy               = require('d/lazy')
   , isObservableSymbol = require('observable-value/symbol-is-observable')
   , setFilterMapSubset = require('observable-map/filter-map-subset')

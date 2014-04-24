@@ -2,7 +2,7 @@
 
 var create           = require('es5-ext/object/create')
   , setPrototypeOf   = require('es5-ext/object/set-prototype-of')
-  , d                = require('d/d')
+  , d                = require('d')
   , Set              = require('es6-set/polyfill')
   , notifyProperty   = require('../notify/property')
   , DbjsError        = require('../error')

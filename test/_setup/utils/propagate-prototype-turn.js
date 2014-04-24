@@ -1,6 +1,6 @@
 'use strict';
 
-var d        = require('d/d')
+var d        = require('d')
   , toArray  = require('es6-iterator/to-array')
   , Database = require('../../../')
 

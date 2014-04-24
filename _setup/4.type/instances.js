@@ -1,7 +1,7 @@
 'use strict';
 
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d/d')
+  , d              = require('d')
   , Set            = require('es6-set')
   , PrimitiveMap   = require('es6-map/primitive')
   , createMultiSet = require('observable-multi-set/_create')

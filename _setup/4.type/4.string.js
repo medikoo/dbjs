@@ -2,7 +2,7 @@
 
 var mixin     = require('es5-ext/object/mixin')
   , isRegExp  = require('es5-ext/reg-exp/is-reg-exp')
-  , d         = require('d/d')
+  , d         = require('d')
   , DbjsError = require('../error')
 
   , defineProperty = Object.defineProperty

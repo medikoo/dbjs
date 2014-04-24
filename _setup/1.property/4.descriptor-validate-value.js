@@ -3,7 +3,7 @@
 var arrayLikeToArray = require('es5-ext/array/to-array')
   , uniq             = require('es5-ext/array/#/uniq')
   , pluck            = require('es5-ext/function/pluck')
-  , d                = require('d/d')
+  , d                = require('d')
   , isIterable       = require('es6-iterator/is-iterable')
   , iterableToArray  = require('es6-iterator/to-array')
   , DbjsError        = require('../error')

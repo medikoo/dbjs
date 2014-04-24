@@ -2,7 +2,7 @@
 
 var create     = require('es5-ext/object/create')
   , callable   = require('es5-ext/object/valid-callable')
-  , d          = require('d/d')
+  , d          = require('d')
   , DbjsError  = require('../error')
   , serialize  = require('../serialize/key')
   , Iterator   = require('./iterator')

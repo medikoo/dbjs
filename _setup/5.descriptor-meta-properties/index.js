@@ -1,6 +1,6 @@
 'use strict';
 
-var d        = require('d/d')
+var d        = require('d')
   , type     = require('./1.type')
   , required = require('./2.required')
   , multiple = require('./3.multiple')

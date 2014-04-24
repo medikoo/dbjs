@@ -2,7 +2,7 @@
 
 var assign           = require('es5-ext/object/assign')
   , create           = require('es5-ext/object/create')
-  , d                = require('d/d')
+  , d                = require('d')
   , lazy             = require('d/lazy')
   , Set              = require('es6-set/polyfill')
   , setCopy          = require('es6-set/ext/copy')

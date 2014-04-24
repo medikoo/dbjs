@@ -10,7 +10,7 @@ var eIndexOf         = require('es5-ext/array/#/e-index-of')
   , setCopy          = require('es6-set/ext/copy')
   , setEvery         = require('es6-set/ext/every')
   , setSome          = require('es6-set/ext/some')
-  , d                = require('d/d')
+  , d                = require('d')
   , lazy             = require('d/lazy')
   , Set              = require('observable-set/create-read-only')(
 	require('es6-set/polyfill')

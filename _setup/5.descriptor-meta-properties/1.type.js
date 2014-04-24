@@ -1,7 +1,7 @@
 'use strict';
 
 var create         = require('es5-ext/object/create')
-  , d              = require('d/d')
+  , d              = require('d')
   , DbjsError      = require('../error')
   , isGetter       = require('../utils/is-getter')
   , turnPrototype  = require('../utils/propagate-prototype-turn').object

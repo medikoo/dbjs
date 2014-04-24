@@ -2,7 +2,7 @@
 
 var forEach    = require('es5-ext/object/for-each')
   , validValue = require('es5-ext/object/valid-value')
-  , d          = require('d/d')
+  , d          = require('d')
   , DbjsError  = require('../error')
   , Event      = require('../event')
   , getMessage = require('../utils/get-sub-error-message')

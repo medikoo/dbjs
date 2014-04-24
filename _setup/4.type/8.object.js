@@ -3,7 +3,7 @@
 var isFunction   = require('es5-ext/function/is-function')
   , assign       = require('es5-ext/object/assign')
   , create       = require('es5-ext/object/create')
-  , d            = require('d/d')
+  , d            = require('d')
   , lazy         = require('d/lazy')
   , uuid         = require('time-uuid')
   , DbjsError    = require('../error')

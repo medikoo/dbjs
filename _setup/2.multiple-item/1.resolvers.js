@@ -3,7 +3,7 @@
 var assign                = require('es5-ext/object/assign')
   , create                = require('es5-ext/object/create')
   , callable              = require('es5-ext/object/valid-callable')
-  , d                     = require('d/d')
+  , d                     = require('d')
   , lazy                  = require('d/lazy')
   , injectPrimitive       = require('../utils/inject-primitive')
   , injectPrimitiveNested = require('../utils/inject-primitive-nested')

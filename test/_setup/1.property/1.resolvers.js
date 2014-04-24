@@ -1,7 +1,7 @@
 'use strict';
 
 var primitiveSet = require('es5-ext/object/primitive-set')
-  , d            = require('d/d')
+  , d            = require('d')
   , isSet        = require('es6-set/is-set')
   , isObservable = require('observable-value/is-observable-value')
   , Database     = require('../../../')

@@ -1,6 +1,6 @@
 'use strict';
 
-var d               = require('d/d')
+var d               = require('d')
   , toArray         = require('es6-iterator/to-array')
   , isObservableSet = require('observable-set/is-observable-set')
   , Database        = require('../../../')

@@ -3,7 +3,7 @@
 var remove         = require('es5-ext/array/#/remove')
   , assign         = require('es5-ext/object/assign')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d/d')
+  , d              = require('d')
   , autoBind       = require('d/auto-bind')
   , Iterator       = require('es6-iterator')
   , kinds          = require('es6-map/_iterator-kinds')

@@ -3,7 +3,7 @@
 var isFunction     = require('es5-ext/function/is-function')
   , mixin          = require('es5-ext/object/mixin')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d/d')
+  , d              = require('d')
   , DbjsError      = require('../error')
   , isGetter       = require('../utils/is-function-getter')
 

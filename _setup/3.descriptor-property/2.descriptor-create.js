@@ -1,7 +1,7 @@
 'use strict';
 
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d/d')
+  , d              = require('d')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , getPrototypeOf = Object.getPrototypeOf

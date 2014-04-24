@@ -3,7 +3,7 @@
 var assign            = require('es5-ext/object/assign')
   , create            = require('es5-ext/object/create')
   , primitiveSet      = require('es5-ext/object/primitive-set')
-  , d                 = require('d/d')
+  , d                 = require('d')
   , lazy              = require('d/lazy')
   , Map               = require('es6-map/primitive')
   , ee                = require('event-emitter')
