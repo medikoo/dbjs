@@ -1,41 +1,38 @@
 'use strict';
 
-var identity    = require('es5-ext/function/identity')
-  , d           = require('d')
-  , memoize     = require('memoizee/lib/regular')
-  , memoizePrim = require('memoizee/lib/primitive')
-  , memoizeDesc = require('memoizee/lib/d')(memoize)
-  , map         = require('observable-value/map')
-  , DbjsError   = require('../error')
-  , serialize   = require('../serialize/key')
+var identity       = require('es5-ext/function/identity')
+  , d              = require('d')
+  , memoize        = require('memoizee/plain')
+  , memoizeMethods = require('memoizee/methods-plain')
+  , map            = require('observable-value/map')
+  , DbjsError      = require('../error')
+  , serialize      = require('../serialize/key')
 
   , defineProperties = Object.defineProperties
   , filterValue = function (value) { return value == null; }
   , filterNull = function (value) { return value != null; }
-  , byObjId = function (obj) { return obj.__id__; }
+  , byObjId = function (args) { return args[0].__id__; }
   , resolveFilter;
-
-require('memoizee/lib/ext/resolvers');
 
 resolveFilter = memoize(function (filter) {
 	if (filter === undefined) return filterNull;
 	if (filter === null) return filterValue;
 	if (typeof filter === 'function') return filter;
 	return function (value) { return value === filter; };
-});
+}, { normalizer: require('memoizee/normalizers/get-1')() });
 
 module.exports = function (setProto) {
-	return defineProperties(setProto, memoizeDesc({
+	return defineProperties(setProto, memoizeMethods({
 		filterByKey: d(function (key, filter) {
 			var sKey = serialize(key), set, observe;
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			}
-			observe = memoizePrim(function (obj) {
+			observe = memoize(function (obj) {
 				return map(obj._getObservable_(sKey), function (value) {
 					return Boolean(filter(value, obj));
 				}).on('change', function (event) { set.refresh(obj); });
-			}, { serialize: byObjId });
+			}, { normalizer: byObjId });
 			set = this.filter(function (obj) { return observe(obj).value; });
 			return set;
 		}, {

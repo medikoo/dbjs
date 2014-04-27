@@ -2,7 +2,7 @@
 
 var primitiveSet = require('es5-ext/object/primitive-set')
   , resolve      = require('esniff/accessed-properties')('this')
-  , memoize      = require('memoizee/lib/primitive')
+  , memoize      = require('memoizee/plain')
 
   , re = new RegExp('^\\s*function\\s*(?:[\\0-\'\\)-\\uffff]+)*\\s*\\(\\s*' +
 	'(_observe[\\/*\\s]*)?\\)\\s*\\{([\\0-\\uffff]*)\\}\\s*$')

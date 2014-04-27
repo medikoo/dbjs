@@ -16,8 +16,6 @@ var isFunction   = require('es5-ext/function/is-function')
   , defineProperty = Object.defineProperty
   , getById;
 
-require('memoizee/lib/ext/resolvers');
-
 getById = function (proto, id) {
 	var obj;
 	if (!proto.hasOwnProperty('__descendants__')) return null;
