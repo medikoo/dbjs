@@ -1,6 +1,6 @@
 'use strict';
 
-var ObservableValue = require('observable-value/value')
+var ObservableValue = require('observable-value')
   , ObservableSet   = require('observable-set')
   , ObservableMap   = require('observable-map')
   , ObservableArray = require('observable-array');

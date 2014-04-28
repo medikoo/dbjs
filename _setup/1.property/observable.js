@@ -4,7 +4,7 @@ var assign         = require('es5-ext/object/assign')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d')
   , lazy           = require('d/lazy')
-  , Observable     = require('observable-value/value')
+  , Observable     = require('observable-value')
   , ReadOnly       = require('observable-value/create-read-only')(Observable)
   , proto          = require('../_observable')
 

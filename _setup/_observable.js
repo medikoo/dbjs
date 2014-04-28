@@ -3,7 +3,7 @@
 var assign         = require('es5-ext/object/assign')
   , d              = require('d')
   , lazy           = require('d/lazy')
-  , Observable     = require('observable-value/value')
+  , Observable     = require('observable-value')
 
   , valueDesc = Object.getOwnPropertyDescriptor(Observable.prototype, 'value')
   , setValue = valueDesc.set
