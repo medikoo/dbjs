@@ -1,6 +1,6 @@
 'use strict';
 
-var getUid   = require('time-uuid/lib/time')
+var getUid   = require('time-uuid/time')
   , Database = require('../');
 
 module.exports = function (a) {

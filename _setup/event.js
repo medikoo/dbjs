@@ -2,7 +2,7 @@
 
 var d         = require('d')
   , nextTick  = require('next-tick')
-  , now       = require('time-uuid/lib/time')
+  , now       = require('time-uuid/time')
   , serialize = require('./serialize/value')
 
   , ongoing, clear = function () { ongoing = null; }
