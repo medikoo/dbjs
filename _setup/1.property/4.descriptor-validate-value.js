@@ -1,11 +1,10 @@
 'use strict';
 
-var arrayLikeToArray = require('es5-ext/array/to-array')
+var toArray          = require('es5-ext/array/to-array')
   , uniq             = require('es5-ext/array/#/uniq')
   , pluck            = require('es5-ext/function/pluck')
   , d                = require('d')
   , isIterable       = require('es6-iterator/is-iterable')
-  , iterableToArray  = require('es6-iterator/to-array')
   , DbjsError        = require('../error')
   , isGetter         = require('../utils/is-getter')
   , serialize        = require('../serialize/value')
@@ -84,8 +83,7 @@ module.exports = function (descriptor) {
 				throw new DbjsError("Cannot set multiple property to " + value,
 					'MULTIPLE_NULL');
 			}
-			if (isIterable(value)) value = iterableToArray(value);
-			else value = arrayLikeToArray(value);
+			value = toArray(value);
 			if (!value.length) {
 				if (this.required) {
 					set = getPrototypeOf(obj).__multiples__[sKey];

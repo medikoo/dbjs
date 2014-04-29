@@ -1,6 +1,6 @@
 'use strict';
 
-var toArray  = require('es6-iterator/to-array')
+var toArray  = require('es5-ext/array/to-array')
   , isSet    = require('es6-set/is-set')
   , Database = require('../../../');
 

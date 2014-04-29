@@ -1,7 +1,7 @@
 'use strict';
 
 var d               = require('d')
-  , toArray         = require('es6-iterator/to-array')
+  , toArray         = require('es5-ext/array/to-array')
   , isObservableSet = require('observable-set/is-observable-set')
   , Database        = require('../../../')
 
