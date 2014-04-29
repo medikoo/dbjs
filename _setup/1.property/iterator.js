@@ -7,7 +7,7 @@ var remove         = require('es5-ext/array/#/remove')
   , d              = require('d')
   , autoBind       = require('d/auto-bind')
   , Iterator       = require('es6-iterator')
-  , kinds          = require('es6-map/_iterator-kinds')
+  , kinds          = require('es6-map/lib/iterator-kinds')
 
   , push = Array.prototype.push, hasOwnProperty = Object.hasOwnProperty
   , defineProperties = Object.defineProperties
