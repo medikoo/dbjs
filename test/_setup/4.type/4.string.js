@@ -12,7 +12,7 @@ module.exports = function (a) {
 	a(Type(false), 'false', "Boolean");
 	a(Type({}), {}.toString(), "Object");
 	a(Type('foobar'), 'foobar', "String");
-	a(Type(new String('foobar')), 'foobar', "String object"); //jslint: skip
+	a(Type(new String('foobar')), 'foobar', "String object"); //jslint: ignore
 	a(Type(123), '123', "Number");
 
 	a(TypeCustom('23432'), '23432', "Custom");
@@ -30,7 +30,7 @@ module.exports = function (a) {
 			a(Type.is(false), false, "Boolean");
 			a(Type.is({}), false, "Object");
 			a(Type.is('foobar'), true, "String");
-			a(Type.is(new String('foobar')), false, "String object"); //jslint: skip
+			a(Type.is(new String('foobar')), false, "String object"); //jslint: ignore
 			a(Type.is(123), false, "Number");
 
 			a(TypeCustom.is('23432'), true, "Custom: Is");
@@ -45,7 +45,7 @@ module.exports = function (a) {
 			a(Type.normalize(false), 'false', "Boolean");
 			a(Type.normalize({}), {}.toString(), "Object");
 			a(Type.normalize('foobar'), 'foobar', "String");
-			a(Type.normalize(new String('foobar')), 'foobar', //jslint: skip
+			a(Type.normalize(new String('foobar')), 'foobar', //jslint: ignore
 				"String object");
 			a(Type.normalize(123), '123', "Number");
 
@@ -61,7 +61,7 @@ module.exports = function (a) {
 			a(Type.validate(false), 'false', "Boolean");
 			a(Type.validate({}), {}.toString(), "Object");
 			a(Type.validate('foobar'), 'foobar', "String");
-			a(Type.validate(new String('foobar')), 'foobar', //jslint: skip
+			a(Type.validate(new String('foobar')), 'foobar', //jslint: ignore
 				"String object");
 			a(Type.validate(123), '123', "Number");
 

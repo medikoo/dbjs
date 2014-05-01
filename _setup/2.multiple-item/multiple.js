@@ -46,7 +46,7 @@ Multiple.prototype = create(Set.prototype, assign({
 		this._validateClear_().forEach(function (sKey) {
 			var item = this.__setData__[sKey];
 			if (!item.hasOwnProperty('_value_')) return;
-			new Event(item, undefined); //jslint: skip
+			new Event(item, undefined); //jslint: ignore
 		}, this);
 		this.object.database._postponed -= 1;
 	}),

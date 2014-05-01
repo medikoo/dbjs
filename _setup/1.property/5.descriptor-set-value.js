@@ -104,7 +104,7 @@ module.exports = function (db, descriptor) {
 				}
 			}
 			if (!this.hasOwnProperty('_value_')) return;
-			new Event(this); //jslint: skip
+			new Event(this); //jslint: ignore
 		}),
 		_setValue_: d(function (nu, dbEvent) {
 			var old, has = this.hasOwnProperty('_value_'), postponed, assignments;

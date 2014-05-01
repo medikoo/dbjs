@@ -37,7 +37,7 @@ module.exports = function (db, descriptor, property) {
 			db._postponed_ += 1;
 			desc = this._getOwnDescriptor_(key);
 			has = desc.hasOwnProperty('_value_');
-			new Event(desc); //jslint: skip
+			new Event(desc); //jslint: ignore
 			db._postponed_ -= 1;
 			return has;
 		}),
@@ -46,7 +46,7 @@ module.exports = function (db, descriptor, property) {
 				defineProperty(this, key, this._accessors_[key]);
 			}
 			db._postponed_ += 1;
-			new Event(this._getOwnDescriptor_(key), value); //jslint: skip
+			new Event(this._getOwnDescriptor_(key), value); //jslint: ignore
 			db._postponed_ -= 1;
 			return this;
 		}),

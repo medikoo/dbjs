@@ -15,7 +15,7 @@ module.exports = function (a) {
 		"Unconversible string");
 	a(Type('0'), 0, "Conversible string");
 	a(Type(123), 123, "Number");
-	a(Type(new Number(123)), 123, "Number object"); //jslint: skip
+	a(Type(new Number(123)), 123, "Number object"); //jslint: ignore
 	a(TypeCustom(60), 60, "Custom");
 	a(TypeCustom(64), 60, "Custom: step");
 	a.throws(function () { TypeCustom(-123); }, 'NUMBER_TOO_SMALL',
@@ -31,7 +31,7 @@ module.exports = function (a) {
 			a(Type.is('false'), false, "Unconrvertable string");
 			a(Type.is('0'), false, "Convertable string");
 			a(Type.is(123), true, "Number");
-			a(Type.is(new Number(123)), false, "Number object"); //jslint: skip
+			a(Type.is(new Number(123)), false, "Number object"); //jslint: ignore
 			a(TypeCustom.is(60), true, "Custom");
 			a(TypeCustom.is(64), false, "Custom: Step");
 			a(TypeCustom.is(-123), false, "Custom: Below min");
@@ -45,7 +45,7 @@ module.exports = function (a) {
 			a(Type.normalize('false'), null, "Unconrvertable string");
 			a(Type.normalize('0'), 0, "Convertable string");
 			a(Type.normalize(123), 123, "Number");
-			a(Type.normalize(new Number(123)), 123, "Number object"); //jslint: skip
+			a(Type.normalize(new Number(123)), 123, "Number object"); //jslint: ignore
 			a(TypeCustom.normalize(60), 60, "Custom");
 			a(TypeCustom.normalize(64), 60, "Custom: Step");
 			a(TypeCustom.normalize(-123), null, "Custom: Below min");
@@ -61,7 +61,7 @@ module.exports = function (a) {
 				"Unconversible string");
 			a(Type.validate('0'), 0, "Conversible string");
 			a(Type.validate(123), 123, "Number");
-			a(Type.validate(new Number(123)), 123, "Number object"); //jslint: skip
+			a(Type.validate(new Number(123)), 123, "Number object"); //jslint: ignore
 			a(TypeCustom.validate(60), 60, "Custom");
 			a(TypeCustom.validate(64), 60, "Custom: Step");
 			a.throws(function () { TypeCustom.validate(-123); }, 'NUMBER_TOO_SMALL',

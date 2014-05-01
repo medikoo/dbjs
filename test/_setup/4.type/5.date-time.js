@@ -20,7 +20,7 @@ module.exports = function (a) {
 	a.throws(function () { Type('false'); }, 'INVALID_DATETIME',
 		"Unconversible string");
 	a(Type(123).getTime(), 123, "Number");
-	a(Type(new Number(123)).getTime(), 123, "Number object"); //jslint: skip
+	a(Type(new Number(123)).getTime(), 123, "Number object"); //jslint: ignore
 	a(TypeCustom(Date.UTC(2030, 0, 1)).getTime(),
 		(new Date(Date.UTC(2030, 0, 1))).getTime(), "Custom");
 	a(TypeCustom(Date.UTC(2030, 0, 1, 4)).getTime(),
@@ -68,7 +68,7 @@ module.exports = function (a) {
 			a.throws(function () { Type.validate('false'); }, 'INVALID_DATETIME',
 				"Unconversible string");
 			a(Type.validate(123).getTime(), 123, "Number");
-			a(Type.validate(new Number(123)).getTime(), 123, //jslint: skip
+			a(Type.validate(new Number(123)).getTime(), 123, //jslint: ignore
 				"Number object");
 			a(TypeCustom.validate(Date.UTC(2030, 0, 1)).getTime(),
 				(new Date(Date.UTC(2030, 0, 1))).getTime(), "Custom");

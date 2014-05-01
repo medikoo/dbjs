@@ -8,7 +8,7 @@ module.exports = function (t, a) {
 	obj.count = 0;
 	obj.set('test', function (_observe) {
 		var value;
-		++this['count']; //jslint: skip
+		++this['count']; //jslint: ignore
 		if (this.allow) value = _observe(this._foo);
 		else value = _observe(this._bar);
 

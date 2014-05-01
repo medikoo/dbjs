@@ -52,7 +52,7 @@ module.exports = function (db, object) {
 			}
 			desc = this._getOwnDescriptor_(sKey);
 			has = desc.hasOwnProperty('_value_');
-			new Event(desc); //jslint: skip
+			new Event(desc); //jslint: ignore
 			if (desc.hasOwnProperty('__descriptors__')) {
 				keys(desc.__descriptors__).forEach(desc._delete_, desc);
 			}
@@ -70,7 +70,7 @@ module.exports = function (db, object) {
 			}
 
 			if (!desc.multiple || isGetter(value)) {
-				new Event(this._getOwnDescriptor_(sKey), value); //jslint: skip
+				new Event(this._getOwnDescriptor_(sKey), value); //jslint: ignore
 				db._postponed_ -= 1;
 				return this;
 			}
@@ -87,13 +87,13 @@ module.exports = function (db, object) {
 			value.forEach(function (value) {
 				var item = this._getOwnMultipleItem_(sKey, value, serialize(value));
 				if (current) delete current[item._sKey_];
-				new Event(item, true); //jslint: skip
+				new Event(item, true); //jslint: ignore
 			}, this);
 			if (!current) return this;
 			keys(current).forEach(function (sKey) {
 				var item = this[sKey];
 				if (!item.hasOwnProperty('_value_')) return;
-				new Event(item, undefined); //jslint: skip
+				new Event(item, undefined); //jslint: ignore
 			}, this.__multiples__[sKey]);
 			return this;
 		}),
@@ -125,12 +125,12 @@ module.exports = function (db, object) {
 			return this;
 		}),
 		_multipleAdd_: d(function (pSKey, key, sKey) {
-			new Event(this._getOwnMultipleItem_(pSKey, key, sKey), true); //jslint: skip
+			new Event(this._getOwnMultipleItem_(pSKey, key, sKey), true); //jslint: ignore
 		}),
 		_multipleDelete_: d(function (pSKey, key, sKey) {
 			var item = this._getOwnMultipleItem_(pSKey, key, sKey)
 			  , has = item.hasOwnProperty('_value_') && Boolean(item._value_);
-			new Event(item); //jslint: skip
+			new Event(item); //jslint: ignore
 			return has;
 		}),
 		_validateClear_: d(function () {

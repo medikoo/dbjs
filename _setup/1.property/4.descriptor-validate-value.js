@@ -1,13 +1,12 @@
 'use strict';
 
-var toArray          = require('es5-ext/array/to-array')
-  , uniq             = require('es5-ext/array/#/uniq')
-  , pluck            = require('es5-ext/function/pluck')
-  , d                = require('d')
-  , isIterable       = require('es6-iterator/is-iterable')
-  , DbjsError        = require('../error')
-  , isGetter         = require('../utils/is-getter')
-  , serialize        = require('../serialize/value')
+var toArray   = require('es5-ext/array/to-array')
+  , uniq      = require('es5-ext/array/#/uniq')
+  , pluck     = require('es5-ext/function/pluck')
+  , d         = require('d')
+  , DbjsError = require('../error')
+  , isGetter  = require('../utils/is-getter')
+  , serialize = require('../serialize/value')
 
   , getPrototypeOf = Object.getPrototypeOf
   , defineProperties = Object.defineProperties
@@ -91,7 +90,7 @@ module.exports = function (descriptor) {
 						for (iKey in set) {
 							if (!set[iKey]._value_) continue;
 							if (obj._normalize_(set[iKey].key) == null) continue;
-							return value; //jslint: skip
+							return value; //jslint: ignore
 						}
 					}
 					throw new DbjsError("Property is required. List must not be empty",

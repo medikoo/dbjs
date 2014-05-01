@@ -28,7 +28,7 @@ module.exports = function (a) {
 	a.h1();
 	a.deep(desc._history_, [event2, event3, event1], "History");
 
-	new Event(desc, 'mirek', 1500); //jslint: skip
+	new Event(desc, 'mirek', 1500); //jslint: ignore
 	a.deep(desc._history_, [event2, event3, event1],  "Same");
 	event5 = new Event(desc, 'mirekd', 1500);
 	a.deep(desc._history_, [event2, event5, event3, event1],

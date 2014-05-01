@@ -192,7 +192,7 @@ module.exports = function (db) {
 		proposedProto = proto;
 		state = $object;
 		i = -1;
-		while ((state = state())) continue; //jslint: skip
+		while ((state = state())) continue; //jslint: ignore
 		return object;
 	};
 };

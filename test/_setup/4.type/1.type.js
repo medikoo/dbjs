@@ -153,7 +153,7 @@ module.exports = function (a) {
 				"Undefined");
 			a(Base(null), null, "Null");
 			a(Base(false), false, "Boolean (primitive)");
-			a.throws(function () { Base(new Boolean(false)); }, //jslint: skip
+			a.throws(function () { Base(new Boolean(false)); }, //jslint: ignore
 				'NOT_SUPPORTED_VALUE', "Primitive object");
 			a.throws(function () { Base({}); }, 'NOT_SUPPORTED_VALUE',
 				"Foreign object");
@@ -174,7 +174,7 @@ module.exports = function (a) {
 			a(Base.is(undefined), false, "Undefined");
 			a(Base.is(null), true, "Null");
 			a(Base.is(false), true, "Boolean (primitive)");
-			a(Base.is(new Boolean(false)), false, "Primitive object"); //jslint: skip
+			a(Base.is(new Boolean(false)), false, "Primitive object"); //jslint: ignore
 			a(Base.is({}), false, "Foreign object");
 			a(Base.is('false'), true, "String");
 			a(Base.is(0), true, "Number");
@@ -192,7 +192,7 @@ module.exports = function (a) {
 			a(Base.normalize(undefined), null, "Undefined");
 			a(Base.normalize(null), null, "Null");
 			a(Base.normalize(false), false, "Boolean (primitive)");
-			a(Base.normalize(new Boolean(false)), null, //jslint: skip
+			a(Base.normalize(new Boolean(false)), null, //jslint: ignore
 				"Primitive object");
 			a(Base.normalize({}), null, "Foreign object");
 			a(Base.normalize('false'), 'false', "String");
@@ -214,7 +214,7 @@ module.exports = function (a) {
 			a(Base.validate(null), null, "Null");
 			a(Base.validate(false), false, "Boolean (primitive)");
 			a.throws(function () {
-				Base.validate(new Boolean(false)); //jslint: skip
+				Base.validate(new Boolean(false)); //jslint: ignore
 			}, 'NOT_SUPPORTED_VALUE', "Primitive object");
 			a.throws(function () { Base.validate({}); }, 'NOT_SUPPORTED_VALUE',
 				"Foreign object");
@@ -237,7 +237,7 @@ module.exports = function (a) {
 			a(Base.create(null), null, "Null");
 			a(Base.create(false), false, "Boolean (primitive)");
 			a.throws(function () {
-				Base.create(new Boolean(false)); //jslint: skip
+				Base.create(new Boolean(false)); //jslint: ignore
 			}, 'NOT_SUPPORTED_VALUE', "Primitive object");
 			a.throws(function () { Base.create({}); }, 'NOT_SUPPORTED_VALUE',
 				"Foreign object");

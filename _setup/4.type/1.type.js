@@ -146,7 +146,7 @@ module.exports = function (db, createObj, object) {
 		}),
 		_extendAndInitialize_: d(function (name) {
 			var constructor = this._extend_(name);
-			new Event(constructor, this); //jslint: skip
+			new Event(constructor, this); //jslint: ignore
 			constructor._initialize_.apply(constructor, slice.call(arguments, 1));
 			return constructor;
 		}),
@@ -255,7 +255,7 @@ module.exports = function (db, createObj, object) {
 		_destroy_: d(function () {
 			if (this.hasOwnProperty('__typeAssignments__')) {
 				this.__typeAssignments__._plainForEach_(function (obj) {
-					new Event(obj.$type); //jslint: skip
+					new Event(obj.$type); //jslint: ignore
 				});
 			}
 			this.prototype._destroy_();
@@ -347,7 +347,7 @@ module.exports = function (db, createObj, object) {
 			}
 			if (this.hasOwnProperty('__assignments__')) {
 				this.__assignments__._plainForEach_(function (obj) {
-					new Event(obj); //jslint: skip
+					new Event(obj); //jslint: ignore
 				});
 			}
 			if (this.hasOwnProperty('__objects__')) {
@@ -363,7 +363,7 @@ module.exports = function (db, createObj, object) {
 			}
 			if (this.constructor.prototype === this) return;
 			if (this.__sKey__) return;
-			new Event(this); //jslint: skip
+			new Event(this); //jslint: ignore
 		}),
 		_setValue_: d(function (nu, dbEvent) {
 			var old;

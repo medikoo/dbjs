@@ -65,7 +65,7 @@ module.exports = function (db) {
 			var obj;
 			db._postponed_ += 1;
 			obj = this._create_(uuid());
-			new Event(obj, this.prototype); //jslint: skip
+			new Event(obj, this.prototype); //jslint: ignore
 			obj._initialize_.apply(obj, arguments);
 			db._postponed_ -= 1;
 			return obj;
@@ -87,7 +87,7 @@ module.exports = function (db) {
 			args = slice.call(arguments, 1);
 			args = this._validateCreate_.apply(this, args);
 			obj = this._create_(name);
-			new Event(obj, this.prototype); //jslint: skip
+			new Event(obj, this.prototype); //jslint: ignore
 			obj._initialize_.apply(obj, args);
 			if (!db.hasOwnProperty(name)) defineProperty(db, name, d(obj));
 			return obj;

@@ -56,7 +56,7 @@ ee(defineProperties(Database.prototype, assign({
 		var obj;
 		validValue(value);
 		obj = this.objects.unserialize(id, value);
-		new Event(obj, value); //jslint: skip
+		new Event(obj, value); //jslint: ignore
 	}),
 	_postponed_: d.gs(function () {
 		return this.__postponed__;
