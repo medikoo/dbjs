@@ -18,7 +18,8 @@ var assign          = require('es5-ext/object/assign')
   , hasOwnProperty = Object.prototype.hasOwnProperty, keys = Object.keys
   , getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor
   , getPrototypeOf = Object.getPrototypeOf
-  , defineProperties = Object.defineProperties;
+  , defineProperties = Object.defineProperties
+  , desc1, desc2;
 
 module.exports = function (db, object, descriptor) {
 	defineProperties(object, assign({
@@ -44,6 +45,7 @@ module.exports = function (db, object, descriptor) {
 			}
 			return this.__descriptorPrototype__._create_(this);
 		}),
+
 		_getOwnDescriptor_: d(function (sKey, dbEvent) {
 			if (this.hasOwnProperty('__descriptors__')) {
 				if (hasOwnProperty.call(this.__descriptors__, sKey)) {
@@ -56,23 +58,26 @@ module.exports = function (db, object, descriptor) {
 			return this.__descriptorPrototype__
 				._createDescriptor_(this, sKey, dbEvent);
 		}),
-		$getOwn: d(function (key) {
+		getOwnDescriptor: desc1 = d(function (key) {
 			var sKey = this._serialize_(key);
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			}
 			return this._getOwnDescriptor_(sKey);
 		}),
+		$getOwn: desc1,
+
 		_getDescriptor_: d(function (sKey) {
 			return this.__descriptors__[sKey] || this.__descriptorPrototype__;
 		}),
-		$get: d(function (key) {
+		getDescriptor: desc2 = d(function (key) {
 			var sKey = this._serialize_(key);
 			if (sKey == null) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			}
 			return this._getDescriptor_(sKey);
 		}),
+		$get: desc2,
 
 		// Nested object
 		_getObject_: d(function (sKey) {
