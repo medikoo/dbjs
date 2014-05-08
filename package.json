@@ -19,25 +19,25 @@
     "url": "git@github.com:medikoo/dbjs.git"
   },
   "dependencies": {
-    "d": "git://github.com/medikoo/d.git",
-    "error-create": "git://github.com/medikoo/error-create.git",
-    "es5-ext": "git://github.com/medikoo/es5-ext.git",
-    "es6-iterator": "git://github.com/medikoo/es6-iterator.git",
-    "es6-map": "git://github.com/medikoo/es6-map.git",
-    "es6-set": "git://github.com/medikoo/es6-set.git",
-    "esniff": "git://github.com/medikoo/esniff.git",
-    "event-emitter": "git://github.com/medikoo/event-emitter.git",
-    "memoizee": "git://github.com/medikoo/memoize.git",
-    "next-tick": "git://github.com/medikoo/next-tick.git",
-    "observable-array": "git://github.com/medikoo/observable-array.git",
-    "observable-map": "git://github.com/medikoo/observable-map.git",
-    "observable-multi-set": "git://github.com/medikoo/observable-multi-set.git",
-    "observable-set": "git://github.com/medikoo/observable-set.git",
-    "observable-value": "git://github.com/medikoo/observable-value.git",
-    "time-uuid": "git://github.com/medikoo/time-uuid.git"
+    "d": "~0.1.1",
+    "error-create": "0.1.x",
+    "es5-ext": "~0.10.4",
+    "es6-iterator": "~0.1.1",
+    "es6-map": "0.1.x",
+    "es6-set": "0.1.x",
+    "esniff": "0.1.x",
+    "event-emitter": "~0.3.1",
+    "memoizee": "~0.3.2",
+    "next-tick": "~0.2.2",
+    "observable-array": "0.0.2",
+    "observable-map": "0.0.2",
+    "observable-multi-set": "0.0.2",
+    "observable-set": "0.0.2",
+    "observable-value": "0.0.2",
+    "time-uuid": "0.2.x"
   },
   "devDependencies": {
-    "tad": "~0.1.20"
+    "tad": "0.2.x"
   },
   "scripts": {
     "test": "node node_modules/tad/bin/tad"

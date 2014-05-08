@@ -1,0 +1,6 @@
+v0.0.1  --  2014.05.08
+* Newly rewritten engine (solid internals, still some parts of the API not stable)
+* Depend strictly on npm hosted packages (semver safe)
+
+v0.0.0  --  2013.08.14
+Initial (early alpha dev version)
