@@ -1,3 +1,6 @@
+v0.0.2  --  2014.05.08
+* Make sure to use latest version of time-uuid
+
 v0.0.1  --  2014.05.08
 * Newly rewritten engine (solid internals, still some parts of the API not stable)
 * Depend strictly on npm hosted packages (semver safe)

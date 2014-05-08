@@ -1,6 +1,6 @@
 {
   "name": "dbjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Database engine",
   "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
   "keywords": [
@@ -34,7 +34,7 @@
     "observable-multi-set": "0.0.2",
     "observable-set": "0.0.2",
     "observable-value": "0.0.2",
-    "time-uuid": "0.2.x"
+    "time-uuid": "~0.2.1"
   },
   "devDependencies": {
     "tad": "0.2.x"
