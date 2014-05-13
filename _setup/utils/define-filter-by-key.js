@@ -4,6 +4,7 @@ var identity       = require('es5-ext/function/identity')
   , d              = require('d')
   , memoize        = require('memoizee/plain')
   , memoizeMethods = require('memoizee/methods-plain')
+  , getNormalizer  = require('memoizee/normalizers/get-fixed')
   , map            = require('observable-value/map')
   , DbjsError      = require('../error')
   , serialize      = require('../serialize/key')
@@ -36,6 +37,7 @@ module.exports = function (setProto) {
 			set = this.filter(function (obj) { return observe(obj).value; });
 			return set;
 		}, {
+			normalizer: getNormalizer(2),
 			resolvers: [identity, resolveFilter],
 			cacheName: '__filterByKey__',
 			desc: ''
