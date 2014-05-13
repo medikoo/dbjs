@@ -1,3 +1,6 @@
+v0.0.3  --  2014.05.13
+* Fix memoization setup for defineFilterByKey
+
 v0.0.2  --  2014.05.08
 * Make sure to use latest version of time-uuid
 
