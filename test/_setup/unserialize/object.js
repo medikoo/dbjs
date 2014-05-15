@@ -240,4 +240,10 @@ module.exports = function (a) {
 	a.h1();
 	a(unserialize('29yfwfds2l5/files*70a0h4lijgqp').__id__,
 		'29yfwfds2l5/files*70a0h4lijgqp', "Recurrent unserialize");
+
+	a.h1("Named");
+	obj1 = unserialize('marko', db.Object.prototype);
+	a(obj1.__id__, 'marko', "Id");
+	a(obj1 instanceof db.Object, true, "Instance");
+	a(obj1, db.marko, "Exposed on database");
 };

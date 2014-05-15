@@ -1,9 +1,12 @@
 'use strict';
 
 var last           = require('es5-ext/string/#/last')
+  , d              = require('d')
+  , isObjectName   = require('../utils/is-object-name')
   , DbjsError      = require('../error')
   , unserializeKey = require('./key')
 
+  , defineProperty = Object.defineProperty
   , isTypeId = RegExp.prototype.test.bind(/^[A-Z]/);
 
 module.exports = function (db) {
@@ -193,6 +196,10 @@ module.exports = function (db) {
 		state = $object;
 		i = -1;
 		while ((state = state())) continue; //jslint: ignore
+		if ((object._kind_ === 'object') && isObjectName(object.__id__) &&
+				!db.hasOwnProperty(object.__id__)) {
+			defineProperty(db, object.__id__, d(object));
+		}
 		return object;
 	};
 };
