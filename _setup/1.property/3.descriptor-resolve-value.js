@@ -108,7 +108,7 @@ module.exports = function (descriptor, accessCollector) {
 			if (this.nested) return true;
 			if (this.multiple) return true;
 			if (this.object !== obj) return false;
-			return this.hasOwnProperty('_value_');
+			return this.hasOwnProperty('_value_') && (this._value_ !== undefined);
 		}),
 		_normalizeValue_: d(function (value) {
 			return this.type.normalize(value, this);

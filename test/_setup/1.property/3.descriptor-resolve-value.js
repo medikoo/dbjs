@@ -83,8 +83,11 @@ module.exports = function (a) {
 		elo: { type: db.Number },
 		bar: { type: db.Number, value: function () {
 			return this.elo + this.foo.size;
-		} }
+		} },
+		marek: { type: db.String, label: "Whatever" }
 	});
 	obj.elo = 3;
 	a(obj.$bar._resolveLastEvent_(obj).object, obj.$elo, "Last event (getter)");
+
+	a(obj._hasOwn_('marek'), false, "Has own for unddefined");
 };
