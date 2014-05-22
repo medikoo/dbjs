@@ -6,7 +6,8 @@ var mixin     = require('es5-ext/object/mixin')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
-  , abs = Math.abs, floor = Math.floor, max = Math.max, min = Math.min;
+  , abs = Math.abs, floor = Math.floor, max = Math.max, min = Math.min
+  , toString = Number.prototype.toString;
 
 module.exports = function (db) {
 	var NumberType = db.Base._extend_('Number')
@@ -95,5 +96,19 @@ module.exports = function (db) {
 		compare: d(function (a, b) { return Number(a) - Number(b); })
 	});
 
-	mixin(NumberType.prototype, Number.prototype);
+	defineProperties(mixin(NumberType.prototype, Number.prototype), {
+		constructor: d(NumberType),
+		toString: d(function (descriptor) {
+			var num = 0, step  = (descriptor && !isNaN(descriptor.step))
+				? max(descriptor.step, this.constructor.step) : this.constructor.step;
+			if (step) {
+				while (step < 1) {
+					++num;
+					step *= 10;
+				}
+				return this.toFixed(num);
+			}
+			return toString.call(this);
+		})
+	});
 };
