@@ -87,5 +87,5 @@ module.exports = function (db) {
 		compare: d(function (a, b) { return String(a).localeCompare(b); })
 	});
 
-	mixin(StringType.prototype, String.prototype);
+	defineProperty(mixin(StringType.prototype, String.prototype), 'constructor', d(StringType));
 };

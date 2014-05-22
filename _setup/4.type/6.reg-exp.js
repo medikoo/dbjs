@@ -49,5 +49,5 @@ module.exports = function (db) {
 		compare: d(function (a, b) { return String(a).localeCompare(b); })
 	});
 
-	mixin(RegExpType.prototype, RegExp.prototype);
+	defineProperty(mixin(RegExpType.prototype, RegExp.prototype), 'constructor', d(RegExpType));
 };

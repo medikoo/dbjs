@@ -123,6 +123,7 @@ module.exports = function (db) {
 	});
 
 	defineProperties(mixin(DateTime.prototype, Date.prototype), {
+		constructor: d(DateTime),
 		toString: d(function () {
 			var proto = getPrototypeOf(this), value;
 			setPrototypeOf(this, Date.prototype);
