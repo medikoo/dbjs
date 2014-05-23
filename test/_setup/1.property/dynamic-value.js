@@ -41,4 +41,18 @@ module.exports = function (a) {
 	a.h1("Multiple dynamic");
 	a(isObservableSet(obj._multiTest.value), true, "Type");
 	a.deep(toArray(obj._multiTest.value), ['raz', 'dwa'], "Content");
+
+	a.h1("Clear instances");
+	db.Object.extend('User', {
+		firstName: { type: db.String },
+		lastName: { type: db.String },
+		fullName: { type: db.String, value: function () {
+			return this.firstName + " " + this.lastName;
+		} }
+	});
+
+	obj = new db.User({ firstName: 'Marko', lastName: 'Zagalo' });
+	obj.getObservable('fullName');
+	obj._setValue_();
+	obj._setValue_(db.User.prototype);
 };

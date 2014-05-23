@@ -117,6 +117,7 @@ defineProperties(DynamicValue.prototype, assign({
 	})
 }, autoBind({
 	__triggerObserverUpdate__: d(function (event, postponed) {
+		if (!this.__observer__) return postponed;
 		return this._update_(this.__observer__.getter.call(this.object),
 			event, undefined, postponed);
 	})
