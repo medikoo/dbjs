@@ -102,6 +102,11 @@ module.exports = function (db, object, descriptor) {
 		}),
 
 		// Observables
+		getObservable: d(function (key) {
+			var sKey = this._serialize_(key);
+			if (sKey == null) throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
+			return this._getObservable_(sKey);
+		}),
 		_getObservable_: d(function (sKey) {
 			var observables = this._observableProperties_;
 			if (observables[sKey]) return observables[sKey];
