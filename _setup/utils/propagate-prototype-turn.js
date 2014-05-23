@@ -1,13 +1,14 @@
 'use strict';
 
 var create            = require('es5-ext/object/create')
+  , d                 = require('d')
   , notifyReverse     = require('../notify/reverse-all')
   , onValueTurn       = require('../notify/on-value-turn')
   , emitDescDescValue = require('../utils/emit-desc-desc-value')
   , turn              = require('./turn-prototype')
 
   , hasOwnProperty = Object.hasOwnProperty, keys = Object.keys
-  , getPrototypeOf = Object.getPrototypeOf
+  , getPrototypeOf = Object.getPrototypeOf, defineProperty = Object.defineProperty
   , isObjectId = RegExp.prototype.test.bind(/^[0-9a-z][A-Za-z0-9]*$/)
 
   , snapshotObservableObj, snapshotObservableObjKey, switchReverse
@@ -313,6 +314,7 @@ exports.object = function (obj, nu, dbEvent, postponed) {
 	var old = getPrototypeOf(obj)
 	  , objSnapshot = snapshotObservableObj(obj);
 
+	defineProperty(obj, '__prototypeTurnInProgress__', d(true));
 	postponed = switchReverse(obj, nu, old, postponed);
 	postponed = turn.object(obj, nu, postponed);
 	postponed = notifyObservableObj(obj, objSnapshot, dbEvent, postponed);
@@ -323,6 +325,7 @@ exports.object = function (obj, nu, dbEvent, postponed) {
 	postponed = emitDescs(obj, nu, old, dbEvent, postponed);
 	postponed = emitMultiples(obj, nu, old, dbEvent, postponed);
 
+	delete obj.__prototypeTurnInProgress__;
 	if (!isObjectId(obj.__id__)) return postponed;
 	return onValueTurn(obj, nu.constructor, old.constructor, dbEvent, postponed);
 };

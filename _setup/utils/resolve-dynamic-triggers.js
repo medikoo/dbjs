@@ -37,7 +37,11 @@ module.exports = function (db, getter, update) {
 			else if (contains.call(nu, obj)) dupe = true;
 			if (!dupe) nu.push(obj);
 			if (!isObservableValue(obj)) return obj;
-			obj = obj.value;
+			if (obj.dbId && obj.object && obj.object.__prototypeTurnInProgress__) {
+				obj = obj.object.get(obj.key);
+			} else {
+				obj = obj.value;
+			}
 			if (dupe) return obj;
 			if (isObservable(obj)) nu.push(obj);
 			return obj;

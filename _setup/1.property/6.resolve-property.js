@@ -22,7 +22,7 @@ module.exports = function (object, accessCollector) {
 		_get_: d(function (sKey) {
 			if (accessSniff) accessSniff.push([this, sKey]);
 			if (this.hasOwnProperty('__observableProperties__')) {
-				if (this.__observableProperties__[sKey]) {
+				if (this.__observableProperties__[sKey] && !this.__prototypeTurnInProgress__) {
 					return this.__observableProperties__[sKey].value;
 				}
 			}

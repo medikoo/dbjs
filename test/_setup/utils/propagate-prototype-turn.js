@@ -51,4 +51,15 @@ module.exports = function (a) {
 	obj._setValue_(Type2.prototype);
 	a(getPrototypeOf(nested).__id__, Type3.prototype.__id__,
 		"Switch proto using constant types");
+
+	db.Object.extend('User', {
+		dyns: { type: db.Boolean, value: function () {
+			return this.multis.some(function () { return true; });
+		} },
+		multis: { type: db.String, multiple: true }
+	});
+	obj = new db.User({ multis: ['raz', 'dwa'] });
+	obj._setValue_();
+	obj._setValue_(db.User.prototype);
+	a(obj.dyns, true, "Prototype turn with observables");
 };
