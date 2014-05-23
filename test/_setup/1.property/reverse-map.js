@@ -10,7 +10,7 @@ module.exports = function (a) {
 			{ foo: { type: Type1, required: true } })
 
 	  , obj11, obj12, obj13, obj14, obj15, obj21, obj22, Type3, obj31, obj32
-	  , obj33, events1 = [], events2 = [];
+	  , obj33, events1 = [], events2 = [], filter;
 
 	obj11 = new Type1({ melasa: 'dwa' });
 	obj21 = new Type2({ foo: obj11 });
@@ -113,4 +113,27 @@ module.exports = function (a) {
 	a(obj33.foo, obj15, "Value");
 	a.deep(toArray(obj15.revreltest2), [obj33], "Multi reverse");
 	a(obj15.ola, obj33, "Single reverse");
+
+	a.h1("Postponed propagation");
+	db.Object.extend('User', {
+		roles: { type: db.String, multiple: true },
+		isElo: { type: db.Boolean }
+	});
+
+	obj11 = new db.User({ roles: ['user'], isElo: false });
+	obj12 = new db.User({ roles: ['user'], isElo: false });
+	obj13 = new db.User({ roles: ['user'], isElo: true });
+	obj14 = new db.User({ roles: ['user'], isElo: false });
+	obj15 = new db.User({ roles: ['elo'], isElo: false });
+
+	filter = db.User.find('roles', 'user').filterByKey('isElo', false);
+	a(filter.size, 3, "Init");
+
+	obj11._setValue_();
+	obj12._setValue_();
+	obj13._setValue_();
+	obj14._setValue_();
+	obj15._setValue_();
+
+	a(filter.size, 0, "Clear");
 };
