@@ -51,7 +51,7 @@ DynamicValue = module.exports = function (object, sKey) {
 defineProperties(DynamicValue.prototype, assign({
 	_updateObserver_: d(function (getter, dbEvent, other, postponed) {
 		if (this.__observer__) {
-			if (this.__observer__.origin === getter) return;
+			if (this.__observer__.origin === getter) return postponed;
 			this._clearObserver_();
 		}
 		if (!getter) {

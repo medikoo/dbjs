@@ -29,8 +29,8 @@ resolve = function (desc, sKey, value, isGet) {
 notify = function (obj, sKey, nu, old, nuGet, oldGet, dbEvent, postponed) {
 	var desc = obj._getDescriptor_(sKey), oldResolved, nuResolved, dynamicHandled;
 
-	if (desc._reverse_) return;
-	if (desc.nested) return;
+	if (desc._reverse_) return postponed;
+	if (desc.nested) return postponed;
 
 	// Getter observers
 	if (nuGet || oldGet) {
