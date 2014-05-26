@@ -11,6 +11,7 @@ var assign         = require('es5-ext/object/assign')
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
   , valueDesc = Object.getOwnPropertyDescriptor(Observable.prototype, 'value')
+  , getValue = valueDesc.get
   , ObservableProperty;
 
 module.exports = ObservableProperty = function (object, sKey) {
@@ -29,7 +30,10 @@ setPrototypeOf(ObservableProperty, Observable);
 
 ObservableProperty.prototype = Object.create(proto, assign({
 	constructor: d(ObservableProperty),
-	value: d.gs('', valueDesc.get, function (value) {
+	value: d.gs('', function () {
+		if (!this.object.__prototypeTurnInProgress__) return getValue.call(this);
+		return this.object._resolve_(this.__sKey__);
+	}, function (value) {
 		var object = this.object, sKey = this.__sKey__;
 		object._set_(sKey, object._validateSet_(sKey, value));
 	}),
