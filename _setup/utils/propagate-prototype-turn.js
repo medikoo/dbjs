@@ -220,7 +220,7 @@ emitItems = function (obj, sKey, nuSet, oldSet, dbEvent, postponed) {
 				ownSet[iKey].hasOwnProperty('_value_')) {
 			continue;
 		}
-		item = item[iKey];
+		item = oldSet[iKey];
 		if (!item._value_) continue;
 		postponed = item._emitValue_(obj, false, true, dbEvent, postponed);
 	}
