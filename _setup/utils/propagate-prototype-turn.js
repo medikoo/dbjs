@@ -139,7 +139,7 @@ switchReverse = function (obj, nu, old, postponed) {
 	else if (nu === objProto) nuOt = true;
 	else if (objProto.isPrototypeOf(nu)) nuOt = true;
 	if (!oldOt) {
-		if (oldOt === objProto) oldOt = true;
+		if (old === objProto) oldOt = true;
 		else if (objProto.isPrototypeOf(old)) oldOt = true;
 	}
 	if (nuOt !== oldOt) postponed = notifyReverses(obj, nuOt, postponed);
