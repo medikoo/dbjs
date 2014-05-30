@@ -131,16 +131,16 @@ notifyReverses = function (obj, nu, postponed) {
 };
 
 switchReverse = function (obj, nu, old, postponed) {
-	var maps, objProto, nuOt, oldOt, processMap;
+	var maps, objProto, nuTurn, oldTurn, processMap;
 
 	// Own and descendants reverse maps
 	objProto = nu.database.Object.prototype;
-	if (nu === objProto) nuOt = true;
-	else if (objProto.isPrototypeOf(nu)) nuOt = true;
-	if (old === objProto) oldOt = true;
-	else if (objProto.isPrototypeOf(old)) oldOt = true;
+	if (nu === objProto) nuTurn = true;
+	else if (objProto.isPrototypeOf(nu)) nuTurn = true;
+	if (old === objProto) oldTurn = true;
+	else if (objProto.isPrototypeOf(old)) oldTurn = true;
 
-	if (nuOt !== oldOt) postponed = notifyReverses(obj, nuOt, postponed);
+	if (nuTurn !== oldTurn) postponed = notifyReverses(obj, nuTurn, postponed);
 
 	if (old.__reverseMaps__ === nu.__reverseMaps__) return postponed;
 
