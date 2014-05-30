@@ -314,8 +314,15 @@ exports.object = function (obj, nu, dbEvent, postponed) {
 	  , objSnapshot = snapshotObservableObj(obj);
 
 	defineProperty(obj, '__prototypeTurnInProgress__', d(true));
+
+	// Update eventual reverse references, before we do real turn,
+	// as turn changes need to propagate to updated reverse slots
 	postponed = switchReverse(obj, nu, old, postponed);
+
+	// Turn
 	postponed = turn.object(obj, nu, postponed);
+
+	// Update states of related objects
 	postponed = notifyObservableObj(obj, objSnapshot, dbEvent, postponed);
 	if (old.__descriptorPrototype__ !== nu.__descriptorPrototpe__) {
 		postponed = emitDescDescs(obj, '', nu.__descriptorPrototpe__,
