@@ -134,6 +134,7 @@ switchReverse = function (obj, nu, old, postponed) {
 	var maps, objProto, nuTurn, oldTurn, processMap;
 
 	// Own and descendants reverse maps
+	// If type is not Object or descendant, reverse map is inactive
 	objProto = nu.database.Object.prototype;
 	nuTurn = ((nu === objProto) || objProto.isPrototypeOf(nu));
 	oldTurn = ((old === objProto) || objProto.isPrototypeOf(old));
