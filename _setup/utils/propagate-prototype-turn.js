@@ -135,8 +135,7 @@ switchReverse = function (obj, nu, old, postponed) {
 
 	// Own and descendants reverse maps
 	objProto = nu.database.Object.prototype;
-	if (obj === objProto) nuOt = oldOt = true;
-	else if (nu === objProto) nuOt = true;
+	if (nu === objProto) nuOt = true;
 	else if (objProto.isPrototypeOf(nu)) nuOt = true;
 	if (!oldOt) {
 		if (old === objProto) oldOt = true;
