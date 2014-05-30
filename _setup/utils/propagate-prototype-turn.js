@@ -12,7 +12,7 @@ var create            = require('es5-ext/object/create')
   , isObjectId = RegExp.prototype.test.bind(/^[0-9a-z][A-Za-z0-9]*$/)
 
   , snapshotObservableObj, snapshotObservableObjKey, switchReverse
-  , notifyObservableObj, notifyObservableObjKey, notifyReverses
+  , notifyObservableObj, notifyObservableObjKey, notifyReverses, turnNested
   , emitDescs, emitMultiples, emitItems, emitDescDescs;
 
 snapshotObservableObj = function (obj, map) {
@@ -309,6 +309,38 @@ emitDescs = function (obj, nuProto, oldProto, dbEvent, postponed) {
 	return postponed;
 };
 
+turnNested = function (obj, dbEvent, postponed, done) {
+	if (obj.hasOwnProperty('__objects__')) {
+		keys(obj.__objects__).forEach(function (sKey) {
+			var nested, old, nu, desc, proto;
+			if (!done) done = create(null);
+			else if (done[sKey]) return;
+			done[sKey] = true;
+			nested = this[sKey];
+			desc = obj._getDescriptor_(sKey);
+			while (!desc.hasOwnProperty('type')) desc = getPrototypeOf(desc);
+			if (desc.object === obj) return;
+			proto = getPrototypeOf(obj);
+			while (true) {
+				if (proto.hasOwnProperty('__objects__') && proto.__objects__[sKey]) {
+					nu = proto.__objects__[sKey];
+					break;
+				}
+				if (desc.object === proto) break;
+				proto = getPrototypeOf(proto);
+			}
+			if (!nu) nu = obj.database.isObjectType(desc.type) ? desc.type : obj.database.Base.prototype;
+			old = getPrototypeOf(nested);
+			if (nu !== old) postponed = exports.object(nested, nu, dbEvent, postponed);
+		}, obj.__objects__);
+	}
+	if (!obj.hasOwnProperty('__descendants__')) return postponed;
+	obj.__descendants__._plainForEach_(function (object) {
+		postponed = turnNested(object, dbEvent, postponed, done);
+	});
+	return postponed;
+};
+
 exports.object = function (obj, nu, dbEvent, postponed) {
 	var old = getPrototypeOf(obj)
 	  , objSnapshot = snapshotObservableObj(obj);
@@ -321,6 +353,7 @@ exports.object = function (obj, nu, dbEvent, postponed) {
 
 	// Turn
 	postponed = turn.object(obj, nu, postponed);
+	postponed = turnNested(obj, dbEvent, postponed);
 
 	// Update states of related objects
 	postponed = notifyObservableObj(obj, objSnapshot, dbEvent, postponed);

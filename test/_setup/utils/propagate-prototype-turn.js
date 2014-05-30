@@ -3,6 +3,7 @@
 var d        = require('d')
   , toArray  = require('es5-ext/array/to-array')
   , Database = require('../../../')
+  , Event    = require('../../../_setup/event')
 
   , getPrototypeOf = Object.getPrototypeOf;
 
@@ -62,4 +63,41 @@ module.exports = function (a) {
 	obj._setValue_();
 	obj._setValue_(db.User.prototype);
 	a(obj.dyns, true, "Prototype turn with observables");
+
+	a.h1("Nested turn");
+	db.Object.extend('User2', {
+		submissions: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.User2.prototype.submissions.define('foo', {
+		type: db.Object,
+		nested: true
+	});
+
+	a.h2("From Base");
+	obj = db.User2.prototype.submissions.foo;
+	event = new Event(db.objects.unserialize('2f3oio7k0ic/submissions/foo/something'),
+		true, 234234);
+	obj = db.objects.unserialize('2f3oio7k0ic');
+	obj._setValue_(db.User2.prototype);
+	a(getPrototypeOf(obj.submissions), db.User2.prototype.submissions, "#1");
+	a(getPrototypeOf(obj.submissions.foo).__id__, db.User2.prototype.submissions.foo.__id__, "#2");
+
+	a.h2("Nested proto switch");
+	db.Object.extend('User1', {
+		submissions: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.User1.prototype.submissions.define('foo', {
+		type: db.Object,
+		nested: true
+	});
+	db.User1.prototype.submissions.foo; //jslint: ignore
+	obj._setValue_(db.User1.prototype);
+	a(getPrototypeOf(obj.submissions), db.User1.prototype.submissions, "#1");
+	a(getPrototypeOf(obj.submissions.foo).__id__, db.User1.prototype.submissions.foo.__id__, "#2");
 };

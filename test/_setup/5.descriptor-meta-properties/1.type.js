@@ -39,7 +39,6 @@ module.exports = function (a) {
 	a.deep(toArray(db.Boolean._typeAssignments_), [], "Change type #1");
 
 	a.h1("Nested turn");
-
 	db.Object.extend('User2', {
 		submissions: {
 			type: db.Object,
