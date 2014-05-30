@@ -135,10 +135,8 @@ switchReverse = function (obj, nu, old, postponed) {
 
 	// Own and descendants reverse maps
 	objProto = nu.database.Object.prototype;
-	if (nu === objProto) nuTurn = true;
-	else if (objProto.isPrototypeOf(nu)) nuTurn = true;
-	if (old === objProto) oldTurn = true;
-	else if (objProto.isPrototypeOf(old)) oldTurn = true;
+	nuTurn = ((nu === objProto) || objProto.isPrototypeOf(nu));
+	oldTurn = ((old === objProto) || objProto.isPrototypeOf(old));
 
 	if (nuTurn !== oldTurn) postponed = notifyReverses(obj, nuTurn, postponed);
 
