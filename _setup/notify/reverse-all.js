@@ -9,7 +9,7 @@ var d              = require('d')
   , defineProperty = Object.defineProperty
   , notify, notifyDescs;
 
-notify = function (obj, sKey, nu, map, isSingular, postponed) {
+notify = function (obj, sKey, nuActive, map, isSingular, postponed) {
 	var value, desc, nuResolved, oldResolved, nuVal, oldVal, dynResolved
 	  , dbEvent;
 
@@ -18,13 +18,13 @@ notify = function (obj, sKey, nu, map, isSingular, postponed) {
 	value = desc.nested ? null : desc._resolveValueValue_();
 	dbEvent = map.getLastEvent(obj);
 	if (map.has(obj)) {
-		nuVal = nu ? true : value;
-		oldVal = nu ? value : true;
+		nuVal = nuActive ? true : value;
+		oldVal = nuActive ? value : true;
 	} else {
-		nuVal = nu ? (isSingular ? undefined : null) : value;
-		oldVal = nu ? value : (isSingular ? undefined : null);
+		nuVal = nuActive ? (isSingular ? undefined : null) : value;
+		oldVal = nuActive ? value : (isSingular ? undefined : null);
 		if (isSingular) {
-			if (nu) nuResolved = true;
+			if (nuActive) nuResolved = true;
 			else oldResolved = true;
 		}
 	}
@@ -35,7 +35,7 @@ notify = function (obj, sKey, nu, map, isSingular, postponed) {
 
 	if (isGetter(value)) {
 		// Getter observers
-		postponed = notifyGetter(obj, sKey, nu ? null : value, null,
+		postponed = notifyGetter(obj, sKey, nuActive ? null : value, null,
 			function () {
 				dynResolved = true;
 				return map.get(obj);
@@ -46,7 +46,7 @@ notify = function (obj, sKey, nu, map, isSingular, postponed) {
 	return notifyProperty(obj, sKey, nuVal, oldVal,
 		nuResolved ? nuVal : function () {
 			if (nuResolved) return nuVal;
-			if (nu) {
+			if (nuActive) {
 				nuVal = map.get(obj);
 			} else {
 				if (desc.nested) nuVal = desc._getObject_(sKey);
@@ -58,7 +58,7 @@ notify = function (obj, sKey, nu, map, isSingular, postponed) {
 			return nuVal;
 		}, oldResolved ? oldVal : function () {
 			if (oldResolved) return oldVal;
-			if (nu) {
+			if (nuActive) {
 				if (desc.nested) oldVal = desc._getObject_(sKey);
 				else if (desc.multiple) oldVal = desc._getMultiple_(sKey);
 				else if (value != null) oldVal = desc._normalizeValue_(value);
