@@ -67,7 +67,8 @@ module.exports = function (db, descriptor) {
 
 	defineProperties(property, {
 		_sideNotify_: d(function (obj, pSKey, key, nu, old, dbEvent, postponed) {
-			var desc, data, value, nuValue, oldValue, rMap, rKey, nuProto, oldProto;
+			var desc, data, value, nuValue, oldValue, rMap, rKey, nuProto, oldProto
+			  , nestDesc, nestObjProto;
 
 			if (!pSKey) return postponed;
 			desc = obj.__descriptors__[pSKey];
@@ -96,12 +97,22 @@ module.exports = function (db, descriptor) {
 			if (obj.hasOwnProperty('__objects__')) {
 				data = obj.__objects__[pSKey];
 				if (data) {
-					nuProto = isObjectType(nu) ? nu.prototype : Base.prototype;
-					oldProto = getPrototypeOf(data);
-					if ((nuProto !== getPrototypeOf(data)) &&
-							(oldProto.constructor.prototype === oldProto)) {
-						postponed = turnPrototype(data, nu.prototype, dbEvent, postponed);
+					nestDesc = obj._getDescriptor_(pSKey);
+					while (!nestDesc.hasOwnProperty('type')) nestDesc = getPrototypeOf(nestDesc);
+					if (nestDesc.object !== obj) {
+						nestObjProto = getPrototypeOf(obj);
+						while (true) {
+							if (nestObjProto.hasOwnProperty('__objects__') && nestObjProto.__objects__[pSKey]) {
+								nuProto = nestObjProto.__objects__[pSKey];
+								break;
+							}
+							if (nestDesc.object === nestObjProto) break;
+							nestObjProto = getPrototypeOf(nestObjProto);
+						}
 					}
+					if (!nuProto) nuProto = isObjectType(nu) ? nu.prototype : Base.prototype;
+					oldProto = getPrototypeOf(data);
+					if (nuProto !== oldProto) postponed = turnPrototype(data, nuProto, dbEvent, postponed);
 				}
 			}
 
