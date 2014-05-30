@@ -110,7 +110,9 @@ notifyObservableObjKey = function (obj, sKey, map, dbEvent, postponed) {
 	return postponed;
 };
 
-notifyReverses = function (obj, nu, postponed) {
+notifyReverses = function (obj, nuActive, postponed) {
+	// Notify descendant reverse maps (applies only to prototypes),
+	// that underlying prototype changed visibility
 	var isObjectType;
 	if (obj.constructor.prototype !== obj) return postponed;
 	if (obj.hasOwnProperty('__reverseMaps__')) {
@@ -120,12 +122,12 @@ notifyReverses = function (obj, nu, postponed) {
 			if (desc.reverse === undefined) return;
 			if (!isObjectType(desc.type)) return;
 			postponed = notifyReverse(desc.type.prototype,
-				obj._serialize_(desc.reverse), nu, map, desc.unique, postponed);
+				obj._serialize_(desc.reverse), nuActive, map, desc.unique, postponed);
 		}, obj.__reverseMaps__);
 	}
 	if (!obj.hasOwnProperty('__descendants__')) return postponed;
 	obj.__descendants__._plainForEach_(function (obj) {
-		postponed = notifyReverses(obj, nu, postponed);
+		postponed = notifyReverses(obj, nuActive, postponed);
 	});
 	return postponed;
 };
