@@ -217,9 +217,7 @@ turnReverse = function (object, proto) {
 		return;
 	}
 	if (object.hasOwnProperty('__descendants__')) {
-		object.__descendants__._plainForEach_(function (object) {
-			turnMultiples(object, proto);
-		});
+		object.__descendants__._plainForEach_(function (object) { turnReverse(object, proto); });
 	}
 };
 
