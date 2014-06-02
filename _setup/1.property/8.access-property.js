@@ -65,6 +65,11 @@ module.exports = function (object) {
 			if (sKey == null) return false;
 			return this._delete_(this._validateDelete_(sKey));
 		}),
+		deleteValue: d(function (key) {
+			var sKey = this._serialize_(key);
+			if (sKey == null) return false;
+			return this._deleteValue_(this._validateDelete_(sKey));
+		}),
 		entries: d(function () { return new Iterator(this, 'key+value'); }),
 		forEach: d(function (cb/*, thisArg*/) {
 			var thisArg = arguments[1], iterator, result;

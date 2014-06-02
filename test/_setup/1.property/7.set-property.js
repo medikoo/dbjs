@@ -31,6 +31,14 @@ module.exports = function (a) {
 	a(obj.delete('test'), true);
 	a(obj.delete('test'), false, "Undefined");
 
+	a.h1("Delete value");
+	obj.define('delValue', {
+		type: db.String,
+		value: 'foo'
+	});
+	a(obj.deleteValue('delValue'), true, "Value");
+	a(obj.$getOwn('delValue').type, db.String, "Meta");
+
 	a.h1("Set");
 	a(obj.set('test', 'foo'), obj);
 	a(obj.test, 'foo', "Value");

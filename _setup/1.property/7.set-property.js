@@ -59,6 +59,21 @@ module.exports = function (db, object) {
 			db._postponed_ -= 1;
 			return has;
 		}),
+		_deleteValue_: d(function (sKey) {
+			var desc = this._getDescriptor_(sKey), has, result;
+
+			db._postponed_ += 1;
+			if (desc._reverse_) {
+				result = desc._reverse_._delete_(this);
+				db._postponed_ -= 1;
+				return result;
+			}
+			desc = this._getOwnDescriptor_(sKey);
+			has = desc.hasOwnProperty('_value_');
+			new Event(desc); //jslint: ignore
+			db._postponed_ -= 1;
+			return has;
+		}),
 		_set_: d(function (sKey, value) {
 			var desc = this._getDescriptor_(sKey);
 
