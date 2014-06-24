@@ -11,6 +11,8 @@ Please see great [presentation by Greg Young](http://www.infoq.com/presentations
 
 ***Important: dbjs already powers sophisticated projects, but it's still under heavy development. It's API is not yet in stable state and is subject to changes***
 
+_If you need help with dbjs, please don't hesitate to ask on dedicated mailing list: [dbjs-engine@googlegroups.com](https://groups.google.com/forum/#!forum/dbjs-engine)_
+
 ### Installation
 #### NPM
 
