@@ -214,9 +214,9 @@ drHouse.patients.add(john); // 'add' emitted on drHouse.patients
 
 There are more event types dedicated for persistent layer, they'll be documented in near future.
 
-#### Dynamic (calculated) properties
+#### Computed properties
 
-With dbjs we can also define dynamic (getter) properties:
+With dbjs we can also define computed (getter) properties:
 
 Any function value, where length of function signature is `0` is considered and handled as a getter:
 
@@ -238,6 +238,10 @@ drHouse._fullName.on('change', function () { ... });
 drHouse.firstName = "John" // fullName recalculated and 'change' emitted
 drHouse.fullName; // "John House"
 ```
+
+### Binding with persistent layer
+
+See [Engine agnostic example of persistent layer binding](https://gist.github.com/medikoo/e11a8ce61303a996feab)
 
 #### [dbjs-ext](https://github.com/medikoo/dbjs-ext) Other types (extensions)
 
