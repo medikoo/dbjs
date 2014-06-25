@@ -30,7 +30,7 @@ You can easily bundle NPM packages for browser with [modules-webmake](https://gi
 
 In common application we define models in database engine that persists our data, and then we try to resemble that model (in manual or more less automatic way) in alanguage that we program our application. We connect both worlds and work like that.
 
-In _dbjs_ we define models directly in JavaScript, using most of things that language has to offer, its types, functions, prototypal inheritance etc. and we work with it natural way. On the other side _dbhs_ provides all means to observe the changes in reasonable manner. Persistent layer can be easily connected to low-end point which expresses data with graph/key-value representations, that remains transparent to our work.
+In _dbjs_ we define models directly in JavaScript, using most of things that language has to offer, its types, functions, prototypal inheritance etc. and we work with it natural way. On the other side _dbjs_ provides all means to observe the changes in reasonable manner. Persistent layer can be easily connected to low-end point which expresses data with graph/key-value representations, that remains transparent to our work.
 
 Let's start step by step, by writing example model setup:
 
