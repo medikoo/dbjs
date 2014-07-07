@@ -13,6 +13,7 @@ module.exports = PlainSet = function (/*iterable*/) {
 setPrototypeOf(PlainSet, Set);
 
 PlainSet.prototype = Object.create(Set.prototype, {
+	first: d.gs(require('es6-set/ext/get-first')),
 	copy: d(require('es6-set/ext/copy')),
 	every: d(require('es6-set/ext/every')),
 	some: d(require('es6-set/ext/some'))
