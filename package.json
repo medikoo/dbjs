@@ -32,7 +32,7 @@
     "observable-array": "0.0.2",
     "observable-map": "0.0.2",
     "observable-multi-set": "0.0.2",
-    "observable-set": "0.0.2",
+    "observable-set": "git://github.com/medikoo/observable-set.git",
     "observable-value": "0.0.2",
     "time-uuid": "~0.2.1"
   },
