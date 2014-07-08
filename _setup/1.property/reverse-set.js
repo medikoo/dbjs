@@ -4,6 +4,10 @@ var create           = require('es5-ext/object/create')
   , setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , d                = require('d')
   , Set              = require('es6-set/polyfill')
+  , setGetFirst      = require('es6-set/ext/get-first')
+  , setCopy          = require('es6-set/ext/copy')
+  , setEvery         = require('es6-set/ext/every')
+  , setSome          = require('es6-set/ext/some')
   , notifyProperty   = require('../notify/property')
   , DbjsError        = require('../error')
   , ObjectsSet       = require('../objects-set')
@@ -77,6 +81,10 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		}
 		return true;
 	}),
+	first: d.gs(setGetFirst),
+	copy: d(setCopy),
+	every: d(setEvery),
+	some: d(setSome),
 	_assertReverse_: d(function () {
 		if (this.__descriptor__.reverse === undefined) {
 			throw new DbjsError("Reverse not configured for given property",
