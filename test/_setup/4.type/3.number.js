@@ -5,7 +5,8 @@ var Database = require('../../../');
 module.exports = function (a) {
 	var db = new Database(), Type = db.Number
 	  , TypeCustom = Type.extend('Numtest2', { min: { value: -100 },
-			max: { value: 100 }, step: { value: 10 } });
+			max: { value: 100 }, step: { value: 10 } })
+	  , FloatType = Type.extend('FloatTest', { step: { value: 0.001 } });
 
 	a.throws(function () { Type(undefined); }, 'INVALID_NUMBER', "Undefined");
 	a(Type(null), 0, "Null");
@@ -50,6 +51,7 @@ module.exports = function (a) {
 			a(TypeCustom.normalize(64), 60, "Custom: Step");
 			a(TypeCustom.normalize(-123), null, "Custom: Below min");
 			a(TypeCustom.normalize(123), null, "Custom: Above max");
+			a(FloatType(9772.13), 9772.13, "Float step");
 		},
 		"Validate": function (a) {
 			a.throws(function () { Type.validate(undefined); },

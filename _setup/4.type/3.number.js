@@ -1,7 +1,9 @@
 'use strict';
 
-var mixin     = require('es5-ext/object/mixin')
+var isInteger = require('es5-ext/number/is-integer')
+  , mixin     = require('es5-ext/object/mixin')
   , d         = require('d')
+  , BigNumber = require('bignumber.js')
   , DbjsError = require('../error')
 
   , defineProperty = Object.defineProperty
@@ -40,8 +42,9 @@ module.exports = function (db) {
 			step = (descriptor && !isNaN(descriptor.step))
 				? max(descriptor.step, this.step)
 				: this.step;
-			if (step && ((value % step) !== 0)) return false;
-			return true;
+			if (!step) return true;
+			if (isInteger(step)) return ((value % step) === 0);
+			return (Number((new BigNumber(value)).mod(step)) === 0);
 		}),
 		normalize: d(function (value/*, descriptor*/) {
 			var minv, maxv, step, trail, sign, descriptor = arguments[1];
@@ -59,7 +62,7 @@ module.exports = function (db) {
 				? max(descriptor.step, this.step)
 				: this.step;
 			if (!step) return value;
-			trail = value % step;
+			trail = isInteger(step) ? (value % step) : Number((new BigNumber(value)).mod(step));
 			if (!trail) return value;
 			sign = (value >= 0) ? 1 : -1;
 			return sign * floor(abs(value) * (1 / step)) * step;
@@ -88,7 +91,7 @@ module.exports = function (db) {
 				? max(descriptor.step, this.step)
 				: this.step;
 			if (!step) return value;
-			trail = value % step;
+			trail = isInteger(step) ? (value % step) : Number((new BigNumber(value)).mod(step));
 			if (!trail) return value;
 			sign = (value >= 0) ? 1 : -1;
 			return sign * floor(abs(value) * (1 / step)) * step;
