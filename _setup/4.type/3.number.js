@@ -44,7 +44,7 @@ module.exports = function (db) {
 				: this.step;
 			if (!step) return true;
 			if (isInteger(step)) return ((value % step) === 0);
-			return (Number((new BigNumber(value)).mod(step)) === 0);
+			return (Number((new BigNumber(String(value))).mod(step)) === 0);
 		}),
 		normalize: d(function (value/*, descriptor*/) {
 			var minv, maxv, step, trail, sign, descriptor = arguments[1];
@@ -62,7 +62,7 @@ module.exports = function (db) {
 				? max(descriptor.step, this.step)
 				: this.step;
 			if (!step) return value;
-			trail = isInteger(step) ? (value % step) : Number((new BigNumber(value)).mod(step));
+			trail = isInteger(step) ? (value % step) : Number((new BigNumber(String(value))).mod(step));
 			if (!trail) return value;
 			sign = (value >= 0) ? 1 : -1;
 			return sign * floor(abs(value) * (1 / step)) * step;
@@ -91,7 +91,7 @@ module.exports = function (db) {
 				? max(descriptor.step, this.step)
 				: this.step;
 			if (!step) return value;
-			trail = isInteger(step) ? (value % step) : Number((new BigNumber(value)).mod(step));
+			trail = isInteger(step) ? (value % step) : Number((new BigNumber(String(value))).mod(step));
 			if (!trail) return value;
 			sign = (value >= 0) ? 1 : -1;
 			return sign * floor(abs(value) * (1 / step)) * step;

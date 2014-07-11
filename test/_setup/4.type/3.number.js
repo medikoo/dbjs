@@ -23,6 +23,8 @@ module.exports = function (a) {
 		"Custom: Below min");
 	a.throws(function () { TypeCustom(123); }, 'NUMBER_TOO_LARGE',
 		"Custom: Above max");
+	a(FloatType(9772.13), 9772.13, "Float step");
+	a(FloatType(0.6666666666666666), 0.666, "Float step");
 	return {
 		"Is": function (a) {
 			a(Type.is(undefined), false, "Undefined");
@@ -51,7 +53,6 @@ module.exports = function (a) {
 			a(TypeCustom.normalize(64), 60, "Custom: Step");
 			a(TypeCustom.normalize(-123), null, "Custom: Below min");
 			a(TypeCustom.normalize(123), null, "Custom: Above max");
-			a(FloatType(9772.13), 9772.13, "Float step");
 		},
 		"Validate": function (a) {
 			a.throws(function () { Type.validate(undefined); },
