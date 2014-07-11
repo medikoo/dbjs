@@ -19,6 +19,7 @@
     "url": "git@github.com:medikoo/dbjs.git"
   },
   "dependencies": {
+    "bignumber.js": "~1.4",
     "d": "~0.1.1",
     "error-create": "0.1.x",
     "es5-ext": "~0.10.4",
