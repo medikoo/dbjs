@@ -6,6 +6,7 @@ var assign             = require('es5-ext/object/assign')
   , isObservableSymbol = require('observable-value/symbol-is-observable')
   , setFilterMap       = require('observable-set/filter-map')
   , setFirst           = require('observable-set/first')
+  , setLast            = require('observable-set/last')
   , setHas             = require('observable-set/has')
   , setSize            = require('observable-set/size')
   , setAndOrNot        = require('observable-set/and-or-not')
@@ -25,6 +26,7 @@ module.exports = function (prototype, onInit) {
 
 	setFilterMap(prototype);
 	setFirst(prototype);
+	setLast(prototype);
 	setHas(prototype);
 	setSize(prototype);
 	setAndOrNot(prototype);

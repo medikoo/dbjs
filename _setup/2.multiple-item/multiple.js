@@ -6,6 +6,7 @@ var assign           = require('es5-ext/object/assign')
   , lazy             = require('d/lazy')
   , Set              = require('es6-set/polyfill')
   , setGetFirst      = require('es6-set/ext/get-first')
+  , setGetLast       = require('es6-set/ext/get-last')
   , setCopy          = require('es6-set/ext/copy')
   , setEvery         = require('es6-set/ext/every')
   , setSome          = require('es6-set/ext/some')
@@ -74,6 +75,7 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	values: d(function () { return new Iterator(this); }),
 	first: d.gs(setGetFirst),
+	last: d.gs(setGetLast),
 	copy: d(setCopy),
 	every: d(setEvery),
 	some: d(setSome),
