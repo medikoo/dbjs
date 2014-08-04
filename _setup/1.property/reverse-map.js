@@ -27,7 +27,7 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 	_serialize: d(serialize),
 	_includeObjBranch_: d(function (object, sKey, postponed, init) {
 		postponed = this._includeObj_(object, sKey, postponed, init);
-		if (!object.hasOwnProperty('__descendants__')) return;
+		if (!object.hasOwnProperty('__descendants__')) return postponed;
 		object.__descendants__._plainForEach_(function self(object) {
 			postponed = this._includeObjBranch_(object, sKey, postponed, init);
 		}, this);
