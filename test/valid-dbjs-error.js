@@ -1,7 +1,6 @@
 'use strict';
 
-var Database = require('../')
-	, DbjsError = require('../_setup/error');
+var DbjsError = require('../_setup/error');
 
 module.exports = function (t, a) {
 	var dbjsError = new DbjsError();
