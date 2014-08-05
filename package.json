@@ -38,9 +38,12 @@
     "time-uuid": "~0.2.1"
   },
   "devDependencies": {
+    "xlint": "~0.2.1",
+    "xlint-jslint-medikoo": "0.1.x",
     "tad": "0.2.x"
   },
   "scripts": {
+    "lint": "node node_modules/xlint/bin/xlint --linter=node_modules/xlint-jslint-medikoo/index.js --no-cache --no-stream",
     "test": "node node_modules/tad/bin/tad"
   },
   "license": "MIT"
