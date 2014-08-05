@@ -12,6 +12,6 @@ module.exports = function (t, a) {
 	a.throws(function () { t(NaN); }, TypeError, "NaN");
 	a.throws(function () { t(new Date()); }, TypeError, "Date");
 	a.throws(function () { t({}); }, TypeError, "Plain object");
-	a.throws(function () { t({}); }, TypeError, "Error object");
+	a.throws(function () { t(new Error('err')); }, TypeError, "Error object");
 	a(t(dbjsError), dbjsError, "DbjsError");
 };
