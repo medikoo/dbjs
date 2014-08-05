@@ -7,6 +7,10 @@ var isDate   = require('es5-ext/date/is-date')
 
 module.exports = function (t, a) {
 	var db = new Database(), fn = function () { return 'foo'; }, x, str;
+	db.Object.prototype.define('foo', {
+		type: db.Object,
+		nested: true
+	});
 	a.throws(function () { t('', db.objects); }, TypeError, "Empty: undefined");
 	a.throws(function () { t('0', db.objects); }, TypeError, "0: Null");
 	a(t('11', db.objects), true, "Boolean");
@@ -23,4 +27,5 @@ module.exports = function (t, a) {
 	a(t('5"/foo$/g"', db.objects).test('foo'), true, "RegExp");
 	a(t('7DateTime', db.objects), db.DateTime, "Namespace");
 	a.throws(function () { t('923', db.objects); }, TypeError, "Invalid value");
+	a(t('7' + db.Object.prototype.foo.__id__, db.objects), db.Object.prototype.foo, "Nested");
 };

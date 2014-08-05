@@ -8,6 +8,7 @@ var eIndexOf         = require('es5-ext/array/#/e-index-of')
   , forOf            = require('es6-iterator/for-of')
   , isIterable       = require('es6-iterator/is-iterable')
   , setGetFirst      = require('es6-set/ext/get-first')
+  , setGetLast       = require('es6-set/ext/get-last')
   , setCopy          = require('es6-set/ext/copy')
   , setEvery         = require('es6-set/ext/every')
   , setSome          = require('es6-set/ext/some')
@@ -52,6 +53,7 @@ setPrototypeOf(Multiple, Set);
 Multiple.prototype = create(Set.prototype, assign({
 	constructor: d(Multiple),
 	first: d.gs(setGetFirst),
+	last: d.gs(setGetLast),
 	copy: d(setCopy),
 	every: d(setEvery),
 	some: d(setSome),

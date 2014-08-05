@@ -8,7 +8,7 @@ var endsWith = require('es5-ext/string/#/ends-with')
   , isDigit = RegExp.prototype.test.bind(/\d/);
 
 module.exports = function (value, objects) {
-	var type, flags, data;
+	var type, flags, data, obj;
 	if (!value) throw new TypeError('Incorrect value');
 	type = value[0];
 	if (!isDigit(type)) return value;
@@ -31,6 +31,11 @@ module.exports = function (value, objects) {
 		if (endsWith.call(data[1], '\n')) data[1] = data[1].slice(0, -1);
 		return Function.apply(null, data);
 	}
-	if (type === '7') return objects.unserialize(value);
+	if (type === '7') {
+		obj = objects.unserialize(value);
+		if (obj._kind_ !== 'descriptor') return obj;
+		if (!obj.nested) return obj;
+		return obj.object.get(obj.key);
+	}
 	throw new TypeError('Incorrect value');
 };
