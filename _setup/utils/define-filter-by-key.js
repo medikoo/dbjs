@@ -30,11 +30,16 @@ module.exports = function (setProto) {
 				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			}
 			observe = memoize(function (obj) {
+				if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
 				return map(obj._getObservable_(sKey), function (value) {
 					return Boolean(filter(value, obj));
 				}).on('change', function (event) { set.refresh(obj); });
 			}, { normalizer: byObjId });
-			set = this.filter(function (obj) { return observe(obj).value; });
+			set = this.filter(function (obj) {
+				var observable = observe(obj);
+				if (typeof observable === 'boolean') return observable;
+				return observable.value;
+			});
 			return set;
 		}, {
 			normalizer: getNormalizer(2),

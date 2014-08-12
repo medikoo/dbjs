@@ -245,4 +245,7 @@ module.exports = function (a) {
 	a(type1.foo.clear(), undefined);
 	a.deep(toArray(type1.foo), [], "Content");
 	a.deep(toArray(type3.foo), [], "Deep Content");
+
+	a.h1();
+	a(typeof type3.foo.filterByKey, 'function', "Filter by key");
 };

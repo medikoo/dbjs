@@ -12,7 +12,6 @@ var create           = require('es5-ext/object/create')
   , DbjsError        = require('../error')
   , ObjectsSet       = require('../objects-set')
   , defineObservable = require('../utils/define-set-observable')
-  , defFilterByKey   = require('../utils/define-filter-by-key')
 
   , defineProperties = Object.defineProperties
   , ReverseSet;
@@ -159,5 +158,5 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 });
 
 ReverseSet.prototype.constructor = ObjectsSet;
-defFilterByKey(defineObservable(ReverseSet.prototype));
+defineObservable(ReverseSet.prototype);
 ReverseSet.prototype.constructor = ReverseSet;

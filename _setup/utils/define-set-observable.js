@@ -14,6 +14,7 @@ var assign             = require('es5-ext/object/assign')
   , ReadOnlySet        = require('observable-set/create-read-only')(
 	require('es6-set/primitive')
 )
+  , defineFilterByKey   = require('./define-filter-by-key')
   , serialize          = require('../serialize/value')
 
   , defineProperty = Object.defineProperty
@@ -129,5 +130,5 @@ module.exports = function (prototype, onInit) {
 		});
 	});
 
-	return defineProperties(prototype, properties);
+	return defineFilterByKey(defineProperties(prototype, properties));
 };
