@@ -14,7 +14,7 @@ module.exports = function (a) {
 	a.throws(function () { Type('\\'); }, 'INVALID_REGEXP', "Bad string");
 
 	return {
-		"Is": function (a) {
+		Is: function (a) {
 			var re = /raz/;
 			a(Type.is(undefined), false, "Undefined");
 			a(Type.is(null), false, "Null");
@@ -25,7 +25,7 @@ module.exports = function (a) {
 			a(Type.is('raz'), false, "String");
 			a(Type.is('\\'), false, "Invalid regExp string");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			var re = /raz/;
 			a(isRegExp(Type.normalize(undefined)), true, "Undefined");
 			a(isRegExp(Type.normalize(null)), true, "Null");
@@ -34,7 +34,7 @@ module.exports = function (a) {
 			a(isRegExp(Type.normalize('raz')), true, "String");
 			a(Type.normalize('\\'), null, "Invalid regExp string");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			var re = /raz/;
 			a(isRegExp(Type.validate(undefined)), true, "Undefined");
 			a(isRegExp(Type.validate(null)), true, "Null");

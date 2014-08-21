@@ -11,7 +11,7 @@ module.exports = function (a) {
 	a(Base.__id__, 'Base', "Id");
 	a(Base.call, Function.prototype.call, "Function prototype methods");
 	return {
-		"Extend": function (a) {
+		Extend: function (a) {
 			var TestType0, TestType1;
 
 			a.throws(function () { Base.extend('0sdfs'); }, 'INVALID_TYPE_NAME',
@@ -147,7 +147,7 @@ module.exports = function (a) {
 			obj._setValue_(TestType.prototype);
 			a.deep(emitted, { type: 'change', newValue: obj.foo, oldValue: 'raz'  });
 		},
-		"Constructor": function (a) {
+		Constructor: function (a) {
 			var x;
 			a.throws(function () { Base(undefined); }, 'NOT_SUPPORTED_VALUE',
 				"Undefined");
@@ -169,7 +169,7 @@ module.exports = function (a) {
 			x = new db.Object();
 			a(Base(x), x, "Db object");
 		},
-		"Is": function (a) {
+		Is: function (a) {
 			var x;
 			a(Base.is(undefined), false, "Undefined");
 			a(Base.is(null), true, "Null");
@@ -187,7 +187,7 @@ module.exports = function (a) {
 			x = new db.Object();
 			a(Base.is(x), true, "Db object");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			var x;
 			a(Base.normalize(undefined), null, "Undefined");
 			a(Base.normalize(null), null, "Null");
@@ -207,7 +207,7 @@ module.exports = function (a) {
 			x = new db.Object();
 			a(Base.normalize(x), x, "Db object");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			var x;
 			a.throws(function () { Base.validate(undefined); }, 'NOT_SUPPORTED_VALUE',
 				"Undefined");
@@ -230,7 +230,7 @@ module.exports = function (a) {
 			x = new db.Object();
 			a(Base.validate(x), x, "Db object");
 		},
-		"Create": function (a) {
+		Create: function (a) {
 			var x;
 			a.throws(function () { Base.create(undefined); }, 'NOT_SUPPORTED_VALUE',
 				"Undefined");
@@ -253,7 +253,7 @@ module.exports = function (a) {
 			x = new db.Object();
 			a(Base.create(x), x, "Db object");
 		},
-		"Nested": function () {
+		Nested: function () {
 			var obj = new db.Object(), obj1, obj2;
 			a.h1("Base object");
 			a(obj.object, obj, "object");
@@ -271,7 +271,7 @@ module.exports = function (a) {
 			a(obj2.owner, obj1, "owner");
 			a(obj2.__sKey__, 'foor', "__sKey__");
 		},
-		"Delete": function () {
+		Delete: function () {
 			var obj1 = new db.Object(), obj2 = new db.Object();
 			obj1.set('foo', obj2);
 			db.objects.delete(obj2);

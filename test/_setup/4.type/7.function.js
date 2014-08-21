@@ -12,7 +12,7 @@ module.exports = function (a) {
 	a.throws(function () { Type(/raz/); }, 'INVALID_FUNCTION', "No function");
 	a.throws(function () { Type({}); }, 'INVALID_FUNCTION', "Other object");
 	return {
-		"Is": function (a) {
+		Is: function (a) {
 			var getter = function () {}, fn = function (value) {};
 			a(Type.is(), false, "Undefined");
 			a(Type.is(null), false, "Null");
@@ -24,7 +24,7 @@ module.exports = function (a) {
 			a(Type.is(fn), true, "Function: Normalized");
 			a(Type.is({}), false, "Other object");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			var getter = function () {}, fn = function (value) {};
 			a(Type.normalize(), null, "Undefined");
 			a(Type.normalize(null), null, "Null");
@@ -32,7 +32,7 @@ module.exports = function (a) {
 			a(Type.normalize(fn), fn, "Function");
 			a(Type.normalize({}), null, "Other object");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			var getter = function () {}, fn = function (value) {};
 			a.throws(function () { Type.validate(); }, 'INVALID_FUNCTION',
 				"Undefined");

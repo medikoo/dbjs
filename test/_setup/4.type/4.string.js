@@ -10,7 +10,7 @@ module.exports = function (a) {
 	a(Type(undefined), 'undefined', "Undefined");
 	a(Type(null), 'null', "Null");
 	a(Type(false), 'false', "Boolean");
-	a(Type({}), {}.toString(), "Object");
+	a(Type({}), Object().toString(), "Object");
 	a(Type('foobar'), 'foobar', "String");
 	a(Type(new String('foobar')), 'foobar', "String object"); //jslint: ignore
 	a(Type(123), '123', "Number");
@@ -24,7 +24,7 @@ module.exports = function (a) {
 		"Custom: Length max");
 
 	return {
-		"Is": function (a) {
+		Is: function (a) {
 			a(Type.is(undefined), false, "Undefined");
 			a(Type.is(null), false, "Null");
 			a(Type.is(false), false, "Boolean");
@@ -39,11 +39,11 @@ module.exports = function (a) {
 			a(TypeCustom.is('1231231231232131'), false,
 				"Custom: Is: Length max");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			a(Type.normalize(undefined), 'undefined', "Undefined");
 			a(Type.normalize(null), 'null', "Null");
 			a(Type.normalize(false), 'false', "Boolean");
-			a(Type.normalize({}), {}.toString(), "Object");
+			a(Type.normalize({}), Object().toString(), "Object");
 			a(Type.normalize('foobar'), 'foobar', "String");
 			a(Type.normalize(new String('foobar')), 'foobar', //jslint: ignore
 				"String object");
@@ -55,11 +55,11 @@ module.exports = function (a) {
 			a(TypeCustom.normalize('1231231231232131'), null,
 				"Custom: Normalize: Length max");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			a(Type.validate(undefined), 'undefined', "Undefined");
 			a(Type.validate(null), 'null', "Null");
 			a(Type.validate(false), 'false', "Boolean");
-			a(Type.validate({}), {}.toString(), "Object");
+			a(Type.validate({}), Object().toString(), "Object");
 			a(Type.validate('foobar'), 'foobar', "String");
 			a(Type.validate(new String('foobar')), 'foobar', //jslint: ignore
 				"String object");

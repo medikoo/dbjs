@@ -9,7 +9,7 @@ module.exports = function (a) {
 	var db = new Database(), Type = db.Object;
 
 	return {
-		"Constructor": function (a) {
+		Constructor: function (a) {
 			var CustomType, obj, ZipCode;
 			ZipCode = db.String.extend('ZipCode',
 				{ pattern: { value: /^\d{2}-\d{3}$/ } });
@@ -49,7 +49,7 @@ module.exports = function (a) {
 			obj = CustomType('whatever');
 			a(obj.foo, 'whatever', "Custom construct");
 		},
-		"NewNamed": function (a) {
+		NewNamed: function (a) {
 			var CustomType, obj;
 			CustomType = Type.extend('NamedTest', {
 				foo: { type: db.String },
@@ -65,7 +65,7 @@ module.exports = function (a) {
 				CustomType.newNamed('raz dwa#');
 			}, 'INVALID_OBJECT_NAME', "Name validation");
 		},
-		"Is": function (a) {
+		Is: function (a) {
 			var CustomType, obj, props, obj2;
 			CustomType = Type.extend('OtestIs', { foo: { type: db.String },
 				bar: { type: db.Boolean } });
@@ -82,7 +82,7 @@ module.exports = function (a) {
 			a(CustomType.is(obj2), false, "Object from ascending namespace");
 			a(Type.is(obj2), true, "Object on ascending namespace");
 		},
-		"Extend": function (a) {
+		Extend: function (a) {
 			var CustomType, date = new Date();
 			CustomType = Type.extend('Otest3', { foo: { type: db.String },
 				bar: { type: db.Boolean } },
@@ -97,7 +97,7 @@ module.exports = function (a) {
 			a(CustomType.raz, 15, "Self property #1");
 			a(CustomType.dwa, date, "Self property #2");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			var CustomType, obj;
 			CustomType = Type.extend('Otest4');
 			obj = CustomType({});
@@ -108,7 +108,7 @@ module.exports = function (a) {
 			a.throws(function () { CustomType.validate({}); }, 'INVALID_OBJECT_TYPE',
 				"Foreign object");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			var CustomType, obj, pObj;
 			CustomType = Type.extend('Otest5');
 			obj = CustomType({});

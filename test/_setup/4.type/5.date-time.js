@@ -30,7 +30,7 @@ module.exports = function (a) {
 	a.throws(function () { TypeCustom(2100, 1, 1); }, 'FUTURE_DATE',
 		"Custom: Future");
 	return {
-		"Is": function (a) {
+		Is: function (a) {
 			a(Type.is(undefined), false, "Undefined");
 			a(Type.is(null), false, "Null");
 			a(Type.is(false), false, "Boolean");
@@ -40,7 +40,7 @@ module.exports = function (a) {
 			a(Type.is(new Date(123)), false, "Native date");
 			a(TypeCustom.is(new Date(2013, 1, 1)), false, "Custom");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			var date;
 			a(Type.normalize(undefined), null, "Undefined");
 			a(Type.normalize(null).getTime(), 0, "Null");
@@ -58,7 +58,7 @@ module.exports = function (a) {
 			a(TypeCustom.normalize(new Date(1980, 0, 2)), null, "Custom: Past");
 			a(TypeCustom.normalize(new Date(2100, 1, 1)), null, "Custom: Future");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			a.throws(function () { Type.validate(undefined); }, 'INVALID_DATETIME',
 				"Undefined");
 			a(Type.validate(null).getTime(), 0, "Null");
@@ -79,7 +79,7 @@ module.exports = function (a) {
 			a.throws(function () { TypeCustom.validate(new Date(2100, 1, 1)); },
 				'FUTURE_DATE', "Custom: Future");
 		},
-		"toString": function (a) {
+		toString: function (a) {
 			var date = new Date();
 			setPrototypeOf(date, Type.prototype);
 			a(String(date), date.toLocaleString(db.locale));

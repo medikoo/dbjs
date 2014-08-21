@@ -16,7 +16,7 @@ module.exports = function (a) {
 	a(Type('0'), true, "Other false string");
 	a(Type(0), false, "Zero");
 	return {
-		"Is": function (a) {
+		Is: function (a) {
 			a(Type.is(undefined), false, "Undefined");
 			a(Type.is(null), false, "Null");
 			a(Type.is(false), true, "Boolean (primitive)");
@@ -27,7 +27,7 @@ module.exports = function (a) {
 			a(Type.is('0'), false, "Other false string");
 			a(Type.is(0), false, "Zero");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			a(Type.normalize(undefined), false, "Undefined");
 			a(Type.normalize(null), false, "Null");
 			a(Type.normalize(false), false, "Boolean (primitive)");
@@ -39,7 +39,7 @@ module.exports = function (a) {
 			a(Type.normalize('0'), true, "Other false string");
 			a(Type.normalize(0), false, "Zero");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			a(Type.validate(undefined), false, "Undefined");
 			a(Type.validate(null), false, "Null");
 			a(Type.validate(false), false, "Boolean (primitive)");
@@ -51,7 +51,7 @@ module.exports = function (a) {
 			a(Type.validate('0'), true, "Other false string");
 			a(Type.validate(0), false, "Zero");
 		},
-		"toString": function (a) {
+		toString: function (a) {
 			var x = new Boolean(true); //jslint: ignore
 			setPrototypeOf(x, Type.prototype);
 			a(String(x), 'True', "True");

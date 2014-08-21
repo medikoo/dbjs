@@ -26,7 +26,7 @@ module.exports = function (a) {
 	a(FloatType(9772.13), 9772.13, "Float step");
 	a(FloatType(0.6666666666666666), 0.666, "Float step");
 	return {
-		"Is": function (a) {
+		Is: function (a) {
 			a(Type.is(undefined), false, "Undefined");
 			a(Type.is(null), false, "Null");
 			a(Type.is(false), false, "Boolean");
@@ -40,7 +40,7 @@ module.exports = function (a) {
 			a(TypeCustom.is(-123), false, "Custom: Below min");
 			a(TypeCustom.is(123), false, "Custom: Above max");
 		},
-		"Normalize": function (a) {
+		Normalize: function (a) {
 			a(Type.normalize(undefined), null, "Undefined");
 			a(Type.normalize(null), 0, "Null");
 			a(Type.normalize(false), 0, "Boolean");
@@ -54,7 +54,7 @@ module.exports = function (a) {
 			a(TypeCustom.normalize(-123), null, "Custom: Below min");
 			a(TypeCustom.normalize(123), null, "Custom: Above max");
 		},
-		"Validate": function (a) {
+		Validate: function (a) {
 			a.throws(function () { Type.validate(undefined); },
 				'INVALID_NUMBER', "Undefined");
 			a(Type.validate(null), 0, "Null");
