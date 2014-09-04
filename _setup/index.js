@@ -130,11 +130,11 @@ module.exports = function (db) {
 		return obj;
 	};
 
-	object = createProto(Map.prototype, 'Base#', 'object');
-	descriptor = createProto(Map.prototype, '$', 'descriptor', object);
-	item = createProto(Object.prototype, '*', 'item', object);
-	descriptorDescriptor = createProto(Object.prototype, '/', 'sub-descriptor',
-		object);
+	objects._add(object = createProto(Map.prototype, 'Base#', 'object'));
+	objects._add(descriptor = createProto(Map.prototype, '$', 'descriptor', object));
+	objects._add(item = createProto(Object.prototype, '*', 'item', object));
+	objects._add(descriptorDescriptor = createProto(Object.prototype, '/', 'sub-descriptor',
+		object));
 
 	setupProp(db, createObj, object, descriptor, item, descriptorDescriptor,
 		accessCollector);
