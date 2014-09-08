@@ -28,4 +28,6 @@ module.exports = function (a) {
 
 	obj2.set('bar', 'marko');
 	a.deep(toArray(set.filterByKey('bar', 'marko')), [obj2], "Deep filterByKey");
+
+	a(db.Object.instances.first, obj1, "First");
 };
