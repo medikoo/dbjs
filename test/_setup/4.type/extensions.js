@@ -16,4 +16,7 @@ module.exports = function (a) {
 
 	Type3.extend('Type5');
 	a.deep(toArray(set), [Type1, Type2, Type3, db.Type5], "Create");
+
+	a(db.Object.extensions.first, Type1, "First");
+
 };

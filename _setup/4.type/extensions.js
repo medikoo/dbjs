@@ -3,6 +3,11 @@
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d')
   , Set            = require('es6-set')
+  , setGetFirst    = require('es6-set/ext/get-first')
+  , setGetLast     = require('es6-set/ext/get-last')
+  , setCopy        = require('es6-set/ext/copy')
+  , setEvery       = require('es6-set/ext/every')
+  , setSome        = require('es6-set/ext/some')
   , PrimitiveMap   = require('es6-map/primitive')
   , createMultiSet = require('observable-multi-set/_create')
   , serialize      = require('../serialize/object')
@@ -48,5 +53,10 @@ Extensions = module.exports = function (Type) {
 setPrototypeOf(Extensions, MultiSet);
 
 Extensions.prototype = Object.create(MultiSet.prototype, {
-	constructor: d(Extensions)
+	constructor: d(Extensions),
+	first: d.gs(setGetFirst),
+	last: d.gs(setGetLast),
+	copy: d(setCopy),
+	every: d(setEvery),
+	some: d(setSome)
 });
