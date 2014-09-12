@@ -83,7 +83,9 @@ module.exports = function (object) {
 			}
 		}),
 		get: d(function (key) {
-			var sKey = this._serialize_(key);
+			var sKey;
+			if (this.isKeyStatic(key)) return this[key];
+			sKey = this._serialize_(key);
 			if (sKey == null) return;
 			return this._get_(sKey);
 		}),
