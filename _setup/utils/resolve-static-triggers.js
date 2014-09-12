@@ -2,7 +2,7 @@
 
 var resolve      = require('esniff/accessed-properties')('this')
   , memoize      = require('memoizee/plain')
-  , ignored      = require('./meta-properties')
+  , ignored      = require('./meta-property-names')
 
   , re = new RegExp('^\\s*function\\s*(?:[\\0-\'\\)-\\uffff]+)*\\s*\\(\\s*' +
 	'(_observe[\\/*\\s]*)?\\)\\s*\\{([\\0-\\uffff]*)\\}\\s*$')
