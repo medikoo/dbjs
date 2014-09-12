@@ -1,14 +1,11 @@
 'use strict';
 
-var primitiveSet = require('es5-ext/object/primitive-set')
-  , resolve      = require('esniff/accessed-properties')('this')
+var resolve      = require('esniff/accessed-properties')('this')
   , memoize      = require('memoizee/plain')
+  , ignored      = require('./meta-properties')
 
   , re = new RegExp('^\\s*function\\s*(?:[\\0-\'\\)-\\uffff]+)*\\s*\\(\\s*' +
 	'(_observe[\\/*\\s]*)?\\)\\s*\\{([\\0-\\uffff]*)\\}\\s*$')
-  , ignored = primitiveSet('constructor', 'clear', 'database', 'delete',
-		'entries', 'forEach', 'has', 'key', 'keys', 'master', 'object', 'set',
-		'size', 'values')
   , isFn = RegExp.prototype.test.bind(/^\s*\(/);
 
 module.exports = memoize(function (fn) {
