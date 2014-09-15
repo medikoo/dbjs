@@ -16,8 +16,7 @@ module.exports = function (descriptor, accessCollector) {
 			if (this.nested) {
 				return this.object._getObject_(this._sKey_);
 			}
-			return this.hasOwnProperty('_value_') ? this._value_ :
-					getPrototypeOf(this)._resolveInner_();
+			return this.hasOwnProperty('_value_') ? this._value_ : getPrototypeOf(this)._resolveInner_();
 		}),
 		_resolveValueValue_: d(function () {
 			if (!this._sKey_) return;
