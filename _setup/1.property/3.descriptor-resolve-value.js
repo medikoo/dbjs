@@ -61,8 +61,32 @@ module.exports = function (descriptor, accessCollector) {
 				return property ? property._lastOwnEvent_ : null;
 			}
 			if (this.multiple) {
-				property = this._getCurrentDescriptor_('multiple');
-				return property ? property._lastOwnEvent_ : null;
+				current = this;
+				while (!current.hasOwnProperty('_value_')) {
+					current = getPrototypeOf(current);
+					if (!current._sKey_) break;
+				}
+				value = current._value_;
+				if (!isGetter(value)) {
+					property = this._getCurrentDescriptor_('multiple');
+					return property ? property._lastOwnEvent_ : null;
+				}
+				accessCollector.emit('register', accessed = []);
+				value.call(obj, observePass);
+				accessCollector.emit('unregister');
+				if (!accessed.length) {
+					property = this._getCurrentDescriptor_('multiple');
+					return property ? property._lastOwnEvent_ : null;
+				}
+				return accessed.reduce(function (event, accessed) {
+					var obj = accessed[0], next;
+					next = obj._getCurrentDescriptor_(accessed[1]);
+					if (!next) return event;
+					next = next._lastEvent_;
+					if (!next) return event;
+					if (!event) return next;
+					return (next.stamp > event.stamp) ? next : event;
+				}, null);
 			}
 			current = this;
 			while (!current.hasOwnProperty('_value_')) {
