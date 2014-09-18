@@ -32,7 +32,7 @@ module.exports = function (setProto) {
 			observe = memoize(function (obj) {
 				if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
 				return map(obj._getObservable_(sKey), function (value) {
-					return Boolean(filter(value, obj));
+					return map(filter(value, obj), Boolean);
 				}).on('change', function (event) { set.refresh(obj); });
 			}, { normalizer: byObjId });
 			set = this.filter(function (obj) {
