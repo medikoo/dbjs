@@ -34,6 +34,7 @@ Multiple = module.exports = function (object, sKey, value) {
 	Set.call(this);
 	defineProperties(this, {
 		object: d('', object),
+		dbId: d('', object.__id__ + '/' + sKey),
 		__sKey__: d('', sKey)
 	});
 	if (value == null) return;
