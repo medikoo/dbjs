@@ -66,13 +66,13 @@ Multiple.prototype = create(Set.prototype, assign({
 		}
 		if (!this.__postponed__) {
 			this._clear();
-			this.emit('change', { type: 'clear', dbjs: dbEvent });
+			this.emit('change', { type: 'clear', dbjs: dbEvent, target: this });
 			return;
 		}
 		event = this.__postponedEvent__;
 		if (!event) {
 			event = this.__postponedEvent__ =
-				{ deleted: new ReadOnly(this, serialize) };
+				{ deleted: new ReadOnly(this, serialize), target: this };
 		} else {
 			this.forEach(function (value) {
 				if (event.added && event.added.has(value)) {
@@ -88,7 +88,7 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	_noteAdd_: d(function (value) {
 		var event = this.__postponedEvent__;
-		if (!event) event = this.__postponedEvent__ = {};
+		if (!event) event = this.__postponedEvent__ = { target: this };
 		if (event.deleted && event.deleted.has(value)) {
 			event.deleted._delete(value);
 			return;
@@ -98,7 +98,7 @@ Multiple.prototype = create(Set.prototype, assign({
 	}),
 	_noteDelete_: d(function (value) {
 		var event = this.__postponedEvent__;
-		if (!event) event = this.__postponedEvent__ = {};
+		if (!event) event = this.__postponedEvent__ = { target: this };
 		if (event.added && event.added.has(value)) {
 			event.added._delete(value);
 			return;

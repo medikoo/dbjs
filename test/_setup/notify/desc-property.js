@@ -28,6 +28,6 @@ module.exports = function (a) {
 
 	desc.set('foo', 'marko');
 	if (emitted) delete emitted.dbjs;
-	a.deep(emitted, { type: 'set', key: 'foo', value: 'marko', oldValue: 'bar' },
+	a.deep(emitted, { type: 'set', key: 'foo', value: 'marko', oldValue: 'bar', target: desc },
 		"Observable Map");
 };

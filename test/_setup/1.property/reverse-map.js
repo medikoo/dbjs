@@ -34,10 +34,10 @@ module.exports = function (a) {
 	});
 	obj21.foo = obj12;
 	a.deep(toArray(obj11.bar), [obj22], "Reverse update: Remove: value");
-	a.deep(events1, [{ type: 'delete', value: obj21 }],
+	a.deep(events1, [{ type: 'delete', value: obj21, target: obj11.bar }],
 		"Reverse update: Remove: event");
 	a.deep(toArray(obj12.bar), [obj21], "Reverse update: Add: value");
-	a.deep(events2, [{ type: 'add', value: obj21 }],
+	a.deep(events2, [{ type: 'add', value: obj21, target: obj12.bar }],
 		"Reverse update: Add: event");
 
 	Type2.prototype.$foo.reverse = 'revreltest2';
@@ -74,9 +74,9 @@ module.exports = function (a) {
 	obj31.foo = obj11;
 	a(obj13.ola, undefined, "Reverse unique: update: #1");
 	a(obj11.ola, obj31, "Reverse unique: update: #2");
-	a.deep(events1, [{ type: 'change', oldValue: obj31, newValue: undefined }],
+	a.deep(events1, [{ type: 'change', oldValue: obj31, newValue: undefined, target: obj13._ola }],
 		"Reverse unique update: Remove: event");
-	a.deep(events2, [{ type: 'change', newValue: obj31, oldValue: undefined }],
+	a.deep(events2, [{ type: 'change', newValue: obj31, oldValue: undefined, target: obj11._ola }],
 		"Reverse update: Add: event");
 
 	a.deep(toArray(obj13.revreltest2), [], "Reverse deep: update #1");

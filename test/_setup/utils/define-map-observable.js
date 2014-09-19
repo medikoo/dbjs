@@ -21,5 +21,5 @@ module.exports = function (t, a) {
 
 	map.set('raz', 'dwa');
 	map._emitSet_('raz', 'dwa');
-	a.deep(event, { type: 'set', key: 'raz', value: 'dwa' }, "Event");
+	a.deep(event, { type: 'set', key: 'raz', value: 'dwa', target: map }, "Event");
 };

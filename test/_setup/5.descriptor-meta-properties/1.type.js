@@ -18,7 +18,7 @@ module.exports = function (a) {
 	obj._test.on('change', function (e) { event = e; });
 	desc.type = db.Number;
 	a.deep(event, { type: 'change', newValue: 234, oldValue: '234',
-		dbjs: event.dbjs }, "Force udpate");
+		dbjs: event.dbjs, target: obj._test }, "Force udpate");
 
 	a.h1("Assignments");
 	desc1 = (new db.Object()).$getOwn('test');

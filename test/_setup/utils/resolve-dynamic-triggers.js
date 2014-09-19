@@ -41,14 +41,14 @@ module.exports = function (t, a) {
 	obj.foo = 12;
 	a(obj.count, 3, "Count");
 	a.deep(event, { type: 'change', newValue: 18, oldValue: 16,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: obj._test }, "Event");
 	event = null;
 
 	a.h1("Change observables");
 	obj.allow = false;
 	a(obj.count, 4, "Count");
 	a.deep(event, { type: 'change', newValue: 35, oldValue: 18,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: obj._test }, "Event");
 	event = null;
 
 	a.h1("Change not effective");
@@ -60,11 +60,11 @@ module.exports = function (t, a) {
 	obj.bar = 28;
 	a(obj.count, 5, "Count");
 	a.deep(event, { type: 'change', newValue: 33, oldValue: 35,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: obj._test }, "Event");
 
 	a.h1("Dupe double proof");
 	obj.all = 10;
 	a(obj.count, 6, "Count");
 	a.deep(event, { type: 'change', newValue: 38, oldValue: 33,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: obj._test }, "Event");
 };

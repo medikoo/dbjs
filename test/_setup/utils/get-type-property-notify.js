@@ -13,10 +13,10 @@ module.exports = function (a) {
 
 	Type.set('min', 1000);
 	a.deep(event, { type: 'change', newValue: null, oldValue: 234,
-		dbjs: event.dbjs }, "Restrict");
+		dbjs: event.dbjs, target: obj._test }, "Restrict");
 	event = null;
 	Type.set('min', 200);
 	a.deep(event, { type: 'change', newValue: 234, oldValue: null,
-		dbjs: event.dbjs }, "Ease");
+		dbjs: event.dbjs, target: obj._test }, "Ease");
 	event = null;
 };

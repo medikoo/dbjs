@@ -21,5 +21,5 @@ module.exports = function (t, a) {
 
 	set.add('raz');
 	set._emitAdd_('raz');
-	a.deep(event, { type: 'add', value: 'raz' }, "Event");
+	a.deep(event, { type: 'add', value: 'raz', target: set }, "Event");
 };

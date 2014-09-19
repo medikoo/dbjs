@@ -45,14 +45,14 @@ module.exports = function (t, a) {
 	obj.foo = 12;
 	a(obj.count, 3, "Count");
 	a.deep(event, { type: 'change', newValue: 37, oldValue: 33,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: obj._test }, "Event");
 	event = null;
 
 	a.h1("Change observables");
 	obj.allow = false;
 	a(obj.count, 4, "Count");
 	a.deep(event, { type: 'change', newValue: 55, oldValue: 37,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: obj._test }, "Event");
 	event = null;
 
 	a.h1("Change not effective");
@@ -64,5 +64,5 @@ module.exports = function (t, a) {
 	obj.bar = 28;
 	a(obj.count, 5, "Count");
 	a.deep(event, { type: 'change', newValue: 57, oldValue: 55,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: obj._test }, "Event");
 };

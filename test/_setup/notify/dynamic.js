@@ -20,11 +20,11 @@ module.exports = function (a) {
 		delete event.dbjs;
 	});
 	obj.raz = 3;
-	a.deep(event, { type: 'change', newValue: 8, oldValue: 6 }, "Update value");
+	a.deep(event, { type: 'change', newValue: 8, oldValue: 6, target: observable }, "Update value");
 	event = null;
 
 	proto.test = function () { return this.raz - this.dwa; };
-	a.deep(event, { type: 'change', newValue: 1, oldValue: 8 }, "Update getter");
+	a.deep(event, { type: 'change', newValue: 1, oldValue: 8, target: observable }, "Update getter");
 	event = null;
 
 	obj.trzy = 5;

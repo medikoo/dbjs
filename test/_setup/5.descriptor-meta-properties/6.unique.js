@@ -22,7 +22,7 @@ module.exports = function (a) {
 
 	desc.unique = false;
 	a.deep(event, { type: 'change', newValue: obj2.mamba, oldValue: obj1,
-		dbjs: event.dbjs }, "Force udpate");
+		dbjs: event.dbjs, target: obj2._mamba }, "Force udpate");
 	a.deep(toArray(obj2.mamba), [obj1], "Unique: false");
 
 	Type = db.Object.extend('Uniqtest1',

@@ -38,7 +38,7 @@ module.exports = function (prototype, onInit) {
 			this.__size__ -= 1;
 			if (!this._postponed_) {
 				this.emit('change', { type: 'delete', key: key, value: value,
-					dbjs: dbEvent });
+					dbjs: dbEvent, target: this });
 				return;
 			}
 			event = this._postponedEvent_;
@@ -55,14 +55,14 @@ module.exports = function (prototype, onInit) {
 			var event, had = oldValue !== undefined;
 			if (!had) this.__size__ += 1;
 			if (!this._postponed_) {
-				event = { type: 'set', key: key, value: value };
+				event = { type: 'set', key: key, value: value, target: this };
 				if (had) event.oldValue = oldValue;
 				if (dbEvent) event.dbjs = dbEvent;
 				this.emit('change', event);
 				return;
 			}
 			event = this._postponedEvent_;
-			if (!event) event = this.__postponedEvent__ = {};
+			if (!event) event = this.__postponedEvent__ = { target: this };
 			if (dbEvent) event.dbjs = dbEvent;
 			if (had && event.set && event.set.has(key)) event.set._delete(key);
 			if (event.deleted && event.deleted.has(key) &&

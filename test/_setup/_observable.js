@@ -15,7 +15,7 @@ module.exports = function (a) {
 	});
 	observable.value = 13;
 	a.deep(event, { type: 'change', newValue: 13, oldValue: 1,
-		dbjs: event.dbjs }, "Event");
+		dbjs: event.dbjs, target: observable }, "Event");
 
 	a(obj.raz, 13, "Value");
 };

@@ -49,14 +49,14 @@ History.prototype = Object.create(ObservableArray.prototype, {
 			// Update
 			unshift.call(this, event);
 			event.object._setValue_(event.value, event);
-			this.emit('change', { type: 'unshift', values: [event] });
+			this.emit('change', { type: 'unshift', values: [event], target: this });
 
 		} else {
 
 			// First event for object
 			this[0] = event;
 			event.object._setValue_(event.value, event);
-			this.emit('change', { type: 'set', index: 0, value: event });
+			this.emit('change', { type: 'set', index: 0, value: event, target: this });
 		}
 
 		// Emit on master and main objects collection

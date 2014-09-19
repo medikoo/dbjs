@@ -19,6 +19,6 @@ module.exports = function (a) {
 	obj.test.on('change', function (e) { event = e; });
 
 	obj.test.add('foo');
-	a.deep(event, { type: 'add', value: 'foo', dbjs: event.dbjs },
+	a.deep(event, { type: 'add', value: 'foo', dbjs: event.dbjs, target: obj.test },
 		"Multiple event");
 };

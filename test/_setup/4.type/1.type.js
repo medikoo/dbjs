@@ -145,7 +145,7 @@ module.exports = function (a) {
 				emitted = event;
 			});
 			obj._setValue_(TestType.prototype);
-			a.deep(emitted, { type: 'change', newValue: obj.foo, oldValue: 'raz'  });
+			a.deep(emitted, { type: 'change', newValue: obj.foo, oldValue: 'raz', target: obj._foo  });
 		},
 		Constructor: function (a) {
 			var x;

@@ -16,6 +16,6 @@ module.exports = function (a) {
 	obj._test.on('change', function (e) { event = e; });
 	desc.nested = false;
 	a.deep(event, { type: 'change', newValue: obj2, oldValue: nObj,
-		dbjs: event.dbjs }, "Force udpate");
+		dbjs: event.dbjs, target: obj._test }, "Force udpate");
 	a(obj.test, obj2, "Nested: false");
 };

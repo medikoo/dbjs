@@ -17,5 +17,5 @@ module.exports = function (a) {
 
 	desc.raz = 3;
 	a.h1("Event");
-	a.deep(event, { type: 'set', key: 'raz', value: 3, oldValue: 1 });
+	a.deep(event, { type: 'set', key: 'raz', value: 3, oldValue: 1, target: desc });
 };

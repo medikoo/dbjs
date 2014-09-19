@@ -20,6 +20,6 @@ module.exports = function (a) {
 	obj2._mamba.on('change', function (e) { event = e; });
 	desc.delete('reverse');
 	a.deep(event, { type: 'change', newValue: undefined, oldValue: obj1,
-		dbjs: event.dbjs }, "Force udpate");
+		dbjs: event.dbjs, target: obj2._mamba }, "Force udpate");
 	a(obj2.mamba, undefined, "Reverse: false");
 };

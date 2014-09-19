@@ -47,13 +47,13 @@ module.exports = function (prototype, onInit) {
 			var event;
 			this.__size__ += 1;
 			if (!this.__postponed__) {
-				event = { type: 'add', value: value };
+				event = { type: 'add', value: value, target: this };
 				if (dbEvent) event.dbjs = dbEvent;
 				this.emit('change', event);
 				return;
 			}
 			event = this.__postponedEvent__;
-			if (!event) event = this.__postponedEvent__ = {};
+			if (!event) event = this.__postponedEvent__ = { target: this };
 			if (dbEvent) event.dbjs = dbEvent;
 			if (event.deleted && event.deleted.has(value)) {
 				event.deleted._delete(value);
@@ -66,11 +66,11 @@ module.exports = function (prototype, onInit) {
 			var event;
 			this.__size__ -= 1;
 			if (!this.__postponed__) {
-				this.emit('change', { type: 'delete', value: value, dbjs: dbEvent });
+				this.emit('change', { type: 'delete', value: value, dbjs: dbEvent, target: this });
 				return;
 			}
 			event = this.__postponedEvent__;
-			if (!event) event = this.__postponedEvent__ = {};
+			if (!event) event = this.__postponedEvent__ = { target: this };
 			if (dbEvent) event.dbjs = dbEvent;
 			if (event.added && event.added.has(value)) {
 				event.added._delete(value);

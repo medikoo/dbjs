@@ -20,6 +20,6 @@ module.exports = function (a) {
 
 	obj2._setValue_(Type3.prototype);
 
-	a.deep(event, { type: 'change', newValue: null, oldValue: obj2 }, "Event");
+	a.deep(event, { type: 'change', newValue: null, oldValue: obj2, target: obj1._foo }, "Event");
 	a(obj1.foo, null, "Value");
 };

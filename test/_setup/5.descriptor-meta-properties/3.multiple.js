@@ -16,6 +16,6 @@ module.exports = function (a) {
 	obj._test.on('change', function (e) { event = e; });
 	desc.multiple = false;
 	a.deep(event, { type: 'change', newValue: 234, oldValue: set,
-		dbjs: event.dbjs }, "Force udpate");
+		dbjs: event.dbjs, target: obj._test }, "Force udpate");
 	a(obj.test, 234, "Multiple: false");
 };

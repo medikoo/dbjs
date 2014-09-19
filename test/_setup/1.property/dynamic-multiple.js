@@ -26,7 +26,7 @@ module.exports = function (a) {
 		delete event.dbjs;
 	});
 	obj.raz = 3;
-	a.deep(event, { type: 'delete', value: 1 }, "Delete event");
+	a.deep(event, { type: 'delete', value: 1, target: set }, "Delete event");
 	obj.raz = 5;
-	a.deep(event, { type: 'add', value: 5 }, "Add event");
+	a.deep(event, { type: 'add', value: 5, target: set }, "Add event");
 };
