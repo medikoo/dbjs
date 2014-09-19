@@ -20,8 +20,8 @@ module.exports = Object.create(Observable.prototype, assign({
 		this.__passEvent__ = null;
 		if (!dbEvent) return baseEmit.call(this, nu, old);
 		if (!this.__postponed__) {
-			this.emit('change', { type: 'change',
-				newValue: nu, oldValue: old, dbjs: dbEvent });
+			this.emit('change', { type: 'change', newValue: nu, oldValue: old, dbjs: dbEvent,
+				target: this });
 			return;
 		}
 		baseEmit.call(this, nu, old);
