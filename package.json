@@ -31,10 +31,10 @@
     "memoizee": "~0.3.2",
     "next-tick": "~0.2.2",
     "observable-array": "0.0.2",
-    "observable-map": "0.0.2",
+    "observable-map": "git://github.com/medikoo/observable-map.git",
     "observable-multi-set": "0.0.2",
     "observable-set": "git://github.com/medikoo/observable-set.git",
-    "observable-value": "0.0.2",
+    "observable-value": "git://github.com/medikoo/observable-value.git",
     "time-uuid": "~0.2.1"
   },
   "devDependencies": {
