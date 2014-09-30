@@ -29,4 +29,5 @@ module.exports = function (a) {
 	a.deep(event, { type: 'delete', value: 1, target: set }, "Delete event");
 	obj.raz = 5;
 	a.deep(event, { type: 'add', value: 5, target: set }, "Add event");
+	a.deep(toArray(obj.test), [5, 2, 3], "Mantain order");
 };
