@@ -24,7 +24,7 @@
     "error-create": "0.1.x",
     "es5-ext": "~0.10.4",
     "es6-iterator": "~0.1.1",
-    "es6-map": "0.1.x",
+    "es6-map": "git://github.com/medikoo/es6-map.git",
     "es6-set": "git://github.com/medikoo/es6-set.git",
     "esniff": "0.1.x",
     "event-emitter": "~0.3.1",
@@ -32,7 +32,7 @@
     "next-tick": "~0.2.2",
     "observable-array": "0.0.2",
     "observable-map": "git://github.com/medikoo/observable-map.git",
-    "observable-multi-set": "0.0.2",
+    "observable-multi-set": "git://github.com/medikoo/observable-multi-set.git",
     "observable-set": "git://github.com/medikoo/observable-set.git",
     "observable-value": "git://github.com/medikoo/observable-value.git",
     "time-uuid": "~0.2.1"
