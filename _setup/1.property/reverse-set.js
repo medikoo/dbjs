@@ -17,8 +17,7 @@ var create           = require('es5-ext/object/create')
   , ReverseSet;
 
 ReverseSet = module.exports = function (key, sKey, descriptor) {
-	Set.call(this);
-	defineProperties(this, {
+	return defineProperties(setPrototypeOf(new Set(), ReverseSet.prototype), {
 		__key__: d('', key),
 		__sKey__: d('', sKey),
 		__descriptor__: d('', descriptor),

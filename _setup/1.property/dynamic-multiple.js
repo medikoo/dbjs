@@ -29,14 +29,14 @@ var eIndexOf         = require('es5-ext/array/#/e-index-of')
   , Multiple;
 
 Multiple = module.exports = function (object, sKey, value) {
-	var iterate, desc;
-	Set.call(this);
-	defineProperties(this, {
+	var iterate, desc, self;
+	self = setPrototypeOf(new Set(), Multiple.prototype);
+	defineProperties(self, {
 		object: d('', object),
 		dbId: d('', object.__id__ + '/' + sKey),
 		__sKey__: d('', sKey)
 	});
-	if (value == null) return;
+	if (value == null) return self;
 	desc = object._getDescriptor_(sKey);
 	iterate = function (value) {
 		if (value == null) return;
@@ -45,8 +45,9 @@ Multiple = module.exports = function (object, sKey, value) {
 		if (eIndexOf.call(this, value) !== -1) return;
 		this.push(value);
 	};
-	if (isIterable(value)) forOf(value, iterate, this.__setData__);
-	else forEach.call(value, iterate, this.__setData__);
+	if (isIterable(value)) forOf(value, iterate, self.__setData__);
+	else forEach.call(value, iterate, self.__setData__);
+	return self;
 };
 setPrototypeOf(Multiple, Set);
 

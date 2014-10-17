@@ -17,7 +17,7 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , Extensions;
 
 Extensions = module.exports = function (Type) {
-	var sets = new Set(), onAdd, onDelete, onChange;
+	var sets = new Set(), onAdd, onDelete, onChange, self;
 	onAdd = function (Constructor) {
 		sets.add(Constructor._descendants_);
 		Constructor._descendants_.on('change', onChange);
@@ -47,8 +47,9 @@ Extensions = module.exports = function (Type) {
 		throw new Error("Unsupported event: " + event.type);
 	};
 	onAdd(Type);
-	MultiSet.call(this, sets, serialize);
-	sets = this.sets;
+	self = setPrototypeOf(new MultiSet(sets, serialize), Extensions.prototype);
+	sets = self.sets;
+	return self;
 };
 setPrototypeOf(Extensions, MultiSet);
 

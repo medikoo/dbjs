@@ -12,13 +12,13 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , ReverseMap;
 
 ReverseMap = module.exports = function (obj, sKey) {
-	var desc;
-	Map.call(this);
-	defineProperty(this, '__descriptor__', d('',
+	var desc, self = setPrototypeOf(new Map(), ReverseMap.prototype);
+	defineProperty(self, '__descriptor__', d('',
 		desc = obj._getOwnDescriptor_(sKey)));
 	desc = desc.__descriptors__.reverse;
 	if (desc && (desc._value_ !== undefined)) obj._serialize_(desc._value_);
-	this._includeObjBranch_(obj, sKey, null, true);
+	self._includeObjBranch_(obj, sKey, null, true);
+	return self;
 };
 setPrototypeOf(ReverseMap, Map);
 

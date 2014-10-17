@@ -11,7 +11,7 @@ var setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , keys = Object.keys
   , ObjectsSet;
 
-ObjectsSet = function () { PrimitiveSet.call(this); };
+ObjectsSet = function () { return setPrototypeOf(new PrimitiveSet(), ObjectsSet.prototype); };
 setPrototypeOf(ObjectsSet, PrimitiveSet);
 
 ObjectsSet.prototype = Object.create(PrimitiveSet.prototype, {

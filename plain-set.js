@@ -7,7 +7,7 @@ var d              = require('d')
   , PlainSet;
 
 module.exports = PlainSet = function (/*iterable*/) {
-	Set.call(this, arguments[0]);
+	return setPrototypeOf(new Set(arguments[0]), PlainSet.prototype);
 };
 setPrototypeOf(PlainSet, Set);
 

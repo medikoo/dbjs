@@ -2,6 +2,7 @@
 
 var assign           = require('es5-ext/object/assign')
   , create           = require('es5-ext/object/create')
+  , setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , d                = require('d')
   , lazy             = require('d/lazy')
   , Set              = require('es6-set/polyfill')
@@ -26,13 +27,14 @@ isTruthy = function (sKey) {
 };
 
 module.exports = Multiple = function (obj, pSKey) {
-	defineProperties(this, {
+	return defineProperties(setPrototypeOf(new Set(), Multiple.prototype), {
 		object: d('', obj),
 		dbId: d('', obj.__id__ + '/' + pSKey),
 		__pSKey__: d('', pSKey),
 		__setData__: d('', obj._getMultipleItems_(pSKey))
 	});
 };
+setPrototypeOf(Multiple, Set);
 
 Multiple.prototype = create(Set.prototype, assign({
 	constructor: d(Multiple),
