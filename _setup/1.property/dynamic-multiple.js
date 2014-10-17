@@ -30,7 +30,6 @@ var eIndexOf         = require('es5-ext/array/#/e-index-of')
 
 Multiple = module.exports = function (object, sKey, value) {
 	var iterate, desc;
-	if (!(this instanceof Multiple)) return new Multiple(object, sKey);
 	Set.call(this);
 	defineProperties(this, {
 		object: d('', object),
