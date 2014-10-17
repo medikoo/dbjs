@@ -141,9 +141,13 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 		var set, sKey;
 		this._delete_(obj, value);
 		sKey = '7' + obj.__id__;
-		set = this.__mapValuesData__[sKey];
+		set = this._getMultiple_(sKey, obj);
 		if (set.has(value)) return;
-		value._set_(this.__descriptor__._sKey_, obj);
+		if (value._getDescriptor_(this.__descriptor__._sKey_).multiple) {
+			value._multipleAdd_(this.__descriptor__._sKey_, obj, sKey);
+		} else {
+			value._set_(this.__descriptor__._sKey_, obj);
+		}
 	}),
 	_validateSet_: d(function (obj, value) {
 		if (!this.__descriptor__.unique) {
@@ -152,7 +156,11 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 		}
 		this.__descriptor__.object.constructor.validate(value);
 		this._validateDelete_(obj, value);
-		value._validateSet_(this.__descriptor__._sKey_, obj);
+		if (value._getDescriptor_(this.__descriptor__._sKey_).multiple) {
+			value._validateMultipleAdd_(this.__descriptor__._sKey_, obj);
+		} else {
+			value._validateSet_(this.__descriptor__._sKey_, obj);
+		}
 		return value;
 	}),
 	get: d(function (obj) {

@@ -10,7 +10,7 @@ module.exports = function (a) {
 			{ foo: { type: Type1, required: true } })
 
 	  , obj11, obj12, obj13, obj14, obj15, obj21, obj22, Type3, obj31, obj32
-	  , obj33, events1 = [], events2 = [], filter;
+	  , obj33, events1 = [], events2 = [], filter, drHouse, john;
 
 	obj11 = new Type1({ melasa: 'dwa' });
 	obj21 = new Type2({ foo: obj11 });
@@ -136,4 +136,24 @@ module.exports = function (a) {
 	obj15._setValue_();
 
 	a(filter.size, 0, "Clear");
+
+	a.h1("Reverse set on multiple");
+	db.Object.extend('Patient', {
+		firstName: { type: db.String, required: true },
+		lastName: { type: db.String, required: true },
+		birthDate: { type: db.DateTime, required: true }
+	});
+
+	db.Object.extend('Doctor', {
+		firstName: { type: db.String, required: true },
+		lastName: { type: db.String, required: true },
+		patients: { type: db.Patient, multiple: true, reverse: 'doctor', unique: true }
+	});
+
+	drHouse = db.Doctor.newNamed('drHouse', { firstName: "Gregory", lastName: "House" });
+	john = db.Patient.newNamed('john', { firstName: "John", lastName: "Smith",
+		birthDate: new Date(1977, 0, 3) });
+
+	john.doctor = drHouse;
+	a(drHouse.patients.has(john), true);
 };
