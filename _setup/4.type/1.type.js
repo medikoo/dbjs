@@ -1,28 +1,29 @@
 'use strict';
 
-var isDate         = require('es5-ext/date/is-date')
-  , identity       = require('es5-ext/function/identity')
-  , isFunction     = require('es5-ext/function/is-function')
-  , validFunction  = require('es5-ext/function/valid-function')
-  , assign         = require('es5-ext/object/assign')
-  , create         = require('es5-ext/object/create')
-  , mixin          = require('es5-ext/object/mixin')
-  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , isRegExp       = require('es5-ext/reg-exp/is-reg-exp')
-  , d              = require('d')
-  , lazy           = require('d/lazy')
-  , DbjsError      = require('../error')
-  , Event          = require('../event')
-  , ObjectsSet     = require('../objects-set')
-  , turnPrototype  = require('../utils/propagate-prototype-turn').object
-  , serialize      = require('../serialize/value')
-  , isGetter       = require('../utils/is-getter')
-  , getMessage     = require('../utils/get-sub-error-message')
-  , updateEnum     = require('../utils/update-enumerability')
-  , unserialize    = require('../unserialize/key')
-  , notifyReverse  = require('../notify/reverse')
-  , validDbValue   = require('../../valid-dbjs-value')
-  , Extensions     = require('./extensions')
+var isDate          = require('es5-ext/date/is-date')
+  , identity        = require('es5-ext/function/identity')
+  , isFunction      = require('es5-ext/function/is-function')
+  , validFunction   = require('es5-ext/function/valid-function')
+  , assign          = require('es5-ext/object/assign')
+  , create          = require('es5-ext/object/create')
+  , mixin           = require('es5-ext/object/mixin')
+  , setPrototypeOf  = require('es5-ext/object/set-prototype-of')
+  , isRegExp        = require('es5-ext/reg-exp/is-reg-exp')
+  , d               = require('d')
+  , lazy            = require('d/lazy')
+  , DbjsError       = require('../error')
+  , Event           = require('../event')
+  , ObjectsSet      = require('../objects-set')
+  , turnPrototype   = require('../utils/propagate-prototype-turn').object
+  , serialize       = require('../serialize/value')
+  , isGetter        = require('../utils/is-getter')
+  , getMessage      = require('../utils/get-sub-error-message')
+  , updateEnum      = require('../utils/update-enumerability')
+  , resolveSKeyPath = require('../utils/resolve-property-path')
+  , unserialize     = require('../unserialize/key')
+  , notifyReverse   = require('../notify/reverse')
+  , validDbValue    = require('../../valid-dbjs-value')
+  , Extensions      = require('./extensions')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
   , defineProperties = Object.defineProperties
@@ -384,6 +385,7 @@ module.exports = function (db, createObj, object) {
 			}
 			if (old === nu) return;
 			db._release_(turnPrototype(this, nu, dbEvent));
-		})
+		}),
+		resolveSKeyPath: d(function (sKeyPath) { return resolveSKeyPath(this, sKeyPath); })
 	});
 };
