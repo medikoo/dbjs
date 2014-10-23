@@ -22,4 +22,6 @@ module.exports = function (t, a) {
 	a(result.descriptor, obj.__descriptorPrototype__);
 	a(result.ownDescriptor, obj.someNested.otherNested.getOwnDescriptor('foo'));
 	a(result.observable, obj.someNested.otherNested._foo);
+	obj.someNested.otherNested.foo = 'raz';
+	a(result.value, 'raz');
 };
