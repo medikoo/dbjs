@@ -110,10 +110,6 @@ defineProperties(DynamicValue.prototype, assign({
 		this.resolvedValue = value;
 		return notify(obj, this.__sKey__, value, old, null, null,
 			dbEvent, postponed);
-	}),
-	_triggerUpdate_: d(function () {
-		var desc = this.object._getDescriptor_(this.__sKey__);
-		this._updateObserver_(desc._resolveValueGetter_());
 	})
 }, autoBind({
 	__triggerObserverUpdate__: d(function (event, postponed) {
