@@ -3,10 +3,16 @@
 var contains          = require('es5-ext/array/#/contains')
   , diff              = require('es5-ext/array/#/diff')
   , remove            = require('es5-ext/array/#/remove')
+  , isMap             = require('es6-map/is-map')
   , isObservable      = require('observable-value/is-observable')
   , isObservableValue = require('observable-value/is-observable-value')
 
-  , getChangeListener, on, off;
+  , getChangeListener, on, off, isNonMapObservable;
+
+isNonMapObservable = function (obj) {
+	if (!isObservable(obj)) return false;
+	return !isMap(obj);
+};
 
 getChangeListener = function (update, event) {
 	this._release_(update(event));
@@ -32,14 +38,14 @@ module.exports = function (db, getter, update) {
 		var nu, result;
 		result = getter.call(this, function (obj) {
 			var dupe;
-			if (!isObservable(obj)) return obj;
+			if (!isNonMapObservable(obj)) return obj;
 			if (!nu) nu = [];
 			else if (contains.call(nu, obj)) dupe = true;
 			if (!dupe) nu.push(obj);
 			if (!isObservableValue(obj)) return obj;
 			obj = obj.value;
 			if (dupe) return obj;
-			if (isObservable(obj)) nu.push(obj);
+			if (isNonMapObservable(obj)) nu.push(obj);
 			return obj;
 		}, arg);
 		if (!observed) {
