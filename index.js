@@ -1,16 +1,18 @@
 'use strict';
 
-var assign           = require('es5-ext/object/assign')
-  , d                = require('d')
-  , lazy             = require('d/lazy')
-  , ee               = require('event-emitter')
-  , Event            = require('./_setup/event')
-  , Error            = require('./_setup/error')
-  , unserializeEvent = require('./_setup/unserialize/event')
-  , unserializeValue = require('./_setup/unserialize/value')
-  , setup            = require('./_setup')
-  , validValue       = require('./valid-dbjs-value')
-  , observePassthru  = require('./_setup/utils/observe-pass-through')
+var validFunction         = require('es5-ext/function/valid-function')
+  , assign                = require('es5-ext/object/assign')
+  , d                     = require('d')
+  , lazy                  = require('d/lazy')
+  , ee                    = require('event-emitter')
+  , Event                 = require('./_setup/event')
+  , Error                 = require('./_setup/error')
+  , unserializeEvent      = require('./_setup/unserialize/event')
+  , unserializeValue      = require('./_setup/unserialize/value')
+  , setup                 = require('./_setup')
+  , validValue            = require('./valid-dbjs-value')
+  , observePassthru       = require('./_setup/utils/observe-pass-through')
+  , resolveStaticTriggers = require('./_setup/utils/resolve-static-triggers')
 
   , push = Array.prototype.push
   , defineProperties = Object.defineProperties
@@ -52,6 +54,7 @@ ee(defineProperties(Database.prototype, assign({
 	}),
 	Error: d(Error),
 	observePassthru: d(observePassthru),
+	resolveGetterObservables: d(function (fn) { return resolveStaticTriggers(validFunction(fn)); }),
 	_update_: d(function (id, value) {
 		var obj;
 		validValue(value);
