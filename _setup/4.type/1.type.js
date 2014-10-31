@@ -26,7 +26,7 @@ var isDate          = require('es5-ext/date/is-date')
   , Extensions      = require('./extensions')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
-  , defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties, defineProperty = Object.defineProperty
   , hasOwnProperty = Object.prototype.hasOwnProperty, keys = Object.keys
   , getPrototypeOf = Object.getPrototypeOf
   , isValidTypeName = RegExp.prototype.test.bind(/^[A-Z][0-9a-zA-Z]*$/)
@@ -263,8 +263,9 @@ module.exports = function (db, createObj, object) {
 			this.prototype._destroy_.call(this);
 		})
 	}, lazy({
-		_typeAssignments_: d(function () { return new ObjectsSet(); },
-			{ cacheName: '__typeAssignments__', desc: '' }),
+		_typeAssignments_: d(function () {
+			return defineProperty(new ObjectsSet(), 'dbId', d(this.__id__));
+		}, { cacheName: '__typeAssignments__', desc: '' }),
 		extensions: d(function () {
 			return new Extensions(this);
 		}, { cacheName: '__extensions__', desc: '' })

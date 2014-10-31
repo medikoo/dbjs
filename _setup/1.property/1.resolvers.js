@@ -17,7 +17,7 @@ var assign          = require('es5-ext/object/assign')
   , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty, keys = Object.keys
   , getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor
-  , getPrototypeOf = Object.getPrototypeOf
+  , getPrototypeOf = Object.getPrototypeOf, defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
   , desc1, desc2;
 
@@ -209,8 +209,9 @@ module.exports = function (db, object, descriptor) {
 			{ cacheName: '__iterators__', desc: '' }),
 
 		// Assignments
-		_assignments_: d(function () { return new ObjectsSet(); },
-			{ cacheName: '__assignments__', desc: '' })
+		_assignments_: d(function () {
+			return defineProperty(new ObjectsSet(), 'dbId', d(this.__id__));
+		}, { cacheName: '__assignments__', desc: '' })
 
 	})));
 };
