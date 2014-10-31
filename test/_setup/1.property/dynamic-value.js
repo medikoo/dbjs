@@ -48,11 +48,20 @@ module.exports = function (a) {
 		lastName: { type: db.String },
 		fullName: { type: db.String, value: function () {
 			return this.firstName + " " + this.lastName;
-		} }
+		} },
+		multi1: { type: db.String, multiple: true },
+		multi2: { type: db.String, multiple: true, value: function () { return this.multi1; } }
 	});
 
 	obj = new db.User({ firstName: 'Marko', lastName: 'Zagalo' });
 	obj.getObservable('fullName');
 	obj._setValue_();
 	obj._setValue_(db.User.prototype);
+
+	a.h1("Return observable multiples");
+	obj = new db.User({ multi1: ['raz', 'dwa'] });
+	obj.multi2.on('change', function () {});
+	a.deep(toArray(obj.multi2), toArray(obj.multi1));
+	obj.multi1.add('foo');
+	a.deep(toArray(obj.multi2), toArray(obj.multi1));
 };

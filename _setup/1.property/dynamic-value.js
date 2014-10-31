@@ -4,6 +4,7 @@ var assign          = require('es5-ext/object/assign')
   , d               = require('d')
   , autoBind        = require('d/auto-bind')
   , lazy            = require('d/lazy')
+  , isObservable    = require('observable-value/is-observable')
   , resolveTriggers = require('../utils/resolve-triggers')
   , notify          = require('../notify/property')
 
@@ -92,7 +93,7 @@ defineProperties(DynamicValue.prototype, assign({
 				postponed = notify(obj, this.__sKey__, this.resolvedValue,
 					old, null, null, dbEvent, postponed);
 			}
-			if (this.value === value) return postponed;
+			if ((this.value === value) && !isObservable(value)) return postponed;
 			this.value = value;
 			return notifyMultiple(obj, this.__sKey__, value, dbEvent, postponed);
 		}
