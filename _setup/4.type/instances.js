@@ -13,6 +13,7 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , serialize      = require('../serialize/object')
   , ObjectsSet     = require('../objects-set')
 
+  , defineProperty = Object.defineProperty
   , MultiSet = createMultiSet(ObjectsSet, PrimitiveMap)
   , filter = function (obj) { return obj.constructor.prototype !== obj; }
   , Instances;
@@ -49,6 +50,7 @@ Instances = module.exports = function (Type) {
 	};
 	onAdd(Type);
 	self = setPrototypeOf(new MultiSet(sets, serialize), Instances.prototype);
+	defineProperty(self, 'dbId', d(Type.__id__));
 	sets = self.sets;
 	return self;
 };
