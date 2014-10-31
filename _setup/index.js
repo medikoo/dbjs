@@ -91,8 +91,9 @@ protoProperties = assign({
 		return event.stamp;
 	})
 }, lazy({
-	_descendants_: d(function () { return new ObjectsSet(); },
-		{ cacheName: '__descendants__', desc: '' }),
+	_descendants_: d(function () {
+		return defineProperty(new ObjectsSet(), 'dbId', d(this.__id__));
+	}, { cacheName: '__descendants__', desc: '' }),
 	_history_: d(function () { return new History(); },
 		{ cacheName: '__history__', desc: '' })
 }));
