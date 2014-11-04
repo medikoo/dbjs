@@ -20,16 +20,19 @@ var validFunction         = require('es5-ext/function/valid-function')
   , byIndex = function (a, b) { return a.index - b.index; }
   , Database, notifyDynamic;
 
-notifyDynamic = function (postponed, obj) {
-	if (!obj.hasOwnProperty('__dynamicListeners__')) return postponed;
+notifyDynamic = function (obj) {
+	if (!obj.hasOwnProperty('__dynamicListeners__')) return;
 	obj.__dynamicListeners__.forEach(function (update) {
-		var event;
+		var event, postponed;
 		if (obj.hasOwnProperty('__postponedEvent__') && obj.__postponedEvent__) {
 			event = obj.__postponedEvent__.dbjs;
 		}
 		postponed = update(event, postponed);
-	});
-	return postponed;
+		if (postponed) {
+			push.apply(this, postponed);
+			postponed.forEach(notifyDynamic, this);
+		}
+	}, this);
 };
 
 Database = module.exports = function () {
@@ -73,18 +76,13 @@ ee(defineProperties(Database.prototype, assign({
 		this._release_(postponed);
 	}),
 	_release_: d(function (postponed) {
-		var nextPostponed;
 		if (!postponed) return;
 		if (this.__postponed__) {
 			if (!this.__postponedObjects__) this.__postponedObjects__ = postponed;
 			else push.apply(this.__postponedObjects__, postponed);
 			return;
 		}
-		nextPostponed = postponed.reduce(notifyDynamic, undefined);
-		while (nextPostponed) {
-			push.apply(postponed, nextPostponed);
-			nextPostponed = nextPostponed.reduce(notifyDynamic, undefined);
-		}
+		postponed.forEach(notifyDynamic, postponed);
 		postponed.forEach(release);
 	})
 }, lazy({
