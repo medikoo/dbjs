@@ -8,7 +8,7 @@ var assign          = require('es5-ext/object/assign')
   , injectPrimitive = require('../utils/inject-primitive')
   , observePass     = require('../utils/observe-pass-through')
   , DbjsError       = require('../error')
-  , ObjectsSet      = require('../objects-set')
+  , AssignmentsSet  = require('../assignments-set')
   , Observable      = require('./observable')
   , DynamicMultiple = require('./dynamic-multiple')
   , DynamicValue    = require('./dynamic-value')
@@ -210,7 +210,7 @@ module.exports = function (db, object, descriptor) {
 
 		// Assignments
 		_assignments_: d(function () {
-			return defineProperty(new ObjectsSet(), 'dbId', d(this.__id__));
+			return defineProperty(new AssignmentsSet(), 'dbId', d(this.__id__));
 		}, { cacheName: '__assignments__', desc: '' })
 
 	})));
