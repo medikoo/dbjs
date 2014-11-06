@@ -57,6 +57,7 @@ setPrototypeOf(Extensions, MultiSet);
 
 Extensions.prototype = Object.create(MultiSet.prototype, {
 	constructor: d(Extensions),
+	dbKind: d('extensions'),
 	first: d.gs(setGetFirst),
 	last: d.gs(setGetLast),
 	copy: d(setCopy),
