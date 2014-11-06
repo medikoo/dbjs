@@ -103,7 +103,7 @@ module.exports = function (db, object) {
 			return this._set_(sKey, this._validateSet_(sKey, value));
 		}),
 		size: d.gs(function () {
-			var size, data, sKey, desc, nestedTypeDesc, current, done;
+			var size, data, sKey, desc, current, done;
 			if (this.hasOwnProperty('__size__')) return this.__size__;
 			size = 0;
 			data = this.__descriptors__;
@@ -112,33 +112,29 @@ module.exports = function (db, object) {
 			}
 			desc = this.__descriptorPrototype__;
 			if (desc.nested) {
-				if (db.isObjectType(desc.type)) {
-					nestedTypeDesc = desc;
-					while (!nestedTypeDesc.hasOwnProperty('type')) {
-						nestedTypeDesc = getPrototypeOf(nestedTypeDesc);
-					}
-					current = this;
-					done = create(null);
-					while (true) {
-						if (current.hasOwnProperty('__objects__')) {
-							for (sKey in current.__objects__) {
-								if (data[sKey]) continue;
-								if (done[sKey]) continue;
-								++size;
-								done[sKey] = true;
-							}
+				if (!db.isObjectType(desc.type)) return size;
+				while (!desc.hasOwnProperty('type')) desc = getPrototypeOf(desc);
+				current = this;
+				done = create(null);
+				while (true) {
+					if (current.hasOwnProperty('__objects__')) {
+						for (sKey in current.__objects__) {
+							if (data[sKey]) continue;
+							if (done[sKey]) continue;
+							++size;
+							done[sKey] = true;
 						}
-						if (current.hasOwnProperty('__descriptorPrototype__') &&
-								(current.__descriptorPrototype__ === nestedTypeDesc)) {
-							break;
-						}
-						current = getPrototypeOf(current);
 					}
+					if (current.hasOwnProperty('__descriptorPrototype__') &&
+							(current.__descriptorPrototype__ === desc)) {
+						break;
+					}
+					current = getPrototypeOf(current);
 				}
-			} else if (desc.multiple) {
-				for (sKey in this.__sets__) {
-					if (!data[sKey]) ++size;
-				}
+				return size;
+			}
+			if (desc.multiple) {
+				for (sKey in this.__sets__) if (!data[sKey]) ++size;
 			}
 			return size;
 		}),
