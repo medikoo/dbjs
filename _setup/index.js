@@ -8,6 +8,7 @@ var assign            = require('es5-ext/object/assign')
   , Map               = require('es6-map/primitive')
   , ee                = require('event-emitter')
   , ObjectsSet        = require('./objects-set')
+  , DescendantsSet    = require('./descendants-set')
   , DbjsError         = require('./error')
   , History           = require('./history')
   , unserializeObject = require('./unserialize/object')
@@ -92,7 +93,7 @@ protoProperties = assign({
 	})
 }, lazy({
 	_descendants_: d(function () {
-		return defineProperty(new ObjectsSet(), 'dbId', d(this.__id__));
+		return defineProperty(new DescendantsSet(), 'dbId', d(this.__id__));
 	}, { cacheName: '__descendants__', desc: '' }),
 	_history_: d(function () { return new History(); },
 		{ cacheName: '__history__', desc: '' })
