@@ -6,7 +6,7 @@ var isSet    = require('es6-set/is-set')
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
-	  , desc, ownDesc, fn, event, pDesc, obj2;
+	  , desc, ownDesc, fn, event, pDesc, obj2, SubObject, User, user;
 
 	desc = proto.$getOwn('test');
 	ownDesc = obj.$test;
@@ -87,4 +87,37 @@ module.exports = function (a) {
 
 	desc.type = db.String;
 	a(obj._normalize_(desc._sKey_, 23), '23', "Normalize");
+
+	a.h1("Deep nesteds");
+	db = new Database();
+	SubObject = db.Object.extend('SubObject');
+	User = db.Object.extend('User');
+
+	SubObject.prototype.define('inputOptions', {
+		type: db.Object,
+		nested: true
+	});
+
+	SubObject.prototype.inputOptions._descriptorPrototype_.setProperties({
+		type: db.Object,
+		nested: true
+	});
+
+	User.prototype.defineProperties({
+		subThing: {
+			nested: true,
+			type: SubObject
+		}
+	});
+
+	User.prototype.subThing.inputOptions.get('marko').set('disabled', true);
+	User.prototype.subThing.inputOptions.get('barlko').set('disabled', true);
+	user = new User();
+
+	a.h2("Pre");
+	a(user.subThing.inputOptions.has('barlko'), true);
+	// Invoke own nested
+	user.subThing.inputOptions.get('marko');
+	a.h2("Post");
+	a(user.subThing.inputOptions.has('barlko'), true);
 };

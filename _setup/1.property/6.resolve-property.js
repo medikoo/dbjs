@@ -4,7 +4,7 @@ var some = require('es5-ext/object/some')
   , d    = require('d')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
-  , defineProperties = Object.defineProperties;
+  , defineProperties = Object.defineProperties, getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (db, object, accessCollector) {
 	var accessSniff;
@@ -63,13 +63,24 @@ module.exports = function (db, object, accessCollector) {
 			return event ? event.stamp : 0;
 		}),
 		_has_: d(function (sKey) {
-			var desc = this.__descriptors__[sKey];
+			var desc = this.__descriptors__[sKey], current;
 			if (desc) return desc._hasValue_(this);
 			desc = this.__descriptorPrototype__;
 			if (desc.nested) {
 				if (!db.isObjectType(desc.type)) return false;
-				if (!this.__objects__) return false;
-				return Boolean(this.__objects__[sKey]);
+				while (!desc.hasOwnProperty('type')) desc = getPrototypeOf(desc);
+				current = this;
+				while (true) {
+					if (current.hasOwnProperty('__objects__')) {
+						if (current.__objects__[sKey]) return true;
+					}
+					if (current.hasOwnProperty('__descriptorPrototype__') &&
+							(current.__descriptorPrototype__ === desc)) {
+						break;
+					}
+					current = getPrototypeOf(current);
+				}
+				return false;
 			}
 			if (!desc.multiple) return false;
 			if (!this.__sets__) return false;

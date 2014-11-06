@@ -6,7 +6,7 @@ var toArray  = require('es5-ext/array/to-array')
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
-	  , args, x = {}, i, desc, SubObject, User, object, user;
+	  , args, x = {}, i, desc, SubObject, User, user;
 
 	a.h1("Set");
 	a(obj.set('test', 'foo'), obj);
@@ -98,11 +98,10 @@ module.exports = function (a) {
 	a(obj.get('foo').__id__, obj.__id__ + '/foo', "Value");
 	a(obj.size, 3, "Size");
 
-	a.h1("Size of deep nesteds");
+	a.h1("Deep nesteds");
 	db = new Database();
 	SubObject = db.Object.extend('SubObject');
 	User = db.Object.extend('User');
-	object = SubObject.prototype;
 
 	SubObject.prototype.define('inputOptions', {
 		type: db.Object,
@@ -125,8 +124,10 @@ module.exports = function (a) {
 	User.prototype.subThing.inputOptions.get('barlko').set('disabled', true);
 	user = new User();
 
+	a.h2("Pre");
 	a(user.subThing.inputOptions.size, 2);
 	// Invoke own nested
 	user.subThing.inputOptions.get('marko');
+	a.h2("Post");
 	a(user.subThing.inputOptions.size,  2);
 };
