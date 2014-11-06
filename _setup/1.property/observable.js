@@ -30,6 +30,7 @@ setPrototypeOf(ObservableProperty, Observable);
 
 ObservableProperty.prototype = Object.create(proto, assign({
 	constructor: d(ObservableProperty),
+	dbKind: d('observableProperty'),
 	value: d.gs('', function () {
 		if (!this.object.__prototypeTurnInProgress__) return getValue.call(this);
 		return this.object._resolve_(this.__sKey__);
