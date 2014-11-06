@@ -28,6 +28,7 @@ setPrototypeOf(ObservableValue, Observable);
 
 ObservableValue.prototype = Object.create(proto, assign({
 	constructor: d(ObservableValue),
+	dbKind: d('observableDescriptorProperty'),
 	value: d.gs('', valueDesc.get, function (value) {
 		var desc = this.object._getOwnDescriptor_(this.__pSKey__);
 		desc._set_(this.key, desc._validateSet_(this.key, value));
