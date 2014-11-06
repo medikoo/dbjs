@@ -53,6 +53,7 @@ setPrototypeOf(Multiple, Set);
 
 Multiple.prototype = create(Set.prototype, assign({
 	constructor: d(Multiple),
+	dbKind: d('computedMultiple'),
 	first: d.gs(setGetFirst),
 	last: d.gs(setGetLast),
 	copy: d(setCopy),
