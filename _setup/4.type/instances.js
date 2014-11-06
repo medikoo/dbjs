@@ -58,6 +58,7 @@ setPrototypeOf(Instances, MultiSet);
 
 Instances.prototype = Object.create(MultiSet.prototype, {
 	constructor: d(Instances),
+	dbKind: d('instances'),
 	first: d.gs(setGetFirst),
 	last: d.gs(setGetLast),
 	copy: d(setCopy),
