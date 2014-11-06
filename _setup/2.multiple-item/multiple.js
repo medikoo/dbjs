@@ -38,6 +38,7 @@ setPrototypeOf(Multiple, Set);
 
 Multiple.prototype = create(Set.prototype, assign({
 	constructor: d(Multiple),
+	dbKind: d('multiple'),
 	_serialize: d(serialize),
 	add: d(function (key) {
 		var obj = this.object;
