@@ -13,5 +13,5 @@ setPrototypeOf(AssignmentsSet, ObjectsSet);
 
 AssignmentsSet.prototype = Object.create(ObjectsSet.prototype, {
 	constructor: d(AssignmentsSet),
-	dbKind: d('assigments')
+	dbKind: d('assignments')
 });
