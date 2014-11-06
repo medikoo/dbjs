@@ -9,10 +9,10 @@ var create     = require('es5-ext/object/create')
 
   , call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty
-  , defineProperty = Object.defineProperty
+  , defineProperty = Object.defineProperty, getPrototypeOf = Object.getPrototypeOf
   , defineProperties = Object.defineProperties;
 
-module.exports = function (object) {
+module.exports = function (db, object) {
 	var defineAccessors, accessors = create(null)
 	  , v8FixStep = 1000, v8FixInsertCount = 1, v8PropsCount = 0;
 
@@ -103,7 +103,7 @@ module.exports = function (object) {
 			return this._set_(sKey, this._validateSet_(sKey, value));
 		}),
 		size: d.gs(function () {
-			var size, data, sKey, desc;
+			var size, data, sKey, desc, nestedTypeDesc, current, done;
 			if (this.hasOwnProperty('__size__')) return this.__size__;
 			size = 0;
 			data = this.__descriptors__;
@@ -112,8 +112,28 @@ module.exports = function (object) {
 			}
 			desc = this.__descriptorPrototype__;
 			if (desc.nested) {
-				for (sKey in this.__objects__) {
-					if (!data[sKey]) ++size;
+				if (db.isObjectType(desc.type)) {
+					nestedTypeDesc = desc;
+					while (!nestedTypeDesc.hasOwnProperty('type')) {
+						nestedTypeDesc = getPrototypeOf(nestedTypeDesc);
+					}
+					current = this;
+					done = create(null);
+					while (true) {
+						if (current.hasOwnProperty('__objects__')) {
+							for (sKey in current.__objects__) {
+								if (data[sKey]) continue;
+								if (done[sKey]) continue;
+								++size;
+								done[sKey] = true;
+							}
+						}
+						if (current.hasOwnProperty('__descriptorPrototype__') &&
+								(current.__descriptorPrototype__ === nestedTypeDesc)) {
+							break;
+						}
+						current = getPrototypeOf(current);
+					}
 				}
 			} else if (desc.multiple) {
 				for (sKey in this.__sets__) {

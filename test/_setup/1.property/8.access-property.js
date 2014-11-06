@@ -6,7 +6,7 @@ var toArray  = require('es5-ext/array/to-array')
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
-	  , args, x = {}, i, desc;
+	  , args, x = {}, i, desc, SubObject, User, object, user;
 
 	a.h1("Set");
 	a(obj.set('test', 'foo'), obj);
@@ -97,4 +97,36 @@ module.exports = function (a) {
 	desc.type = db.Object;
 	a(obj.get('foo').__id__, obj.__id__ + '/foo', "Value");
 	a(obj.size, 3, "Size");
+
+	a.h1("Size of deep nesteds");
+	db = new Database();
+	SubObject = db.Object.extend('SubObject');
+	User = db.Object.extend('User');
+	object = SubObject.prototype;
+
+	SubObject.prototype.define('inputOptions', {
+		type: db.Object,
+		nested: true
+	});
+
+	SubObject.prototype.inputOptions._descriptorPrototype_.setProperties({
+		type: db.Object,
+		nested: true
+	});
+
+	User.prototype.defineProperties({
+		subThing: {
+			nested: true,
+			type: SubObject
+		}
+	});
+
+	User.prototype.subThing.inputOptions.get('marko').set('disabled', true);
+	User.prototype.subThing.inputOptions.get('barlko').set('disabled', true);
+	user = new User();
+
+	a(user.subThing.inputOptions.size, 2);
+	// Invoke own nested
+	user.subThing.inputOptions.get('marko');
+	a(user.subThing.inputOptions.size,  2);
 };

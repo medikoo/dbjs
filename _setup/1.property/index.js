@@ -18,7 +18,7 @@ module.exports = function (db, createObj, obj, desc, item, descDesc, ac) {
 	descSetValue(db, desc);
 	resolveProperty(obj, ac);
 	setProperty(db, obj);
-	accessProperty(obj);
+	accessProperty(db, obj);
 
 	defineObservable(obj, function () {
 		var data = this.__descriptors__, sKey, getter;
