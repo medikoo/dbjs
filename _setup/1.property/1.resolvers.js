@@ -89,8 +89,7 @@ module.exports = function (db, object, descriptor) {
 				proto = getPrototypeOf(this);
 				while (true) {
 					if (proto.hasOwnProperty('__objects__') && proto.__objects__[sKey]) {
-						return (objects[sKey] =
-							proto.__objects__[sKey]._extendNested_(this));
+						return (objects[sKey] = proto.__objects__[sKey]._extendNested_(this));
 					}
 					if (desc.object === proto) break;
 					proto = getPrototypeOf(proto);
