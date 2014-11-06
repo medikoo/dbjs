@@ -31,6 +31,7 @@ setPrototypeOf(ObservableValue, Observable);
 
 ObservableValue.prototype = Object.create(proto, assign({
 	constructor: d(ObservableValue),
+	dbKind: d('observableMultipleItem'),
 	value: d.gs('', valueDesc.get, function (value) {
 		var set = this.object._getMultiple_(this.__pSKey__);
 		if (value) set.add(this.key);
