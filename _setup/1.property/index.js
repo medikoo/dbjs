@@ -16,7 +16,7 @@ module.exports = function (db, createObj, obj, desc, item, descDesc, ac) {
 	descResolveValue(desc, ac);
 	descValidateValue(desc);
 	descSetValue(db, desc);
-	resolveProperty(obj, ac);
+	resolveProperty(db, obj, ac);
 	setProperty(db, obj);
 	accessProperty(db, obj);
 

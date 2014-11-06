@@ -6,7 +6,7 @@ var some = require('es5-ext/object/some')
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperties = Object.defineProperties;
 
-module.exports = function (object, accessCollector) {
+module.exports = function (db, object, accessCollector) {
 	var accessSniff;
 
 	defineProperties(object, {
@@ -67,6 +67,7 @@ module.exports = function (object, accessCollector) {
 			if (desc) return desc._hasValue_(this);
 			desc = this.__descriptorPrototype__;
 			if (desc.nested) {
+				if (!db.isObjectType(desc.type)) return false;
 				if (!this.__objects__) return false;
 				return Boolean(this.__objects__[sKey]);
 			}
