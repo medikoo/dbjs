@@ -19,7 +19,6 @@ getChangeListener = function (update, event) {
 };
 on = function (onChange, obj) {
 	var listeners = obj._dynamicListeners_;
-	if (obj._makeObservable_) obj._makeObservable_();
 	if (listeners) listeners.push(this);
 	else obj.on('change', onChange);
 
@@ -41,11 +40,17 @@ module.exports = function (db, getter, update) {
 			if (!isNonMapObservable(obj)) return obj;
 			if (!nu) nu = [];
 			else if (contains.call(nu, obj)) dupe = true;
-			if (!dupe) nu.push(obj);
+			if (!dupe) {
+				nu.push(obj);
+				if (obj._makeObservable_) obj._makeObservable_();
+			}
 			if (!isObservableValue(obj)) return obj;
 			obj = obj.value;
 			if (dupe) return obj;
-			if (isNonMapObservable(obj)) nu.push(obj);
+			if (isNonMapObservable(obj)) {
+				nu.push(obj);
+				if (obj._makeObservable_) obj._makeObservable_();
+			}
 			return obj;
 		}, arg);
 		if (!observed) {

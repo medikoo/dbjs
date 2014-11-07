@@ -1,6 +1,7 @@
 'use strict';
 
-var Database = require('../../../');
+var aFrom    = require('es5-ext/array/from')
+  , Database = require('../../../');
 
 module.exports = function (t, a) {
 	var db = new Database(), obj = new db.Object(), event = null;
@@ -67,4 +68,34 @@ module.exports = function (t, a) {
 	a(obj.count, 6, "Count");
 	a.deep(event, { type: 'change', newValue: 38, oldValue: 33,
 		dbjs: event.dbjs, target: obj._test }, "Event");
+
+	a.h1("Reactivity after normal access");
+	db.Object.prototype.defineProperties({
+		list: {
+			multiple: true
+		},
+		computedList: {
+			multiple: true,
+			value: function () {
+				return this.list.copy();
+			}
+		},
+		nonReactive: {
+			value: function () {
+				var name = 'computedList';
+				return this[name];
+			}
+		},
+		reactive: {
+			multiple: true,
+			value: function () {
+				return this.computedList.copy();
+			}
+		}
+	});
+
+	obj = new db.Object();
+	obj.get('computedList');
+	obj.list.add('foo');
+	a.deep(aFrom(obj._reactive.value), ['foo']);
 };
