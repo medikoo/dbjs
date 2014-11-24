@@ -34,8 +34,7 @@ module.exports = function (value, objects) {
 	if (type === '7') {
 		obj = objects.unserialize(value);
 		if (obj._kind_ !== 'descriptor') return obj;
-		if (!obj.nested) return obj;
-		return obj.object.get(obj.key);
+		return obj.object._getObject_(obj._sKey_);
 	}
 	throw new TypeError('Incorrect value');
 };

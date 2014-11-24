@@ -6,7 +6,7 @@ var isDate   = require('es5-ext/date/is-date')
   , stringify = JSON.stringify;
 
 module.exports = function (t, a) {
-	var db = new Database(), fn = function () { return 'foo'; }, x, str;
+	var db = new Database(), fn = function () { return 'foo'; }, x, str, obj, id;
 	db.Object.prototype.define('foo', {
 		type: db.Object,
 		nested: true
@@ -28,4 +28,9 @@ module.exports = function (t, a) {
 	a(t('7DateTime', db.objects), db.DateTime, "Namespace");
 	a.throws(function () { t('923', db.objects); }, TypeError, "Invalid value");
 	a(t('7' + db.Object.prototype.foo.__id__, db.objects), db.Object.prototype.foo, "Nested");
+
+	a.h1("Nested in multiple");
+	obj = new db.Object();
+	id = obj.__id__ + '/objMulti*7' + obj.__id__ + '/elosNested';
+	a(db.objects.unserialize(id).key.__id__, obj.__id__ + '/elosNested');
 };
