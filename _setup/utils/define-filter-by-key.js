@@ -5,6 +5,11 @@ var identity       = require('es5-ext/function/identity')
   , memoize        = require('memoizee/plain')
   , memoizeMethods = require('memoizee/methods-plain')
   , getNormalizer  = require('memoizee/normalizers/get-fixed')
+  , setGetFirst    = require('es6-set/ext/get-first')
+  , setGetLast     = require('es6-set/ext/get-last')
+  , setCopy        = require('es6-set/ext/copy')
+  , setEvery       = require('es6-set/ext/every')
+  , setSome        = require('es6-set/ext/some')
   , map            = require('observable-value/map')
   , DbjsError      = require('../error')
   , serialize      = require('../serialize/key')
@@ -13,7 +18,7 @@ var identity       = require('es5-ext/function/identity')
   , filterValue = function (value) { return value == null; }
   , filterNull = function (value) { return value != null; }
   , byObjId = function (args) { return args[0].__id__; }
-  , resolveFilter;
+  , resolveFilter, baseProto;
 
 resolveFilter = memoize(function (filter) {
 	if (filter === undefined) return filterNull;
@@ -52,6 +57,12 @@ module.exports = function (setProto) {
 
 // Temporary hack
 // (until we solve mixed configuration of observable and read only sets)
-module.exports(require('observable-set/create-read-only')(
-	require('observable-set')
-).prototype);
+baseProto = require('observable-set/create-read-only')(require('observable-set')).prototype;
+module.exports(baseProto);
+defineProperties(baseProto, {
+	first: d.gs(setGetFirst),
+	last: d.gs(setGetLast),
+	copy: d(setCopy),
+	every: d(setEvery),
+	some: d(setSome)
+});
