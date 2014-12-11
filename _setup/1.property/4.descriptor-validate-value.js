@@ -15,7 +15,7 @@ var toArray   = require('es5-ext/array/to-array')
 module.exports = function (descriptor) {
 	defineProperties(descriptor, {
 		_validateDeleteValue_: d(function (obj, sKey) {
-			var current;
+			var nuValue;
 			if (this._reverse_) return this._reverse_._validateDelete_(obj);
 			if (this.nested) {
 				throw new DbjsError("Cannot delete nested object",
@@ -27,15 +27,15 @@ module.exports = function (descriptor) {
 			}
 			if (!this.required) return sKey;
 			if (this.hasOwnProperty('_value_')) {
-				current = getPrototypeOf(this)._resolveInner_(obj, sKey);
+				nuValue = getPrototypeOf(this)._resolveInner_(obj, sKey);
 			} else {
-				current = this._resolveValueValue_(obj, sKey);
+				nuValue = this._resolveValueValue_(obj, sKey);
 			}
-			if (current == null) {
+			if (nuValue == null) {
 				throw new DbjsError("Property is required", 'VALUE_REQUIRED');
 			}
-			if (isGetter(current)) return sKey;
-			if (this._normalizeValue_(current) == null) {
+			if (isGetter(nuValue)) return sKey;
+			if (this._normalizeValue_(nuValue) == null) {
 				throw new DbjsError("Property is required", 'VALUE_REQUIRED');
 			}
 			return sKey;
