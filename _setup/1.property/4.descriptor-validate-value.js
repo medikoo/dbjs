@@ -20,6 +20,7 @@ module.exports = function (descriptor) {
 			if (this.nested) throw new DbjsError("Cannot delete nested object", 'NESTED_DELETE');
 			if (this.multiple) throw new DbjsError("Cannot delete multiple property", 'MULTIPLE_DELETE');
 			if (!this.required) return sKey;
+			if (obj._get_(sKey) == null) return sKey;
 			if (this.hasOwnProperty('_value_')) nuValue = getPrototypeOf(this)._resolveInner_(obj, sKey);
 			else nuValue = this._resolveValueValue_(obj, sKey);
 			if (nuValue == null) throw new DbjsError("Property is required", 'VALUE_REQUIRED');
