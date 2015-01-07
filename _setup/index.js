@@ -40,12 +40,10 @@ deleteObject = function (obj) {
 		if (typeof obj === 'function') {
 			// Type
 			if (nativeTypes[obj.__id__]) {
-				throw new DbjsError("Cannot delete native dbjs type",
-					'DELETE_NATIVE_TYPE');
+				throw new DbjsError("Cannot delete native dbjs type", 'DELETE_NATIVE_TYPE');
 			}
 		} else if (obj.constructor.prototype === obj) {
-			throw new DbjsError("Cannot delete prototype (delete type instead)",
-				'DELETE_PROTOTYPE');
+			throw new DbjsError("Cannot delete prototype (delete type instead)", 'DELETE_PROTOTYPE');
 		}
 	}
 	obj.database._postponed_ += 1;
