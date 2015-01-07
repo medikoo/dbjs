@@ -24,7 +24,7 @@ getById = function (proto, id) {
 	keys(proto.__descendants__.__setData__).some(function (key) {
 		return (obj = getById(this[key], id));
 	}, proto.__descendants__.__setData__);
-	return obj;
+	return obj || null;
 };
 
 module.exports = function (db) {
