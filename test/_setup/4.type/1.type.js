@@ -272,10 +272,20 @@ module.exports = function (a) {
 			a(obj2.__sKey__, 'foor', "__sKey__");
 		},
 		Delete: function () {
-			var obj1 = new db.Object(), obj2 = new db.Object();
+			var Type1 = db.Object.extend('Type1'), obj1 = new db.Object(), obj2 = new db.Object();
 			obj1.set('foo', obj2);
 			db.objects.delete(obj2);
 			a(obj1.foo, undefined);
+
+			Type1.prototype.define('someNested', {
+				nested: true,
+				type: db.Object
+			});
+
+			obj1 = new Type1();
+			obj1.someNested.foo = 'bar';
+			db.objects.delete(obj1);
+			a(obj1._getObject_('someNested').foo, undefined);
 		}
 	};
 };
