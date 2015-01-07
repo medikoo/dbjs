@@ -55,8 +55,7 @@ module.exports = function (db) {
 		}),
 		validate: d(function (value) {
 			if (this.is(value)) return value;
-			throw new DbjsError(value + " is not a " + this.__id__,
-				'INVALID_OBJECT_TYPE');
+			throw new DbjsError(value + " is not a " + this.__id__, 'INVALID_OBJECT_TYPE');
 		}),
 		compare: d(function (a, b) {
 			return String(a.__id__).localeCompare(b.__id__);
@@ -77,12 +76,10 @@ module.exports = function (db) {
 		newNamed: d(function (name) {
 			var args, obj;
 			if (!isObjectName(name)) {
-				throw new DbjsError(name + " is not valid object name",
-					'INVALID_OBJECT_NAME');
+				throw new DbjsError(name + " is not valid object name", 'INVALID_OBJECT_NAME');
 			}
 			if (existingIds[name]) {
-				throw new DbjsError(name + " name is already used",
-					'OBJECT_NAME_TAKEN');
+				throw new DbjsError(name + " name is already used", 'OBJECT_NAME_TAKEN');
 			}
 			args = slice.call(arguments, 1);
 			args = this._validateCreate_.apply(this, args);
