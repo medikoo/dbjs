@@ -31,9 +31,7 @@ module.exports = function (setProto) {
 	return defineProperties(setProto, memoizeMethods({
 		filterByKey: d(function (key, filter) {
 			var sKey = serialize(key), set, observe;
-			if (sKey == null) {
-				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
-			}
+			if (sKey == null) throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			observe = memoize(function (obj) {
 				if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
 				return map(obj._getObservable_(sKey), function (value) {
