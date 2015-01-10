@@ -38,8 +38,7 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		sKey = desc._sKey_;
 		rDesc = obj._getDescriptor_(sKey);
 		if (rDesc.multiple) {
-			obj._multipleAdd_(sKey, obj._validateMultipleAdd_(sKey, this.__key__),
-				this.__sKey__);
+			obj._multipleAdd_(sKey, obj._validateMultipleAdd_(sKey, this.__key__), this.__sKey__);
 			return this;
 		}
 		obj._set_(sKey, obj._validateSet_(sKey, this.__key__));
@@ -72,8 +71,7 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 		rDesc = obj._getDescriptor_(sKey);
 		if (rDesc.multiple) {
 			obj._multipleDelete_(sKey,
-				obj._validateMultipleDelete_(sKey, this.__key__),
-				'7' + this.__key__.__id__);
+				obj._validateMultipleDelete_(sKey, this.__key__), '7' + this.__key__.__id__);
 		} else {
 			obj._delete_(obj._validateDelete_(sKey));
 		}
@@ -85,12 +83,10 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 	some: d(setSome),
 	_assertReverse_: d(function () {
 		if (this.__descriptor__.reverse === undefined) {
-			throw new DbjsError("Reverse not configured for given property",
-				'NON_REVERSE');
+			throw new DbjsError("Reverse not configured for given property", 'NON_REVERSE');
 		}
 		if (this.__descriptor__.unique) {
-			throw new DbjsError("Reverse property is not multiple",
-				'NON_MULTIPLE_REVERSE');
+			throw new DbjsError("Reverse property is not multiple", 'NON_MULTIPLE_REVERSE');
 		}
 	}),
 	_add_: d(function (obj, dbEvent, postponed, init) {
