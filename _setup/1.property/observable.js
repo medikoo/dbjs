@@ -15,13 +15,14 @@ var assign         = require('es5-ext/object/assign')
   , ObservableProperty;
 
 module.exports = ObservableProperty = function (object, sKey) {
-	var getter = object._resolveGetter_(sKey);
+	var getter;
 	defineProperties(this, {
 		object: d('', object),
 		key: d('', object._keys_[sKey]),
 		dbId: d('', object.__id__ + '/' + sKey),
 		__sKey__: d('', sKey)
 	});
+	getter = object._resolveGetter_(sKey);
 	Observable.call(this, getter ? object._getDynamicValue_(sKey).resolvedValue :
 			object._resolve_(sKey));
 	object._observableProperties_[sKey] = this;
