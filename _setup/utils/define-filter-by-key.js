@@ -34,6 +34,7 @@ module.exports = function (setProto) {
 			if (sKey == null) throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			observe = memoize(function (obj) {
 				if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
+				if (obj.isKeyStatic(key)) return filter(obj[key], obj);
 				return map(obj._getObservable_(sKey), function (value) {
 					return map(filter(value, obj), Boolean);
 				}).on('change', function (event) { set.refresh(obj); });
