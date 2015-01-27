@@ -21,6 +21,7 @@ var isDate             = require('es5-ext/date/is-date')
   , updateEnum         = require('../utils/update-enumerability')
   , resolveSKeyPath    = require('../utils/resolve-property-path')
   , unserialize        = require('../unserialize/key')
+  , notifyProperty     = require('../notify/property')
   , notifyReverse      = require('../notify/reverse')
   , validDbValue       = require('../../valid-dbjs-value')
   , Extensions         = require('./extensions')
@@ -329,6 +330,7 @@ module.exports = function (db, createObj, object) {
 				_extendNested_: d(extendNested)
 			});
 			injectNested(object, nested);
+			db._release_(notifyProperty(object, sKey, nested, undefined, null, null, null));
 			--db._postponed_;
 			return nested;
 		}),

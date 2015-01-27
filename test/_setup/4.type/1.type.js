@@ -286,6 +286,24 @@ module.exports = function (a) {
 			obj1.someNested.foo = 'bar';
 			db.objects.delete(obj1);
 			a(obj1._getObject_('someNested').foo, undefined);
+		},
+		"Nested events": function (a) {
+			var obj, SubObject = db.Object.extend('SubObject', {
+				someMap: {
+					nested: true,
+					type: db.Object
+				}
+			});
+			SubObject.prototype.someMap._descriptorPrototype_.setProperties({
+				nested: true,
+				type: db.Object
+			});
+			obj = new SubObject();
+			a(obj.someMap.size, 0);
+			obj.someMap.on('change', function (ev) {});
+			obj.someMap.get('marko');
+			a(obj.someMap.propertyIsEnumerable('marko'), true);
+			a(obj.someMap.size, 1);
 		}
 	};
 };
