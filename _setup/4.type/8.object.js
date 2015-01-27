@@ -106,7 +106,7 @@ module.exports = function (db) {
 			this._setProperties_(props);
 		}),
 		newUniq: d(function () {
-			var Type = this.__descriptorPrototype.__.type;
+			var Type = this.__descriptorPrototype__.type;
 			if (!db.isObjectType(Type)) {
 				throw new DbjsError("newUniq is applicable only to nested maps", 'NON_MAP_UNIQUE');
 			}
