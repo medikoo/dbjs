@@ -90,11 +90,6 @@ module.exports = function (db) {
 			if (!db.hasOwnProperty(name)) defineProperty(db, name, d(obj));
 			return obj;
 		}),
-		newUniqNamed: d(function () {
-			var args = [uniqIdPrefix + uuid()];
-			push.apply(args, arguments);
-			return this.newNamed.apply(this, args);
-		}),
 		getById: d(function (id) { return getById(this.prototype, id); }),
 		filterByKey: d(function (key, filter) {
 			return this.instances.filterByKey(key, filter);
@@ -109,6 +104,13 @@ module.exports = function (db) {
 		_initialize_: d(function (props) {
 			if (props == null) return;
 			this._setProperties_(props);
+		}),
+		newUniq: d(function () {
+			var Type = this.__descriptorPrototype.__.type;
+			if (!db.isObjectType(Type)) {
+				throw new DbjsError("newUniq is applicable only to nested maps", 'NON_MAP_UNIQUE');
+			}
+			return this.get(uniqIdPrefix + uuid());
 		})
 	});
 
