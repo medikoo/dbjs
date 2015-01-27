@@ -11,7 +11,7 @@ var isFunction   = require('es5-ext/function/is-function')
   , Instances    = require('./instances')
   , isObjectName = require('../utils/is-object-name')
 
-  , push = Array.prototype.push, slice = Array.prototype.slice
+  , slice = Array.prototype.slice
   , keys = Object.keys, defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
   , uniqIdPrefix = 'abcdefghiklmnopqrstuvxyz'[Math.floor(Math.random() * 24)]
