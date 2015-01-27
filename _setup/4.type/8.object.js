@@ -11,7 +11,7 @@ var isFunction   = require('es5-ext/function/is-function')
   , Instances    = require('./instances')
   , isObjectName = require('../utils/is-object-name')
 
-  , slice = Array.prototype.slice
+  , push = Array.prototype.push, slice = Array.prototype.slice
   , keys = Object.keys, defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty
   , uniqIdPrefix = 'abcdefghiklmnopqrstuvxyz'[Math.floor(Math.random() * 24)]
@@ -90,7 +90,11 @@ module.exports = function (db) {
 			if (!db.hasOwnProperty(name)) defineProperty(db, name, d(obj));
 			return obj;
 		}),
-		newUniqNamed: d(function () { return this.newNamed(uniqIdPrefix + uuid()); }),
+		newUniqNamed: d(function () {
+			var args = [uniqIdPrefix + uuid()];
+			push.apply(args, arguments);
+			return this.newNamed.apply(this, args);
+		}),
 		getById: d(function (id) { return getById(this.prototype, id); }),
 		filterByKey: d(function (key, filter) {
 			return this.instances.filterByKey(key, filter);
