@@ -37,7 +37,7 @@ module.exports = function (db, getter, update) {
 		var nu, result;
 		result = getter.call(this, function (obj) {
 			var dupe;
-			if (!isNonMapObservable(obj)) return obj;
+			if (!isObservable(obj)) return obj;
 			if (!nu) nu = [];
 			else if (contains.call(nu, obj)) dupe = true;
 			if (!dupe) {
