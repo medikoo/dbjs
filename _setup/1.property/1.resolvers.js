@@ -97,7 +97,10 @@ module.exports = function (db, object, descriptor) {
 			}
 			Type = desc.type;
 			if ((Type !== db.Base) && !db.isObjectType(Type)) Type = db.Base;
-			return (objects[sKey] = Type.prototype._extendNested_(this, sKey));
+			++db._postponed_;
+			objects[sKey] = Type.prototype._extendNested_(this, sKey);
+			--db._postponed_;
+			return objects[sKey];
 		}),
 
 		// Observables

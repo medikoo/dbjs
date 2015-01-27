@@ -300,7 +300,11 @@ module.exports = function (a) {
 			});
 			obj = new SubObject();
 			a(obj.someMap.size, 0);
-			obj.someMap.on('change', function (ev) {});
+			obj.someMap.on('change', function () {
+				var count = 0;
+				this.forEach(function () { ++count; });
+				a(count, 1);
+			});
 			obj.someMap.get('marko');
 			a(obj.someMap.propertyIsEnumerable('marko'), true);
 			a(obj.someMap.size, 1);
