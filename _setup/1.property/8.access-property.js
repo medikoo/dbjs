@@ -7,7 +7,7 @@ var create     = require('es5-ext/object/create')
   , serialize  = require('../serialize/key')
   , Iterator   = require('./iterator')
 
-  , call = Function.prototype.call
+  , apply = Function.prototype.apply, call = Function.prototype.call
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , defineProperty = Object.defineProperty, getPrototypeOf = Object.getPrototypeOf
   , defineProperties = Object.defineProperties;
@@ -81,6 +81,25 @@ module.exports = function (db, object) {
 					this._keys_[iterator.__list__[result]], this);
 				result = iterator._next();
 			}
+		}),
+		some: d(function (cb/*, thisArg*/) {
+			var thisArg = arguments[1], iterator, result;
+			callable(cb);
+			iterator = this.entries();
+			result = iterator._next();
+			while (result !== undefined) {
+				if (call.call(cb, thisArg, this._get_(iterator.__list__[result]),
+						this._keys_[iterator.__list__[result]], this)) {
+					iterator._unBind();
+					return true;
+				}
+				result = iterator._next();
+			}
+			return false;
+		}),
+		every: d(function (cb/*, thisArg*/) {
+			callable(cb);
+			return this.some(function () { return !apply.call(cb, this, arguments); }, arguments[1]);
 		}),
 		get: d(function (key) {
 			var sKey;
