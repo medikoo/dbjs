@@ -12,7 +12,7 @@ var isRegExp       = require('es5-ext/reg-exp/is-reg-exp')
 
 module.exports = function (db) {
 	var RegExpType = db.Base._extend_('RegExp')
-	  , prototype = RegExp.prototype;
+	  , prototype = RegExpType.prototype;
 
 	defineProperty(RegExpType, 'prototype', d('', prototype));
 	try { mixin(RegExpType, RegExp); } catch (ignore) {}
