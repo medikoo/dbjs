@@ -124,10 +124,11 @@ module.exports = function (db) {
 
 	defineProperties(mixin(DateTime.prototype, Date.prototype), {
 		constructor: d(DateTime),
-		toString: d(function () {
+		toString: d(function () { return this.toLocaleString(db.locale); }),
+		toLocaleString: d(function (locale) {
 			var proto = getPrototypeOf(this), value;
 			setPrototypeOf(this, Date.prototype);
-			value = this.toLocaleString(db.locale);
+			value = this.toLocaleString(locale);
 			setPrototypeOf(this, proto);
 			return value;
 		})
