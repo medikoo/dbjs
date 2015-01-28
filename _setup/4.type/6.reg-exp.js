@@ -40,8 +40,7 @@ module.exports = function (db) {
 				try {
 					value = RegExp(value);
 				} catch (e) {
-					throw new DbjsError(value + " is invalid regular expression",
-						'INVALID_REGEXP');
+					throw new DbjsError(value + " is invalid regular expression", 'INVALID_REGEXP');
 				}
 			}
 			return setPrototypeOf(value, this.prototype);
