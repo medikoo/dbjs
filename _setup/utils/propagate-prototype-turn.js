@@ -329,7 +329,10 @@ turnNested = function (obj, dbEvent, postponed, done) {
 				if (desc.object === proto) break;
 				proto = getPrototypeOf(proto);
 			}
-			if (!nu) nu = obj.database.isObjectType(desc.type) ? desc.type : obj.database.Base.prototype;
+			if (!nu) {
+				nu = obj.database.isObjectType(desc.type)
+					? desc.type.prototype : obj.database.Base.prototype;
+			}
 			old = getPrototypeOf(nested);
 			if (nu !== old) postponed = exports.object(nested, nu, dbEvent, postponed);
 		}, obj.__objects__);

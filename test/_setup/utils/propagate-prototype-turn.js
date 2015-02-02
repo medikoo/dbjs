@@ -13,7 +13,7 @@ module.exports = function (a) {
 	  , Type3 = db.Object.extend("Type3")
 	  , desc1 = Type1.prototype.$getOwn('foo')
 	  , desc3 = Type3.prototype.$getOwn('nesti')
-	  , event, obj, obj2, nested;
+	  , event, obj, obj2, nested, desc;
 
 	desc1.multiple = true;
 	Type2.prototype.set('bar', 'elo');
@@ -92,12 +92,34 @@ module.exports = function (a) {
 			nested: true
 		}
 	});
+	db.Object.extend('SubmissionFile');
+	db.Object.extend('Submission', {
+		files: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Submission.prototype.files._descriptorPrototype_.setProperties({
+		nested: true,
+		type: db.SubmissionFile
+	});
 	db.User1.prototype.submissions.define('foo', {
-		type: db.Object,
+		type: db.Submission,
 		nested: true
 	});
 	db.User1.prototype.submissions.foo; //jslint: ignore
 	obj._setValue_(db.User1.prototype);
 	a(getPrototypeOf(obj.submissions), db.User1.prototype.submissions, "#1");
 	a(getPrototypeOf(obj.submissions.foo).__id__, db.User1.prototype.submissions.foo.__id__, "#2");
+
+	a.h2("Descriptor proto switch");
+	desc = db.objects.unserialize('45lxo6fpa0i/submissions/foo/files/m4lcpahhx3or/' +
+		'isPreviewGenerated');
+	desc._setValue_(false);
+	obj = desc.object;
+	a(obj.constructor.__id__, 'Base');
+	a(obj.master.constructor.__id__, 'Object');
+	obj.master._setValue_(db.User1.prototype);
+	a(obj.constructor.__id__, 'SubmissionFile');
+	a(obj.master.constructor.__id__, 'User1');
 };
