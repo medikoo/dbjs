@@ -51,7 +51,11 @@ ObjectIterator = module.exports = function (map, kind) {
 		__modifiedMap__: d('', modifiedMap),
 		__compareFn__: d('', getCompareByLastModified(map, modifiedMap))
 	});
-	this.__list__.sort(this.__compareFn__);
+	if (this.__list__.some(function (sKey) {
+			return (modifiedMap[sKey] = this._getPropertyLastModified_(sKey));
+		}, map)) {
+		this.__list__.sort(this.__compareFn__);
+	}
 	map._iterators_.push(this);
 };
 if (setPrototypeOf) setPrototypeOf(ObjectIterator, Iterator);
