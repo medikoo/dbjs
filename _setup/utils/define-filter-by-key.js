@@ -11,13 +11,13 @@ var identity       = require('es5-ext/function/identity')
   , setEvery       = require('es6-set/ext/every')
   , setSome        = require('es6-set/ext/some')
   , map            = require('observable-value/map')
+  , isObservableValue = require('observable-value/is-observable-value')
   , DbjsError      = require('../error')
   , serialize      = require('../serialize/key')
 
-  , defineProperties = Object.defineProperties
+  , create = Object.create, defineProperties = Object.defineProperties
   , filterValue = function (value) { return value == null; }
   , filterNull = function (value) { return value != null; }
-  , byObjId = function (args) { return args[0].__id__; }
   , resolveFilter, baseProto;
 
 resolveFilter = memoize(function (filter) {
@@ -30,19 +30,31 @@ resolveFilter = memoize(function (filter) {
 module.exports = function (setProto) {
 	return defineProperties(setProto, memoizeMethods({
 		filterByKey: d(function (key, filter) {
-			var sKey = serialize(key), set, observe;
+			var sKey = serialize(key), set, observed = create(null);
 			if (sKey == null) throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
-			observe = memoize(function (obj) {
-				if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
-				if (obj.isKeyStatic(key)) return filter(obj[key], obj);
-				return map(obj._getObservable_(sKey), function (value) {
-					return map(filter(value, obj), Boolean);
-				}).on('change', function (event) { set.refresh(obj); });
-			}, { normalizer: byObjId });
 			set = this.filter(function (obj) {
-				var observable = observe(obj);
-				if (typeof observable === 'boolean') return observable;
-				return observable.value;
+				var observable, result, cached;
+				cached = observed[obj.__id__];
+				if (!cached) {
+					if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
+					if (obj.isKeyStatic(key)) return filter(obj[key], obj);
+					observable = obj._getObservable_(sKey);
+					result = filter(observable.value, obj);
+					if (isObservableValue(result)) {
+						observable = map(observable, function (value) {
+							return map(filter(value, obj), Boolean);
+						});
+						result = result.value;
+					}
+					observable.on('change', function () { set.refresh(obj); });
+					observed[obj.__id__] = true;
+					return result;
+				}
+				if (cached !== true) return cached.value;
+				observable = obj._getObservable_(sKey);
+				result = filter(observable.value, obj);
+				if (!isObservableValue(result)) return result;
+				return result.value;
 			});
 			return set;
 		}, {
