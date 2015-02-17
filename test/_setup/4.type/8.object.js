@@ -56,7 +56,7 @@ module.exports = function (a) {
 				bar: { type: db.Number, multiple: true }
 			});
 			obj = CustomType.newNamed('namedobjtest', { foo: 'raz', bar: [12, 18] });
-			a.deep(obj, { foo: 'raz', bar: obj.bar }, "Content");
+			a.deep(obj, { foo: 'raz' }, "Content");
 			a(typeof obj, 'object', "Type");
 			a(obj.constructor, CustomType, "Namespace");
 			a(obj.__id__, 'namedobjtest', "Id");

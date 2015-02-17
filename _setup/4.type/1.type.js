@@ -42,7 +42,6 @@ initializeObject = function (obj, postponed) {
 	for (sKey in descs) {
 		desc = descs[sKey];
 		if (desc._reverse_) continue;
-		if (desc.nested || desc.multiple) updateEnum(obj, sKey, true);
 		if (desc.nested) continue;
 		if (isGetter(desc._value_)) continue;
 		if (desc.multiple) {
