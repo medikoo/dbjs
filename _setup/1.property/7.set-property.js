@@ -5,7 +5,7 @@ var copy         = require('es5-ext/object/copy')
   , forEach      = require('es5-ext/object/for-each')
   , mixin        = require('es5-ext/object/mixin')
   , primitiveSet = require('es5-ext/object/primitive-set')
-  , validValue   = require('es5-ext/object/valid-value')
+  , validObject  = require('es5-ext/object/valid-object')
   , d            = require('d')
   , DbjsError    = require('../error')
   , Event        = require('../event')
@@ -191,7 +191,7 @@ module.exports = function (db, object) {
 		}),
 		_validateSetProperties_: d(function (props) {
 			var errors, result;
-			validValue(props);
+			validObject(props);
 			result = {};
 			forEach(props, function (value, key) {
 				var sKey = this._serialize_(key);
@@ -215,7 +215,7 @@ module.exports = function (db, object) {
 					hasOwnProperty.call(this.__descriptors__, sKey)) {
 				throw new DbjsError("Property is already defined", 'PROPERTY_DEFINED');
 			}
-			meta = copy(meta);
+			meta = copy(validObject(meta));
 			if (meta.hasOwnProperty('value')) {
 				hasValue = true;
 				value = meta.value;
@@ -228,7 +228,7 @@ module.exports = function (db, object) {
 		}),
 		_validateDefineProperties_: d(function (descs) {
 			var errors, result;
-			validValue(descs);
+			validObject(descs);
 			result = {};
 			forEach(descs, function (value, key) {
 				var sKey = this._serialize_(key);
