@@ -6,7 +6,7 @@ var isSet    = require('es6-set/is-set')
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
-	  , desc, event, set;
+	  , desc, event, set, obj2, obj3;
 
 	desc = proto.$getOwn('test');
 	desc.multiple = true;
@@ -30,4 +30,15 @@ module.exports = function (a) {
 	obj.raz = 5;
 	a.deep(event, { type: 'add', value: 5, target: set }, "Add event");
 	a.deep(toArray(obj.test), [5, 2, 3], "Mantain order");
+
+	obj2 = new db.Object();
+	obj3 = new db.Object();
+	proto.define('resolutionTest', {
+		type: db.String,
+		multiple: true,
+		value: function () { return [obj, obj2, obj3]; }
+	});
+
+	a.deep(toArray(obj2.resolutionTest), [obj, obj2, obj3].map(String));
+	a.deep(toArray(obj2.resolutionTest), [obj, obj2, obj3].map(String));
 };

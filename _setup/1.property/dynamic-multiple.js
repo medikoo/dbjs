@@ -115,7 +115,7 @@ Multiple.prototype = create(Set.prototype, assign({
 			return;
 		}
 		setData = this.__setData__;
-		desc = this.object.__descriptors__[this.sKey] ||
+		desc = this.object.__descriptors__[this.__sKey__] ||
 			this.object.__descriptorPrototype__;
 		index = 0;
 		l = setData.length;
