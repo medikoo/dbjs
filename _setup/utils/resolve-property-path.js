@@ -5,7 +5,6 @@ var value          = require('es5-ext/object/valid-value')
   , unserializeId  = require('../unserialize/id')
   , unserializeKey = require('../unserialize/key')
   , object         = require('../../valid-dbjs-object')
-  , nested         = require('../../valid-dbjs-nested-object')
 
   , Result;
 
@@ -23,8 +22,8 @@ Object.defineProperties(Result.prototype, {
 	value: d.gs(function () { return this.object.get(this.key); })
 });
 
-module.exports = function (obj, id) {
-	var names = [];
+module.exports = function (obj, id, _observe) {
+	var names = [], propValue, key;
 	object(obj);
 	names = [];
 	unserializeId(value(id)).forEach(function (token, index) {
@@ -34,6 +33,14 @@ module.exports = function (obj, id) {
 		}
 		names.push(token);
 	});
-	while (names.length > 1) obj = nested(obj.get(unserializeKey(names.shift())));
+	while (names.length > 1) {
+		key = unserializeKey(names.shift());
+		propValue = obj.get(key);
+		if (propValue == null) {
+			if (_observe) _observe(obj._get(key));
+			return null;
+		}
+		obj = object(propValue);
+	}
 	return new Result(obj, unserializeKey(names[0]));
 };

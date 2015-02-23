@@ -390,6 +390,8 @@ module.exports = function (db, createObj, object) {
 			if (old === nu) return;
 			db._release_(turnPrototype(this, nu, dbEvent));
 		}),
-		resolveSKeyPath: d(function (sKeyPath) { return resolveSKeyPath(this, sKeyPath); })
+		resolveSKeyPath: d(function (sKeyPath, _observe) {
+			return resolveSKeyPath(this, sKeyPath, _observe);
+		})
 	});
 };
