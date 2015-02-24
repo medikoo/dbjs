@@ -4,6 +4,7 @@ var value          = require('es5-ext/object/valid-value')
   , d              = require('d')
   , unserializeId  = require('../unserialize/id')
   , unserializeKey = require('../unserialize/key')
+  , serializeKey   = require('../serialize/key')
   , object         = require('../../valid-dbjs-object')
 
   , Result;
@@ -19,7 +20,10 @@ Object.defineProperties(Result.prototype, {
 		if (this.object.isKeyStatic(this.key)) return this.object[this.key];
 		return this.object.getObservable(this.key);
 	}),
-	value: d.gs(function () { return this.object.get(this.key); })
+	value: d.gs(function () { return this.object.get(this.key); }),
+	id: d.gs(function () {
+		return this.object.__id__ + '/' + serializeKey(this.key);
+	})
 });
 
 module.exports = function (obj, id, _observe) {
