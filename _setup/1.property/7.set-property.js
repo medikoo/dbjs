@@ -89,6 +89,9 @@ module.exports = function (db, object) {
 				db._postponed_ -= 1;
 				return this;
 			}
+			if (isGetter(desc._value_)) {
+				new Event(this._getOwnDescriptor_(sKey), null); //jslint: ignore
+			}
 			this._setMultiple_(sKey, value);
 			db._postponed_ -= 1;
 			return this;

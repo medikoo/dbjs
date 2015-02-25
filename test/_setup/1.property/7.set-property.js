@@ -144,4 +144,14 @@ module.exports = function (a) {
 	obj.foo.set('marko', 'raz');
 	obj.foo._clear_();
 	a(obj.foo.marko, undefined);
+
+	a.h1("Override getter multiple");
+	db.Object.prototype.define('multipleGetter', {
+		type: db.String,
+		multiple: true,
+		value: function () { return ['raz', 'dwa']; }
+	});
+	obj = new db.Object();
+	obj.multipleGetter = ['foo', 'bar'];
+	a.deep(toArray(obj.multipleGetter), ['foo', 'bar']);
 };
