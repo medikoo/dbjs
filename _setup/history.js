@@ -42,7 +42,8 @@ History.prototype = Object.create(ObservableArray.prototype, {
 			if ((previous.stamp === event.stamp) &&
 					(previous.sourceId === event.sourceId) &&
 					(previous.value === event.value)) {
-				// Duplicate event (should not happen), ignore
+				// Duplicate event (should not happen)
+				event.object._setValue_(event.value, event);
 				return;
 			}
 
