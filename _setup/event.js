@@ -14,7 +14,9 @@ Event = module.exports = function (obj, value, stamp, sourceId) {
 	this.value = value;
 	this.index = ++count;
 	if (stamp == null) {
-		if (ongoing) {
+		if (Event.stampZeroMode) {
+			stamp = 0;
+		} else if (ongoing) {
 			stamp = increment();
 		} else {
 			stamp = now();
