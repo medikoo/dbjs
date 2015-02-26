@@ -1,18 +1,19 @@
 'use strict';
 
-var assign         = require('es5-ext/object/assign')
-  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d')
-  , lazy           = require('d/lazy')
-  , Observable     = require('observable-value')
-  , ReadOnly       = require('observable-value/create-read-only')(Observable)
-  , proto          = require('../_observable')
+var assign          = require('es5-ext/object/assign')
+  , setPrototypeOf  = require('es5-ext/object/set-prototype-of')
+  , d               = require('d')
+  , lazy            = require('d/lazy')
+  , Observable      = require('observable-value')
+  , ReadOnly        = require('observable-value/create-read-only')(Observable)
+  , proto           = require('../_observable')
+  , accessCollector = require('../access-collector')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
   , valueDesc = Object.getOwnPropertyDescriptor(Observable.prototype, 'value')
   , getValue = valueDesc.get
-  , ObservableProperty;
+  , ObservableProperty, accessSniff;
 
 module.exports = ObservableProperty = function (object, sKey) {
 	var getter, value;
@@ -37,7 +38,7 @@ ObservableProperty.prototype = Object.create(proto, assign({
 	constructor: d(ObservableProperty),
 	dbKind: d('observableProperty'),
 	value: d.gs('', function () {
-		if (!this.object.__prototypeTurnInProgress__) return getValue.call(this);
+		if (!accessSniff && !this.object.__prototypeTurnInProgress__) return getValue.call(this);
 		return this.object._resolve_(this.__sKey__);
 	}, function (value) {
 		var object = this.object, sKey = this.__sKey__;
@@ -67,3 +68,6 @@ ObservableProperty.prototype = Object.create(proto, assign({
 		return observable;
 	})
 })));
+
+accessCollector.on('register', function (value) { accessSniff = value; });
+accessCollector.on('unregister', function (value) { accessSniff = null; });

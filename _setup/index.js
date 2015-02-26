@@ -6,7 +6,6 @@ var assign            = require('es5-ext/object/assign')
   , d                 = require('d')
   , lazy              = require('d/lazy')
   , Map               = require('es6-map/primitive')
-  , ee                = require('event-emitter')
   , ObjectsSet        = require('./objects-set')
   , DescendantsSet    = require('./descendants-set')
   , DbjsError         = require('./error')
@@ -19,6 +18,7 @@ var assign            = require('es5-ext/object/assign')
   , setupType         = require('./4.type')
   , setupDescMeta     = require('./5.descriptor-meta-properties')
   , validDbjsKind     = require('../valid-dbjs-kind')
+  , accessCollector   = require('./access-collector')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -29,7 +29,6 @@ var assign            = require('es5-ext/object/assign')
   , masterDesc = d('', undefined)
   , initDesc = { __id__: idDesc, __valueId__: valueIdDesc, object: objDesc,
 	master: masterDesc }
-  , accessCollector = ee()
   , nativeTypes = primitiveSet('Base', 'Boolean', 'Number', 'String',
 	'DateTime', 'RegExp', 'Function', 'Object')
   , deleteObject, Constructor, protoProperties;
