@@ -65,6 +65,7 @@ History.prototype = Object.create(ObservableArray.prototype, {
 		if (event.object._kind_ === 'object') {
 			event.object.emit('turn', event, previous);
 		}
+		if (event.object.emit) event.object.emit('selfupdate', event, previous);
 		event.object.database.objects.emit('update', event, previous);
 	})
 });
