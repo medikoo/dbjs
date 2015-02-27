@@ -9,10 +9,10 @@ var d         = require('d')
   , increment = now.increment
   , count = 0, Event;
 
-Event = module.exports = function (obj, value, stamp, sourceId) {
+Event = module.exports = function (obj, value, stamp, sourceId, index) {
 	this.object = obj;
 	this.value = value;
-	this.index = ++count;
+	this.index = isNaN(index) ? ++count : index;
 	if (stamp == null) {
 		if (Event.stampZeroMode) {
 			stamp = 0;
