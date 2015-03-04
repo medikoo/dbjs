@@ -32,4 +32,37 @@ module.exports = function (a) {
 	obj.marko.add('foo');
 	obj._setValue_(Type2.prototype);
 	a(getPrototypeOf(obj), Type2.prototype, "Multiple turn");
+
+	a.h2("Delete object with desc proto nesteds");
+	db.Object.extend('User1', {
+		submissions: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Object.extend('SubmissionFile', {
+		thumb: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Object.extend('Submission', {
+		files: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Submission.prototype.files._descriptorPrototype_.setProperties({
+		nested: true,
+		type: db.SubmissionFile
+	});
+	db.User1.prototype.submissions.define('foo', {
+		type: db.Submission,
+		nested: true
+	});
+	db.User1.prototype.submissions.foo; //jslint: ignore
+	obj = new db.User1();
+	obj.submissions.foo.files.get('1dwfw').get('thumb').set('bah', 'bar');
+	obj.submissions.foo.files.getOwnDescriptor('1dwfw');
+	db.objects.delete(obj);
 };

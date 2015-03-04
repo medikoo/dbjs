@@ -82,18 +82,24 @@ turnDescProperties = function (desc, proto, postponed, done) {
 	return postponed;
 };
 
-turnDescMaps = function (obj, proto, postponed) {
+turnDescMaps = function (obj, proto, oldProto, postponed) {
 	var nu, old;
 	if (obj.hasOwnProperty('__descriptors__')) {
 		old = getPrototypeOf(obj.__descriptors__);
 		nu = proto.__descriptors__;
-		if (old === nu) return postponed;
-		setPrototypeOf(obj.__descriptors__, nu);
+		if (old !== nu) {
+			setPrototypeOf(obj.__descriptors__, nu);
+		} else {
+			if (obj.hasOwnProperty('__descriptorPrototype__') ||
+					(proto.__descriptorPrototype__ === oldProto.__descriptorPrototype__)) {
+				return;
+			}
+		}
 		return turnDescs(obj, proto, postponed);
 	}
 	if (!obj.hasOwnProperty('__descendants__')) return postponed;
 	obj.__descendants__._plainForEach_(function (obj) {
-		turnDescMaps(obj, proto);
+		turnDescMaps(obj, proto, oldProto);
 	});
 	return postponed;
 };
@@ -241,7 +247,7 @@ exports.object = function (obj, nu, postponed) {
 	postponed = turn(obj, nu, old, postponed);
 
 	postponed = turnDescProto(obj, nu, postponed);
-	postponed = turnDescMaps(obj, nu, postponed);
+	postponed = turnDescMaps(obj, nu, old, postponed);
 	postponed = turnMultiples(obj, nu, postponed);
 	turnReverse(obj, nu);
 	return postponed;
