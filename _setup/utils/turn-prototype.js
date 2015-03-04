@@ -99,7 +99,7 @@ turnDescMaps = function (obj, proto, oldProto, postponed) {
 	}
 	if (!obj.hasOwnProperty('__descendants__')) return postponed;
 	obj.__descendants__._plainForEach_(function (obj) {
-		turnDescMaps(obj, proto, oldProto);
+		postponed = turnDescMaps(obj, proto, oldProto, postponed);
 	});
 	return postponed;
 };
