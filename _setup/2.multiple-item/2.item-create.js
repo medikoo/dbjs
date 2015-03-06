@@ -48,13 +48,19 @@ module.exports = function (db, item, createObj) {
 		_value_: d('', undefined),
 		_sKey_: d('', ''),
 		_create_: d(function (obj, pSKey, key, sKey, setData) {
-			var item, id = obj.__id__ + '/' + pSKey + '*' + sKey
+			var item, id = obj.__id__ + '/' + pSKey + '*' + sKey, normalizedKey
 			  , descriptor = obj._getDescriptor_(pSKey);
 			if (!obj._keys_[pSKey]) obj._serialize_(unserialize(pSKey, db.objects));
 			item = createObj(this, id, id, obj);
 			setData[sKey] = item;
+			normalizedKey = descriptor.type.normalize(key, descriptor);
+			if (normalizedKey == null) {
+				normalizedKey = descriptor.type.normalize(key);
+			}
+			if (normalizedKey != null) key = normalizedKey;
+			if (key == null) throw new Error("Invalid key!");
 			defineProperties(item, {
-				key: d('', descriptor.type.normalize(key, descriptor)),
+				key: d('', key),
 				_pSKey_: d('', pSKey),
 				_sKey_: d('', sKey),
 				_create_: d(itemCreate)
