@@ -58,7 +58,6 @@ module.exports = function (db, item, createObj) {
 				normalizedKey = descriptor.type.normalize(key);
 			}
 			if (normalizedKey != null) key = normalizedKey;
-			if (key == null) throw new Error("Invalid key!");
 			defineProperties(item, {
 				key: d('', key),
 				_pSKey_: d('', pSKey),
