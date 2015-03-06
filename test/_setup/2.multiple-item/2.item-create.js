@@ -20,4 +20,11 @@ module.exports = function (a) {
 	a(item._resolveValue_(), undefined, "Initial value");
 	protoSet.add('foo');
 	a(item._resolveValue_(), true, "Prototype: Add");
+
+	db.Object.prototype.define('dates', {
+		multiple: true,
+		type: db.DateTime
+	});
+	obj = db.objects.unserialize('Object#/dates*41420070400000');
+	a(obj.key instanceof db.DateTime, true);
 };

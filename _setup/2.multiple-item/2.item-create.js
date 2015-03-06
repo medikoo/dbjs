@@ -1,16 +1,30 @@
 'use strict';
 
-var setPrototypeOf = require('es5-ext/object/set-prototype-of')
+var isDate         = require('es5-ext/date/is-date')
+  , isRegExp       = require('es5-ext/reg-exp/is-reg-exp')
+  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d')
   , unserialize    = require('../unserialize/key')
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
   , getPrototypeOf = Object.getPrototypeOf
-  , defineProperties = Object.defineProperties
+  , defineProperties = Object.defineProperties;
 
-  , inject;
+var normalizeKey = function (key, db) {
+	if (key == null) return key;
+	if (typeof key === 'function') {
+		if (hasOwnProperty.call(key, '__id__')) return key;
+		return db.Function.normalize(key);
+	}
+	if (typeof key === 'object') {
+		if (hasOwnProperty.call(key, '__id__')) return key;
+		if (isDate(key)) return db.DateTime.normalize(key);
+		if (isRegExp(key)) return db.RegExp.normalize(key);
+	}
+	return key;
+};
 
-inject = function (obj, pSKey, sKey, proto, base) {
+var inject = function (obj, pSKey, sKey, proto, base) {
 	if (!obj.hasOwnProperty('__descendants__')) return proto;
 	obj.__descendants__._plainForEach_(function (obj) {
 		var data, item, oldProto;
@@ -53,7 +67,7 @@ module.exports = function (db, item, createObj) {
 			item = createObj(this, id, id, obj);
 			setData[sKey] = item;
 			defineProperties(item, {
-				key: d('', key),
+				key: d('', normalizeKey(key, db)),
 				_pSKey_: d('', pSKey),
 				_sKey_: d('', sKey),
 				_create_: d(itemCreate)
