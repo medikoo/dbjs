@@ -10,20 +10,6 @@ var isDate         = require('es5-ext/date/is-date')
   , getPrototypeOf = Object.getPrototypeOf
   , defineProperties = Object.defineProperties;
 
-var normalizeKey = function (key, db) {
-	if (key == null) return key;
-	if (typeof key === 'function') {
-		if (hasOwnProperty.call(key, '__id__')) return key;
-		return db.Function.normalize(key);
-	}
-	if (typeof key === 'object') {
-		if (hasOwnProperty.call(key, '__id__')) return key;
-		if (isDate(key)) return db.DateTime.normalize(key);
-		if (isRegExp(key)) return db.RegExp.normalize(key);
-	}
-	return key;
-};
-
 var inject = function (obj, pSKey, sKey, proto, base) {
 	if (!obj.hasOwnProperty('__descendants__')) return proto;
 	obj.__descendants__._plainForEach_(function (obj) {
@@ -62,12 +48,13 @@ module.exports = function (db, item, createObj) {
 		_value_: d('', undefined),
 		_sKey_: d('', ''),
 		_create_: d(function (obj, pSKey, key, sKey, setData) {
-			var item, id = obj.__id__ + '/' + pSKey + '*' + sKey;
+			var item, id = obj.__id__ + '/' + pSKey + '*' + sKey
+			  , descriptor = obj._getDescriptor_(pSKey);
 			if (!obj._keys_[pSKey]) obj._serialize_(unserialize(pSKey, db.objects));
 			item = createObj(this, id, id, obj);
 			setData[sKey] = item;
 			defineProperties(item, {
-				key: d('', normalizeKey(key, db)),
+				key: d('', descriptor.type.normalize(key, descriptor)),
 				_pSKey_: d('', pSKey),
 				_sKey_: d('', sKey),
 				_create_: d(itemCreate)
