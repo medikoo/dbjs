@@ -30,7 +30,8 @@ MultiplePropertyIterator = module.exports = function (set, kind) {
 	kind = (!kind || !contains.call(kind, 'key+value')) ? 'value' : 'key+value';
 	defineProperties(this, {
 		__kind__: d('', kind),
-		__set__: d('w', set)
+		__set__: d('w', set),
+		__type__: d('', set.object._getDescriptor_(set.__pSKey__).type)
 	});
 	set.object._getMultipleIterators_(set.__pSKey__).push(this);
 };
@@ -58,7 +59,7 @@ MultiplePropertyIterator.prototype = Object.create(Iterator.prototype, assign({
 		if (typeof value === 'number') {
 			value = unserialize(sKey, this.__set__.object.database.objects);
 		} else {
-			value = value.key;
+			value = this.__type__.normalize(value.key);
 		}
 		return (this.__kind__ === 'value') ? value : [value, value];
 	}),
