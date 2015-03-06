@@ -11,6 +11,7 @@ continue
 forin
 nomen
 plusplus
+vars
 
 predef+ console, setTimeout
 
