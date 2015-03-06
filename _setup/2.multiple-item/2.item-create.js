@@ -1,8 +1,6 @@
 'use strict';
 
-var isDate         = require('es5-ext/date/is-date')
-  , isRegExp       = require('es5-ext/reg-exp/is-reg-exp')
-  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
+var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d')
   , unserialize    = require('../unserialize/key')
 
