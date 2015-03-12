@@ -8,7 +8,7 @@ var setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , serializeObject  = require('./serialize/object')
   , defFilterByKey   = require('./utils/define-filter-by-key')
 
-  , keys = Object.keys
+  , propertyIsEnumerable = Object.prototype.propertyIsEnumerable, keys = Object.keys
   , ObjectsSet;
 
 ObjectsSet = function () { return setPrototypeOf(new PrimitiveSet(), ObjectsSet.prototype); };
@@ -21,6 +21,7 @@ ObjectsSet.prototype = Object.create(PrimitiveSet.prototype, {
 	_plainForEach_: d(function (cb/*, thisArg*/) {
 		var thisArg = arguments[1];
 		keys(this.__setData__).forEach(function (key) {
+			if (!propertyIsEnumerable.call(this, key)) return;
 			cb.call(thisArg, this[key]);
 		}, this.__setData__);
 	})
