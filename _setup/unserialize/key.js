@@ -8,7 +8,7 @@ var endsWith = require('es5-ext/string/#/ends-with')
   , isDigit = RegExp.prototype.test.bind(/\d/);
 
 module.exports = function (value, objects) {
-	var type, flags, data, obj;
+	var type, flags, data, obj, input = value;
 	if (!value) throw new TypeError('Incorrect value');
 	type = value[0];
 	if (!isDigit(type)) return value;
@@ -16,10 +16,16 @@ module.exports = function (value, objects) {
 	if (type === '1') return Boolean(Number(value));
 	if (type === '2') {
 		if (value[0] === '"') value = parse(value);
-		return Number(value);
+		value = Number(value);
+		if (isNaN(value)) throw new TypeError("Cannot unserialize: " + input);
+		return value;
 	}
 	if (type === '3') return parse(value);
-	if (type === '4') return new Date(Number(value));
+	if (type === '4') {
+		value = Number(value);
+		if (isNaN(value)) throw new TypeError("Cannot unserialize: " + input);
+		return new Date(value);
+	}
 	if (type === '5') {
 		value = parse(value);
 		flags = value.slice(value.lastIndexOf('/') + 1);
