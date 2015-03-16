@@ -9,9 +9,9 @@ var contains          = require('es5-ext/array/#/contains')
 
   , getChangeListener, on, off, isNonMapObservable;
 
-isNonMapObservable = function (obj) {
+isNonMapObservable = function (obj, forceMap) {
 	if (!isObservable(obj)) return false;
-	return !isMap(obj);
+	return forceMap || !isMap(obj);
 };
 
 getChangeListener = function (update, event) {
@@ -35,9 +35,9 @@ module.exports = function (db, getter, update) {
 
 	wrap = function (arg) {
 		var nu, result;
-		result = getter.call(this, function (obj) {
+		result = getter.call(this, function (obj, forceMap) {
 			var dupe;
-			if (!isObservable(obj)) return obj;
+			if (!isNonMapObservable(obj, forceMap)) return obj;
 			if (!nu) nu = [];
 			else if (contains.call(nu, obj)) dupe = true;
 			if (!dupe) {
@@ -47,7 +47,7 @@ module.exports = function (db, getter, update) {
 			if (!isObservableValue(obj)) return obj;
 			obj = obj.value;
 			if (dupe) return obj;
-			if (isNonMapObservable(obj)) {
+			if (isNonMapObservable(obj, forceMap)) {
 				nu.push(obj);
 				if (obj._makeObservable_) obj._makeObservable_();
 			}
