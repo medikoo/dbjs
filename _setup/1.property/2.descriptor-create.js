@@ -56,6 +56,9 @@ inject = function (obj, proto, base, dbEvent, postponed) {
 		var oldProto, descriptor;
 		if (obj.hasOwnProperty('__descriptors__') && hasOwnProperty.call(obj.__descriptors__, sKey)) {
 			descriptor = obj.__descriptors__[sKey];
+			if (descriptor.hasOwnProperty('_value_') && (descriptor._value_ === undefined)) {
+				delete descriptor._value_;
+			}
 			oldProto = getPrototypeOf(descriptor);
 			if (oldProto !== base) {
 				postponed = propagateProto(descriptor, proto, dbEvent, postponed);
