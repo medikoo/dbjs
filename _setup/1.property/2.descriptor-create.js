@@ -15,9 +15,7 @@ expose = function (obj, descriptor, sKey) {
 	var accessor = obj._accessors_[sKey];
 	if (!accessor) return;
 	if (descriptor._reverse_) {
-		if (descriptor._reverse_.has(obj)) {
-			defineProperty(obj, obj._keys_[sKey], accessor);
-		}
+		if (descriptor._reverse_.has(obj)) defineProperty(obj, obj._keys_[sKey], accessor);
 		return;
 	}
 	if (!descriptor.nested && !descriptor.multiple) return;
@@ -56,8 +54,7 @@ inject = function (obj, proto, base, dbEvent, postponed) {
 	sKey = proto._sKey_;
 	obj.__descendants__._plainForEach_(function (obj) {
 		var oldProto, descriptor;
-		if (obj.hasOwnProperty('__descriptors__') &&
-				hasOwnProperty.call(obj.__descriptors__, sKey)) {
+		if (obj.hasOwnProperty('__descriptors__') && hasOwnProperty.call(obj.__descriptors__, sKey)) {
 			descriptor = obj.__descriptors__[sKey];
 			oldProto = getPrototypeOf(descriptor);
 			if (oldProto !== base) {
@@ -80,9 +77,7 @@ module.exports = function (db, createObj, descriptor) {
 	descriptorCreate = function (obj) {
 		var descriptor = createObj(this, obj.__id__ + '$' + this._sKey_,
 			obj.__id__ + '/' + this._sKey_, obj);
-		if (!this._writable_ && this._extensible_) {
-			defineProperty(obj, '_writable_', d('c', true));
-		}
+		if (!this._writable_ && this._extensible_) defineProperty(obj, '_writable_', d('c', true));
 		obj._descriptors_[this._sKey_] = descriptor;
 		inject(obj, descriptor, this);
 		expose(obj, descriptor, this._sKey_);
@@ -101,8 +96,7 @@ module.exports = function (db, createObj, descriptor) {
 		}),
 		_createDescriptor_: d(function (obj, sKey, dbEvent) {
 			var descriptor, postponed, props;
-			descriptor = createObj(this, obj.__id__ + '$' + sKey,
-				obj.__id__ + '/' + sKey, obj);
+			descriptor = createObj(this, obj.__id__ + '$' + sKey, obj.__id__ + '/' + sKey, obj);
 			obj._descriptors_[sKey] = descriptor;
 			props = {
 				key: d('', obj._keys_[sKey]),
@@ -110,9 +104,7 @@ module.exports = function (db, createObj, descriptor) {
 				_create_: d(descriptorCreate),
 				_value_: d('cw', undefined)
 			};
-			if (!this._writable_ && this._extensible_) {
-				props._writable_ = d('c', true);
-			}
+			if (!this._writable_ && this._extensible_) props._writable_ = d('c', true);
 			defineProperties(descriptor, props);
 			postponed = inject(obj, descriptor, this, dbEvent);
 			expose(obj, descriptor, sKey);
