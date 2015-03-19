@@ -4,7 +4,7 @@ var d = require('d')
 
   , defineProperty = Object.defineProperty, re;
 
-re = /^\s*function\s*(?:[\0-'\)-\uffff]+)*\s*\(\s*(_observe[\/*\s]*)?\)\s*\{/;
+re = /^\s*function\s*(?:[\0-'\)-\uffff]+)*\s*\(\s*(_observe)?[\/*\s]*\)\s*\{/;
 
 module.exports = function (value) {
 	var match, status;
