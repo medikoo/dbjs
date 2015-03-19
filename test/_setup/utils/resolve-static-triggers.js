@@ -17,6 +17,8 @@ module.exports = function (t, a) {
 		value += this.all;
 		return value;
 	});
+	obj.set('otherTest', function anonymous(
+/**/) {}); //jslint: ignore
 
 	obj.set('allow', true);
 	obj.set('foo', 10);
@@ -33,6 +35,7 @@ module.exports = function (t, a) {
 	a(obj.count, 1, "Count");
 
 	a.h1("Observable");
+	obj._otherTest.on('change', function (e) { event = e; });
 	obj._test.on('change', function (e) { event = e; });
 	a(obj.count, 2, "Count");
 

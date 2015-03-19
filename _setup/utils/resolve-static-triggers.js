@@ -5,7 +5,7 @@ var resolve      = require('esniff/accessed-properties')('this')
   , ignored      = require('./meta-property-names')
 
   , re = new RegExp('^\\s*function\\s*(?:[\\0-\'\\)-\\uffff]+)*\\s*\\(\\s*' +
-	'(_observe[\\/*\\s]*)?\\)\\s*\\{([\\0-\\uffff]*)\\}\\s*$')
+	'(_observe)?[\\/*\\s]*\\)\\s*\\{([\\0-\\uffff]*)\\}\\s*$')
   , isFn = RegExp.prototype.test.bind(/^\s*\(/);
 
 module.exports = memoize(function (fn) {
