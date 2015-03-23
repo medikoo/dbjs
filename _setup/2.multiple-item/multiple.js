@@ -15,6 +15,7 @@ var assign           = require('es5-ext/object/assign')
   , Event            = require('../event')
   , serialize        = require('../serialize/key')
   , defineObservable = require('../utils/define-set-observable')
+  , toString         = require('../utils/set-to-string')
   , Iterator         = require('./iterator')
 
   , keys = Object.keys, defineProperties = Object.defineProperties
@@ -130,14 +131,7 @@ Multiple.prototype = create(Set.prototype, assign({
 		}
 		return key;
 	}),
-	toString: d(function (/*separator*/) {
-		var data = [], sep = arguments[0];
-		if (sep === undefined) sep = ", ";
-		this.forEach(function (value) {
-			data.push(String(value));
-		});
-		return data.join(sep);
-	})
+	toString: d(toString)
 }, lazy({
 	_dynamicListeners_: d(function () { return []; },
 		{ cacheName: '__dynamicListeners__', desc: '' })
