@@ -20,6 +20,7 @@ module.exports = function (a) {
 	set = obj.test;
 	a(isSet(set), true, "Set");
 	a.deep(toArray(obj.test), [1, 2, 3], "Value");
+	a(String(obj.test), '1, 2, 3', "toString");
 
 	set.on('change', function (e) {
 		event = e;

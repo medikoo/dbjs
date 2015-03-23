@@ -22,6 +22,7 @@ var eIndexOf         = require('es5-ext/array/#/e-index-of')
 )
   , defineObservable = require('../utils/define-set-observable')
   , observePass      = require('../utils/observe-pass-through')
+  , toString         = require('../utils/set-to-string')
   , serialize        = require('../serialize/value')
 
   , forEach = Array.prototype.forEach
@@ -179,7 +180,8 @@ Multiple.prototype = create(Set.prototype, assign({
 			this.object.__descriptorPrototype__;
 		if (!desc.multiple) return;
 		this._update_(dynamicValue.value);
-	})
+	}),
+	toString: d(toString)
 }, lazy({
 	_dynamicListeners_: d(function () { return []; },
 		{ cacheName: '__dynamicListeners__', desc: '' })
