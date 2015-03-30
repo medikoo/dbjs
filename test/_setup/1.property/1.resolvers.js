@@ -86,4 +86,39 @@ module.exports = function (a) {
 	Object.defineProperty(Type.prototype.$n2Test, 'type', d(db.Object));
 	obj = new Type();
 	a(getPrototypeOf(obj.n2Test), db.Object.prototype, "Constant type");
+
+	db.Object.extend('Document', {
+		uniqueKey: { value: function () { return this.key; } }
+	});
+	db.Object.extend('Submission', {
+		document: {
+			nested: true,
+			type: db.Document
+		}
+	});
+	db.Submission.prototype.document.uniqueKey = function () { return this.owner.key; };
+
+	db.Object.extend('User', {
+		documents: {
+			nested: true,
+			type: db.Object
+		},
+		submissions: {
+			nested: true,
+			type: db.Object
+		}
+	});
+
+	db.User.prototype.documents.define('someDocument', {
+		nested: true,
+		type: db.Document
+	});
+	db.User.prototype.submissions.define('someSubmission', {
+		nested: true,
+		type: db.Submission
+	});
+
+	var user = new db.User();
+	a(user.documents.someDocument.uniqueKey, 'someDocument');
+	a(user.submissions.someSubmission.document.uniqueKey, 'someSubmission');
 };
