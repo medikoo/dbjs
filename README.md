@@ -5,7 +5,7 @@
 
 _dbjs_ is database of events, each atomic update is represented as an event which is added on top of log.
 
-Contrary to popular CRUD model, there are no deletions, each creation, update and deletion is just another event that occurs and affects state of things.
+In contrary to popular CRUD model, each creation, update and deletion is just another atomic event that occurs and affects state of things.
 
 Please see great [presentation by Greg Young](http://www.infoq.com/presentations/Events-Are-Not-Just-for-Notifications), which while unrelated to this project, describes well one of the main ideas behind _dbjs_.
 
@@ -28,7 +28,7 @@ You can easily bundle NPM packages for browser with [modules-webmake](https://gi
 
 #### Data modeling
 
-In common application we define models in database engine that persists our data, and then we try to resemble that model (in manual or more less automatic way) in alanguage that we program our application. We connect both worlds and work like that.
+In common application we define models in database engine that persists our data, and then we try to resemble that model (in manual or more less automatic way) in a language that we program our application. We connect both worlds and work like that.
 
 In _dbjs_ we define models directly in JavaScript, using most of things that language has to offer, its types, functions, prototypal inheritance etc. and we work with it natural way. On the other side _dbjs_ provides all means to observe the changes in reasonable manner. Persistent layer can be easily connected to low-end point which expresses data with graph/key-value representations, that remains transparent to our work.
 
