@@ -87,6 +87,7 @@ module.exports = function (a) {
 	obj = new Type();
 	a(getPrototypeOf(obj.n2Test), db.Object.prototype, "Constant type");
 
+	db = new Database();
 	db.Object.extend('Document', {
 		uniqueKey: { value: function () { return this.key; } }
 	});
