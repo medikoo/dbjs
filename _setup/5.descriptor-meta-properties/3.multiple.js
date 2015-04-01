@@ -6,6 +6,7 @@ var d                 = require('d')
   , notifyDynamic     = require('../notify/dynamic')
   , notifyProperty    = require('../notify/property')
   , gatherReverseMaps = require('../utils/gather-reverse-maps')
+  , serialize         = require('../serialize/value')
 
   , defineProperties = Object.defineProperties
   , defineProperty = Object.defineProperty;
@@ -71,8 +72,8 @@ module.exports = function (db, descriptor) {
 				if (item._resolveValue_() == null) continue;
 				for (i = 0; (revMap = revs[i]); ++i) {
 					postponed = nu
-						? revMap._addRef_(item._sKey_, item.key, obj, dbEvent, postponed)
-						: revMap._deleteRef_(item._sKey_, obj, dbEvent, postponed);
+						? revMap._addRef_(serialize(item.key), item.key, obj, dbEvent, postponed)
+						: revMap._deleteRef_(serialize(item.key), obj, dbEvent, postponed);
 				}
 			}
 			return postponed;
