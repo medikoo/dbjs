@@ -56,8 +56,7 @@ initializeObject = function (obj, postponed) {
 					if (!item._value_) continue;
 					if (obj._normalize_(sKey, value) == null) continue;
 				}
-				postponed = notifyReverse(obj, sKey, value, null, null, null, iSKey,
-					null, null, postponed);
+				postponed = notifyReverse(obj, sKey, value, null, null, null, iSKey, null, null, postponed);
 			}
 			continue;
 		}
@@ -90,19 +89,14 @@ module.exports = function (db, createObj, object) {
 		__id__: d('', 'Base'),
 		object: d('', Base),
 		extend: d(function (name) {
-			return this._extendAndInitialize_.apply(this,
-				this._validateExtend_.apply(this, arguments));
+			return this._extendAndInitialize_.apply(this, this._validateExtend_.apply(this, arguments));
 		}),
 		_validateExtend_: d(function (name) {
 			if (!isValidTypeName(name)) {
-				throw new DbjsError(name + " is not valid type name",
-					'INVALID_TYPE_NAME');
+				throw new DbjsError(name + " is not valid type name", 'INVALID_TYPE_NAME');
 			}
-			if (existingIds[name]) {
-				throw new DbjsError(name + " type is already created", 'TYPE_EXISTS');
-			}
-			return [name].concat(this._validateExtendInitialize_.apply(this,
-				slice.call(arguments, 1)));
+			if (existingIds[name]) throw new DbjsError(name + " type is already created", 'TYPE_EXISTS');
+			return [name].concat(this._validateExtendInitialize_.apply(this, slice.call(arguments, 1)));
 		}),
 		_validateExtendInitialize_: d(function (initialize, nsProps, objProps) {
 			var errors;
@@ -127,8 +121,7 @@ module.exports = function (db, createObj, object) {
 			}
 			if (objProps) {
 				try {
-					objProps =
-						create(this.prototype)._validateDefineProperties_(objProps);
+					objProps = create(this.prototype)._validateDefineProperties_(objProps);
 				} catch (e) {
 					if (e.name !== 'DbjsError') throw e;
 					if (errors) {
@@ -141,9 +134,8 @@ module.exports = function (db, createObj, object) {
 				}
 			}
 			if (!errors) return [nsProps, objProps];
-			throw new DbjsError("Invalid properties:\n\t" +
-				errors.map(getMessage).join('\t\n'), 'TYPE_CONSTRUCTION_ERROR',
-				{ errors: errors });
+			throw new DbjsError("Invalid properties:\n\t" + errors.map(getMessage).join('\t\n'),
+				'TYPE_CONSTRUCTION_ERROR', { errors: errors });
 		}),
 		_extendAndInitialize_: d(function (name) {
 			var constructor = this._extend_(name);
@@ -159,8 +151,7 @@ module.exports = function (db, createObj, object) {
 		normalize: d(function (value) { return this.is(value) ? value : null; }),
 		validate: d(function (value) {
 			if (!serialize(value)) {
-				throw new DbjsError(value + " cannot be handled by dbjs",
-					'NOT_SUPPORTED_VALUE');
+				throw new DbjsError(value + " cannot be handled by dbjs", 'NOT_SUPPORTED_VALUE');
 			}
 			return value;
 		}),
@@ -226,30 +217,21 @@ module.exports = function (db, createObj, object) {
 			else validDbValue(validFunction(nu));
 			if (old === nu) return;
 			postponed = turnPrototype(this, nu, dbEvent);
-			db._release_(turnPrototype(this.prototype, nu.prototype,
-				dbEvent, postponed));
+			db._release_(turnPrototype(this.prototype, nu.prototype, dbEvent, postponed));
 		}),
 		create: d(function () {
-			return this._createAndInitialize_.apply(this,
-				this._validateCreate_.apply(this, arguments));
+			return this._createAndInitialize_.apply(this, this._validateCreate_.apply(this, arguments));
 		}),
 		_validateCreate_: d(function (value) { return [this.validate(value)]; }),
 		_createAndInitialize_: d(identity),
-		_create_: d(function (id, master) {
-			return this.prototype._extend_(id, master);
-		}),
+		_create_: d(function (id, master) { return this.prototype._extend_(id, master); }),
 		find: d(function (key, value) {
 			var sKey = this._serialize_(key), sValue;
-			if (sKey == null) {
-				throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
-			}
-			if (value == null) {
-				throw new DbjsError(value + " is not a value", 'INVALID_VALUE');
-			}
+			if (sKey == null) throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
+			if (value == null) throw new DbjsError(value + " is not a value", 'INVALID_VALUE');
 			sValue = serialize(value);
 			if (sValue == null) {
-				throw new DbjsError(value + " is invalid database value",
-					'NOT_SUPPORTED_VALUE');
+				throw new DbjsError(value + " is invalid database value", 'NOT_SUPPORTED_VALUE');
 			}
 			return this.prototype._getReverseMap_(sKey)._getMultiple_(sValue, value);
 		}),
@@ -280,9 +262,7 @@ module.exports = function (db, createObj, object) {
 		nested = this._extend_(object.__id__ + '/' + sKey, object.master);
 		desc = object._getDescriptor_(sKey);
 		if (!desc._reverse_ && desc.nested) updateEnum(object, sKey, true);
-		return defineProperties(nested, {
-			owner: d('', object)
-		});
+		return defineProperties(nested, { owner: d('', object) });
 	};
 
 	injectNested = function (obj, proto) {
@@ -291,14 +271,11 @@ module.exports = function (db, createObj, object) {
 		sKey = proto.__sKey__;
 		obj.__descendants__._plainForEach_(function (obj) {
 			var desc, oldProto, nested;
-			if (obj.hasOwnProperty('__descriptors__') &&
-					hasOwnProperty.call(obj.__descriptors__, sKey)) {
+			if (obj.hasOwnProperty('__descriptors__') && hasOwnProperty.call(obj.__descriptors__, sKey)) {
 				desc = obj.__descriptors__[sKey];
 				if (desc.hasOwnProperty('__descriptors__') &&
 						hasOwnProperty.call(desc.__descriptors__, 'type')) {
-					if (desc.__descriptors__.type.hasOwnProperty('_value_')) {
-						return;
-					}
+					if (desc.__descriptors__.type.hasOwnProperty('_value_')) return;
 				}
 			}
 			if (obj.hasOwnProperty('__objects__') && obj.__objects__[sKey]) {
@@ -346,9 +323,7 @@ module.exports = function (db, createObj, object) {
 		}),
 		_destroy_: d(function () {
 			if (this.hasOwnProperty('__descendants__')) {
-				this.__descendants__._plainForEach_(function (obj) {
-					obj._destroy_();
-				});
+				this.__descendants__._plainForEach_(function (obj) { obj._destroy_(); });
 			}
 			if (this.hasOwnProperty('__assignments__')) {
 				this.__assignments__._plainForEach_(function (obj) {
@@ -374,8 +349,7 @@ module.exports = function (db, createObj, object) {
 			var old;
 			if (this.constructor.prototype === this) {
 				// Sanity check
-				throw new DbjsError("Turn of prototype of the prototypes is forbidden",
-					'PROTOTYPE_TURN');
+				throw new DbjsError("Turn of prototype of the prototypes is forbidden", 'PROTOTYPE_TURN');
 			}
 			old = getPrototypeOf(this);
 			if (!nu) {
@@ -383,8 +357,7 @@ module.exports = function (db, createObj, object) {
 			} else {
 				validDbValue(nu);
 				if (nu._kind_ !== 'object') {
-					throw new DbjsError("Prototype must be object kind",
-						'NON_OBJECT_PROTOTYPE');
+					throw new DbjsError("Prototype must be object kind", 'NON_OBJECT_PROTOTYPE');
 				}
 			}
 			if (old === nu) return;
