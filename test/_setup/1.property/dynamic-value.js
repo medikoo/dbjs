@@ -6,7 +6,7 @@ var toArray         = require('es5-ext/array/to-array')
 
 module.exports = function (a) {
 	var db = new Database(), proto = db.Object.prototype, obj = new db.Object()
-	  , event, observable;
+	  , event, observable, multi;
 
 	obj.set('raz', 1);
 	obj.set('dwa', 2);
@@ -50,7 +50,8 @@ module.exports = function (a) {
 			return this.firstName + " " + this.lastName;
 		} },
 		multi1: { type: db.String, multiple: true },
-		multi2: { type: db.String, multiple: true, value: function () { return this.multi1; } }
+		multi2: { type: db.String, multiple: true, value: function () { return this.multi1; } },
+		staticMulti: { type: db.String, multiple: true, value: function () { return ['foo']; } }
 	});
 
 	obj = new db.User({ firstName: 'Marko', lastName: 'Zagalo' });
@@ -64,4 +65,12 @@ module.exports = function (a) {
 	a.deep(toArray(obj.multi2), toArray(obj.multi1));
 	obj.multi1.add('foo');
 	a.deep(toArray(obj.multi2), toArray(obj.multi1));
+
+	multi = obj._staticMulti.value;
+	multi.on('change', function () {});
+	a(multi.size, 1);
+	obj._setValue_();
+	a(multi.size, 0);
+	obj._setValue_(db.User.prototype);
+	a(multi.size, 1);
 };

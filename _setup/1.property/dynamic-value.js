@@ -80,7 +80,6 @@ defineProperties(DynamicValue.prototype, assign({
 		if (value == null) value = null;
 		if (desc.multiple) {
 			if (this.value === undefined) {
-				this.value = value;
 				this.resolvedValue = obj._getDynamicMultiple_(this.__sKey__);
 				this.multiple = true;
 				postponed = notify(obj, this.__sKey__, this.resolvedValue,
