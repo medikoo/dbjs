@@ -1,7 +1,8 @@
 'use strict';
 
 var toArray  = require('es5-ext/array/to-array')
-  , Database = require('../../../');
+  , Database = require('../../../')
+  , Event    = require('../../../_setup/event');
 
 module.exports = function (a) {
 	var db = new Database()
@@ -10,7 +11,7 @@ module.exports = function (a) {
 			{ foo: { type: Type1, required: true } })
 
 	  , obj11, obj12, obj13, obj14, obj15, obj21, obj22, Type3, obj31, obj32
-	  , obj33, events1 = [], events2 = [], filter, drHouse, john;
+	  , obj33, events1 = [], events2 = [], filter, drHouse, john, user, users;
 
 	obj11 = new Type1({ melasa: 'dwa' });
 	obj21 = new Type2({ foo: obj11 });
@@ -156,4 +157,17 @@ module.exports = function (a) {
 
 	john.doctor = drHouse;
 	a(drHouse.patients.has(john), true);
+
+	db = new Database();
+	db.Object.extend('User', {
+		roles: {
+			type: db.String,
+			multiple: true,
+			max: 5
+		}
+	});
+	user = new db.User();
+	new Event(user._getOwnMultipleItem_('roles', 'mizeria'), true); //jslint: ignore
+	users = db.User.find('roles', 'mizeria');
+	a.deep(toArray(users), []);
 };
