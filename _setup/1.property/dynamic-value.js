@@ -64,7 +64,11 @@ defineProperties(DynamicValue.prototype, assign({
 			return postponed;
 		}
 		this.__observer__ = resolveTriggers(this.object, getter, this.__triggerObserverUpdate__);
-		return this._update_(this.__observer__.getter.call(this.object), dbEvent, other, postponed);
+		postponed = this._update_(this.__observer__.getter.call(this.object), dbEvent, other,
+			postponed);
+		if (!postponed) postponed = [];
+		postponed.push({ __dynamicListeners__: [this.__triggerObserverUpdate__] });
+		return postponed;
 	}),
 	_clearObserver_: d(function () {
 		if (!this.__observer__) return;
