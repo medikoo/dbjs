@@ -9,9 +9,9 @@ var assign          = require('es5-ext/object/assign')
   , notify          = require('../notify/property')
 
   , defineProperties = Object.defineProperties
-  , DynamicValue, notifyMultiple;
+  , DynamicValue;
 
-notifyMultiple = function (obj, sKey, nu, dbEvent, postponed) {
+var notifyMultiple = function (obj, sKey, nu, dbEvent, postponed) {
 	var data;
 	// Dynamic multiple values
 	if (obj.hasOwnProperty('__dynamicMultiples__')) {
@@ -35,8 +35,7 @@ DynamicValue = module.exports = function (object, sKey) {
 	desc = object._getDescriptor_(sKey);
 	value = desc._resolveValueGetter_();
 	if (!value) return;
-	this.__observer__ = resolveTriggers(this.object, value,
-		this.__triggerObserverUpdate__);
+	this.__observer__ = resolveTriggers(this.object, value, this.__triggerObserverUpdate__);
 	value = this.__observer__.getter.call(object);
 	if (value == null) value = null;
 	this.value = value;
@@ -59,16 +58,13 @@ defineProperties(DynamicValue.prototype, assign({
 			postponed = notify(this.object, this.__sKey__, other,
 				this.resolvedValue, null, null, dbEvent, postponed);
 			if (this.multiple) {
-				postponed = notifyMultiple(this.object, this.__sKey__, undefined,
-					dbEvent, postponed);
+				postponed = notifyMultiple(this.object, this.__sKey__, undefined, dbEvent, postponed);
 			}
 			this.value = this.resolvedValue = this.multiple = undefined;
 			return postponed;
 		}
-		this.__observer__ = resolveTriggers(this.object, getter,
-			this.__triggerObserverUpdate__);
-		return this._update_(this.__observer__.getter.call(this.object),
-			dbEvent, other, postponed);
+		this.__observer__ = resolveTriggers(this.object, getter, this.__triggerObserverUpdate__);
+		return this._update_(this.__observer__.getter.call(this.object), dbEvent, other, postponed);
 	}),
 	_clearObserver_: d(function () {
 		if (!this.__observer__) return;
@@ -98,8 +94,7 @@ defineProperties(DynamicValue.prototype, assign({
 		}
 		if (this.multiple) {
 			this.multiple = false;
-			postponed = notifyMultiple(obj, this.__sKey__, undefined,
-				dbEvent, postponed);
+			postponed = notifyMultiple(obj, this.__sKey__, undefined, dbEvent, postponed);
 		}
 		this.value = value;
 		if (value != null) value = desc._normalizeValue_(value);
@@ -108,14 +103,12 @@ defineProperties(DynamicValue.prototype, assign({
 		if (this.resolvedValue === value) return postponed;
 		old = (this.resolvedValue !== undefined) ? this.resolvedValue : other;
 		this.resolvedValue = value;
-		return notify(obj, this.__sKey__, value, old, null, null,
-			dbEvent, postponed);
+		return notify(obj, this.__sKey__, value, old, null, null, dbEvent, postponed);
 	})
 }, autoBind({
 	__triggerObserverUpdate__: d(function (event, postponed) {
 		if (!this.__observer__) return postponed;
-		return this._update_(this.__observer__.getter.call(this.object),
-			event, undefined, postponed);
+		return this._update_(this.__observer__.getter.call(this.object), event, undefined, postponed);
 	})
 }), lazy({
 	__observer__: d(function () { return null; }, { desc: 'w' })
