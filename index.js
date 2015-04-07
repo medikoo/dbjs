@@ -1,6 +1,7 @@
 'use strict';
 
-var validFunction         = require('es5-ext/function/valid-function')
+var aFrom                 = require('es5-ext/array/from')
+  , validFunction         = require('es5-ext/function/valid-function')
   , assign                = require('es5-ext/object/assign')
   , d                     = require('d')
   , lazy                  = require('d/lazy')
@@ -22,7 +23,7 @@ var validFunction         = require('es5-ext/function/valid-function')
 
 notifyDynamic = function (obj) {
 	if (!obj.hasOwnProperty('__dynamicListeners__')) return;
-	obj.__dynamicListeners__.forEach(function (update) {
+	aFrom(obj.__dynamicListeners__).forEach(function (update) {
 		var event, postponed;
 		if (obj.hasOwnProperty('__postponedEvent__') && obj.__postponedEvent__) {
 			event = obj.__postponedEvent__.dbjs;

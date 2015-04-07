@@ -32,6 +32,23 @@ module.exports = function (a) {
 		documentsStatus: { value: function (_observe) {
 			var first = this.requiredSubmissions.first;
 			return first ? _observe(first._partners).size : null;
+		} },
+		staticA: { value: true },
+		staticB: { value: true },
+		computedA: { value: function () {
+			return this.staticA;
+		} },
+		computedB: { value: function () {
+			return this.computedA && this.staticA;
+		} },
+		computedC: { value: function () {
+			if (!this.computedA) return null;
+			if (!this.computedB) return null;
+			return true;
+		} },
+		computedD: { value: function () {
+			if (!this.computedB) return null;
+			return true;
 		} }
 	});
 
@@ -40,4 +57,10 @@ module.exports = function (a) {
 	a(observable.value, 0);
 	db.objects.delete(obj2);
 	a(observable.value, null);
+
+	a(obj1._computedC.value, true);
+	a(obj1._computedD.value, true);
+	obj1.staticA = false;
+	a(obj1._computedC.value, null);
+	a(obj1._computedD.value, null);
 };
