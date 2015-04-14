@@ -3,7 +3,6 @@
 var isDate             = require('es5-ext/date/is-date')
   , identity           = require('es5-ext/function/identity')
   , isFunction         = require('es5-ext/function/is-function')
-  , validFunction      = require('es5-ext/function/valid-function')
   , assign             = require('es5-ext/object/assign')
   , create             = require('es5-ext/object/create')
   , mixin              = require('es5-ext/object/mixin')
@@ -24,6 +23,7 @@ var isDate             = require('es5-ext/date/is-date')
   , notifyProperty     = require('../notify/property')
   , notifyReverse      = require('../notify/reverse')
   , validDbValue       = require('../../valid-dbjs-value')
+  , validDbType        = require('../../valid-dbjs-type')
   , Extensions         = require('./extensions')
 
   , push = Array.prototype.push, slice = Array.prototype.slice
@@ -214,7 +214,7 @@ module.exports = function (db, createObj, object) {
 		_setValue_: d(function (nu, dbEvent) {
 			var old = getPrototypeOf(this), postponed;
 			if (!nu) nu = Base;
-			else validDbValue(validFunction(nu));
+			else validDbType(nu);
 			if (old === nu) return;
 			postponed = turnPrototype(this, nu, dbEvent);
 			db._release_(turnPrototype(this.prototype, nu.prototype, dbEvent, postponed));
