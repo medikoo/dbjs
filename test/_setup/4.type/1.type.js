@@ -1,9 +1,10 @@
 'use strict';
 
 var toArray  = require('es5-ext/array/to-array')
+  , d        = require('d')
   , Database = require('../../../')
 
-  , getPrototypeOf = Object.getPrototypeOf;
+  , defineProperty = Object.defineProperty, getPrototypeOf = Object.getPrototypeOf;
 
 module.exports = function (a) {
 	var db = new Database(), Base = db.Base, TestType = Base.extend('TestType');
@@ -308,6 +309,34 @@ module.exports = function (a) {
 			obj.someMap.get('marko');
 			a(obj.someMap.propertyIsEnumerable('marko'), true);
 			a(obj.someMap.size, 1);
+		},
+		"Direct types for nested": function (a) {
+			var db = new Database();
+			db.Object.extend('Document');
+			db.Document.extend('Dui');
+			db.Object.extend('Submission', {
+				document: {
+					nested: true,
+					type: db.Document
+				}
+			});
+
+			db.Object.extend('User', {
+				submissions: {
+					nested: true,
+					type: db.Object
+				}
+			});
+
+			db.User.prototype.submissions.define('someSubmission', {
+				nested: true,
+				type: db.Submission
+			});
+			defineProperty(db.User.prototype.submissions.someSubmission.getOwnDescriptor('document'),
+				'type', d('ce', db.Dui));
+			a(db.User.prototype.submissions.someSubmission.document.constructor, db.Dui);
+			a(db.Submission.prototype.document.constructor, db.Document);
+			a(db.User.prototype.submissions.someSubmission.document.constructor, db.Dui);
 		}
 	};
 };

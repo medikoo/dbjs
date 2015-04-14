@@ -273,10 +273,7 @@ module.exports = function (db, createObj, object) {
 			var desc, oldProto, nested;
 			if (obj.hasOwnProperty('__descriptors__') && hasOwnProperty.call(obj.__descriptors__, sKey)) {
 				desc = obj.__descriptors__[sKey];
-				if (desc.hasOwnProperty('__descriptors__') &&
-						hasOwnProperty.call(desc.__descriptors__, 'type')) {
-					if (desc.__descriptors__.type.hasOwnProperty('_value_')) return;
-				}
+				if (desc.hasOwnProperty('type')) return;
 			}
 			if (obj.hasOwnProperty('__objects__') && obj.__objects__[sKey]) {
 				nested = obj.__objects__[sKey];
