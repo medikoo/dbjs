@@ -1,7 +1,8 @@
 'use strict';
 
-var mixin = require('es5-ext/object/mixin')
-  , d     = require('d')
+var mixin             = require('es5-ext/object/mixin')
+  , toStringTagSymbol = require('es6-symbol').toStringTag
+  , d                 = require('d')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties;
@@ -37,4 +38,5 @@ module.exports = function (db) {
 			return String(this.constructor[name]);
 		})
 	});
+	defineProperty(BooleanType.prototype, toStringTagSymbol, d('Boolean'));
 };

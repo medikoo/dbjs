@@ -1,9 +1,10 @@
 'use strict';
 
-var mixin     = require('es5-ext/object/mixin')
-  , isRegExp  = require('es5-ext/reg-exp/is-reg-exp')
-  , d         = require('d')
-  , DbjsError = require('../error')
+var mixin             = require('es5-ext/object/mixin')
+  , isRegExp          = require('es5-ext/reg-exp/is-reg-exp')
+  , toStringTagSymbol = require('es6-symbol').toStringTag
+  , d                 = require('d')
+  , DbjsError         = require('../error')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -88,4 +89,5 @@ module.exports = function (db) {
 	});
 
 	defineProperty(mixin(StringType.prototype, String.prototype), 'constructor', d(StringType));
+	defineProperty(StringType.prototype, toStringTagSymbol, d('String'));
 };

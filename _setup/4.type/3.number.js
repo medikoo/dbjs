@@ -1,10 +1,11 @@
 'use strict';
 
-var isInteger = require('es5-ext/number/is-integer')
-  , mixin     = require('es5-ext/object/mixin')
-  , d         = require('d')
-  , BigNumber = require('bignumber.js')
-  , DbjsError = require('../error')
+var isInteger         = require('es5-ext/number/is-integer')
+  , mixin             = require('es5-ext/object/mixin')
+  , toStringTagSymbol = require('es6-symbol').toStringTag
+  , d                 = require('d')
+  , BigNumber         = require('bignumber.js')
+  , DbjsError         = require('../error')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -114,4 +115,5 @@ module.exports = function (db) {
 			return toString.call(this);
 		})
 	});
+	defineProperty(NumberType.prototype, toStringTagSymbol, d('Number'));
 };

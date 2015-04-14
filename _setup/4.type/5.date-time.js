@@ -1,11 +1,12 @@
 'use strict';
 
-var isDate         = require('es5-ext/date/is-date')
-  , copy           = require('es5-ext/date/#/copy')
-  , mixin          = require('es5-ext/object/mixin')
-  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d')
-  , DbjsError      = require('../error')
+var isDate            = require('es5-ext/date/is-date')
+  , copy              = require('es5-ext/date/#/copy')
+  , mixin             = require('es5-ext/object/mixin')
+  , setPrototypeOf    = require('es5-ext/object/set-prototype-of')
+  , toStringTagSymbol = require('es6-symbol').toStringTag
+  , d                 = require('d')
+  , DbjsError         = require('../error')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -133,4 +134,5 @@ module.exports = function (db) {
 			return value;
 		})
 	});
+	defineProperty(DateTime.prototype, toStringTagSymbol, d('Date'));
 };

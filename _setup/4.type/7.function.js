@@ -1,11 +1,12 @@
 'use strict';
 
-var isFunction     = require('es5-ext/function/is-function')
-  , mixin          = require('es5-ext/object/mixin')
-  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d')
-  , DbjsError      = require('../error')
-  , isGetter       = require('../utils/is-function-getter')
+var isFunction        = require('es5-ext/function/is-function')
+  , mixin             = require('es5-ext/object/mixin')
+  , setPrototypeOf    = require('es5-ext/object/set-prototype-of')
+  , toStringTagSymbol = require('es6-symbol').toStringTag
+  , d                 = require('d')
+  , DbjsError         = require('../error')
+  , isGetter          = require('../utils/is-function-getter')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -47,4 +48,5 @@ module.exports = function (db) {
 	});
 
 	defineProperty(mixin(FunctionType.prototype, Function.prototype), 'constructor', d(FunctionType));
+	defineProperty(FunctionType.prototype, toStringTagSymbol, d('Function'));
 };

@@ -1,10 +1,11 @@
 'use strict';
 
-var isRegExp       = require('es5-ext/reg-exp/is-reg-exp')
-  , mixin          = require('es5-ext/object/mixin')
-  , setPrototypeOf = require('es5-ext/object/set-prototype-of')
-  , d              = require('d')
-  , DbjsError      = require('../error')
+var isRegExp          = require('es5-ext/reg-exp/is-reg-exp')
+  , mixin             = require('es5-ext/object/mixin')
+  , setPrototypeOf    = require('es5-ext/object/set-prototype-of')
+  , toStringTagSymbol = require('es6-symbol').toStringTag
+  , d                 = require('d')
+  , DbjsError         = require('../error')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
@@ -49,4 +50,5 @@ module.exports = function (db) {
 	});
 
 	defineProperty(mixin(RegExpType.prototype, RegExp.prototype), 'constructor', d(RegExpType));
+	defineProperty(RegExpType.prototype, toStringTagSymbol, d('RegExp'));
 };
