@@ -26,6 +26,7 @@
     "es6-iterator": "^0.1.3",
     "es6-map": "git://github.com/medikoo/es6-map.git",
     "es6-set": "git://github.com/medikoo/es6-set.git",
+    "es6-symbol": "^2.0.1",
     "esniff": "0.1",
     "event-emitter": "^0.3.3",
     "memoizee": "^0.3.8",
