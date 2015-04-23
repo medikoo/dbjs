@@ -100,7 +100,7 @@ module.exports = function (prototype, onInit) {
 						event.type = 'batch';
 					}
 				} else if (event.set.size === 1) {
-					entry = event.set.entries().next();
+					entry = event.set.entries().next().value;
 					event.type = 'set';
 					event.key = entry[0];
 					event.value = entry[1];
@@ -112,7 +112,7 @@ module.exports = function (prototype, onInit) {
 				}
 			} else if (event.deleted && event.deleted.size) {
 				if (event.deleted.size === 1) {
-					entry = event.deleted.entries().next();
+					entry = event.deleted.entries().next().value;
 					event.type = 'delete';
 					event.key = entry[0];
 					event.value = entry[1];
