@@ -1,19 +1,19 @@
 'use strict';
 
-var identity       = require('es5-ext/function/identity')
-  , d              = require('d')
-  , memoize        = require('memoizee/plain')
-  , memoizeMethods = require('memoizee/methods-plain')
-  , getNormalizer  = require('memoizee/normalizers/get-fixed')
-  , setGetFirst    = require('es6-set/ext/get-first')
-  , setGetLast     = require('es6-set/ext/get-last')
-  , setCopy        = require('es6-set/ext/copy')
-  , setEvery       = require('es6-set/ext/every')
-  , setSome        = require('es6-set/ext/some')
-  , map            = require('observable-value/map')
+var identity          = require('es5-ext/function/identity')
+  , d                 = require('d')
+  , memoize           = require('memoizee/plain')
+  , memoizeMethods    = require('memoizee/methods-plain')
+  , getNormalizer     = require('memoizee/normalizers/get-fixed')
+  , setGetFirst       = require('es6-set/ext/get-first')
+  , setGetLast        = require('es6-set/ext/get-last')
+  , setCopy           = require('es6-set/ext/copy')
+  , setEvery          = require('es6-set/ext/every')
+  , setSome           = require('es6-set/ext/some')
+  , map               = require('observable-value/map')
   , isObservableValue = require('observable-value/is-observable-value')
-  , DbjsError      = require('../error')
-  , serialize      = require('../serialize/key')
+  , DbjsError         = require('../error')
+  , serialize         = require('../serialize/key')
 
   , create = Object.create, defineProperties = Object.defineProperties
   , filterValue = function (value) { return value == null; }
