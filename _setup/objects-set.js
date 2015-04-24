@@ -3,6 +3,11 @@
 var setPrototypeOf   = require('es5-ext/object/set-prototype-of')
   , d                = require('d')
   , PrimitiveSet     = require('es6-set/primitive')
+  , setGetFirst      = require('es6-set/ext/get-first')
+  , setGetLast       = require('es6-set/ext/get-last')
+  , setCopy          = require('es6-set/ext/copy')
+  , setEvery         = require('es6-set/ext/every')
+  , setSome          = require('es6-set/ext/some')
   , createReadOnly   = require('observable-set/create-read-only')
   , createObservable = require('observable-set/create-complete')
   , serializeObject  = require('./serialize/object')
@@ -30,3 +35,10 @@ ObjectsSet.prototype = Object.create(PrimitiveSet.prototype, {
 defFilterByKey(ObjectsSet.prototype);
 
 module.exports = createReadOnly(createObservable(ObjectsSet));
+Object.defineProperties(module.exports.prototype, {
+	first: d.gs(setGetFirst),
+	last: d.gs(setGetLast),
+	copy: d(setCopy),
+	every: d(setEvery),
+	some: d(setSome)
+});

@@ -3,7 +3,7 @@
 var Database = require('../../');
 
 module.exports = function (T, a) {
-	var db = new Database(), obj1 = new db.Object(), obj2 = new db.Object()
+	var db = new Database(), obj1 = new db.Object({ bar: 'miszka' }), obj2 = new db.Object()
 	  , set = new T(), i, arr, x = {};
 
 	set._add(obj1);
@@ -20,4 +20,9 @@ module.exports = function (T, a) {
 		arr.splice(index, 1);
 		a(this, x, "Context");
 	}, x);
+
+	a.h1("Some");
+	a(db.Object.instances.filterByKey('bar', 'miszka').some(function () {
+		return true;
+	}), true);
 };
