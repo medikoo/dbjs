@@ -66,4 +66,21 @@ module.exports = function (a) {
 	a.throws(function () { obj.test = [23, 'raz']; }, 'MULTIPLE_ERRORS', "Invalid value");
 	obj.test = [34, 24, 55, 2];
 	a.throws(function () { obj2.test = [45, 34, 43]; }, 'MULTIPLE_ERRORS', "Unique");
+
+	// Engine needs to be fixed, so following passes
+	// a.h1("Reverse");
+	// db = new Database();
+	// db.Object.extend('Test1');
+	// db.Object.extend('Test2', {
+	//   foo: { type: db.Test1, reverse: 'bar' }
+	// });
+	// db.Test1.extend('Test3', {
+	//   bar: { type: db.Test2, value: function () { return obj3; } }
+	// });
+	// obj1 = new db.Test1();
+	// obj3 = new db.Test2();
+	// obj2 = new db.Test2({ foo: obj1 });
+	// obj4 = new db.Test3();
+	// a(obj1.bar, obj2);
+	// a(obj4.bar, obj3);
 };
