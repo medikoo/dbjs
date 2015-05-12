@@ -123,7 +123,6 @@ module.exports = function (db, object) {
 		}),
 		size: d.gs(function () {
 			var size, data, sKey, desc, current, done;
-			if (this.hasOwnProperty('__size__')) return this.__size__;
 			size = 0;
 			data = this.__descriptors__;
 			for (sKey in data) {
