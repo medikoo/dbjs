@@ -171,6 +171,39 @@ module.exports = function (a) {
 			a(db.Object.getById(obj2.__id__), obj2, "Extension instance");
 			a(Type.getById(obj1.__id__), null, "Not found");
 			a(Type.getById(obj2.__id__), obj2, "Extension search");
+		},
+		"Map events & size": function (a) {
+			var db = new Database(), obj1, invoked, invoked2;
+			db.Object.extend('ObjectType', {
+				foo: {
+					nested: true,
+					type: db.Object
+				},
+				miszka: {
+					nested: true,
+					type: db.Object
+				}
+			});
+			db.ObjectType.prototype.foo._descriptorPrototype_.type = db.Object;
+			db.ObjectType.prototype.foo._descriptorPrototype_.nested = true;
+
+			obj1 = new db.ObjectType();
+			obj1.on('change', function () { invoked2 = true; });
+			db.objects.unserialize(obj1.__id__ + '/miszka');
+			obj1.get('miszka');
+			a(invoked2, true);
+			invoked2 = false;
+			a(obj1.size, 2);
+
+			obj1.foo.on('change', function () { invoked = true; });
+			obj1.foo.get('bar');
+			a(invoked, true);
+			invoked = false;
+			a(obj1.foo.size, 1);
+			db.objects.unserialize(obj1.foo.__id__ + '/elo');
+			obj1.foo.get('elo');
+			a(invoked, true);
+			a(obj1.foo.size, 2);
 		}
 	};
 };

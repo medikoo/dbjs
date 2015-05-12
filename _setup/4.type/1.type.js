@@ -303,9 +303,7 @@ module.exports = function (db, createObj, object) {
 				_extendNested_: d(extendNested)
 			});
 			injectNested(object, nested);
-			if (!desc._sKey_) {
-				db._release_(notifyProperty(object, sKey, nested, undefined, null, null, null));
-			}
+			db._release_(notifyProperty(object, sKey, nested, undefined, null, null, null));
 			--db._postponed_;
 			return nested;
 		}),
