@@ -14,9 +14,9 @@ var create         = require('es5-ext/object/create')
   , defineProperty = Object.defineProperty
   , getPrototypeOf = Object.getPrototypeOf
 
-  , nuCache, oldCache, confirmItem;
+  , nuCache, oldCache;
 
-confirmItem = function (nu, old, item) {
+var confirmItem = function (nu, old, item) {
 	var oldStatus, nuStatus, sKey = item._sKey_, key = item.key;
 	if (!oldCache) oldCache = create(null);
 	if (oldCache[sKey] != null) oldStatus = oldCache[sKey];
