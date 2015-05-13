@@ -57,4 +57,51 @@ module.exports = function (a) {
 	obj._setValue_(db.User2.prototype);
 	a(getPrototypeOf(obj.submissions), db.User2.prototype.submissions, "#1");
 	a(getPrototypeOf(obj.submissions.foo).__id__, db.User2.prototype.submissions.foo.__id__, "#2");
+
+	a.h1("Nested map overlap");
+	db = new Database();
+	db.Object.extend('Test1', {
+		foo: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Test1.prototype.foo._descriptorPrototype_.setProperties({
+		type: db.Object,
+		nested: true
+	});
+	db.Test1.extend('Test2');
+	a(Object.getPrototypeOf(db.Test2.prototype.foo), db.Test1.prototype.foo);
+	db.Test2.prototype.defineProperties({
+		foo: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Test2.prototype.foo._descriptorPrototype_.setProperties({
+		type: db.Object,
+		nested: true
+	});
+	a(Object.getPrototypeOf(db.Test2.prototype.foo), db.Object.prototype);
+
+	db.Object.extend('Test3', {
+		foo: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Test3.prototype.foo._descriptorPrototype_.setProperties({
+		type: db.Object,
+		nested: true
+	});
+	db.Test3.extend('Test4');
+	db.Test4.prototype.foo.get('elo');
+	db.Test3.prototype.foo.get('elo');
+	a(Object.getPrototypeOf(db.Test4.prototype.foo.get('elo')),
+		db.Test3.prototype.foo.get('elo'));
+	db.Test4.prototype.foo._descriptorPrototype_.setProperties({
+		type: db.Object,
+		nested: true
+	});
+	a(Object.getPrototypeOf(db.Test4.prototype.foo.get('elo')), db.Object.prototype);
 };
