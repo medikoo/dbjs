@@ -114,7 +114,9 @@ module.exports = function (db, createObj, descriptor) {
 			postponed = inject(obj, descriptor, this, dbEvent);
 			expose(obj, descriptor, sKey);
 			if (!this._reverse_ && this.nested && obj.__isObservable__) {
-				postponed = notifyProperty(obj, sKey, obj._getObject_(sKey), undefined, null, null, null);
+				if (!obj.hasOwnProperty('__objects__') || !hasOwnProperty.call(obj.__objects__, sKey)) {
+					postponed = notifyProperty(obj, sKey, obj._getObject_(sKey), undefined, null, null, null);
+				}
 			}
 			--db._postponed_;
 			if (postponed) db._release_(postponed);

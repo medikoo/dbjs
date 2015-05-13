@@ -48,8 +48,15 @@ module.exports = function (a) {
 	a(invoked, true);
 	invoked = false;
 	a(obj1.foo.size, 1);
+
 	db.objects.unserialize(obj1.foo.__id__ + '/elo');
 	obj1.foo.get('elo');
 	a(invoked, true);
+	invoked = false;
 	a(obj1.foo.size, 2);
+
+	obj1.foo.get('marko');
+	db.objects.unserialize(obj1.foo.__id__ + '/marko');
+	a(invoked, true);
+	a(obj1.foo.size, 3);
 };
