@@ -2,6 +2,7 @@
 
 var setPrototypeOf = require('es5-ext/object/set-prototype-of')
   , d              = require('d')
+  , notifyProperty = require('../notify/property')
   , propagateProto = require('../utils/propagate-prototype-turn').descriptor
 
   , hasOwnProperty = Object.prototype.hasOwnProperty
@@ -109,8 +110,13 @@ module.exports = function (db, createObj, descriptor) {
 			};
 			if (!this._writable_ && this._extensible_) props._writable_ = d('c', true);
 			defineProperties(descriptor, props);
+			++db._postponed_;
 			postponed = inject(obj, descriptor, this, dbEvent);
 			expose(obj, descriptor, sKey);
+			if (!this._reverse_ && this.nested && obj.__isObservable__) {
+				postponed = notifyProperty(obj, sKey, obj._getObject_(sKey), undefined, null, null, null);
+			}
+			--db._postponed_;
 			if (postponed) db._release_(postponed);
 			return descriptor;
 		})
