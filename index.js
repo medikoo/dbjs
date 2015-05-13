@@ -45,7 +45,7 @@ ee(defineProperties(Database.prototype, assign({
 	unserializeEvent: d(function (str, sourceId) {
 		var data = unserializeEvent(str)
 		  , value = unserializeValue(data.value, this.objects);
-		return new Event(this.objects.unserialize(data.id, value), value,
+		return new Event(this.objects.unserialize(data.id, value && value.constructor), value,
 			data.stamp, sourceId);
 	}),
 	getSnapshot: d(function (/*options*/) {
