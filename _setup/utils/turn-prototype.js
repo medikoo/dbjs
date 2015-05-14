@@ -3,6 +3,7 @@
 var create         = require('es5-ext/object/create')
   , d              = require('d')
   , setPrototypeOf = require('es5-ext/object/set-prototype-of')
+  , isNested       = require('../../is-dbjs-nested-object')
 
   , hasOwnProperty = Object.hasOwnProperty
   , defineProperty = Object.defineProperty
@@ -245,6 +246,13 @@ exports.object = function (obj, nu, postponed) {
 	var old = getPrototypeOf(obj);
 	if (nu === old) return;
 	postponed = turn(obj, nu, old, postponed);
+	if (isNested(obj) && !obj.__sKey__ && old.__sKey__) {
+		defineProperties(obj, {
+			key: d('', old.key),
+			__sKey__: d('', old.__sKey__),
+			_extendNested_: d(old._extendNested_)
+		});
+	}
 
 	postponed = turnDescProto(obj, nu, postponed);
 	postponed = turnDescMaps(obj, nu, old, postponed);

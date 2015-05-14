@@ -122,4 +122,21 @@ module.exports = function (a) {
 	var user = new db.User();
 	a(user.documents.someDocument.uniqueKey, 'someDocument');
 	a(user.submissions.someSubmission.document.uniqueKey, 'someSubmission');
+
+	db = new Database();
+	db.Object.extend('Raz', {
+		foo: {
+			type: db.Object,
+			nested: true
+		}
+	});
+	db.Raz.prototype.get('foo');
+	db.Raz.extend('Dwa');
+	db.Dwa.prototype.get('foo');
+	a(getPrototypeOf(db.Dwa.prototype.get('foo')), db.Raz.prototype.foo);
+	db.Dwa.prototype.getOwnDescriptor('foo').type = db.Object;
+	a(getPrototypeOf(db.Dwa.prototype.foo), db.Object.prototype);
+	a(db.Dwa.prototype.foo.key, 'foo');
+	obj = new db.Dwa();
+	a(getPrototypeOf(obj.get('foo')), db.Dwa.prototype.foo);
 };
