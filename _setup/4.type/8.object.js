@@ -106,8 +106,8 @@ module.exports = function (db) {
 			this._setProperties_(props);
 		}),
 		newUniq: d(function () {
-			var Type = this.__descriptorPrototype__.type;
-			if (!db.isObjectType(Type)) {
+			var desc = this.__descriptorPrototype__;
+			if (!desc.nested || !db.isObjectType(desc.type)) {
 				throw new DbjsError("newUniq is applicable only to nested maps", 'NON_MAP_UNIQUE');
 			}
 			return this.get(uniqIdPrefix + uuid());
