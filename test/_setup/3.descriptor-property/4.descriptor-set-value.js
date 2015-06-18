@@ -30,4 +30,16 @@ module.exports = function (a) {
 	if (emitted) delete emitted.dbjs;
 	a.deep(emitted, { type: 'set', key: 'foo', value: 'marko', oldValue: 'bar', target: desc },
 		"Observable Map");
+
+	db = new Database();
+	db.Object.extend('NestedMapType');
+	db.Object.extend('NestedMapContainerChild', { nestedMap: { nested: true } });
+	db.NestedMapContainerChild.prototype.nestedMap.define('someMapNestedObj', { nested: true });
+	db.NestedMapContainerChild.prototype.getDescriptor('nestedMap').type = db.Object;
+	db.NestedMapContainerChild.prototype.nestedMap._descriptorPrototype_.$getOwn('type')
+		._setValue_(db.NestedMapType);
+	a(db.NestedMapContainerChild.prototype.nestedMap._descriptorPrototype_.hasOwnProperty('type'),
+		true);
+	a(db.NestedMapContainerChild.prototype.nestedMap.someMapNestedObj.constructor.__id__,
+		db.NestedMapType.__id__);
 };

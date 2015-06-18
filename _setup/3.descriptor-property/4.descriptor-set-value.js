@@ -15,20 +15,24 @@ module.exports = function (db, property) {
 			new Event(this); //jslint: ignore
 		}),
 		_setValue_: d(function (nu, dbEvent) {
-			var old, has = this.hasOwnProperty('_value_'), obj;
+			var old, has = this.hasOwnProperty('_value_'), obj, desc;
 			old = has ? this._value_ : undefined;
 			if (nu === old) return;
 			if ((nu === undefined) || (old === undefined)) {
 				obj = this.object;
-				if (obj.hasOwnProperty('__descriptors__')) {
-					obj = obj.__descriptors__;
-					if (hasOwnProperty.call(obj, this._pSKey_)) {
-						obj = obj[this._pSKey_];
-						if (nu === undefined) {
-							if (obj.hasOwnProperty(this.key)) delete obj[this.key];
-						} else if (!obj.hasOwnProperty(this.key)) {
-							defineProperty(obj, this.key, obj._accessors_[this.key]);
-						}
+				if (this._pSKey_) {
+					if (obj.hasOwnProperty('__descriptors__')) {
+						obj = obj.__descriptors__;
+						if (hasOwnProperty.call(obj, this._pSKey_)) desc = obj[this._pSKey_];
+					}
+				} else if (obj.hasOwnProperty('__descriptorPrototype__')) {
+					desc = obj.__descriptorPrototype__;
+				}
+				if (desc) {
+					if (nu === undefined) {
+						if (desc.hasOwnProperty(this.key)) delete desc[this.key];
+					} else if (!desc.hasOwnProperty(this.key)) {
+						defineProperty(desc, this.key, desc._accessors_[this.key]);
 					}
 				}
 			}
