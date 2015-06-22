@@ -17,7 +17,7 @@ module.exports = function (db, object) {
 	  , v8FixStep = 1000, v8FixInsertCount = 1, v8PropsCount = 0;
 
 	defineAccessors = function (key, sKey) {
-		var descs = {}, accessor;
+		var accessor;
 		if (v8PropsCount > (v8FixStep * v8FixInsertCount)) {
 			// Workaround for v8 bug which affects v0.10 node branch
 			// https://github.com/joyent/node/issues/6839
@@ -26,20 +26,23 @@ module.exports = function (db, object) {
 			++v8FixInsertCount;
 		}
 		v8PropsCount += 3;
-		descs[key] = accessor = d.gs('c', function () {
+		accessor = d.gs('c', function () {
 			return this._get_(sKey);
 		}, function (value) {
 			this._set_(sKey, this._validateSet_(sKey, value));
 		});
+		if (!object.hasOwnProperty(key)) defineProperty(object, key, accessor);
 
-		descs['$' + key] = d.gs('c', function () {
-			return this._getOwnDescriptor_(sKey);
-		});
-		descs['_' + key] = d.gs('c', function () {
-			if (this.isKeyStatic(key)) return this[key];
-			return this._getObservable_(sKey);
-		});
-		if (!object.hasOwnProperty(key)) defineProperties(object, descs);
+		if (!object.hasOwnProperty('$' + key)) {
+			defineProperty(object, '$' + key,
+				d.gs('c', function () { return this._getOwnDescriptor_(sKey); }));
+		}
+		if (!object.hasOwnProperty('_' + key)) {
+			defineProperty(object, '_' + key, d.gs('c', function () {
+				if (this.isKeyStatic(key)) return this[key];
+				return this._getObservable_(sKey);
+			}));
+		}
 		accessor.enumerable = true;
 		accessors[sKey] = accessor;
 	};
