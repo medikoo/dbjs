@@ -37,7 +37,7 @@
     "observable-multi-set": "git://github.com/medikoo/observable-multi-set.git",
     "observable-set": "git://github.com/medikoo/observable-set.git",
     "observable-value": "git://github.com/medikoo/observable-value.git",
-    "time-uuid": "^0.2.1"
+    "time-uuid": "1"
   },
   "devDependencies": {
     "tad": "^0.2.1",
