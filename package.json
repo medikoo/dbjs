@@ -30,7 +30,7 @@
     "esniff": "0.1",
     "event-emitter": "^0.3.3",
     "memoizee": "^0.3.8",
-    "microtime-x": "^0.2.2",
+    "microtime-x": "1",
     "next-tick": "^0.2.2",
     "observable-array": "git://github.com/medikoo/observable-array.git",
     "observable-map": "git://github.com/medikoo/observable-map.git",
