@@ -9,7 +9,7 @@ var d         = require('d')
   , ongoing, clear = function () { ongoing = null; }
   , increment = now.increment
   , dayDuration = 1000 * 1000 * 60 * 60 * 24
-  , count = 0, Event;
+  , count = 0, Event, zeroModeCount = 0;
 
 Event = module.exports = function (obj, value, stamp, sourceId, index) {
 	this.object = obj;
@@ -17,7 +17,7 @@ Event = module.exports = function (obj, value, stamp, sourceId, index) {
 	this.index = isNaN(index) ? ++count : index;
 	if (stamp == null) {
 		if (Event.stampZeroMode) {
-			stamp = 0;
+			stamp = ++zeroModeCount;
 		} else if (ongoing) {
 			stamp = increment();
 		} else {
