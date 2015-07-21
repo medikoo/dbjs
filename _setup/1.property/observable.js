@@ -61,10 +61,9 @@ ObservableProperty.prototype = Object.create(proto, assign({
 		return desc;
 	}, { desc: '' }),
 	_lastModified: d(function () {
-		var observable = new ReadOnly(this.lastModified);
-		this.on('change', function () {
-			observable._setValue(this.__lastModified__);
-		});
+		var observable = new ReadOnly(this.lastModified), onUpdate;
+		this.on('change', onUpdate = function () { observable._setValue(this.__lastModified__); });
+		this.ownDescriptor.on('selfupdate', onUpdate);
 		return observable;
 	})
 })));
