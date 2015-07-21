@@ -10,7 +10,7 @@ module.exports = function (t, a) {
 	t(proto, function () { initialized = true; });
 
 	map = create(proto);
-	proto.constructor.call(map);
+	map = proto.constructor.call(map);
 
 	map.set('foo', 'bar');
 	a(initialized, undefined, "Not observable");
