@@ -115,7 +115,7 @@ Multiple.prototype = create(Set.prototype, assign({
 		sKeys = keys(this.__setData__);
 		if (desc.required && (this.size === 1) &&
 				sKeys.some(isTruthy, this.__setData__)) {
-			throw new DbjsError("Property is required. List must not be empty",
+			throw new DbjsError("Property  '" + this.__pSKey__ + "' is required. List must not be empty",
 				'MULTIPLE_REQUIRED');
 		}
 		return sKeys;

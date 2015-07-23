@@ -83,10 +83,12 @@ ReverseSet.prototype = Object.create(Set.prototype, {
 	some: d(setSome),
 	_assertReverse_: d(function () {
 		if (this.__descriptor__.reverse === undefined) {
-			throw new DbjsError("Reverse not configured for given property", 'NON_REVERSE');
+			throw new DbjsError("Reverse not configured for the '" +
+				this.__descriptor__._sKey_ + "' property", 'NON_REVERSE');
 		}
 		if (this.__descriptor__.unique) {
-			throw new DbjsError("Reverse property is not multiple", 'NON_MULTIPLE_REVERSE');
+			throw new DbjsError("Reverse property for '" +
+				this.__descriptor__._sKey_ + "' is not multiple", 'NON_MULTIPLE_REVERSE');
 		}
 	}),
 	_add_: d(function (obj, dbEvent, postponed, init) {

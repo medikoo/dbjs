@@ -29,7 +29,7 @@ module.exports = function (db, descriptor, property) {
 			} else if (this.__descriptorPrototype__._extensible_) {
 				return;
 			}
-			throw new DbjsError("Property is read-only", 'NON_WRITABLE');
+			throw new DbjsError("Property '" + key + "' is read-only", 'NON_WRITABLE');
 		}),
 		_delete_: d(function (key) {
 			var has, desc;
@@ -64,7 +64,7 @@ module.exports = function (db, descriptor, property) {
 			var desc;
 			this._assertWritable_(key);
 			if (value === undefined) {
-				throw new DbjsError("Cannot set value to undefined", 'SET_UNDEFINED');
+				throw new DbjsError("Cannot set '" + key + "' value to undefined", 'SET_UNDEFINED');
 			}
 			if (value === null) return value;
 			desc = this._getDescriptor_(key);

@@ -17,22 +17,29 @@ module.exports = function (descriptor) {
 		_validateDeleteValue_: d(function (obj, sKey) {
 			var nuValue;
 			if (this._reverse_) return this._reverse_._validateDelete_(obj);
-			if (this.nested) throw new DbjsError("Cannot delete nested object", 'NESTED_DELETE');
-			if (this.multiple) throw new DbjsError("Cannot delete multiple property", 'MULTIPLE_DELETE');
+			if (this.nested) {
+				throw new DbjsError("Cannot delete nested object '" + sKey + "'", 'NESTED_DELETE');
+			}
+			if (this.multiple) {
+				throw new DbjsError("Cannot delete multiple property '" + sKey + "'", 'MULTIPLE_DELETE');
+			}
 			if (!this.required) return sKey;
 			if (obj._get_(sKey) == null) return sKey;
 			if (this.hasOwnProperty('_value_')) nuValue = getPrototypeOf(this)._resolveInner_(obj, sKey);
 			else nuValue = this._resolveValueValue_(obj, sKey);
-			if (nuValue == null) throw new DbjsError("Property is required", 'VALUE_REQUIRED');
+			if (nuValue == null) {
+				throw new DbjsError("Property '" + sKey + "' is required", 'VALUE_REQUIRED');
+			}
 			if (isGetter(nuValue)) return sKey;
 			if (this._normalizeValue_(nuValue) == null) {
-				throw new DbjsError("Property is required", 'VALUE_REQUIRED');
+				throw new DbjsError("Cannot set required property '" +
+					sKey + "' to null", 'VALUE_REQUIRED');
 			}
 			return sKey;
 		}),
 		_validateSetValue_: d(function (obj, sKey, value) {
 			if (value === undefined) {
-				throw new DbjsError("Cannot set value to undefined", 'SET_UNDEFINED');
+				throw new DbjsError("Cannot set '" + sKey + "' value to undefined", 'SET_UNDEFINED');
 			}
 			if (this._reverse_) return this._reverse_._validateSet_(obj, value);
 			if (this.nested) {
@@ -41,7 +48,10 @@ module.exports = function (descriptor) {
 			if (isGetter(value)) return value;
 			if (this.multiple) return this._validateMultiple_(obj, sKey, value);
 			if (value === null) {
-				if (this.required) throw new DbjsError("Property is required", 'VALUE_REQUIRED');
+				if (this.required) {
+					throw new DbjsError("Cannot set required property '"
+						+ sKey + "' to null", 'VALUE_REQUIRED');
+				}
 				return value;
 			}
 			value = this.type.validate(value, this);
@@ -65,7 +75,8 @@ module.exports = function (descriptor) {
 		_validateMultiple_: d(function (obj, sKey, value) {
 			var errors, set, iKey;
 			if (value == null) {
-				throw new DbjsError("Cannot set multiple property to " + value, 'MULTIPLE_NULL');
+				throw new DbjsError("Cannot set multiple property '" +
+					sKey + "' to " + value, 'MULTIPLE_NULL');
 			}
 			value = toArray(value);
 			if (!value.length) {
@@ -78,7 +89,8 @@ module.exports = function (descriptor) {
 							return value; //jslint: ignore
 						}
 					}
-					throw new DbjsError("Property is required. List must not be empty", 'MULTIPLE_REQUIRED');
+					throw new DbjsError("Property '" + sKey +
+						"' is required. List must not be empty", 'MULTIPLE_REQUIRED');
 				}
 				return value;
 			}
@@ -109,7 +121,7 @@ module.exports = function (descriptor) {
 				return value;
 			}, this);
 			if (!errors) return value;
-			throw new DbjsError("Some values are invalid:\n\t" +
+			throw new DbjsError("Some '" + sKey + "' values are invalid:\n\t" +
 				errors.map(getMessage).join('\t\n'), 'MULTIPLE_ERRORS', { errors: errors });
 		})
 	});

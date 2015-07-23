@@ -93,9 +93,11 @@ module.exports = function (db, createObj, object) {
 		}),
 		_validateExtend_: d(function (name) {
 			if (!isValidTypeName(name)) {
-				throw new DbjsError(name + " is not valid type name", 'INVALID_TYPE_NAME');
+				throw new DbjsError("'" + name + "' is not valid type name", 'INVALID_TYPE_NAME');
 			}
-			if (existingIds[name]) throw new DbjsError(name + " type is already created", 'TYPE_EXISTS');
+			if (existingIds[name]) {
+				throw new DbjsError("'" + name + "' type is already created", 'TYPE_EXISTS');
+			}
 			return [name].concat(this._validateExtendInitialize_.apply(this, slice.call(arguments, 1)));
 		}),
 		_validateExtendInitialize_: d(function (initialize, nsProps, objProps) {
@@ -227,8 +229,8 @@ module.exports = function (db, createObj, object) {
 		_create_: d(function (id, master) { return this.prototype._extend_(id, master); }),
 		find: d(function (key, value) {
 			var sKey = this._serialize_(key), sValue;
-			if (sKey == null) throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
-			if (value == null) throw new DbjsError(value + " is not a value", 'INVALID_VALUE');
+			if (sKey == null) throw new DbjsError("'" + key + "' is invalid key", 'INVALID_KEY');
+			if (value == null) throw new DbjsError("'" + value + " is not a value", 'INVALID_VALUE');
 			sValue = serialize(value);
 			if (sValue == null) {
 				throw new DbjsError(value + " is invalid database value", 'NOT_SUPPORTED_VALUE');

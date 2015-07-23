@@ -117,7 +117,8 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 	_validateDelete_: d(function (obj, ignore) {
 		var set, rKey, sKey;
 		if (!this.__descriptor__.unique) {
-			throw new DbjsError("Cannot delete multiple property", 'MULTIPLE_DELETE');
+			throw new DbjsError("Cannot delete multiple property '" +
+				this.__descriptor__._sKey_ + "'", 'MULTIPLE_DELETE');
 		}
 		sKey = '7' + obj.__id__;
 		set = this.__mapValuesData__[sKey];
@@ -146,7 +147,8 @@ ReverseMap.prototype = Object.create(Map.prototype, {
 	}),
 	_validateSet_: d(function (obj, value) {
 		if (!this.__descriptor__.unique) {
-			throw new DbjsError("Cannot overwrite multiple property", 'MULTIPLE_OVERRIDE');
+			throw new DbjsError("Cannot overwrite multiple property '" +
+				this.__descriptor__._sKey_ + "'", 'MULTIPLE_OVERRIDE');
 		}
 		this.__descriptor__.object.constructor.validate(value);
 		this._validateDelete_(obj, value);
