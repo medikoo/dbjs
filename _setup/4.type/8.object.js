@@ -46,6 +46,7 @@ module.exports = function (db) {
 		}),
 		is: d(function (value) {
 			if (!value) return false;
+			if (value === this.prototype) return true;
 			if (!(value instanceof this)) return false;
 			if (!value.__id__) return false;
 			return true;
