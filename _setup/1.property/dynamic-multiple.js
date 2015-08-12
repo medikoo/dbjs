@@ -14,12 +14,9 @@ var eIndexOf         = require('es5-ext/array/#/e-index-of')
   , setSome          = require('es6-set/ext/some')
   , d                = require('d')
   , lazy             = require('d/lazy')
-  , Set              = require('observable-set/create-read-only')(
-	require('es6-set/polyfill')
-)
-  , ReadOnly         = require('observable-set/create-read-only')(
-	require('es6-set/primitive')
-)
+  , ObservableValue  = require('observable-value')
+  , Set              = require('observable-set/create-read-only')(require('es6-set/polyfill'))
+  , ReadOnly         = require('observable-set/create-read-only')(require('es6-set/primitive'))
   , defineObservable = require('../utils/define-set-observable')
   , observePass      = require('../utils/observe-pass-through')
   , toString         = require('../utils/set-to-string')
@@ -28,6 +25,16 @@ var eIndexOf         = require('es5-ext/array/#/e-index-of')
   , forEach = Array.prototype.forEach
   , defineProperties = Object.defineProperties
   , Multiple;
+
+var findIndex = function (item) {
+	var index = -1;
+	if (!this.has(item)) return index;
+	this.some(function (value) {
+		++index;
+		if (item === value) return true;
+	});
+	return index;
+};
 
 Multiple = module.exports = function (object, sKey, value) {
 	var iterate, desc, self;
@@ -60,6 +67,11 @@ Multiple.prototype = create(Set.prototype, assign({
 	copy: d(setCopy),
 	every: d(setEvery),
 	some: d(setSome),
+	getObservableIndex: d(function (item) {
+		var observable = new ObservableValue(findIndex.call(this, item));
+		this.on('change', function () { observable.value = findIndex.call(this, item); });
+		return observable;
+	}),
 	_doClear_: d(function (dbEvent) {
 		var event;
 		if (!this.__isObservable__) {
