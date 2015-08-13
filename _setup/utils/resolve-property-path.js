@@ -22,9 +22,9 @@ var tokenize = function (id) {
 };
 
 var resolveObject = function (obj, names, _observe) {
-	var sKey, propValue;
-	while (names.length > 1) {
-		sKey = names.shift();
+	var sKey, propValue, i = 1;
+	for (i = 1; i < names.length; ++i) {
+		sKey = names[i - 1];
 		propValue = obj._get_(sKey);
 		if (propValue == null) {
 			if (_observe) _observe(obj._getObservable_(sKey));
@@ -61,7 +61,8 @@ module.exports = exports = function (obj, id, _observe) {
 	object(obj);
 	names = tokenize(id);
 	obj = resolveObject(obj, names, _observe);
-	return new Result(obj, names[0]);
+	if (!obj) return null;
+	return new Result(obj, names[names.length - 1]);
 };
 exports.tokenize = tokenize;
 exports.resolveObject = resolveObject;
