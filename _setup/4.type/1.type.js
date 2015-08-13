@@ -362,6 +362,24 @@ module.exports = function (db, createObj, object) {
 		}),
 		resolveSKeyPath: d(function (sKeyPath, _observe) {
 			return resolveSKeyPath(this, sKeyPath, _observe);
+		}),
+		getAllEvents: d(function () {
+			var events = [], event = this._lastOwnEvent_, onItem;
+			if (event) events.push(event);
+			onItem = function (item) {
+				event = item._lastOwnEvent_;
+				if (event) events.push(event);
+			};
+			this._forEachOwnDescriptor_(function (desc) {
+				event = desc._lastOwnEvent_;
+				if (event) events.push(event);
+				desc._forEachOwnDescriptor_(onItem);
+			});
+			this._forEachOwnItem_(onItem);
+			this._forEachOwnNestedObject_(function (object) {
+				push.apply(events, object.getAllEvents());
+			});
+			return events;
 		})
 	});
 };
