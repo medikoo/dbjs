@@ -24,4 +24,11 @@ module.exports = function (t, a) {
 	a(result.observable, obj.someNested.otherNested._foo);
 	obj.someNested.otherNested.foo = 'raz';
 	a(result.value, 'raz');
+
+	obj.define('otherObj', {
+		type: db.Object
+	});
+	obj.set('otherObj', new db.Object({ foo: 'elo' }));
+	result = t(obj, 'otherObj/foo');
+	a.deep(result, { object: obj.otherObj, sKey: 'foo' });
 };
