@@ -363,6 +363,13 @@ module.exports = function (db, createObj, object) {
 		resolveSKeyPath: d(function (sKeyPath, _observe) {
 			return resolveSKeyPath(this, sKeyPath, _observe);
 		}),
+		stringifyPropertyValue: d(function (key) {
+			var desc = this.getDescriptor(key)
+			  , value = this.get(key);
+			if (value == null) return value;
+			if (db.isObjectType(desc.type)) return value;
+			return (new desc.type(value)).toString(desc);
+		}),
 		getAllEvents: d(function () {
 			var events = [], event = this._lastOwnEvent_, onItem;
 			if (event) events.push(event);

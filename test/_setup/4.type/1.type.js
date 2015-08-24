@@ -337,6 +337,16 @@ module.exports = function (a) {
 			a(db.User.prototype.submissions.someSubmission.document.constructor, db.Dui);
 			a(db.Submission.prototype.document.constructor, db.Document);
 			a(db.User.prototype.submissions.someSubmission.document.constructor, db.Dui);
+		},
+		"Stringify type": function (a) {
+			var db = new Database(), obj;
+			db.Number.extend('NumberExt', {}, { toString: { value: function (options) {
+				options = Object(options);
+				return options.symbol + ' ' + Number(this) + '$';
+			} } });
+			db.Object.prototype.define('numProp', { type: db.NumberExt, symbol: 'RR' });
+			obj = new db.Object({ numProp: 12 });
+			a(obj.stringifyPropertyValue('numProp'), 'RR 12$');
 		}
 	};
 };
