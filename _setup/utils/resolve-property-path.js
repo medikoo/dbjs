@@ -66,4 +66,14 @@ module.exports = exports = function (obj, id, _observe) {
 };
 exports.tokenize = tokenize;
 exports.resolveObject = resolveObject;
+exports.getObservable = function (obj, id, _observe) {
+	var names, key;
+	object(obj);
+	names = tokenize(id);
+	obj = resolveObject(obj, names, _observe);
+	if (!obj) return null;
+	key = names[names.length - 1];
+	if (obj.isKeyStatic(key)) return obj[key];
+	return obj._getObservable_(key);
+};
 exports.Result = Result;
