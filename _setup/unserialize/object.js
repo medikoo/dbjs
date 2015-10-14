@@ -185,7 +185,7 @@ module.exports = function (db) {
 	};
 
 	return function (input, proto) {
-		var state, obj;
+		var state, obj, master;
 		str = String(input);
 		obj = data[str];
 		if (obj) {
@@ -196,9 +196,10 @@ module.exports = function (db) {
 		state = $object;
 		i = -1;
 		while ((state = state())) continue; //jslint: ignore
-		if ((object._kind_ === 'object') && isObjectName(object.__id__) &&
-				!db.hasOwnProperty(object.__id__)) {
-			defineProperty(db, object.__id__, d(object));
+		master = object.master;
+		if ((master._kind_ === 'object') && isObjectName(master.__id__) &&
+				!db.hasOwnProperty(master.__id__)) {
+			defineProperty(db, master.__id__, d(master));
 		}
 		return object;
 	};

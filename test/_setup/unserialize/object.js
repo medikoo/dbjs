@@ -246,4 +246,7 @@ module.exports = function (a) {
 	a(obj1.__id__, 'marko', "Id");
 	a(obj1 instanceof db.Object, true, "Instance");
 	a(obj1, db.marko, "Exposed on database");
+
+	obj1 = db.objects.unserialize('furtka/bar').master;
+	a(db.furtka, obj1);
 };
