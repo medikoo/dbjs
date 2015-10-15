@@ -32,11 +32,11 @@
     "memoizee": "^0.3.9",
     "microtime-x": "1",
     "next-tick": "^0.2.2",
-    "observable-array": "0.0.3",
-    "observable-map": "0.0.3",
+    "observable-array": "0.0.4",
+    "observable-map": "0.0.4",
     "observable-multi-set": "git://github.com/medikoo/observable-multi-set.git",
-    "observable-set": "0.0.3",
-    "observable-value": "0.0.4",
+    "observable-set": "0.0.4",
+    "observable-value": "0.0.5",
     "time-uuid": "1"
   },
   "devDependencies": {
