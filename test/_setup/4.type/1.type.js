@@ -338,6 +338,28 @@ module.exports = function (a) {
 			a(db.Submission.prototype.document.constructor, db.Document);
 			a(db.User.prototype.submissions.someSubmission.document.constructor, db.Dui);
 		},
+		"Propery definition check": function (a) {
+			var db = new Database(), process, specificProcess;
+			db.Object.extend('Process', {
+				propertyOnProcess: { type: db.Number }
+			});
+			db.Process.extend('SpecificProcess', {
+				propertyOnSpecificProcess: { type: db.Number }
+			});
+			process = new db.Process();
+			a(process.hasOwnPropertyDefined('propertyOnProcess'), false);
+			a(process.hasPropertyDefined('propertyOnProcess'), true);
+			a(process.hasOwnPropertyDefined('propertyOnSpecificProcess'), false);
+			a(process.hasPropertyDefined('propertyOnSpecificProcess'), false);
+			specificProcess = new db.SpecificProcess({
+				propertyOnProcess: 42,
+				propertyOnSpecificProcess: 24
+			});
+			a(specificProcess.hasOwnPropertyDefined('propertyOnProcess'), true);
+			a(specificProcess.hasPropertyDefined('propertyOnProcess'), true);
+			a(specificProcess.hasOwnPropertyDefined('propertyOnSpecificProcess'), true);
+			a(specificProcess.hasPropertyDefined('propertyOnSpecificProcess'), true);
+		},
 		"Stringify type": function (a) {
 			var db = new Database(), obj;
 			db.Number.extend('NumberExt', {}, { toString: { value: function (options) {

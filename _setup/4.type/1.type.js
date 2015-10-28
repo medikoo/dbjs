@@ -363,6 +363,12 @@ module.exports = function (db, createObj, object) {
 		resolveSKeyPath: d(function (sKeyPath, _observe) {
 			return resolveSKeyPath(this, sKeyPath, _observe);
 		}),
+		hasOwnPropertyDefined: d(function (key) {
+			return this.getDescriptor(key).object === this;
+		}),
+		hasPropertyDefined: d(function (key) {
+			return this.getDescriptor(key).__id__ !== '$';
+		}),
 		stringifyPropertyValue: d(function (key) {
 			var desc = this.getDescriptor(key)
 			  , value = this.get(key);
