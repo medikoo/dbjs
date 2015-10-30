@@ -30,4 +30,9 @@ module.exports = function (a) {
 	obj.raz = 14;
 	a(observable._lastModified.value, obj.$raz._lastOwnEvent_.stamp,
 		"Last modified observable: Update");
+
+	obj.set('foo', 2);
+	a(obj._foo.lastModified, obj._getPropertyLastModified_('foo'));
+	obj.foo = 2;
+	a(obj._foo.lastModified, obj._getPropertyLastModified_('foo'));
 };
