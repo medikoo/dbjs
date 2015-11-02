@@ -36,13 +36,18 @@ module.exports = function (setProto) {
 			var sKey = serialize(key), set, observed = create(null);
 			if (sKey == null) throw new DbjsError(key + " is invalid key", 'INVALID_KEY');
 			set = this.filter(function (obj) {
-				var observable, result, cached;
+				var observable, result, cached, value;
 				cached = observed[obj.__id__];
 				if (!cached) {
 					if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
 					if (obj.isKeyStatic(key)) return filter(obj[key], obj);
-					observable = obj._getObservable_(sKey);
-					result = filter(observable.value, obj);
+					if (obj._getDescriptor_(sKey).multiple) {
+						observable = value = obj._get_(sKey);
+					} else {
+						observable = obj._getObservable_(sKey);
+						value = observable.value;
+					}
+					result = filter(value, obj);
 					if (isObservableValue(result)) {
 						observable = map(observable, function (value) {
 							return map(filter(value, obj), Boolean);
@@ -71,14 +76,19 @@ module.exports = function (setProto) {
 			var tokens = tokenizePath(path), sKey = tokens[tokens.length - 1], key = unserializeKey(sKey)
 			  , observed = create(null);
 			var set = this.filter(function (obj) {
-				var observable, result, cached, targetObj = resolveObject(obj, tokens);
+				var observable, result, cached, value, targetObj = resolveObject(obj, tokens);
 				if (!targetObj) return false;
 				cached = observed[obj.__id__];
 				if (!cached) {
 					if (!targetObj || (typeof targetObj._getObservable_ !== 'function')) return false;
 					if (targetObj.isKeyStatic(key)) return filter(targetObj[key], obj);
-					observable = targetObj._getObservable_(sKey);
-					result = filter(observable.value, obj);
+					if (targetObj._getDescriptor_(sKey).multiple) {
+						observable = value = targetObj._get_(sKey);
+					} else {
+						observable = targetObj._getObservable_(sKey);
+						value = observable.value;
+					}
+					result = filter(value, obj);
 					if (isObservableValue(result)) {
 						observable = map(observable, function (value) {
 							return map(filter(value, obj), Boolean);
