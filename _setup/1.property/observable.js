@@ -45,9 +45,8 @@ ObservableProperty.prototype = Object.create(proto, assign({
 		object._set_(sKey, object._validateSet_(sKey, value));
 	}),
 	lastModified: d.gs(function () {
-		if ((this.__lastModified__ == null) || !this.hasOwnProperty('_lastModified')) {
-			this.__lastModified__ =
-				this.object._getPropertyLastModified_(this.__sKey__);
+		if (this.__lastModified__ == null) {
+			this.__lastModified__ = this.object._getPropertyLastModified_(this.__sKey__);
 		}
 		return this.__lastModified__;
 	}),

@@ -107,9 +107,16 @@ module.exports = function (db, descriptor) {
 			new Event(this); //jslint: ignore
 		}),
 		_setValue_: d(function (nu, dbEvent) {
-			var old, has = this.hasOwnProperty('_value_'), postponed, assignments;
+			var old, has = this.hasOwnProperty('_value_'), postponed, assignments, observablesData;
 			old = has ? this._value_ : undefined;
-			if (nu === old) return;
+			if (nu === old) {
+				if (!this._sKey_) return;
+				if (isGetter(nu)) return;
+				if (!this.object.hasOwnProperty('__observableProperties__')) return;
+				observablesData = this.object.__observableProperties__[this._sKey_];
+				if (!observablesData) return;
+				observablesData._update_(nu, dbEvent);
+			}
 			if (!this._reverse_ && !this.nested && !this.multiple &&
 					((old === undefined) || (nu === undefined))) {
 				updateEnum(this.object, this._sKey_, (nu !== undefined));
