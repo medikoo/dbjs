@@ -1,7 +1,8 @@
 'use strict';
 
-var isSet    = require('es6-set/is-set')
+var aFrom    = require('es5-ext/array/from')
   , toArray  = require('es5-ext/array/to-array')
+  , isSet    = require('es6-set/is-set')
   , Database = require('../../../');
 
 module.exports = function (a) {
@@ -52,4 +53,19 @@ module.exports = function (a) {
 	a.deep(toArray(obj2._assignments_), [obj.$assitest], "Reset #1");
 	obj.delete('assitest');
 	a.deep(toArray(obj2._assignments_), [], "Delete");
+
+	a.h1("Same value set");
+	db.Object.prototype.define('multiChangeTest', {
+		multiple: true,
+		type: db.String,
+		value: function () { return ['raz']; }
+	});
+
+	a.deep(aFrom(obj1._multiChangeTest.value), ['raz']);
+	obj1.multiChangeTest = [];
+	a.deep(aFrom(obj1._multiChangeTest.value), []);
+	// Ensure setting same value low-level way does not override internal value for observable
+	// (case applicable to multiple)
+	obj1.$multiChangeTest._setValue_(null);
+	a.deep(aFrom(obj1._multiChangeTest.value), []);
 };
