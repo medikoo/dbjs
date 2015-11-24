@@ -65,16 +65,6 @@ module.exports = function (a) {
 		dbjs: event.dbjs, target: obj._test }, "Ease");
 	event = null;
 
-	a.h3("Namespace");
-	Type.set('step', 10);
-	a.deep(event, { type: 'change', newValue: 230, oldValue: 234,
-		dbjs: event.dbjs, target: obj._test }, "Restrict");
-	event = null;
-	Type.set('step', 0);
-	a.deep(event, { type: 'change', newValue: 234, oldValue: 230,
-		dbjs: event.dbjs, target: obj._test }, "Ease");
-	event = null;
-
 	a.h1("DateTime");
 	desc.min = -Infinity;
 	desc.max = Infinity;

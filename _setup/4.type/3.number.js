@@ -41,8 +41,7 @@ module.exports = function (db) {
 				: this.max;
 			if (value > maxv) return false;
 			step = (descriptor && !isNaN(descriptor.step))
-				? max(descriptor.step, this.step)
-				: this.step;
+				? descriptor.step : this.step;
 			if (!step) return true;
 			if (isInteger(step)) return ((value % step) === 0);
 			return (Number((new BigNumber(String(value))).mod(step)) === 0);
@@ -60,8 +59,7 @@ module.exports = function (db) {
 				: this.max;
 			if (value > maxv) return null;
 			step = (descriptor && !isNaN(descriptor.step))
-				? max(descriptor.step, this.step)
-				: this.step;
+				? descriptor.step : this.step;
 			if (!step) return value;
 			trail = isInteger(step) ? (value % step) : Number((new BigNumber(String(value))).mod(step));
 			if (!trail) return value;
@@ -89,8 +87,7 @@ module.exports = function (db) {
 					'NUMBER_TOO_LARGE');
 			}
 			step = (descriptor && !isNaN(descriptor.step))
-				? max(descriptor.step, this.step)
-				: this.step;
+				? descriptor.step : this.step;
 			if (!step) return value;
 			trail = isInteger(step) ? (value % step) : Number((new BigNumber(String(value))).mod(step));
 			if (!trail) return value;
