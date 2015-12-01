@@ -360,6 +360,15 @@ module.exports = function (db, createObj, object) {
 			if (old === nu) return;
 			db._release_(turnPrototype(this, nu, dbEvent));
 		}),
+		getObjectValue: d(function (value/*, descriptor*/) {
+			var descriptor = arguments[1], result;
+			if (db.isObjectType(this)) return this(value);
+			if (this.is(value, descriptor)) result = value;
+			else result = this.validate(value, descriptor);
+			if (!this.NativePrimitive) return result;
+			result = new this.NativePrimitive(result);
+			return setPrototypeOf(result, this.prototype);
+		}),
 		resolveSKeyPath: d(function (sKeyPath, _observe) {
 			return resolveSKeyPath(this, sKeyPath, _observe);
 		}),

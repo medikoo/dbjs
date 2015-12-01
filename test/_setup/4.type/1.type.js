@@ -369,6 +369,13 @@ module.exports = function (a) {
 			db.Object.prototype.define('numProp', { type: db.NumberExt, symbol: 'RR' });
 			obj = new db.Object({ numProp: 12 });
 			a(obj.stringifyPropertyValue('numProp'), 'RR 12$');
+		},
+		getObjectValue: function (a) {
+			var ExtType = db.Number.extend('NumberExt', { step: { value: 0.1 } }), objValue;
+			db.Object.prototype.define('test', { type: ExtType, step: 0.001 });
+			objValue = ExtType.getObjectValue(2.345226, db.Object.prototype.getDescriptor('test'));
+			a(typeof objValue, 'object');
+			a(objValue.valueOf(), 2.345);
 		}
 	};
 };
