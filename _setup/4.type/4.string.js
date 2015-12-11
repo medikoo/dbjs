@@ -1,6 +1,7 @@
 'use strict';
 
-var mixin             = require('es5-ext/object/mixin')
+var isNumber          = require('es5-ext/object/is-number-value')
+  , mixin             = require('es5-ext/object/mixin')
   , isRegExp          = require('es5-ext/reg-exp/is-reg-exp')
   , toStringTagSymbol = require('es6-symbol').toStringTag
   , d                 = require('d')
@@ -32,11 +33,11 @@ module.exports = function (db) {
 				if (!value.match(descriptor.pattern)) return false;
 			}
 			if (this.pattern && !value.match(this.pattern)) return false;
-			minv = (descriptor && !isNaN(descriptor.min))
+			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value.length < minv) return false;
-			maxv = (descriptor && !isNaN(descriptor.max))
+			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value.length > maxv) return false;
@@ -49,11 +50,11 @@ module.exports = function (db) {
 				if (!value.match(descriptor.pattern)) return null;
 			}
 			if (this.pattern && !value.match(this.pattern)) return null;
-			minv = (descriptor && !isNaN(descriptor.min))
+			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value.length < minv) return null;
-			maxv = (descriptor && !isNaN(descriptor.max))
+			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value.length > maxv) return null;
@@ -71,13 +72,13 @@ module.exports = function (db) {
 			if (this.pattern && !value.match(this.pattern)) {
 				throw new DbjsError(value + " doesn't match pattern", 'INVALID_STRING');
 			}
-			minv = (descriptor && !isNaN(descriptor.min))
+			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value.length < minv) {
 				throw new DbjsError("String too short", 'STRING_TOO_SHORT');
 			}
-			maxv = (descriptor && !isNaN(descriptor.max))
+			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value.length > maxv) {

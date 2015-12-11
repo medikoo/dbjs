@@ -2,6 +2,7 @@
 
 var isDate            = require('es5-ext/date/is-date')
   , copy              = require('es5-ext/date/#/copy')
+  , isNumber          = require('es5-ext/object/is-number-value')
   , mixin             = require('es5-ext/object/mixin')
   , setPrototypeOf    = require('es5-ext/object/set-prototype-of')
   , toStringTagSymbol = require('es6-symbol').toStringTag
@@ -33,15 +34,15 @@ module.exports = function (db) {
 			if (!isDate(value)) return false;
 			if (isNaN(value)) return false;
 			if (getPrototypeOf(value) !== this.prototype) return false;
-			minv = (descriptor && !isNaN(descriptor.min))
+			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value < minv) return false;
-			maxv = (descriptor && !isNaN(descriptor.max))
+			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value > maxv) return false;
-			step = (descriptor && !isNaN(descriptor.step))
+			step = (descriptor && isNumber(descriptor.step))
 				? max(descriptor.step, this.step)
 				: this.step;
 			if (step && ((value % step) !== 0)) return false;
@@ -55,15 +56,15 @@ module.exports = function (db) {
 				copied = true;
 			}
 			if (isNaN(value)) return null;
-			minv = (descriptor && !isNaN(descriptor.min))
+			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value < minv) return null;
-			maxv = (descriptor && !isNaN(descriptor.max))
+			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value > maxv) return null;
-			step = (descriptor && !isNaN(descriptor.step))
+			step = (descriptor && isNumber(descriptor.step))
 				? max(descriptor.step, this.step)
 				: this.step;
 			if (!step) return setPrototypeOf(value, this.prototype);
@@ -84,19 +85,19 @@ module.exports = function (db) {
 			if (isNaN(value)) {
 				throw new DbjsError(value + " is invalid datetime", 'INVALID_DATETIME');
 			}
-			minv = (descriptor && !isNaN(descriptor.min))
+			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value < minv) {
 				throw new DbjsError("Date cannot be before " + minv, 'PAST_DATE');
 			}
-			maxv = (descriptor && !isNaN(descriptor.max))
+			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value > maxv) {
 				throw new DbjsError("Date cannot be after " + maxv, 'FUTURE_DATE');
 			}
-			step = (descriptor && !isNaN(descriptor.step))
+			step = (descriptor && isNumber(descriptor.step))
 				? max(descriptor.step, this.step)
 				: this.step;
 			if (!step) return setPrototypeOf(value, this.prototype);
