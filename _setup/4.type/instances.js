@@ -20,35 +20,45 @@ var setPrototypeOf = require('es5-ext/object/set-prototype-of')
 
 Instances = module.exports = function (Type) {
 	var sets = new Set(), onAdd, onDelete, onChange, self;
-	onAdd = function (Constructor) {
-		sets.add(Constructor.prototype._descendants_.filter(filter));
-		Constructor._descendants_.on('change', onChange);
-		Constructor._descendants_.forEach(onAdd);
+	onAdd = function (prototype) {
+		sets.add(prototype._descendants_.filter(filter));
+		prototype._descendants_.on('change', onChange);
+		prototype._descendants_.forEach(onAdd);
 	};
-	onDelete = function (Constructor) {
-		sets.delete(Constructor.prototype._descendants_.filter(filter));
-		Constructor._descendants_.off('change', onChange);
-		Constructor._descendants_.forEach(onDelete);
+	onDelete = function (prototype) {
+		sets.delete(prototype._descendants_.filter(filter));
+		prototype._descendants_.off('change', onChange);
+		prototype._descendants_.forEach(onDelete);
 	};
 	onChange = function (event) {
-		var type = event.type;
+		var type = event.type, obj;
 		if (type === 'add') {
-			onAdd(event.value);
+			obj = event.value;
+			if (obj.master.constructor === obj.master.constructor.prototype) onAdd(obj);
 			return;
 		}
 		if (type === 'delete') {
-			onDelete(event.value);
+			obj = event.value;
+			if (obj.master.constructor === obj.master.constructor.prototype) onDelete(obj);
 			return;
 		}
 		if (event.type === 'batch') {
-			if (event.added) event.added.forEach(onAdd);
-			if (event.deleted) event.deleted.forEach(onDelete);
+			if (event.added) {
+				event.added.forEach(function (obj) {
+					if (obj.master.constructor === obj.master.constructor.prototype) onAdd(obj);
+				});
+			}
+			if (event.deleted) {
+				event.deleted.forEach(function (obj) {
+					if (obj.master.constructor === obj.master.constructor.prototype) onAdd(obj);
+				});
+			}
 			return;
 		}
 		console.log("Errorneous event:", event);
 		throw new Error("Unsupported event: " + event.type);
 	};
-	onAdd(Type);
+	onAdd(Type.prototype);
 	self = setPrototypeOf(new MultiSet(sets, serialize), Instances.prototype);
 	defineProperty(self, 'dbId', d(Type.__id__));
 	sets = self.sets;

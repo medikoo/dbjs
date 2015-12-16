@@ -30,4 +30,18 @@ module.exports = function (a) {
 	a.deep(toArray(set.filterByKey('bar', 'marko')), [obj2], "Deep filterByKey");
 
 	a(db.Object.instances.first, obj1, "First");
+
+	var NestType = db.Object.extend('NestType'), obj;
+
+	var ObjType = db.Object.extend('ObjType', {
+		marko: {
+			type: NestType,
+			nested: true
+		}
+	});
+	a(ObjType.prototype.marko instanceof NestType, true);
+	obj = new ObjType();
+	obj.get('marko');
+	a.deep(toArray(NestType.instances).map(function (obj) { return obj.__id__; }),
+		[ObjType.prototype.marko.__id__, obj.marko.__id__]);
 };
