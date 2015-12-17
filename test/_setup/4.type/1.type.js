@@ -376,6 +376,30 @@ module.exports = function (a) {
 			objValue = ExtType.getObjectValue(2.345226, db.Object.prototype.getDescriptor('test'));
 			a(typeof objValue, 'object');
 			a(objValue.valueOf(), 2.345);
+		},
+		"Deep nested not ordered resolution": function (a) {
+			var db = new Database(), obj, proto;
+			db.Object.extend('NitNumber', {
+				value: { type: db.String }
+			});
+			db.Object.extend('Person', {
+				nitNumber: {
+					nested: true,
+					type: db.NitNumber
+				}
+			});
+			db.Object.extend('BusinessProcess', {
+				attorney: {
+					nested: true,
+					type: db.Person
+				}
+			});
+			obj = new db.BusinessProcess();
+			db.Person.prototype.get('nitNumber');
+			a(db.objects.getById('BusinessProcess#/attorney/nitNumber'), null);
+			db.objects.unserialize(obj.__id__ + '/attorney/nitNumber/value');
+			proto = db.BusinessProcess.prototype.attorney.nitNumber;
+			a(getPrototypeOf(obj.attorney.nitNumber).__id__, proto.__id__);
 		}
 	};
 };

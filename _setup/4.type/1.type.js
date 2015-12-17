@@ -262,7 +262,9 @@ module.exports = function (db, createObj, object) {
 		nested = this._extend_(object.__id__ + '/' + sKey, object.master);
 		desc = object._getDescriptor_(sKey);
 		if (!desc._reverse_ && desc.nested) updateEnum(object, sKey, true);
-		return defineProperties(nested, { owner: d('', object) });
+		defineProperties(nested, { owner: d('', object) });
+		injectNested(object, nested);
+		return nested;
 	};
 
 	injectNested = function (obj, proto) {
