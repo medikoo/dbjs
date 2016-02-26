@@ -357,7 +357,7 @@ module.exports = function (db, createObj, object) {
 				validDbValue(nu);
 				if (nu._kind_ !== 'object') {
 					throw new DbjsError("Prototype must be object kind (received " +
-						JSON.stringify(nu.__id__) + " as new prototype for " + JSON.stringify(this.__id__) +
+						(nu.__id__ || nu) + " as new prototype for " + JSON.stringify(this.__id__) +
 						")", 'NON_OBJECT_PROTOTYPE');
 				}
 			}
