@@ -376,6 +376,11 @@ module.exports = function (db, createObj, object) {
 		resolveSKeyPath: d(function (sKeyPath, _observe) {
 			return resolveSKeyPath(this, sKeyPath, _observe);
 		}),
+		getBySKeyPath: d(function (sKeyPath) {
+			var resolver = resolveSKeyPath(this, sKeyPath);
+			if (!resolver) return;
+			return resolver.value;
+		}),
 		hasOwnPropertyDefined: d(function (key) {
 			return this.getDescriptor(key).object === this;
 		}),
