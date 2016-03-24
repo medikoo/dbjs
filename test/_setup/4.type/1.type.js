@@ -400,6 +400,36 @@ module.exports = function (a) {
 			db.objects.unserialize(obj.__id__ + '/attorney/nitNumber/value');
 			proto = db.BusinessProcess.prototype.attorney.nitNumber;
 			a(getPrototypeOf(obj.attorney.nitNumber).__id__, proto.__id__);
+		},
+		"Nested type observe condition": function (a) {
+			var db = new Database()
+			  , ProcessingStep = db.Object.extend('ProcessingStep');
+			ProcessingStep.prototype.defineProperties({
+				previousSteps: { multiple: true, value: function () {
+					return [this.owner.foo, this.owner.bar];
+				} },
+				isSatisfied: { type: db.Boolean, value: function () {
+					return this.previousSteps.size;
+				} }
+			});
+			var BusinessProcess = db.Object.extend('BusinessProcess', {
+				processingSteps: {
+					nested: true,
+					type: db.Object
+				}
+			});
+			BusinessProcess.prototype.processingSteps.defineProperties({
+				foo: { type: ProcessingStep, nested: true },
+				bar: { type: ProcessingStep, nested: true },
+				marko: { type: ProcessingStep, nested: true }
+			});
+			BusinessProcess.prototype.processingSteps.foo.set('test', 1);
+			BusinessProcess.prototype.processingSteps.bar.set('test', 1);
+			BusinessProcess.prototype.processingSteps.marko.set('test', 1);
+			ProcessingStep.instances.filterByKey('isSatisfied', true);
+
+			var bp = new BusinessProcess();
+			a(bp.processingSteps.marko.previousSteps.first.__id__, bp.processingSteps.foo.__id__);
 		}
 	};
 };
