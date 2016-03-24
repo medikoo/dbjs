@@ -134,7 +134,7 @@ module.exports = function (descriptor, accessCollector) {
 			return this.hasOwnProperty('_value_') && (this._value_ !== undefined);
 		}),
 		_normalizeValue_: d(function (value) {
-			return this.type.normalize(value, this);
+			return this.type._normalizeUnserialized_(value, this);
 		})
 	});
 };

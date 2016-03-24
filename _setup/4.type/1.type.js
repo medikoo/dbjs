@@ -149,6 +149,9 @@ module.exports = function (db, createObj, object) {
 		}),
 		is: d(function (value) { return Boolean(serialize(value)); }),
 		normalize: d(function (value) { return this.is(value) ? value : null; }),
+		_normalizeUnserialized_: d(function (value/*, descriptor*/) {
+			return this.normalize.apply(this, arguments);
+		}),
 		validate: d(function (value) {
 			if (!serialize(value)) {
 				throw new DbjsError(value + " cannot be handled by dbjs", 'NOT_SUPPORTED_VALUE');
