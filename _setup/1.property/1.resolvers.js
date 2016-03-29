@@ -155,7 +155,11 @@ module.exports = function (db, object, descriptor) {
 		// Dynamic value
 		_getDynamicValue_: d(function (sKey) {
 			var data = this._dynamicValues_;
-			if (!data[sKey]) data[sKey] = new DynamicValue(this, sKey);
+			if (!data[sKey]) {
+				++db._postponed_;
+				data[sKey] = new DynamicValue(this, sKey);
+				--db._postponed_;
+			}
 			return data[sKey];
 		}),
 

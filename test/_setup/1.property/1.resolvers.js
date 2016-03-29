@@ -139,4 +139,60 @@ module.exports = function (a) {
 	a(db.Dwa.prototype.foo.key, 'foo');
 	obj = new db.Dwa();
 	a(getPrototypeOf(obj.get('foo')), db.Dwa.prototype.foo);
+
+	db = new Database();
+	db.Object.extend('ProcessingStep', {
+		isApplicable: { type: db.Boolean, value: true },
+		isElse: { type: db.Boolean, value: true },
+		isSentBack: { type: db.Boolean, value: function (_observe) {
+			return _observe(this.master._isSubmitted);
+		} }
+	});
+	db._getterCounter = 0;
+	db.Object.extend('BusinessProcess', {
+		processingSteps: {
+			type: db.Object,
+			nested: true
+		},
+		isSubmitted: {
+			type: db.Boolean,
+			value: function (_observe) {
+				++this.database._getterCounter;
+				return _observe(this.processingSteps.applicable).every(function (ps) {
+					return _observe(ps._isElse);
+				});
+			}
+		}
+	});
+	db.BusinessProcess.prototype.processingSteps.defineProperties({
+		map: {
+			type: db.Object,
+			nested: true
+		},
+		applicable: {
+			type: db.ProcessingStep,
+			multiple: true,
+			value: function (_observe) {
+				var result = [];
+				this.map.forEach(function (ps) {
+					if (_observe(ps._isApplicable)) result.push(ps);
+				});
+				return result;
+			}
+		}
+	});
+	db.BusinessProcess.prototype.processingSteps.map.defineProperties({
+		foo: {
+			nested: true,
+			type: db.ProcessingStep
+		},
+		bar: {
+			nested: true,
+			type: db.ProcessingStep
+		}
+	});
+	db.ProcessingStep.instances.filterByKey('isSentBack');
+	obj = new db.BusinessProcess();
+	a(obj.getObservable('isSubmitted').value, true);
+	a(db._getterCounter, 1);
 };
