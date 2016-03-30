@@ -3,6 +3,7 @@
 var assign            = require('es5-ext/object/assign')
   , create            = require('es5-ext/object/create')
   , primitiveSet      = require('es5-ext/object/primitive-set')
+  , setPrototypeOf    = require('es5-ext/object/set-prototype-of')
   , d                 = require('d')
   , lazy              = require('d/lazy')
   , Map               = require('es6-map/primitive')
@@ -20,18 +21,16 @@ var assign            = require('es5-ext/object/assign')
   , validDbjsKind     = require('../valid-dbjs-kind')
   , accessCollector   = require('./access-collector')
 
-  , defineProperty = Object.defineProperty
-  , defineProperties = Object.defineProperties
-  , getPrototypeOf = Object.getPrototypeOf
-  , idDesc = d('', undefined)
-  , valueIdDesc = d('', undefined)
-  , objDesc = d('', undefined)
+  , defineProperty = Object.defineProperty, defineProperties = Object.defineProperties
+  , getPrototypeOf = Object.getPrototypeOf, stringify = JSON.stringify
+
+  , idDesc = d('', undefined), valueIdDesc = d('', undefined), objDesc = d('', undefined)
   , masterDesc = d('', undefined)
-  , initDesc = { __id__: idDesc, __valueId__: valueIdDesc, object: objDesc,
-	master: masterDesc }
-  , nativeTypes = primitiveSet('Base', 'Boolean', 'Number', 'String',
-	'DateTime', 'RegExp', 'Function', 'Object')
+  , initDesc = { __id__: idDesc, __valueId__: valueIdDesc, object: objDesc, master: masterDesc }
   , deleteObject, Constructor, protoProperties;
+
+var nativeTypes = primitiveSet('Base', 'Boolean', 'Number', 'String', 'DateTime', 'RegExp',
+	'Function', 'Object');
 
 deleteObject = function (obj) {
 	validDbjsKind(obj);
@@ -124,6 +123,15 @@ module.exports = function (db) {
 		var obj;
 		Constructor.prototype = proto;
 		obj = new Constructor(id, valueId, object, master);
+		if (getPrototypeOf(obj) !== proto) {
+			// It appears that some browsers (as Safari OSX v9.0.3) need extra slap(!) here
+			console.error("This browser doesn't mind its business as it should. " +
+				"Fixed prototype chain error for " + stringify(id));
+			setPrototypeOf(obj, proto);
+			if (getPrototypeOf(obj) !== proto) {
+				throw new Error("Unrecoverable piece of shit"); // Luckily haven't happend so far
+			}
+		}
 		objects._add(obj);
 		proto._descendants_._add(obj);
 		return obj;
