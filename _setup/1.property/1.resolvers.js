@@ -115,7 +115,10 @@ module.exports = function (db, object, descriptor) {
 		_getObservable_: d(function (sKey) {
 			var observables = this._observableProperties_;
 			if (observables[sKey]) return observables[sKey];
-			return (observables[sKey] = new Observable(this, sKey));
+			++db._postponed_;
+			observables[sKey] = new Observable(this, sKey);
+			--db._postponed_;
+			return observables[sKey];
 		}),
 		_get: d(function (key) {
 			var sKey;

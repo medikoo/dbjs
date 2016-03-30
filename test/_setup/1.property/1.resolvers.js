@@ -145,7 +145,7 @@ module.exports = function (a) {
 		isApplicable: { type: db.Boolean, value: true },
 		isElse: { type: db.Boolean, value: true },
 		isSentBack: { type: db.Boolean, value: function (_observe) {
-			return _observe(this.master._isSubmitted);
+			return _observe(this.database._submittedObservable = this.master._isSubmitted);
 		} }
 	});
 	db._getterCounter = 0;
@@ -194,5 +194,6 @@ module.exports = function (a) {
 	db.ProcessingStep.instances.filterByKey('isSentBack');
 	obj = new db.BusinessProcess();
 	a(obj.getObservable('isSubmitted').value, true);
+	a(db._submittedObservable, obj.getObservable('isSubmitted'), true);
 	a(db._getterCounter, 1);
 };
