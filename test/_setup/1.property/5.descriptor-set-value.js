@@ -68,4 +68,14 @@ module.exports = function (a) {
 	// (case applicable to multiple)
 	obj1.$multiChangeTest._setValue_(null);
 	a.deep(aFrom(obj1._multiChangeTest.value), []);
+
+	db = new Database();
+	db.Object.extend('ObjectExt', {
+		someValue: { value: 'foo' },
+		someGetter: { value: function () { return this.someValue; } }
+	});
+	obj = new db.ObjectExt();
+	a(obj.getObservable('someGetter').value, 'foo');
+	obj.delete('someGetter');
+	a(obj.getObservable('someGetter').value, 'foo');
 };

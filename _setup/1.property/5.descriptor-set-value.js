@@ -110,10 +110,12 @@ module.exports = function (db, descriptor) {
 			var old, has = this.hasOwnProperty('_value_'), postponed, assignments, observablesData;
 			old = has ? this._value_ : undefined;
 			if (nu === old) {
+				if (nu === undefined) return;
 				if (!this._sKey_) return;
 				if (isGetter(nu)) return;
 				if (!this.object.hasOwnProperty('__observableProperties__')) return;
 				if (this._reverse_ || this.nested || this.multiple) return;
+				if (!this.object.hasOwnProperty('__observableProperties__')) return;
 				observablesData = this.object.__observableProperties__[this._sKey_];
 				if (!observablesData) return;
 				observablesData._update_(nu, dbEvent);
