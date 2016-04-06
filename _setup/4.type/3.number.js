@@ -10,8 +10,7 @@ var isInteger         = require('es5-ext/number/is-integer')
 
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
-  , abs = Math.abs, floor = Math.floor, max = Math.max, min = Math.min
-  , toString = Number.prototype.toString;
+  , abs = Math.abs, floor = Math.floor, max = Math.max, min = Math.min;
 
 module.exports = function (db) {
 	var NumberType = db.Base._extend_('Number')
@@ -102,15 +101,22 @@ module.exports = function (db) {
 		constructor: d(NumberType),
 		toString: d(function (descriptor) {
 			var num = 0, step  = (descriptor && isNumber(descriptor.step))
-				? max(descriptor.step, this.constructor.step) : this.constructor.step;
+				? max(descriptor.step, this.constructor.step) : this.constructor.step,
+				minimumFractionDigits, maximumFractionDigits;
+
 			if (step) {
 				while (step < 1) {
 					++num;
 					step *= 10;
 				}
-				return this.toFixed(num);
+				minimumFractionDigits = maximumFractionDigits = num;
+				return this.valueOf().toLocaleString(this.database.locale, {
+					minimumFractionDigits: minimumFractionDigits,
+					maximumFractionDigits: maximumFractionDigits
+				});
 			}
-			return toString.call(this);
+
+			return this.valueOf().toLocaleString(this.database.locale);
 		})
 	});
 	defineProperty(NumberType.prototype, toStringTagSymbol, d('Number'));
