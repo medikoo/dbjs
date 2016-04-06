@@ -102,7 +102,7 @@ module.exports = function (db, object) {
 		}),
 		every: d(function (cb/*, thisArg*/) {
 			callable(cb);
-			return this.some(function () { return !apply.call(cb, this, arguments); }, arguments[1]);
+			return !this.some(function () { return !apply.call(cb, this, arguments); }, arguments[1]);
 		}),
 		get: d(function (key) {
 			var sKey;

@@ -130,4 +130,29 @@ module.exports = function (a) {
 	user.subThing.inputOptions.get('marko');
 	a.h2("Post");
 	a(user.subThing.inputOptions.size,  2);
+
+	db = new Database();
+	db.Object.extend('ObjectExt', {
+		isFoo: {
+			type: db.Boolean,
+			value: true
+		}
+	});
+	db.Object.extend('ObjectExt2', {
+		foo: {
+			type: db.ObjectExt,
+			nested: true
+		},
+		bar: {
+			type: db.ObjectExt,
+			nested: true
+		},
+		lorem: {
+			type: db.ObjectExt,
+			nested: true
+		}
+	});
+	obj = new db.ObjectExt2();
+	a(obj.some(function (item, key) { return !item.isFoo; }), false);
+	a(obj.every(function (item) { return item.isFoo; }), true);
 };
