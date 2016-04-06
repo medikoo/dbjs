@@ -27,7 +27,7 @@ module.exports = function (a) {
 	a(FloatType(0.6666666666666666), 0.666, "Float step");
 	db.locale = 'en';
 	a(new Number(1000).toLocaleString(db.locale), new Type(1000).toString(), "toString"); //jslint: ignore
-	a(new Number(1000.05).toLocaleString(db.locale), new Type(1000.05).toString(), "toString with step"); //jslint: ignore
+	a(new Number(1000.005).toLocaleString(db.locale), new FloatType(1000.005).toString(), "toString with step"); //jslint: ignore
 	return {
 		Is: function (a) {
 			a(Type.is(undefined), false, "Undefined");
