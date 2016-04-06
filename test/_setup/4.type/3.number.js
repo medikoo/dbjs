@@ -25,6 +25,9 @@ module.exports = function (a) {
 		"Custom: Above max");
 	a(FloatType(9772.13), 9772.13, "Float step");
 	a(FloatType(0.6666666666666666), 0.666, "Float step");
+	db.locale = 'en';
+	a(new Number(1000).toLocaleString(db.locale), new Type(1000).toString(), "toString"); //jslint: ignore
+	a(new Number(1000.05).toLocaleString(db.locale), new Type(1000.05).toString(), "toString with step"); //jslint: ignore
 	return {
 		Is: function (a) {
 			a(Type.is(undefined), false, "Undefined");
