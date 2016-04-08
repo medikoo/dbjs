@@ -3,6 +3,8 @@
 var isInteger         = require('es5-ext/number/is-integer')
   , isNumber          = require('es5-ext/object/is-number-value')
   , mixin             = require('es5-ext/object/mixin')
+  , normalizeOptions  = require('es5-ext/object/normalize-options')
+  , assign            = require('es5-ext/object/assign')
   , toStringTagSymbol = require('es6-symbol').toStringTag
   , d                 = require('d')
   , BigNumber         = require('bignumber.js')
@@ -11,6 +13,26 @@ var isInteger         = require('es5-ext/number/is-integer')
   , defineProperty = Object.defineProperty
   , defineProperties = Object.defineProperties
   , abs = Math.abs, floor = Math.floor, max = Math.max, min = Math.min;
+
+var resolveMin = function (descriptor) {
+	return (descriptor && isNumber(descriptor.min))
+		? max(descriptor.min, this.min)
+		: this.min;
+};
+
+var resolveMax = function (descriptor) {
+	return (descriptor && isNumber(descriptor.max))
+		? min(descriptor.max, this.max)
+		: this.max;
+};
+
+var resolveStep = function (descriptor) {
+	return (descriptor && isNumber(descriptor.step)) ? descriptor.step : this.step;
+};
+
+var getTrail = function (value, step) {
+	return isInteger(step) ? (value % step) : Number((new BigNumber(String(value))).mod(step));
+};
 
 module.exports = function (db) {
 	var NumberType = db.Base._extend_('Number')
@@ -32,36 +54,25 @@ module.exports = function (db) {
 			var minv, maxv, step, descriptor = arguments[1];
 			if (typeof value !== 'number') return false;
 			if (isNaN(value)) return false;
-			minv = (descriptor && isNumber(descriptor.min))
-				? max(descriptor.min, this.min)
-				: this.min;
+			minv = resolveMin.call(this, descriptor);
 			if (value < minv) return false;
-			maxv = (descriptor && isNumber(descriptor.max))
-				? min(descriptor.max, this.max)
-				: this.max;
+			maxv = resolveMax.call(this, descriptor);
 			if (value > maxv) return false;
-			step = (descriptor && isNumber(descriptor.step))
-				? descriptor.step : this.step;
+			step = resolveStep.call(this, descriptor);
 			if (!step) return true;
-			if (isInteger(step)) return ((value % step) === 0);
-			return (Number((new BigNumber(String(value))).mod(step)) === 0);
+			return getTrail(value, step) === 0;
 		}),
 		normalize: d(function (value/*, descriptor*/) {
 			var minv, maxv, step, trail, sign, descriptor = arguments[1];
 			if (isNaN(value)) return null;
 			value = Number(value);
-			minv = (descriptor && isNumber(descriptor.min))
-				? max(descriptor.min, this.min)
-				: this.min;
+			minv = resolveMin.call(this, descriptor);
 			if (value < minv) return null;
-			maxv = (descriptor && isNumber(descriptor.max))
-				? min(descriptor.max, this.max)
-				: this.max;
+			maxv = resolveMax.call(this, descriptor);
 			if (value > maxv) return null;
-			step = (descriptor && isNumber(descriptor.step))
-				? descriptor.step : this.step;
+			step = resolveStep.call(this, descriptor);
 			if (!step) return value;
-			trail = isInteger(step) ? (value % step) : Number((new BigNumber(String(value))).mod(step));
+			trail = getTrail(value, step);
 			if (!trail) return value;
 			sign = (value >= 0) ? 1 : -1;
 			return sign * floor(abs(value) * (1 / step)) * step;
@@ -72,24 +83,19 @@ module.exports = function (db) {
 				throw new DbjsError(value + " is not valid number", 'INVALID_NUMBER');
 			}
 			value = Number(value);
-			minv = (descriptor && isNumber(descriptor.min))
-				? max(descriptor.min, this.min)
-				: this.min;
+			minv = resolveMin.call(this, descriptor);
 			if (value < minv) {
 				throw new DbjsError("Value cannot be less than " + minv,
 					'NUMBER_TOO_SMALL');
 			}
-			maxv = (descriptor && isNumber(descriptor.max))
-				? min(descriptor.max, this.max)
-				: this.max;
+			maxv = resolveMax.call(this, descriptor);
 			if (value > maxv) {
 				throw new DbjsError("Value cannot be greater than " + maxv,
 					'NUMBER_TOO_LARGE');
 			}
-			step = (descriptor && isNumber(descriptor.step))
-				? descriptor.step : this.step;
+			step = resolveStep.call(this, descriptor);
 			if (!step) return value;
-			trail = isInteger(step) ? (value % step) : Number((new BigNumber(String(value))).mod(step));
+			trail = getTrail(value, step);
 			if (!trail) return value;
 			sign = (value >= 0) ? 1 : -1;
 			return sign * floor(abs(value) * (1 / step)) * step;
@@ -99,24 +105,25 @@ module.exports = function (db) {
 
 	defineProperties(mixin(NumberType.prototype, Number.prototype), {
 		constructor: d(NumberType),
-		toString: d(function (descriptor) {
-			var num = 0, step  = (descriptor && isNumber(descriptor.step))
-				? max(descriptor.step, this.constructor.step) : this.constructor.step,
-				minimumFractionDigits, maximumFractionDigits;
+		toString: d(function (descriptor/*, formattingOptions*/) {
+			var formattingOptions = normalizeOptions(arguments[1])
+			  , step  = (descriptor && isNumber(descriptor.step))
+				? max(descriptor.step, this.constructor.step) : this.constructor.step
+			  , num = 0;
 
 			if (step) {
 				while (step < 1) {
 					++num;
 					step *= 10;
 				}
-				minimumFractionDigits = maximumFractionDigits = num;
-				return this.valueOf().toLocaleString(this.database.locale, {
-					minimumFractionDigits: minimumFractionDigits,
-					maximumFractionDigits: maximumFractionDigits
-				});
+
+				return this.valueOf().toLocaleString(this.database.locale, assign({
+					minimumFractionDigits: num,
+					maximumFractionDigits: num
+				}, formattingOptions));
 			}
 
-			return this.valueOf().toLocaleString(this.database.locale);
+			return this.valueOf().toLocaleString(this.database.locale, formattingOptions);
 		})
 	});
 	defineProperty(NumberType.prototype, toStringTagSymbol, d('Number'));
