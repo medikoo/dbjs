@@ -11,6 +11,7 @@ module.exports = function (db, object, accessCollector) {
 
 	defineProperties(object, {
 		_resolve_: d(function (sKey) {
+			if (accessSniff) accessSniff.push([this, sKey]);
 			return this._getDescriptor_(sKey)._resolveValue_(this, sKey);
 		}),
 		_resolveGetter_: d(function (sKey) {
@@ -20,7 +21,6 @@ module.exports = function (db, object, accessCollector) {
 			return this._getDescriptor_(sKey)._normalizeValue_(value);
 		}),
 		_get_: d(function (sKey) {
-			if (accessSniff) accessSniff.push([this, sKey]);
 			if (!accessSniff && this.hasOwnProperty('__observableProperties__')) {
 				if (this.__observableProperties__[sKey]) return this.__observableProperties__[sKey].value;
 			}
