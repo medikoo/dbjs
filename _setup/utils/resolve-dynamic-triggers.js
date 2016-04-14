@@ -15,7 +15,7 @@ isNonMapObservable = function (obj, forceMap) {
 };
 
 getChangeListener = function (update, event) {
-	this._release_(update(event));
+	this._release_(update(event.dbjs || (event.sourceId != null ? event : null)));
 };
 on = function (onChange, obj) {
 	var listeners = obj._dynamicListeners_;

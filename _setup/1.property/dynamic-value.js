@@ -110,9 +110,9 @@ defineProperties(DynamicValue.prototype, assign({
 		return notify(obj, this.__sKey__, value, old, null, null, dbEvent, postponed);
 	})
 }, autoBind({
-	__triggerObserverUpdate__: d(function (event, postponed) {
+	__triggerObserverUpdate__: d(function (dbEvent, postponed) {
 		if (!this.__observer__) return postponed;
-		return this._update_(this.__observer__.getter.call(this.object), event, undefined, postponed);
+		return this._update_(this.__observer__.getter.call(this.object), dbEvent, undefined, postponed);
 	})
 }), lazy({
 	__observer__: d(function () { return null; }, { desc: 'w' })
