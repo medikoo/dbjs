@@ -85,7 +85,7 @@ module.exports = function (a) {
 		toString: function (a) {
 			var aThousand      = new Type(1000)
 			  , withOneTenth   = new Type(1000.1)
-			  , aFloatThousand = new FloatType(1000.1);
+			  , aFloatThousand = new FloatType(1000.005);
 
 			// Tests (and behavior) depend on Intl support as provided by the platform, if we
 			// want to provide support for locale dependent formatting.
@@ -101,7 +101,7 @@ module.exports = function (a) {
 					db.locale = 'en';
 					a(aThousand.toString(), '1,000', "Default");
 					a(withOneTenth.toString(), '1,000.1', "Default: Float");
-					a(aFloatThousand.toString(), '1,000.100', "With step");
+					a(aFloatThousand.toString(), '1,000.005', "With step");
 					a(aThousand.toString({ step: 0.1 }), '1,000.0', "Step");
 				}
 
@@ -110,7 +110,7 @@ module.exports = function (a) {
 					// Important: Those three next spaces between digits are no-brake spaces (Unicode: U+00A0)
 					a(aThousand.toString(), '1 000', "Default");
 					a(withOneTenth.toString(), '1 000,1', "Default: Float");
-					a(aFloatThousand.toString(), '1 000,100', "With step");
+					a(aFloatThousand.toString(), '1 000,005', "With step");
 				}
 
 				db.locale = undefined;
@@ -120,7 +120,10 @@ module.exports = function (a) {
 				a(aThousand.toString({ step: 0.1 }, { style: 'percent', useGrouping: false }),
 					'100000.0%', "Grouping");
 			} else {
+				// Without Intl, check, at least, if using proper API
 				a.h1("Without Intl support");
+				a(aThousand.toString(), Number(1000).toLocaleString(db.locale), 'toString');
+				a(aFloatThousand.toString(), Number(1000.005).toLocaleString(db.locale), 'toString');
 			}
 		}
 	};
