@@ -63,4 +63,52 @@ module.exports = function (a) {
 	obj1.staticA = false;
 	a(obj1._computedC.value, null);
 	a(obj1._computedD.value, null);
+
+	db = new Database();
+	db.Object.extend('ObjectExt', {
+		steps: {
+			nested: true,
+			type: db.Object
+		}
+	});
+	db.Object.extend('Step', {
+		isSatisfied: { type: db.Boolean, value: true },
+		isSatisfiedDeep: { type: db.Boolean, value: function (_observe) {
+			if (!this.isSatisfied) return false;
+			if (!this.previous) return true;
+			return _observe(this.previous._isSatisfiedDeep);
+		} }
+	});
+	db.Step.prototype.define('previous', { type: db.Step });
+	db.ObjectExt.prototype.steps.defineProperties({
+		first: { type: db.Step, nested: true },
+		second: { type: db.Step, nested: true },
+		third: { type: db.Step, nested: true }
+	});
+
+	db.ObjectExt.prototype.steps.second.defineProperties({
+		previous: { value: function () { return this.owner.first; } }
+	});
+	db.ObjectExt.prototype.steps.third.defineProperties({
+		previous: { value: function () { return this.owner.second; } }
+	});
+
+	obj1 = new db.ObjectExt();
+
+	a(obj1.steps.third._isSatisfiedDeep.value, true);
+	a(obj1.steps.second._isSatisfiedDeep.value, true);
+	a(obj1.steps.first._isSatisfiedDeep.value, true);
+
+	obj1.steps.first.isSatisfied = false;
+
+	a(obj1.steps.third._isSatisfiedDeep.value, false);
+	a(obj1.steps.second._isSatisfiedDeep.value, false);
+	a(obj1.steps.first._isSatisfiedDeep.value, false);
+
+	obj1.steps.third._isSatisfiedDeep.on('change', a.never);
+	obj1.steps.second._isSatisfiedDeep.on('change', function (event, newValue) {
+		if (event.newValue) obj1.steps.second.isSatisfied = false;
+	});
+
+	obj1.steps.first.isSatisfied = true;
 };
