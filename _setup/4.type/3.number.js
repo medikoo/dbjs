@@ -3,6 +3,8 @@
 var isInteger         = require('es5-ext/number/is-integer')
   , isNumber          = require('es5-ext/object/is-number-value')
   , mixin             = require('es5-ext/object/mixin')
+  , normalizeOptions  = require('es5-ext/object/normalize-options')
+  , assign            = require('es5-ext/object/assign')
   , toStringTagSymbol = require('es6-symbol').toStringTag
   , d                 = require('d')
   , BigNumber         = require('bignumber.js')
@@ -99,24 +101,25 @@ module.exports = function (db) {
 
 	defineProperties(mixin(NumberType.prototype, Number.prototype), {
 		constructor: d(NumberType),
-		toString: d(function (descriptor) {
-			var num = 0, step  = (descriptor && isNumber(descriptor.step))
-				? max(descriptor.step, this.constructor.step) : this.constructor.step,
-				minimumFractionDigits, maximumFractionDigits;
+		toString: d(function (descriptor/*, formattingOptions*/) {
+			var formattingOptions = normalizeOptions(arguments[1])
+			  , num               = 0
+			  , step              = (descriptor && isNumber(descriptor.step))
+				? max(descriptor.step, this.constructor.step) : this.constructor.step;
 
 			if (step) {
 				while (step < 1) {
 					++num;
 					step *= 10;
 				}
-				minimumFractionDigits = maximumFractionDigits = num;
-				return this.valueOf().toLocaleString(this.database.locale, {
-					minimumFractionDigits: minimumFractionDigits,
-					maximumFractionDigits: maximumFractionDigits
-				});
+
+				return this.valueOf().toLocaleString(this.database.locale, assign({
+					minimumFractionDigits: num,
+					maximumFractionDigits: num
+				}, formattingOptions));
 			}
 
-			return this.valueOf().toLocaleString(this.database.locale);
+			return this.valueOf().toLocaleString(this.database.locale, formattingOptions);
 		})
 	});
 	defineProperty(NumberType.prototype, toStringTagSymbol, d('Number'));

@@ -1,6 +1,7 @@
 'use strict';
 
-var Database = require('../../../');
+var Database      = require('../../../')
+  , arrayContains = require('es5-ext/array/#/contains');
 
 module.exports = function (a) {
 	var db         = new Database()
@@ -86,27 +87,41 @@ module.exports = function (a) {
 			  , withOneTenth   = new Type(1000.1)
 			  , aFloatThousand = new FloatType(1000.1);
 
-			a.h1("Without locale set");
-			a(aThousand.toString(), '1,000', "Default");
-			a(withOneTenth.toString(), '1,000.1', "Default: Float");
-			a(aFloatThousand.toString(), '1,000.100', "With step");
+			// Tests (and behavior) depend on Intl support as provided by the platform, if we
+			// want to provide support for locale dependent formatting.
+			if ((typeof Intl !== 'undefined') && (typeof Intl.NumberFormat === 'function')) {
+				var supportedLocales = Intl.NumberFormat.supportedLocalesOf(['en', 'pl'],
+					{ localeMatcher: 'lookup' })
+				  , haveEnLocale     = arrayContains.call(supportedLocales, 'en')
+				  , havePlLocale     = arrayContains.call(supportedLocales, 'pl');
 
-			a.h1("With locale set");
-			db.locale = 'pl';
-			// Important: Those three next spaces between digits are no-brake spaces (Unicode: U+00A0)
-			a(aThousand.toString(), '1 000', "Default");
-			a(withOneTenth.toString(), '1 000,1', "Default: Float");
-			a(aFloatThousand.toString(), '1 000,100', "With step");
+				a.h1("With Intl support");
 
-			a.h1("Descriptor parameter");
-			db.locale = 'en';
-			a(aThousand.toString({ step: 0.1 }), '1,000.0', "Step");
+				if (haveEnLocale) {
+					db.locale = 'en';
+					a(aThousand.toString(), '1,000', "Default");
+					a(withOneTenth.toString(), '1,000.1', "Default: Float");
+					a(aFloatThousand.toString(), '1,000.100', "With step");
+					a(aThousand.toString({ step: 0.1 }), '1,000.0', "Step");
+				}
 
-			a.h1("Formatting options");
-			a(aThousand.toString({ step: 0.1 }, { style: 'percent' }),
-				'100,000.0%', "Style");
-			a(aThousand.toString({ step: 0.1 }, { style: 'percent', useGrouping: false }),
-				'100000.0%', "Grouping");
+				if (havePlLocale) {
+					db.locale = 'pl';
+					// Important: Those three next spaces between digits are no-brake spaces (Unicode: U+00A0)
+					a(aThousand.toString(), '1 000', "Default");
+					a(withOneTenth.toString(), '1 000,1', "Default: Float");
+					a(aFloatThousand.toString(), '1 000,100', "With step");
+				}
+
+				db.locale = undefined;
+				a.h1("Formatting options");
+				a(aThousand.toString({ step: 0.1 }, { style: 'percent' }),
+					'100,000.0%', "Style");
+				a(aThousand.toString({ step: 0.1 }, { style: 'percent', useGrouping: false }),
+					'100000.0%', "Grouping");
+			} else {
+				a.h1("Without Intl support");
+			}
 		}
 	};
 };
