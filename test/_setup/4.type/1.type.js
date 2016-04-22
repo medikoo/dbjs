@@ -1,8 +1,9 @@
 'use strict';
 
-var toArray  = require('es5-ext/array/to-array')
-  , d        = require('d')
-  , Database = require('../../../')
+var toArray   = require('es5-ext/array/to-array')
+  , d         = require('d')
+  , Database  = require('../../../')
+  , DbjsEvent = require('../../../_setup/event')
 
   , defineProperty = Object.defineProperty, getPrototypeOf = Object.getPrototypeOf;
 
@@ -430,6 +431,19 @@ module.exports = function (a) {
 
 			var bp = new BusinessProcess();
 			a(bp.processingSteps.marko.previousSteps.first.__id__, bp.processingSteps.foo.__id__);
+		},
+		"Destroy test": function (a) {
+			var db = new Database();
+			db.Object.extend('ObjectExt', {
+				someNested: { type: db.Object, nested: true }
+			});
+			db.Object.prototype.get('someNested');
+			var obj = new db.ObjectExt();
+			a(obj.someNested.constructor.__id__, db.Object.__id__);
+			obj._destroy_();
+			a(obj.someNested, undefined);
+			new DbjsEvent(obj, db.ObjectExt.prototype); //jslint: ignore
+			a(obj.someNested.constructor.__id__, db.Object.__id__);
 		}
 	};
 };
