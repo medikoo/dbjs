@@ -393,10 +393,17 @@ module.exports = function (db, createObj, object) {
 			return this.getDescriptor(key).__id__ !== '$';
 		}),
 		stringifyPropertyValue: d(function (key) {
-			var desc = this.getDescriptor(key)
-			  , value = this.get(key);
+			var desc = this.getDescriptor(key), result, value = this.get(key);
 			if (value == null) return value;
-			if (db.isObjectType(desc.type)) return value;
+			if (value && value.forEach && !desc.nested && desc.multiple) {
+				result = [];
+				value.forEach(function (value) {
+					if (db.isObjectType(desc.type)) result.push(value.toString());
+					else result.push((new desc.type(value)).toString(desc));
+				}, this);
+				return result.join(", ");
+			}
+			if (db.isObjectType(desc.type)) return value.toString();
 			return (new desc.type(value)).toString(desc);
 		}),
 		getAllEvents: d(function () {
