@@ -394,7 +394,7 @@ module.exports = function (db, createObj, object) {
 		}),
 		stringifyPropertyValue: d(function (key) {
 			var desc = this.getDescriptor(key), result, value = this.get(key);
-			if (value == null) return value;
+			if (value == null) return '';
 			if (value && value.forEach && !desc.nested && desc.multiple) {
 				result = [];
 				value.forEach(function (value) {
