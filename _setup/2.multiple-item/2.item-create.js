@@ -51,7 +51,7 @@ module.exports = function (db, item, createObj) {
 			if (!obj._keys_[pSKey]) obj._serialize_(unserialize(pSKey, db.objects));
 			item = createObj(this, id, id, obj);
 			setData[sKey] = item;
-			normalizedKey = descriptor.type.normalize(key, descriptor);
+			normalizedKey = descriptor._normalizeValue_(key);
 			if (normalizedKey == null) {
 				normalizedKey = descriptor.type.normalize(key);
 			}
