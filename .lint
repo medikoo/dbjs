@@ -21,7 +21,7 @@ bitwise
 ./test/_setup/4.type
 newcap
 
-test/_setup/4.type/3.number.js
+./test/_setup/4.type/3.number.js
 predef+ Intl
 
 ./_setup/utils/resolve-static-triggers.js
