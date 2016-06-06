@@ -54,7 +54,7 @@ ObservableProperty.prototype = Object.create(proto, assign({
 		return this.object._getDescriptor_(this.__sKey__);
 	}),
 	toString: d(function () {
-		return this.object.stringifyPropertyValue(this.__sKey__);
+		return this.object.stringifyPropertyValue(this.key);
 	})
 }, lazy({
 	ownDescriptor: d(function () {
