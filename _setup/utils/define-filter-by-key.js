@@ -40,7 +40,7 @@ module.exports = function (setProto) {
 				cached = observed[obj.__id__];
 				if (!cached) {
 					if (!obj || (typeof obj._getObservable_ !== 'function')) return false;
-					if (obj.isKeyStatic(key)) return filter(obj[key], obj);
+					if (obj.hasOwnProperty(key) && obj.isKeyStatic(key)) return filter(obj[key], obj);
 					if (obj._getDescriptor_(sKey).multiple) {
 						observable = value = obj._get_(sKey);
 					} else {
@@ -81,7 +81,9 @@ module.exports = function (setProto) {
 				cached = observed[obj.__id__];
 				if (!cached) {
 					if (!targetObj || (typeof targetObj._getObservable_ !== 'function')) return false;
-					if (targetObj.isKeyStatic(key)) return filter(targetObj[key], obj);
+					if (targetObj.hasOwnProperty(key) && targetObj.isKeyStatic(key)) {
+						return filter(targetObj[key], obj);
+					}
 					if (targetObj._getDescriptor_(sKey).multiple) {
 						observable = value = targetObj._get_(sKey);
 					} else {
