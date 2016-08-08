@@ -52,8 +52,8 @@ module.exports = function (descriptor) {
 			var vKey = serialize(value), mapData, desc, l;
 			desc = obj.__descriptors__[sKey];
 			if (!desc) return value;
-			desc = desc.__descriptors__.unique;
-			while (!desc.hasOwnProperty('_value_')) desc = getPrototypeOf(desc);
+			while (!desc.hasOwnProperty('unique')) desc = getPrototypeOf(desc);
+			desc = desc._getOwnDescriptor_('unique');
 			mapData = desc.object._getReverseMap_(sKey).__mapValuesData__;
 			if (!mapData[vKey]) return value;
 			mapData = mapData[vKey].__setData__;
