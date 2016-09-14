@@ -20,7 +20,13 @@ module.exports = function (value, objects) {
 		if (isNaN(value)) throw new TypeError("Cannot unserialize: " + input);
 		return value;
 	}
-	if (type === '3') return parse(value);
+	if (type === '3') {
+		try {
+			return parse(value);
+		} catch (e) {
+			throw new TypeError("JSON parse error: " + e.message + "\nCannot unserialize: " + input);
+		}
+	}
 	if (type === '4') {
 		value = Number(value);
 		if (isNaN(value)) throw new TypeError("Cannot unserialize: " + input);
