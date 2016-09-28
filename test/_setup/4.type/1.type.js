@@ -378,6 +378,12 @@ module.exports = function (a) {
 			a(typeof objValue, 'object');
 			a(objValue.valueOf(), 2.345);
 		},
+		stringifyPropertyValue: function (a) {
+			var db = new Database();
+			var ExtType = db.Number.extend('NumberExt2', { step: { value: 0.1 } });
+			db.Object.prototype.define('test2', { type: ExtType, step: 0.001, value: 2.345226 });
+			a(db.Object.prototype.stringifyPropertyValue('test2'), '2.345');
+		},
 		"Deep nested not ordered resolution": function (a) {
 			var db = new Database(), obj, proto;
 			db.Object.extend('NitNumber', {
