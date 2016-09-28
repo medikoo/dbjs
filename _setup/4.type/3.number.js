@@ -102,10 +102,9 @@ module.exports = function (db) {
 	defineProperties(mixin(NumberType.prototype, Number.prototype), {
 		constructor: d(NumberType),
 		toString: d(function (descriptor/*, formattingOptions*/) {
-			var formattingOptions = normalizeOptions(arguments[1])
-			  , num               = 0
-			  , step              = (descriptor && isNumber(descriptor.step))
-				? max(descriptor.step, this.constructor.step) : this.constructor.step;
+			var formattingOptions = normalizeOptions(arguments[1]), num = 0;
+			var step = (descriptor && isNumber(descriptor.step))
+				? descriptor.step : this.constructor.step;
 
 			if (step) {
 				while (step < 1) {
