@@ -21,5 +21,8 @@ module.exports = memoize(function (fn) {
 		shift += 18;
 	});
 	if (!shift) return fn;
+	body = 'try {\n' + body +
+		'\n;} catch (e) { throw new Error("Dbjs getter error:\\n\\n" + e.stack + ' +
+		'"\\n\\nGetter Body:\\n' + JSON.stringify(body).slice(1) + '); }';
 	return new Function('_observe', body);
 });
