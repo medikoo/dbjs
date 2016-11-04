@@ -1,6 +1,6 @@
 {
   "name": "dbjs",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Database engine",
   "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
   "keywords": [
@@ -19,19 +19,19 @@
     "url": "git@github.com:medikoo/dbjs.git"
   },
   "dependencies": {
-    "bignumber.js": "^2.1.2",
+    "bignumber.js": "^2.4",
     "d": "1",
     "error-create": "0.1",
-    "es5-ext": "^0.10.11",
+    "es5-ext": "^0.10.12",
     "es6-iterator": "2",
     "es6-map": "^0.1.4",
     "es6-set": "^0.1.4",
-    "es6-symbol": "^3.0.1",
-    "esniff": "1",
+    "es6-symbol": "^3.1",
+    "esniff": "^1.1",
     "event-emitter": "^0.3.4",
-    "memoizee": "^0.3.9",
+    "memoizee": "^0.4.1",
     "microtime-x": "1",
-    "next-tick": "^0.2.2",
+    "next-tick": "1",
     "observable-array": "0.0.4",
     "observable-map": "0.0.4",
     "observable-multi-set": "0.0.3",
@@ -40,7 +40,7 @@
     "time-uuid": "1"
   },
   "devDependencies": {
-    "tad": "^0.2.4",
+    "tad": "^0.2.7",
     "xlint": "^0.2.2",
     "xlint-jslint-medikoo": "^0.1.4"
   },
