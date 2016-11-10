@@ -27,8 +27,13 @@ Event = module.exports = function (obj, value, stamp, sourceId, index) {
 	this.stamp = stamp;
 	if (sourceId != null) this.sourceId = sourceId;
 	this.status = 1;
+	// Firefox 49 happened to crash with 'this is undefined' on `this.status = 2` call
+	// Error is reported occasionally via remote client error reporter and doesn't seem to be
+	// reproducible locally. Internet is also silent about such FF flaw.
+	// Introduction of 'event' makes temporary workaround for that
+	var event = this;
 	obj._history_._add_(this);
-	this.status = 2;
+	event.status = 2;
 };
 
 Object.defineProperties(Event.prototype, {
