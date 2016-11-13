@@ -1,3 +1,63 @@
+v0.1.0  --  2016.11.03
+* Add `getObservable` method
+* Add `deleteValue` method
+* Add `filterByKeyPath` method
+* Add `stringifyPropertyValue` method
+* Add `hasPropertyDefined` and `hasOwnPropertyDefined` methods
+* Introduce `Type.getObjectValue` methods
+* Expose `first` and `last` getters on sets
+* Ensure all set extensions on all outcome sets
+* Use BigNumber to properly handle step resolution
+* Add `newUniq` to get new nesteds with random name
+* Introduce `some` and `every` on maps
+* Introduce `resolvePropertyPath` utility and `resolveSKeyPath` method
+* Introduce isDbjsError and validDbjsError utils
+* Introduce `getObservableIndex` for observable sets
+* Introduce `getAllEvents` util
+* Ensure core objects exist in base object set
+* Handle observable results from `filter` methods
+* Expose `target` on events
+* Rely on `Intl` API if it exists in strings and numbers stringification
+* To optimize getters turn off auto observality of maps (very rarely used)
+* Expose `toArray` on plain sets
+* Expose `resolveGetterObservables utility on database instance
+* Expose `dbId` and `dbKind` on various objects to improve debugging means
+* Improve validation of delete operation
+* Ensure getById returns `null` when object is not found
+* Optimise resolution of objects (do not ensure nesteds and multiples until first access)
+* Improve arguments validation in some methods
+* Introduce `Event.stampZeroMode` to allow easy and controlled separation of initial model events
+  and further data events
+* Emit `selfUpdate` events
+* Ensure `toString` on all sets
+* Improve error messages
+* Ensure expected observable value stringification
+* Fix various issues:
+  - Ensure named objects are exposed on database instance
+  - Ensure observables resolve static values correctly
+  - Fix `hasOwn` and `has` resolution
+  - Improve stringification of numbers to use toLocaleString
+  - Fix 'constructor' references on base types
+  - Fix internal events resolution issues (related to `postponed` collection handling)
+  - Fix issues related to prototype turn
+  - Fix errors related to events handling
+  - Fix reverse related issues
+  - Fix unserialization related issues
+  - Fix static properties resolution
+  - Fix lastEvent resolution
+  - Fix native types extensions
+  - Fix issues in getters auto resolution
+  - Fix size resolution on maps
+  - Fix sort related issues
+  - Fix issues with item key normalization
+  - Fix function data resolution up to V8 changes
+  - Fix extended object resolution in events handler
+  - Fix reactive resolution of lastModified
+  - Workaround for Safari prototype resolution issue
+* Improve code readability
+* Improve documentation
+* Fix spelling of LICENSE
+
 v0.0.3  --  2014.05.13
 * Fix memoization setup for defineFilterByKey
 

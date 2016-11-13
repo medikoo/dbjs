@@ -3,12 +3,10 @@
 var d         = require('d')
   , nextTick  = require('next-tick')
   , now       = require('time-uuid/time')
-  , timeNow   = require('microtime-x')
   , serialize = require('./serialize/value')
 
   , ongoing, clear = function () { ongoing = null; }
   , increment = now.increment
-  , dayDuration = 1000 * 1000 * 60 * 60 * 24
   , count = 0, Event, zeroModeCount = 0;
 
 Event = module.exports = function (obj, value, stamp, sourceId, index) {
@@ -25,14 +23,17 @@ Event = module.exports = function (obj, value, stamp, sourceId, index) {
 			nextTick(clear);
 			ongoing = true;
 		}
-	} else if (stamp > (timeNow() + dayDuration)) {
-		throw new TypeError("Future timestamps are not allowed");
 	}
 	this.stamp = stamp;
 	if (sourceId != null) this.sourceId = sourceId;
 	this.status = 1;
+	// Firefox 49 happened to crash with 'TypeError: this is undefined' on `this.status = 2` call
+	// Error is reported occasionally via remote client error reporter and doesn't seem to be
+	// reproducible locally. Internet is also silent about such FF flaw.
+	// Introduction of 'event' makes temporary workaround for that ugly issue
+	var event = this;
 	obj._history_._add_(this);
-	this.status = 2;
+	event.status = 2;
 };
 
 Object.defineProperties(Event.prototype, {

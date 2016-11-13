@@ -102,11 +102,11 @@ module.exports = function (db, descriptor) {
 				rKey = obj._serialize_(desc.reverse);
 				if (isObjectType(old)) {
 					postponed = notifyReverse(old.prototype, rKey, false, rMap,
-						desc.unique, postponed);
+						desc.unique, null, postponed);
 				}
 				if (isObjectType(nu)) {
 					postponed = notifyReverse(nu.prototype, rKey, true, rMap,
-						desc.unique, postponed);
+						desc.unique, null, postponed);
 				}
 			}
 

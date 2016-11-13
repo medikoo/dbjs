@@ -21,5 +21,11 @@ module.exports = memoize(function (fn) {
 		shift += 18;
 	});
 	if (!shift) return fn;
+	body = 'try {\n' + body +
+		'\n;} catch (e) {\nif (e.code === \'DBJS_GETTER_ERROR\') throw e;\n' +
+		'var getterError = new Error("Dbjs getter error:\\n\\n" + e.stack + ' +
+		'"\\n\\nGetter Body:\\n' + JSON.stringify(body).slice(1) + ');\n' +
+		'getterError.code = \'DBJS_GETTER_ERROR\';\n' +
+		'throw getterError; }';
 	return new Function('_observe', body);
 });

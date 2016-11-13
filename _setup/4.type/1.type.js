@@ -399,12 +399,12 @@ module.exports = function (db, createObj, object) {
 				result = [];
 				value.forEach(function (value) {
 					if (db.isObjectType(desc.type)) result.push(value.toString());
-					else result.push((new desc.type(value)).toString(desc));
+					else result.push(desc.type.getObjectValue(value, desc).toString(desc));
 				}, this);
 				return result.join(", ");
 			}
 			if (db.isObjectType(desc.type)) return value.toString();
-			return (new desc.type(value)).toString(desc);
+			return desc.type.getObjectValue(value, desc).toString(desc);
 		}),
 		getAllEvents: d(function () {
 			var events = [], event = this._lastOwnEvent_, onItem;

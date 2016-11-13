@@ -10,7 +10,7 @@ module.exports = function (t, a) {
 	t(proto, function () { initialized = true; });
 
 	set = create(proto);
-	proto.constructor.call(set);
+	set = proto.constructor.call(set);
 
 	set.add('foo');
 	a(initialized, undefined, "Not observable");
