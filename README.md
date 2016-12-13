@@ -113,7 +113,7 @@ Object.getPrototypeOf(db.ShortString); // db.String
 ```
 
 We can access descriptor object of a property via following means:
-- `obj.getDescriptor(propertyName)`: Returns descriptor of a property on definition level, that means that if e.g. we do `user.getDescriptor('firstName')`, most likely we will receive an object for `User.prototype.firstName` property. This variant should be used when we want to just _read_ the characterictics.
+- `obj.getDescriptor(propertyName)`: Returns descriptor of a property on definition or value level, that means that if e.g. we do `user.getDescriptor('firstName')`, it's possible we will receive an object for `User.prototype.firstName` property. This variant should be used when we want to just _read_ the characterictics.
 - `obj.getOwnDescriptor(propertyName))`: Returns descriptor of a property on context object level, so for `user.getDescriptor('firstName')`, we will receive a descriptor for `user.firstName`. This variant should be used when we want to alter property characteristics.
 - `obj.${propertyName}`: (deprecated) - an alias for `obj.getDescriptor('propertyName')`
 
