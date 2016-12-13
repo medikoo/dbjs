@@ -125,26 +125,28 @@ obj.getDescriptor('foo'); // {}, descriptor of a property
 We can read property's characteristics from its descriptor object
 
 ```javascript
-obj.getDescriptor('foo').type;        // db.Base, type of property
-obj.getDescriptor('foo').__id__;      // '158nineyo28/$foo', id of a desciptor object
-obj.getDescriptor('foo').__valueId__; // '158nineyo28/foo', id of a value that object describes
-obj.getDescriptor('foo').lastModified // 1373553256564482,  microtime stamp of last modification
-obj.getDescriptor('foo').required;    // false, whether property is required
+var fooDesc = obj.getDescriptor('foo');
+fooDesc.type;        // db.Base, type of property
+fooDesc.__id__;      // '158nineyo28/$foo', id of a desciptor object
+fooDesc.__valueId__; // '158nineyo28/foo', id of a value that object describes
+fooDesc.lastModified // 1373553256564482,  microtime stamp of last modification
+fooDesc.required;    // false, whether property is required
 ```
 
 We can override property characteristics:
 
 ```javascript
-obj.getOwnDescriptor('bar').type = db.String;
+var barDesc = obj.getOwnDescriptor('bar');
+barDesc.type = db.String;
 obj.bar; // '34'
-obj.getOwnDescriptor('bar').type = db.Number;
+barDesc.type = db.Number;
 obj.bar; // 34
-obj.getOwnDescriptor('bar').type = db.Boolean;
+barDesc.type = db.Boolean;
 obj.bar; // true
 
-obj.getOwnDescriptor('bar').required = true;
+barDesc.required = true;
 obj.bar = null; // TypeError: Property is required
-obj.getOwnDescriptor('bar').required = false;
+barDesc.required = false;
 obj.bar = null; // Ok
 ```
 
