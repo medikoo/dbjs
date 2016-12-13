@@ -112,35 +112,39 @@ Object.getPrototypeOf(db.String);      // db.Base
 Object.getPrototypeOf(db.ShortString); // db.String
 ```
 
-We can access descriptor object of a property via it's name prefixed with '$':
+We can access descriptor object of a property via following means:
+- `obj.getDescriptor(propertyName)`: Returns descriptor of a property on definition level, that means that if e.g. we do `user.getDescriptor('firstName')`, most likely we will receive an object for `User.prototype.firstName` property. This variant should be used when we want to just _read_ the characterictics.
+- `obj.getOwnDescriptor(propertyName))`: Returns descriptor of a property on context object level, so for `user.getDescriptor('firstName')`, we will receive a descriptor for `user.firstName`. This variant should be used when we want to alter property characteristics.
+- `obj.${propertyName}`: (depreacated) - an alias for `obj.getDescriptor('propertyName')`
 
 ```javascript
 obj.foo; // 'bar'
-obj.$foo; // {}, descriptor of a property
+obj.getDescriptor('foo'); // {}, descriptor of a property
 ```
 
 We can read property's characteristics from its descriptor object
+
 ```javascript
-obj.$foo.type;        // db.Base, type of property
-obj.$foo.__id__;      // '158nineyo28$foo', id of an object
-obj.$foo.__valueId__; // '158nineyo28/foo', id of a value that object describes
-obj.$foo.lastModified // 1373553256564482,  microtime stamp of last modification
-obj.$foo.required;    // false, whether property is required
+obj.getDescriptor('foo').type;        // db.Base, type of property
+obj.getDescriptor('foo').__id__;      // '158nineyo28/$foo', id of a desciptor object
+obj.getDescriptor('foo').__valueId__; // '158nineyo28/foo', id of a value that object describes
+obj.getDescriptor('foo').lastModified // 1373553256564482,  microtime stamp of last modification
+obj.getDescriptor('foo').required;    // false, whether property is required
 ```
 
 We can override property characteristics:
 
 ```javascript
-obj.$bar.type = db.String;
+obj.getOwnDescriptor('bar').type = db.String;
 obj.bar; // '34'
-obj.$bar.type = db.Number;
+obj.getOwnDescriptor('bar').type = db.Number;
 obj.bar; // 34
-obj.$bar.type = db.Boolean;
+obj.getOwnDescriptor('bar').type = db.Boolean;
 obj.bar; // true
 
-obj.$bar.required = true;
+obj.getOwnDescriptor('bar').required = true;
 obj.bar = null; // TypeError: Property is required
-obj.$bar.required = false;
+obj.getOwnDescriptor('bar').required = false;
 obj.bar = null; // Ok
 ```
 
