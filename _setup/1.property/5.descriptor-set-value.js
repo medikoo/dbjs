@@ -118,7 +118,7 @@ module.exports = function (db, descriptor) {
 				if (!this.object.hasOwnProperty('__observableProperties__')) return;
 				observablesData = this.object.__observableProperties__[this._sKey_];
 				if (!observablesData) return;
-				observablesData._update_(nu, dbEvent);
+				observablesData._updateEvent_(dbEvent);
 			}
 			if (!this._reverse_ && !this.nested && !this.multiple &&
 					((old === undefined) || (nu === undefined))) {

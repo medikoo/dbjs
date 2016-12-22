@@ -11,9 +11,12 @@ var assign         = require('es5-ext/object/assign')
 
 module.exports = Object.create(Observable.prototype, assign({
 	_update_: d(function (value, dbEvent) {
+		this._updateEvent_(dbEvent);
+		setValue.call(this, value);
+	}),
+	_updateEvent_: d(function (dbEvent) {
 		this.__lastModified__ = dbEvent ? dbEvent.stamp : 0;
 		this.__passEvent__ = dbEvent;
-		setValue.call(this, value);
 	}),
 	_emit_: d(function (nu, old) {
 		var event, dbEvent = this.__passEvent__;

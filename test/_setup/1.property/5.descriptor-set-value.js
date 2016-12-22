@@ -3,7 +3,10 @@
 var aFrom    = require('es5-ext/array/from')
   , toArray  = require('es5-ext/array/to-array')
   , isSet    = require('es6-set/is-set')
-  , Database = require('../../../');
+  , genId    = require('time-uuid')
+  , genStamp = require('time-uuid/time')
+  , Database = require('../../../')
+  , Event    = require('../../../_setup/event');
 
 module.exports = function (a) {
 	var db = new Database(), obj = new db.Object(), desc, observable
@@ -78,4 +81,18 @@ module.exports = function (a) {
 	a(obj.getObservable('someGetter').value, 'foo');
 	obj.delete('someGetter');
 	a(obj.getObservable('someGetter').value, 'foo');
+
+	db = new Database();
+	db.Object.extend('User');
+	db.Object.extend('Foo', {
+		user: { type: db.User }
+	});
+	obj = new db.Foo();
+	obj.getObservable('user');
+	desc = obj.getOwnDescriptor('user');
+	obj1 = db.objects.unserialize(genId());
+	new Event(desc, obj1, genStamp()); //jslint: ignore
+	a(obj.user, null);
+	new Event(desc, obj1, genStamp()); //jslint: ignore
+	a(obj.user, null);
 };
