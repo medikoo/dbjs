@@ -216,7 +216,7 @@ module.exports = function (db, object) {
 			var value, desc, hasValue;
 			if (this.hasOwnProperty('__descriptors__') &&
 					hasOwnProperty.call(this.__descriptors__, sKey)) {
-				throw new DbjsError("Property is already defined", 'PROPERTY_DEFINED');
+				throw new DbjsError("Property '" + sKey + "' is already defined", 'PROPERTY_DEFINED');
 			}
 			meta = copy(validObject(meta));
 			if (meta.hasOwnProperty('value')) {

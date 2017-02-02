@@ -71,7 +71,7 @@ module.exports = function (object, descriptor, property) {
 		$getOwn: d(function (key) {
 			var sKey = this._serialize_(key);
 			if (sKey == null) {
-				throw new DbjsError(key + " is invalid property name",
+				throw new DbjsError("'" + key + "' is invalid property name",
 					'INVALID_PROPERTY_NAME');
 			}
 			return this._getOwnDescriptor_(sKey);
@@ -82,7 +82,7 @@ module.exports = function (object, descriptor, property) {
 		$get: d(function (key) {
 			var sKey = this._serialize_(key);
 			if (sKey == null) {
-				throw new DbjsError(key + " is invalid property name",
+				throw new DbjsError("'" + key + "' is invalid property name",
 					'INVALID_PROPERTY_NAME');
 			}
 			return this._getDescriptor_(sKey);
@@ -95,7 +95,7 @@ module.exports = function (object, descriptor, property) {
 		_get: d(function (key) {
 			var sKey = this._serialize(key);
 			if (sKey == null) {
-				throw new DbjsError(key + " is invalid property name",
+				throw new DbjsError("'" + key + "' is invalid property name",
 					'INVALID_PROPERTY_NAME');
 			}
 			return this._getObservable_(sKey);

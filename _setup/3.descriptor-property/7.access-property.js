@@ -84,7 +84,7 @@ module.exports = function (db, descriptor) {
 		set: d(function (key, value) {
 			key = this._serialize_(key);
 			if (key == null) {
-				throw new DbjsError(key + " is invalid property name",
+				throw new DbjsError("'" + key + "' is invalid property name",
 					'INVALID_PROPERTY_NAME');
 			}
 			return this._set_(key, this._validateSet_(key, value));
