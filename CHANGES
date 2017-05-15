@@ -1,3 +1,10 @@
+v0.1.1  --  2017.05.15
+* Fix value validation issues
+* Complete preset meta property names list
+* Workaround FF 49 bug
+* Fix tests so work in all ES enviroments
+* Improve documentation
+
 v0.1.0  --  2016.11.03
 * Add `getObservable` method
 * Add `deleteValue` method
