@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/medikoo/dbjs/compare/v0.1.3...v0.1.4) (2017-05-16)
+
+
+### Bug Fixes
+
+* in mergeValidation passthrough non dbjs errors ([d7c027d](https://github.com/medikoo/dbjs/commit/d7c027d))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/medikoo/dbjs/compare/v0.1.2...v0.1.3) (2017-05-16)
 
