@@ -9,3 +9,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * introduce `validateCreate` public method ([4209a34](https://github.com/medikoo/dbjs/commit/4209a34))
+
+## Old Changelog
+
+See `CHANGES`
