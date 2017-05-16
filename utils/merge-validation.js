@@ -18,6 +18,7 @@ module.exports = function (operation1/*, ...operationn*/) {
 			try {
 				return (previousResult = (fn(previousResult) || previousResult));
 			} catch (e) {
+				if (e.name !== "DbjsError") throw e;
 				errors.push(e);
 			}
 		};
