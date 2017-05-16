@@ -71,7 +71,8 @@ module.exports = function (db) {
 		validate: d(function (value/*, descriptor*/) {
 			var minv, maxv, step, trail, sign, descriptor = arguments[1];
 			if (isNaN(value)) {
-				throw new DbjsError(value + " is not valid number", 'INVALID_NUMBER');
+				throw new DbjsError(value + " is not valid number", 'INVALID_NUMBER',
+					{ descriptor: descriptor });
 			}
 			value = Number(value);
 			minv = (descriptor && isNumber(descriptor.min))
@@ -79,14 +80,14 @@ module.exports = function (db) {
 				: this.min;
 			if (value < minv) {
 				throw new DbjsError("Value cannot be less than " + minv,
-					'NUMBER_TOO_SMALL');
+					'NUMBER_TOO_SMALL', { descriptor: descriptor });
 			}
 			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value > maxv) {
 				throw new DbjsError("Value cannot be greater than " + maxv,
-					'NUMBER_TOO_LARGE');
+					'NUMBER_TOO_LARGE', { descriptor: descriptor });
 			}
 			step = (descriptor && isNumber(descriptor.step))
 				? descriptor.step : this.step;

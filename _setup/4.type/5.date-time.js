@@ -83,19 +83,22 @@ module.exports = function (db) {
 				copied = true;
 			}
 			if (isNaN(value)) {
-				throw new DbjsError(value + " is invalid datetime", 'INVALID_DATETIME');
+				throw new DbjsError(value + " is invalid datetime", 'INVALID_DATETIME',
+					{ descriptor: descriptor });
 			}
 			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value < minv) {
-				throw new DbjsError("Date cannot be before " + minv, 'PAST_DATE');
+				throw new DbjsError("Date cannot be before " + minv, 'PAST_DATE',
+					{ descriptor: descriptor });
 			}
 			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value > maxv) {
-				throw new DbjsError("Date cannot be after " + maxv, 'FUTURE_DATE');
+				throw new DbjsError("Date cannot be after " + maxv, 'FUTURE_DATE',
+					{ descriptor: descriptor });
 			}
 			step = (descriptor && isNumber(descriptor.step))
 				? max(descriptor.step, this.step)

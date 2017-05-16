@@ -66,7 +66,7 @@ module.exports = function (db) {
 			if (descriptor && isRegExp(descriptor.pattern)) {
 				if (!value.match(descriptor.pattern)) {
 					throw new DbjsError(value + " doesn't match pattern",
-						'INVALID_STRING');
+						'INVALID_STRING', { descriptor: descriptor });
 				}
 			}
 			if (this.pattern && !value.match(this.pattern)) {
@@ -76,13 +76,13 @@ module.exports = function (db) {
 				? max(descriptor.min, this.min)
 				: this.min;
 			if (value.length < minv) {
-				throw new DbjsError("String too short", 'STRING_TOO_SHORT');
+				throw new DbjsError("String too short", 'STRING_TOO_SHORT', { descriptor: descriptor });
 			}
 			maxv = (descriptor && isNumber(descriptor.max))
 				? min(descriptor.max, this.max)
 				: this.max;
 			if (value.length > maxv) {
-				throw new DbjsError("String too long", 'STRING_TOO_LONG');
+				throw new DbjsError("String too long", 'STRING_TOO_LONG', { descriptor: descriptor });
 			}
 			return value;
 		}),
