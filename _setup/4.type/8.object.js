@@ -74,6 +74,9 @@ module.exports = function (db) {
 			if (props == null) return [];
 			return [create(this.prototype)._validateSetProperties_(props)];
 		}),
+		validateCreate: d(function (props) {
+			return create(this.prototype)._validateSetProperties_(props || {});
+		}),
 		newNamed: d(function (name) {
 			var args, obj;
 			if (!isObjectName(name)) {
