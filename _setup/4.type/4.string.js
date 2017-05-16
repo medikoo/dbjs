@@ -70,7 +70,8 @@ module.exports = function (db) {
 				}
 			}
 			if (this.pattern && !value.match(this.pattern)) {
-				throw new DbjsError(value + " doesn't match pattern", 'INVALID_STRING');
+				throw new DbjsError(value + " doesn't match pattern", 'INVALID_STRING',
+					{ descriptor: descriptor });
 			}
 			minv = (descriptor && isNumber(descriptor.min))
 				? max(descriptor.min, this.min)
