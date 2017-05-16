@@ -1,6 +1,6 @@
 {
   "name": "dbjs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Database engine",
   "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
   "keywords": [
