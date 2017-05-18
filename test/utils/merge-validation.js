@@ -26,7 +26,7 @@ module.exports = function (t, a) {
 		a(err.code, 'SET_PROPERTIES_ERROR');
 		a(err.errors.length, 2);
 
-		try {		
+		try {
 			t(err, function () { });
 		} catch (err2) {
 			if (!err2.errors) throw err2;

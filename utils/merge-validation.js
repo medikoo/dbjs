@@ -8,7 +8,7 @@ var aFrom          = require('es5-ext/array/from')
   , DbjsError      = require('../_setup/error')
   , getMessage     = require('../_setup/utils/get-sub-error-message')
 
-  , forEach = Array.prototype.forEach, map = Array.prototype.map, slice = Array.prototype.slice
+  , forEach = Array.prototype.forEach, map = Array.prototype.map
   , bind = Function.prototype.bind;
 
 module.exports = function (operation1/*, ...operationn*/) {
