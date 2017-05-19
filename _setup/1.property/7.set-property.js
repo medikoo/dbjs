@@ -212,6 +212,9 @@ module.exports = function (db, object) {
 				errors.map(getMessage).join('\t\n'), 'SET_PROPERTIES_ERROR',
 				{ errors: errors });
 		}),
+		validateSetProperties: d(function (props) {
+			return this._validateSetProperties_(props);
+		}),
 		_validateDefine_: d(function (sKey, meta) {
 			var value, desc, hasValue;
 			if (this.hasOwnProperty('__descriptors__') &&
