@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.9"></a>
+## [0.1.9](https://github.com/medikoo/dbjs/compare/v0.1.8...v0.1.9) (2017-05-19)
+
+
+### Features
+
+* publicize validateSetProperties method ([49d7a62](https://github.com/medikoo/dbjs/commit/49d7a62))
+
+
+
 <a name="0.1.8"></a>
 ## [0.1.8](https://github.com/medikoo/dbjs/compare/v0.1.7...v0.1.8) (2017-05-18)
 
